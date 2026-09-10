@@ -1,0 +1,1588 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Workbook — Session 01 | Python for Defensive Security</title>
+  <style>
+    /* ==========================================================================
+       ESTILOS GLOBALES Y TIPOGRAFÍA ACADÉMICA NEUTRAL
+       ========================================================================== */
+    :root {
+      --primary: #1e3a8a;          /* Azul institucional profundo */
+      --primary-dark: #0f172a;     /* Pizarra oscura */
+      --primary-light: #eff6ff;    /* Azul tenue de fondo */
+      --secondary: #0284c7;        /* Azul cian de acento */
+      --accent-red: #b91c1c;       /* Rojo advertencia / ético */
+      --accent-red-light: #fef2f2;
+      --accent-amber: #b45309;     /* Ámbar aviso */
+      --accent-amber-light: #fffbeb;
+      --accent-green: #15803d;     /* Verde éxito / verificación */
+      --accent-green-light: #f0fdf4;
+      --accent-purple: #6b21a8;    /* Púrpura sintaxis / conceptos */
+      --accent-purple-light: #faf5ff;
+      --text-main: #1f2937;        /* Texto principal */
+      --text-muted: #4b5563;       /* Texto secundario */
+      --border-color: #d1d5db;     /* Bordes sutiles */
+      --border-light: #e5e7eb;
+      --bg-card: #f9fafb;
+      --bg-terminal: #0f172a;
+      --term-text: #f8fafc;
+      --term-prompt: #38bdf8;
+      --term-accent: #4ade80;
+      --term-warn: #fbbf24;
+      --term-err: #f87171;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-size: 9.5pt;
+      line-height: 1.55;
+      color: var(--text-main);
+      background-color: #ffffff;
+      padding: 0;
+      margin: 0;
+    }
+
+    .page-container {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 24px 32px;
+    }
+
+    /* ==========================================================================
+       ENCABEZADO INSTITUCIONAL Y METADATOS DEL ESTUDIANTE
+       ========================================================================== */
+    .header-institution {
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+    }
+
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 8px;
+    }
+
+    .inst-titles h1 {
+      font-size: 14.5pt;
+      color: var(--primary);
+      font-weight: 700;
+      line-height: 1.25;
+      letter-spacing: -0.2px;
+    }
+
+    .inst-titles h2 {
+      font-size: 11pt;
+      color: var(--text-muted);
+      font-weight: 600;
+      margin-top: 3px;
+    }
+
+    .badge-container {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 4px;
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 7.5pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      border: 1px solid transparent;
+    }
+
+    .badge-primary {
+      background-color: var(--primary-light);
+      color: var(--primary);
+      border-color: #bfdbfe;
+    }
+
+    .badge-neutral {
+      background-color: #f3f4f6;
+      color: #374151;
+      border-color: #e5e7eb;
+    }
+
+    .badge-alert {
+      background-color: var(--accent-red-light);
+      color: var(--accent-red);
+      border-color: #fecaca;
+    }
+
+    .badge-purple {
+      background-color: var(--accent-purple-light);
+      color: var(--accent-purple);
+      border-color: #e9d5ff;
+    }
+
+    /* Caja de Datos del Estudiante */
+    .student-data-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 12px 14px;
+      margin-bottom: 18px;
+    }
+
+    .data-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1.2fr 1fr;
+      gap: 10px 16px;
+      align-items: end;
+    }
+
+    .data-field {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .data-label {
+      font-size: 7.5pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 3px;
+    }
+
+    .data-line {
+      border-bottom: 1px dashed #6b7280;
+      min-height: 20px;
+      font-size: 9pt;
+      color: var(--text-main);
+      padding: 0 4px;
+    }
+
+    /* ==========================================================================
+       SECCIONES Y JERARQUÍA
+       ========================================================================== */
+    h2.section-title {
+      font-size: 11.5pt;
+      color: var(--primary-dark);
+      border-bottom: 1.5px solid var(--border-color);
+      padding-bottom: 4px;
+      margin-top: 22px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    h3.subsection-title {
+      font-size: 10pt;
+      color: var(--primary);
+      margin-top: 14px;
+      margin-bottom: 6px;
+      font-weight: 700;
+    }
+
+    h4.subsubsection-title {
+      font-size: 9pt;
+      color: #334155;
+      margin-top: 10px;
+      margin-bottom: 4px;
+      font-weight: 700;
+    }
+
+    p {
+      margin-bottom: 10px;
+      text-align: justify;
+    }
+
+    ul, ol {
+      margin-left: 20px;
+      margin-bottom: 10px;
+    }
+
+    li {
+      margin-bottom: 4px;
+    }
+
+    /* ==========================================================================
+       CALLOUTS / CUADROS DE ÉNFASIS
+       ========================================================================== */
+    .callout {
+      border-left: 4px solid var(--primary);
+      background-color: var(--primary-light);
+      padding: 10px 14px;
+      border-radius: 0 6px 6px 0;
+      margin: 12px 0;
+      font-size: 9pt;
+    }
+
+    .callout-title {
+      font-weight: 700;
+      font-size: 9.5pt;
+      margin-bottom: 5px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .callout-info {
+      border-left-color: var(--secondary);
+      background-color: #f0f9ff;
+    }
+    .callout-info .callout-title { color: #0369a1; }
+
+    .callout-critical {
+      border-left-color: var(--accent-red);
+      background-color: var(--accent-red-light);
+      border: 1px solid #fecaca;
+      border-left-width: 5px;
+    }
+    .callout-critical .callout-title { color: var(--accent-red); }
+
+    .callout-warning {
+      border-left-color: var(--accent-amber);
+      background-color: var(--accent-amber-light);
+    }
+    .callout-warning .callout-title { color: var(--accent-amber); }
+
+    .callout-tip {
+      border-left-color: var(--accent-green);
+      background-color: var(--accent-green-light);
+    }
+    .callout-tip .callout-title { color: var(--accent-green); }
+
+    .callout-purple {
+      border-left-color: var(--accent-purple);
+      background-color: var(--accent-purple-light);
+    }
+    .callout-purple .callout-title { color: var(--accent-purple); }
+
+    /* ==========================================================================
+       TERMINALES Y BLOQUES DE CÓDIGO
+       ========================================================================== */
+    .terminal-container {
+      background-color: var(--bg-terminal);
+      color: var(--term-text);
+      border-radius: 6px;
+      padding: 13px 15px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 8.5pt;
+      line-height: 1.55;
+      margin: 12px 0 16px 0;
+      overflow-x: auto;
+      border: 1px solid #334155;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    .terminal-header {
+      color: #94a3b8;
+      font-size: 7.5pt;
+      border-bottom: 1px solid #334155;
+      padding-bottom: 4px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .prompt-win { color: var(--term-prompt); font-weight: 600; }
+    .prompt-nix { color: var(--term-accent); font-weight: 600; }
+    .cmd { color: #ffffff; font-weight: 600; }
+    .output { color: #cbd5e1; }
+    .comment { color: #64748b; font-style: italic; }
+    .err-highlight { color: var(--term-err); font-weight: bold; }
+    .caret-highlight { color: var(--term-warn); font-weight: bold; }
+    .term-spacer { height: 10px; }
+
+    /* Pestañas multiplataforma visuales */
+    .os-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+      margin: 10px 0 14px 0;
+    }
+
+    .os-card {
+      background: #f8fafc;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 10px 12px;
+    }
+
+    .os-title {
+      font-size: 8pt;
+      font-weight: 700;
+      color: var(--primary-dark);
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--border-light);
+      padding-bottom: 4px;
+      margin-bottom: 8px;
+    }
+
+    .os-code {
+      font-family: ui-monospace, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 8pt;
+      background: #ffffff;
+      padding: 8px 10px;
+      border-radius: 4px;
+      border: 1px solid #cbd5e1;
+      white-space: pre-wrap;
+      word-break: break-word;
+      color: #0f172a;
+      line-height: 1.6;
+    }
+
+    /* ==========================================================================
+       TABLAS Y CHECKLISTS
+       ========================================================================== */
+    table.data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 10px 0 14px 0;
+      font-size: 8.5pt;
+    }
+
+    table.data-table th,
+    table.data-table td {
+      border: 1px solid var(--border-color);
+      padding: 6px 8px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    table.data-table th {
+      background-color: #f1f5f9;
+      color: var(--primary-dark);
+      font-weight: 700;
+      font-size: 8pt;
+      text-transform: uppercase;
+    }
+
+    table.data-table tr:nth-child(even) {
+      background-color: #f8fafc;
+    }
+
+    .check-box-cell {
+      text-align: center;
+      width: 45px;
+      vertical-align: middle;
+    }
+
+    .check-square {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border: 1.5px solid #4b5563;
+      border-radius: 3px;
+      vertical-align: middle;
+      background-color: #ffffff;
+    }
+
+    /* Tarjetas de error / Troubleshooting */
+    .trouble-card {
+      border: 1px solid var(--border-color);
+      border-left: 4px solid var(--accent-amber);
+      background-color: #ffffff;
+      border-radius: 4px;
+      padding: 10px 12px;
+      margin-bottom: 12px;
+      font-size: 8.5pt;
+    }
+
+    .trouble-card.trouble-critical {
+      border-left-color: var(--accent-red);
+    }
+
+    .trouble-card.trouble-info {
+      border-left-color: var(--secondary);
+    }
+
+    .trouble-title {
+      font-weight: 700;
+      font-size: 9pt;
+      color: var(--primary-dark);
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .trouble-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 8px;
+      margin-top: 6px;
+      background: #f8fafc;
+      padding: 6px 8px;
+      border-radius: 4px;
+      border: 1px solid var(--border-light);
+    }
+
+    /* Cajas de código para estudiante / retos */
+    .student-code-box {
+      border: 1px dashed #64748b;
+      background-color: #fbfcfe;
+      border-radius: 6px;
+      padding: 10px 12px;
+      margin: 8px 0 12px 0;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 8pt;
+      line-height: 1.5;
+      min-height: 180px;
+      color: #334155;
+    }
+
+    .student-output-box {
+      border: 1px dashed #0284c7;
+      background-color: #f0f9ff;
+      border-radius: 6px;
+      padding: 10px 12px;
+      margin: 8px 0 12px 0;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 8pt;
+      line-height: 1.45;
+      min-height: 100px;
+      color: #0369a1;
+    }
+
+    /* ==========================================================================
+       DIAGNÓSTICO INICIAL (PREGUNTAS)
+       ========================================================================== */
+    .diagnostic-container {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 14px;
+      margin-top: 10px;
+    }
+
+    .question-item {
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px dashed var(--border-color);
+    }
+
+    .question-item:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .question-text {
+      font-size: 9pt;
+      font-weight: 600;
+      color: var(--primary-dark);
+      margin-bottom: 5px;
+    }
+
+    .options-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5px 12px;
+      margin-left: 4px;
+    }
+
+    .option-label {
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+      font-size: 8.5pt;
+      color: var(--text-main);
+      cursor: pointer;
+    }
+
+    .radio-circle {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border: 1.5px solid #6b7280;
+      border-radius: 50%;
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+
+    /* ==========================================================================
+       SECCIÓN DE FIRMA Y COMPROMISO
+       ========================================================================== */
+    .signature-box {
+      border: 1px solid var(--border-color);
+      background-color: var(--bg-card);
+      border-radius: 6px;
+      padding: 12px 14px;
+      margin-top: 16px;
+    }
+
+    .signature-grid {
+      display: grid;
+      grid-template-columns: 2fr 1.5fr;
+      gap: 20px;
+      margin-top: 24px;
+      align-items: end;
+    }
+
+    .sig-line {
+      border-top: 1px solid #4b5563;
+      padding-top: 4px;
+      text-align: center;
+      font-size: 8pt;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    /* ==========================================================================
+       REGLAS ESPECÍFICAS PARA IMPRESIÓN (A4)
+       ========================================================================== */
+    @media print {
+      @page {
+        size: A4 portrait;
+        margin: 12mm 14mm 14mm 14mm;
+      }
+
+      body {
+        font-size: 8.5pt;
+        line-height: 1.36;
+        color: #000000;
+        background: #ffffff;
+      }
+
+      .page-container {
+        max-width: 100%;
+        padding: 0;
+        margin: 0;
+      }
+
+      h2.section-title {
+        font-size: 10.5pt;
+        margin-top: 14px;
+        margin-bottom: 6px;
+        page-break-after: avoid;
+        break-after: avoid;
+      }
+
+      h3.subsection-title {
+        font-size: 9.5pt;
+        page-break-after: avoid;
+        break-after: avoid;
+      }
+
+      h4.subsubsection-title {
+        font-size: 8.5pt;
+        page-break-after: avoid;
+        break-after: avoid;
+      }
+
+      .callout,
+      .terminal-container,
+      .student-data-card,
+      .os-card,
+      table.data-table,
+      .question-item,
+      .signature-box,
+      .trouble-card,
+      .student-code-box,
+      .student-output-box {
+        page-break-inside: avoid;
+        break-inside: avoid;
+      }
+
+      .terminal-container {
+        background-color: #0f172a !important;
+        color: #f8fafc !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      .badge-primary, .badge-neutral, .badge-alert, .badge-purple {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      .page-break {
+        page-break-before: always;
+        break-before: page;
+      }
+
+      .check-square {
+        border-color: #000000;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="page-container">
+
+  <!-- =======================================================================
+       ENCABEZADO INSTITUCIONAL
+       ======================================================================= -->
+  <header class="header-institution">
+    <div class="header-top">
+      <div class="inst-titles">
+        <h1>Python for Defensive Security</h1>
+        <h2>Python for Defensive Security: Fundamentals and Local Lab Tooling — Módulo 1: Entorno y sintaxis</h2>
+      </div>
+      <div class="badge-container">
+        <span class="badge badge-primary">Sesión 01 | 60 Minutos</span>
+        <span class="badge badge-neutral">Nivel: Universitario Tecnológico</span>
+        <span class="badge badge-alert">Política de IA: Prohibido Pi</span>
+      </div>
+    </div>
+    <div style="font-size: 8.5pt; color: var(--text-muted); display: flex; justify-content: space-between;">
+      <span><strong>Documento:</strong> Material de Estudio y Cuaderno de Trabajo del Estudiante | <strong>GitHub:</strong> python-defensive-security</span>
+      <span><strong>Versión Base Oficial:</strong> Python 3.13 (Entorno Local reproducible)</span>
+    </div>
+  </header>
+
+  <!-- =======================================================================
+       DATOS DEL ESTUDIANTE Y DECLARACIÓN DE IDENTIDAD
+       ======================================================================= -->
+  <section class="student-data-card">
+    <div class="data-grid">
+      <div class="data-field">
+        <span class="data-label">Nombre Completo del Estudiante:</span>
+        <div class="data-line"></div>
+      </div>
+      <div class="data-field">
+        <span class="data-label">Matrícula / ID:</span>
+        <div class="data-line"></div>
+      </div>
+      <div class="data-field">
+        <span class="data-label">Sistema Operativo Anfitrión:</span>
+        <div class="data-line">[ ] Windows &nbsp; [ ] macOS &nbsp; [ ] Linux</div>
+      </div>
+      <div class="data-field">
+        <span class="data-label">Fecha de Realización:</span>
+        <div class="data-line"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =======================================================================
+       1. OBJETIVOS DE APRENDIZAJE Y MARCO ÉTICO
+       ======================================================================= -->
+  <section>
+    <h2 class="section-title">1. Objetivos de Aprendizaje y Marco Ético</h2>
+    
+    <p>Al concluir satisfactoriamente esta sesión formativa, el estudiante será capaz de:</p>
+    <ul style="font-size: 9pt;">
+      <li><strong>Configurar un entorno local reproducible:</strong> Crear la carpeta de trabajo exclusiva (<code>curso-python-defensivo/</code>) y un entorno virtual aislado (<code>venv</code>) en su sistema operativo.</li>
+      <li><strong>Diagnosticar y resolver anomalías en entornos virtuales:</strong> Identificar y mitigar fallos como omisión de activación, políticas de PowerShell en Windows, rutas rotas por traslados de carpetas y ausencia de <code>ensurepip</code> en Linux.</li>
+      <li><strong>Dominar la sintaxis básica de importación y salida:</strong> Comprender el funcionamiento de <code>import</code>, la biblioteca estándar ("baterías incluidas"), los módulos <code>sys</code> y <code>datetime</code>, y el formateo profesional con f-strings.</li>
+      <li><strong>Distinguir mecanismos de ejecución:</strong> Diferenciar con claridad entre la evaluación inmediata en el bucle interactivo (REPL) y la ejecución formal de archivos de código persistentes (scripts <code>.py</code>).</li>
+      <li><strong>Comprender los límites de seguridad de un entorno virtual:</strong> Reconocer técnicamente por qué un <code>venv</code> aísla dependencias de software pero <em>no</em> provee contención de procesos (sandbox).</li>
+      <li><strong>Interpretar trazas de error (Tracebacks):</strong> Leer de forma metodológica las indicaciones del intérprete de Python 3.13 ante excepciones de sintaxis (<code>SyntaxError</code>) e indentación (<code>IndentationError</code>).</li>
+      <li><strong>Construir herramientas autónomas de auditoría:</strong> Diseñar desde cero y ejecutar un programa de telemetría local (<code>auditoria_local.py</code>) que valide la conformidad de la versión de Python 3.13 y registre metadatos bajo alcance ético.</li>
+    </ul>
+
+    <div class="callout callout-critical">
+      <div class="callout-title">&#x26A0;&#xFE0F; Compromiso Ético y Reglas del Laboratorio Defensivo Local</div>
+      <p style="margin-bottom: 4px;">Este curso está orientado de manera estricta al <strong>análisis, inspección y defensa de sistemas locales</strong>. Toda práctica se desarrollará exclusivamente en la carpeta asignada y sobre destinos en bucle local (<code>localhost</code>, <code>127.0.0.1</code>, <code>::1</code>) o fixtures provistas por el docente.</p>
+      <p style="margin-bottom: 0;"><strong>Prohibiciones absolutas:</strong> Queda estrictamente vetado el escaneo o conexión hacia direcciones IP externas, la instalación o prueba de código orientado a malware o persistencia, el uso de credenciales reales ajenas y la desactivación intencional de controles del sistema operativo. La transgresión de estos límites activa el umbral independiente de no aprobación del curso.</p>
+    </div>
+  </section>
+
+  <!-- =======================================================================
+       2. FUNDAMENTOS CONCEPTUALES DE LA SESIÓN
+       ======================================================================= -->
+  <section>
+    <h2 class="section-title">2. Fundamentos Conceptuales de la Sesión</h2>
+
+    <h3 class="subsection-title">2.1 ¿Qué es Python y por qué adoptamos Python 3.13?</h3>
+    <p>Python es un lenguaje de programación de alto nivel, interpretado y fuertemente tipado. Su diseño enfatiza la legibilidad del código mediante una sintaxis limpia y estructurada. En el ámbito de la ciberseguridad defensiva, Python es el estándar de facto para la auditoría de registros de auditoría (logs), la inspección de tráfico de red, la validación de configuraciones seguras y la automatización de respuestas a incidentes.</p>
+    <p><strong>¿Por qué Python 3.13?</strong> Este curso fija como requisito estricto la rama <strong>Python 3.13</strong>. Esta versión introduce mejoras sustanciales en el rendimiento del intérprete y diagnósticos visuales enriquecidos en consola: ante cualquier fallo, señala con exactitud de caracteres (mediante símbolos <code>^^^^</code>) la subexpresión exacta donde ocurrió el error, acelerando la depuración metódica.</p>
+
+    <h3 class="subsection-title">2.2 La Terminal o Consola de Comandos (CLI) y Mecanismos de Ejecución</h3>
+    <p>La interfaz de línea de comandos (CLI) permite invocar instrucciones precisas sin intermediación gráfica. Distinguimos dos modalidades de interacción con Python:</p>
+    <ul style="font-size: 9pt;">
+      <li><strong>REPL (Read-Eval-Print Loop / Modo Interactivo):</strong> Se inicia escribiendo simplemente <code>python</code> en la terminal. Evalúa cada expresión al presionar Enter. Es excelente para verificar el tipo de una variable o probar una operación matemática aislada. <em>El código se destruye al cerrar la consola</em>.</li>
+      <li><strong>Archivo de Script (<code>.py</code>):</strong> Archivo de texto plano guardado en disco con instrucciones en Python. Se ejecuta invocando al intérprete con la ruta del archivo: <code>python hola.py</code>. Es el estándar de la ingeniería de software y la ciberseguridad forense, ya que garantiza reproducibilidad y persistencia.</li>
+    </ul>
+
+    <div class="callout callout-critical">
+      <div class="callout-title">&#x1F6E1;&#xFE0F; Principio de Seguridad: ¿Qué es y qué NO es un Entorno Virtual (venv)?</div>
+      <p>Un entorno virtual (<code>venv</code>) es un directorio aislado que contiene una copia (o enlace simbólico) del intérprete de Python y una estructura de bibliotecas propia. Su función exclusiva es <strong>aislar dependencias de software</strong> para que los paquetes de un proyecto no colisionen con los de otro ni contaminen el sistema operativo anfitrión.</p>
+      <p style="margin-bottom: 0;"><strong>ADVERTENCIA TÉCNICA Y DE SEGURIDAD:</strong> Un <code>venv</code> <strong>NO es una jaula de seguridad (sandbox)</strong>. Un script ejecutado dentro de un <code>venv</code> se ejecuta con los mismos privilegios del usuario del sistema: puede leer sus archivos personales, abrir conexiones de red y ejecutar comandos. En este curso, la seguridad no proviene del <code>venv</code>, sino de la disciplina operativa del estudiante: trabajar sin privilegios de administrador, validar rutas, usar timeouts y operar exclusivamente contra <code>127.0.0.1</code>.</p>
+    </div>
+
+    <!-- SUBSECCIÓN SINTAXIS: IMPORT Y BATERÍAS INCLUIDAS -->
+    <h3 class="subsection-title">2.3 Anatomía de la Sintaxis Básica: ¿Qué significa <code>import</code> y cómo fluye la ejecución?</h3>
+    <p>Python adopta la célebre filosofía de diseño conocida como <strong>"Baterías Incluidas" (<em>Batteries Included</em>)</strong>. Esto significa que, tras instalar el intérprete, el desarrollador tiene acceso inmediato a cientos de bibliotecas probadas, seguras y altamente optimizadas (la <strong>Biblioteca Estándar</strong> o <em>Standard Library</em>), sin necesidad de conectarse a Internet ni descargar paquetes de terceros con <code>pip</code>.</p>
+    <p>La palabra reservada <code>import</code> le indica al intérprete que cargue en la memoria del proceso un módulo externo o de la biblioteca estándar, permitiendo reutilizar su lógica, clases, funciones y constantes.</p>
+
+    <div class="callout callout-info" style="margin: 10px 0;">
+      <div class="callout-title">&#x1F9F0; Analogía Clave para Principiantes: ¿<code>import modulo</code> o <code>from modulo import herramienta</code>?</div>
+      <p>Imagine que la biblioteca estándar de Python es un gran almacén de herramientas de ingeniería:</p>
+      <ul style="font-size: 8.5pt; margin-left: 18px; margin-bottom: 6px;">
+        <li><strong>Traer la caja de herramientas completa (<code>import sys</code> o <code>import platform</code>):</strong> Traemos toda la caja etiquetada <code>sys</code> a nuestra mesa de trabajo. Cada vez que necesitamos un instrumento específico dentro de ella, debemos indicar el nombre de la caja seguido de un punto: <code>sys.version_info</code>, <code>sys.executable</code> o <code>platform.system()</code>. <em>Ventaja:</em> Claridad absoluta de procedencia; nunca confundiremos una herramienta de esa caja con una variable propia.</li>
+        <li><strong>Extraer un destornillador específico (<code>from datetime import datetime</code>):</strong> En Python, el módulo (archivo/paquete) se llama <code>datetime</code> y dentro de él existe una clase o herramienta con el mismo nombre <code>datetime</code>. Si hiciéramos <code>import datetime</code>, para consultar la hora actual tendríamos que escribir de forma engorrosa y redundante <code>datetime.datetime.now()</code> (abrir la caja <code>datetime</code> y buscar el reloj <code>datetime</code>). Al escribir <code>from datetime import datetime</code>, extraemos directamente la herramienta a nuestra mesa, permitiéndonos invocar limpiamente <code>datetime.now()</code>.</li>
+      </ul>
+    </div>
+
+    <div class="trouble-grid" style="grid-template-columns: 1fr 1fr; margin-bottom: 10px;">
+      <div>
+        <strong style="color: var(--primary-dark); font-size: 8.5pt;">Importación de Módulo Completo:</strong><br>
+        <code style="font-size: 8pt; color: #1e3a8a;">import sys</code> &nbsp;|&nbsp; <code style="font-size: 8pt; color: #1e3a8a;">import platform</code>
+        <p style="font-size: 8pt; margin-top: 4px; margin-bottom: 0;">Carga el módulo completo en su propio espacio de nombres. Para acceder a sus miembros se utiliza la <em>notación de punto</em> (ej. <code>sys.version_info</code>, <code>platform.system()</code>). Ventaja: evita colisiones de nombres con nuestras variables.</p>
+      </div>
+      <div>
+        <strong style="color: var(--primary-dark); font-size: 8.5pt;">Importación Selectiva de Miembro:</strong><br>
+        <code style="font-size: 8pt; color: #1e3a8a;">from datetime import datetime</code>
+        <p style="font-size: 8pt; margin-top: 4px; margin-bottom: 0;">Extrae directamente la herramienta <code>datetime</code> desde el módulo contenedor <code>datetime</code>. Nos permite invocar directamente <code>datetime.now()</code> en lugar de escribir la forma redundante <code>datetime.datetime.now()</code>.</p>
+      </div>
+    </div>
+
+    <div class="callout callout-tip" style="margin: 10px 0;">
+      <div class="callout-title">&#x1F4CD; Principio Pedagógico de la Sesión 01: Ejecución Secuencial Lineal (Sin Funciones <code>def</code>)</div>
+      <p style="margin-bottom: 0; font-size: 8.5pt;">En esta Sesión 01, todo el código se ejecuta de manera <strong>estrictamente secuencial, línea por línea, de arriba hacia abajo</strong>. No utilizamos funciones definidas con <code>def</code>, anotaciones de tipo complejas (<code>-&gt;</code>) ni funciones de entrada como <code>main()</code>. Estas estructuras avanzadas de modularización se dominarán progresivamente a partir del Módulo 6 (Sesiones 11 y 12). En esta fase inicial, dominar el flujo lineal de asignación de variables, llamadas al sistema operativo y formateo de texto es el cimiento indispensable.</p>
+    </div>
+
+    <!-- SUBSECCIÓN ANATOMÍA DE BIBLIOTECAS: SYS Y DATETIME -->
+    <h3 class="subsection-title">2.4 Anatomía de las Bibliotecas Utilizadas en la Sesión</h3>
+    
+    <div style="background: #f8fafc; border: 1px solid var(--border-color); border-radius: 6px; padding: 10px 12px; margin-bottom: 12px;">
+      <h4 class="subsubsection-title" style="color: var(--primary); margin-top: 0;">A) El Módulo del Sistema: <code>import sys</code></h4>
+      <p style="font-size: 8.5pt; margin-bottom: 6px;">El módulo <code>sys</code> provee acceso directo a variables y funciones que interactúan estrechamente con el propio intérprete de Python y con el entorno del sistema operativo donde se ejecuta:</p>
+      <ul style="font-size: 8.5pt; margin-left: 18px; margin-bottom: 4px;">
+        <li><code>sys.version</code>: Cadena informativa que detalla el número de versión exacto, arquitectura y compilador. En auditoría, permite verificar de inmediato si el software corre en una versión obsoleta sujeta a vulnerabilidades (CVEs).</li>
+        <li><code>sys.version_info</code>: Tupla estructurada con los números <code>(major, minor, micro, ...)</code>. Permite realizar comprobaciones lógicas seguras como: <code>sys.version_info.major == 3 and sys.version_info.minor == 13</code>.</li>
+        <li><code>sys.executable</code>: Devuelve la <strong>ruta física absoluta</strong> del archivo binario del intérprete en ejecución. Es la prueba pericial definitiva para comprobar si el script corre dentro de <code>.venv/bin/python</code> o si está utilizando inadvertidamente el Python global del sistema.</li>
+        <li><code>sys.platform</code>: Identificador del sistema operativo anfitrión (<code>"win32"</code> para Windows, <code>"linux"</code> para distribuciones Linux, <code>"darwin"</code> para macOS).</li>
+      </ul>
+    </div>
+
+    <div style="background: #f8fafc; border: 1px solid var(--border-color); border-radius: 6px; padding: 10px 12px; margin-bottom: 12px;">
+      <h4 class="subsubsection-title" style="color: var(--primary); margin-top: 0;">B) El Módulo de Tiempo: <code>from datetime import datetime</code></h4>
+      <p style="font-size: 8.5pt; margin-bottom: 6px;">En ciberseguridad defensiva, <strong>el tiempo es la dimensión crítica</strong>: sin una marca de tiempo confiable (<em>timestamp</em>), la correlación de eventos de seguridad y el análisis forense pierden validez probatoria.</p>
+      <ul style="font-size: 8.5pt; margin-left: 18px; margin-bottom: 6px;">
+        <li><code>datetime.now()</code>: Lee el reloj de tiempo real del sistema operativo y construye un objeto temporal con el año, mes, día, hora, minuto, segundo y microsegundo exactos del evento.</li>
+        <li><code>.strftime("%Y-%m-%d %H:%M:%S")</code>: Significa <em>"String Format Time"</em>. Transforma el objeto de fecha en texto con un estándar estricto (ISO 8601 ampliado), eliminando ambigüedades de formato regional (como confundir día y mes):</li>
+      </ul>
+      <table style="width: 100%; font-size: 8pt; border-collapse: collapse; background: #ffffff;">
+        <tr style="background: #e2e8f0; font-weight: bold;">
+          <td style="padding: 3px 6px; border: 1px solid #cbd5e1; width: 25%;">Directiva</td>
+          <td style="padding: 3px 6px; border: 1px solid #cbd5e1; width: 40%;">Significado</td>
+          <td style="padding: 3px 6px; border: 1px solid #cbd5e1; width: 35%;">Ejemplo en salida</td>
+        </tr>
+        <tr>
+          <td style="padding: 3px 6px; border: 1px solid #cbd5e1;"><code>%Y</code> (Mayúscula)</td>
+          <td style="padding: 3px 6px; border: 1px solid #cbd5e1;">Año completo con 4 dígitos</td>
+          <td style="padding: 3px 6px; border: 1px solid #cbd5e1;"><code>2026</code></td>
+        </tr>
+        <tr>
+          <td style="padding: 3px 6px; border: 1px solid #cbd5e1;"><code>%m</code> (Minúscula)</td>
+          <td style="padding: 3px 6px; border: 1px solid #cbd5e1;">Mes numérico con 2 dígitos (01–12)</td>
+          <td style="padding: 3px 6px; border: 1px solid #cbd5e1;"><code>09</code> (Septiembre)</td>
+        </tr>
+        <tr>
+          <td style="padding: 3px 6px; border: 1px solid #cbd5e1;"><code>%d</code> (Minúscula)</td>
+          <td style="padding: 3px 6px; border: 1px solid #cbd5e1;">Día del mes con 2 dígitos (01–31)</td>
+          <td style="padding: 3px 6px; border: 1px solid #cbd5e1;"><code>10</code></td>
+        </tr>
+        <tr>
+          <td style="padding: 3px 6px; border: 1px solid #cbd5e1;"><code>%H:%M:%S</code></td>
+          <td style="padding: 3px 6px; border: 1px solid #cbd5e1;">Hora militar (24h) : Minuto : Segundo</td>
+          <td style="padding: 3px 6px; border: 1px solid #cbd5e1;"><code>14:35:08</code></td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- SUBSECCIÓN F-STRINGS Y SALIDAS ESTRUCTURADAS -->
+    <h3 class="subsection-title">2.5 Formateo de Salida en Consola: f-strings y Auditoría Defensiva</h3>
+    <p>Al programar herramientas de seguridad, la salida en consola no es simple decoración; es la <strong>interfaz de auditoría técnica</strong> que consumirán analistas forenses o analizadores automatizados (parsers).</p>
+    
+    <p><strong>El problema de concatenar con <code>+</code>:</strong> Históricamente, se unían textos usando el operador de suma: <code>print("Versión: " + sys.version_info.major)</code>. Esta práctica produce inmediatamente un error crítico en tiempo de ejecución: <code>TypeError: can only concatenate str (not "int") to str</code>. Obliga al programador a envolver cada número u objeto en <code>str(...)</code>, resultando en un código saturado, frágil e ineficiente.</p>
+
+    <p><strong>La solución moderna: f-strings (Cadenas Literales con Formato):</strong> Introducidas en Python 3.6 y optimizadas en 3.13, se declaran anteponiendo una letra <code>f</code> o <code>F</code> antes de las comillas: <code>f"Texto {variable}"</code>. El intérprete evalúa cualquier expresión dentro de las llaves <code>{ }</code> en tiempo de ejecución y la convierte automáticamente a texto:</p>
+
+    <div class="terminal-container" style="margin: 10px 0 14px 0;">
+      <div class="terminal-header"><span>Comparativa de Sintaxis — Concatenación vs f-string</span><span>Python 3.13</span></div>
+      <div class="comment"># Forma antigua, propensa a TypeErrors y difícil de leer:</div>
+      <div>print(<span style="color: #f87171;">"Analista: " + estudiante + " | Python: " + str(sys.version_info.major) + "." + str(sys.version_info.minor)</span>)</div>
+
+      <div class="term-spacer"></div>
+
+      <div class="comment"># Forma recomendada en ciberseguridad (f-string limpia, legible y rápida):</div>
+      <div>print(<span style="color: #4ade80;">f"Analista: {estudiante} | Python: {sys.version_info.major}.{sys.version_info.minor}"</span>)</div>
+    </div>
+
+    <div class="callout callout-info" style="margin-top: 8px;">
+      <div class="callout-title">&#x1F4CB; Regla de Oro en Auditoría Defensiva: Salidas Estructuradas</div>
+      <p style="margin-bottom: 0;">Un buen script defensivo <strong>nunca imprime datos sueltos sin contexto</strong>. Utiliza encabezados con delimitadores (<code>===</code> o <code>---</code>), etiquetas de severidad o estado (ej. <code>[INFO]</code>, <code>[OK]</code>, <code>[ALERTA]</code>) y marcas de tiempo unificadas. Esto permite procesar la salida mediante tuberías (pipes) como <code>grep</code>, <code>findstr</code> o redirigirla directamente a bitácoras de auditoría.</p>
+    </div>
+  </section>
+
+  <!-- =======================================================================
+       3. GUÍA DE PRÁCTICA DE LABORATORIO PASO A PASO
+       ======================================================================= -->
+  <section>
+    <h2 class="section-title">3. Guía de Práctica de Laboratorio Paso a Paso</h2>
+    
+    <p>Siga detalladamente las instrucciones de configuración y verificación en su estación de trabajo.</p>
+
+    <h3 class="subsection-title">Paso 1: Creación de la Carpeta Exclusiva del Curso</h3>
+    <p>Para garantizar reproducibilidad y orden, todo el trabajo del curso debe residir en una carpeta raíz única denominada <code>curso-python-defensivo</code>.</p>
+
+    <div class="os-tabs">
+      <div class="os-card">
+        <div class="os-title">Windows (PowerShell)</div>
+        <div class="os-code"><span class="comment"># 1. Crear carpeta exclusiva del curso</span>
+mkdir curso-python-defensivo
+
+<span class="comment"># 2. Entrar a la carpeta creada</span>
+cd curso-python-defensivo</div>
+      </div>
+      <div class="os-card">
+        <div class="os-title">macOS (Zsh / Terminal)</div>
+        <div class="os-code"><span class="comment"># 1. Crear carpeta exclusiva del curso</span>
+mkdir -p ~/curso-python-defensivo
+
+<span class="comment"># 2. Entrar a la carpeta creada</span>
+cd ~/curso-python-defensivo</div>
+      </div>
+      <div class="os-card">
+        <div class="os-title">Linux (Bash / Ubuntu / Debian)</div>
+        <div class="os-code"><span class="comment"># 1. Crear carpeta exclusiva del curso</span>
+mkdir -p ~/curso-python-defensivo
+
+<span class="comment"># 2. Entrar a la carpeta creada</span>
+cd ~/curso-python-defensivo</div>
+      </div>
+    </div>
+
+    <h3 class="subsection-title">Paso 2: Creación y Activación del Entorno Virtual (venv)</h3>
+    <p>Crearemos un entorno virtual en un subdirectorio llamado <code>.venv</code> utilizando el intérprete de Python 3.13.</p>
+
+    <div class="os-tabs">
+      <div class="os-card">
+        <div class="os-title">Windows (PowerShell)</div>
+        <div class="os-code"><span class="comment"># 1. Crear entorno virtual con Python 3.13</span>
+py -3.13 -m venv .venv
+
+<span class="comment"># 2. Activar el entorno virtual en PowerShell</span>
+.\.venv\Scripts\Activate.ps1</div>
+      </div>
+      <div class="os-card">
+        <div class="os-title">macOS (Zsh)</div>
+        <div class="os-code"><span class="comment"># 1. Crear entorno virtual con Python 3.13</span>
+python3.13 -m venv .venv
+
+<span class="comment"># 2. Activar el entorno virtual en Zsh</span>
+source .venv/bin/activate</div>
+      </div>
+      <div class="os-card">
+        <div class="os-title">Linux (Bash)</div>
+        <div class="os-code"><span class="comment"># 1. Crear entorno virtual con Python 3.13</span>
+python3.13 -m venv .venv
+
+<span class="comment"># 2. Activar el entorno virtual en Bash</span>
+source .venv/bin/activate</div>
+      </div>
+    </div>
+
+    <p style="font-size: 8.5pt; margin-top: 4px;"><em>Indicador visual de éxito:</em> Su prompt en la terminal debe ahora mostrar el prefijo <code>(.venv)</code> a la izquierda. Para salir del entorno al finalizar la sesión, se utiliza el comando <code>deactivate</code>.</p>
+
+    <!-- SUBSECCIÓN: ERRORES COMUNES EN ENTORNOS VIRTUALES -->
+    <h3 class="subsection-title" style="color: var(--accent-red);">&#x1F6A8; 3.1 Diagnóstico y Resolución de Errores Comunes con Entornos Virtuales</h3>
+    <p style="font-size: 8.5pt;">Durante el despliegue de entornos virtuales suelen ocurrir fallos de configuración. Utilice este catálogo para diagnosticar y solucionar cualquier incidente de manera metódica:</p>
+
+    <!-- Error A: Olvidar activar -->
+    <div class="trouble-card trouble-critical">
+      <div class="trouble-title">&#x26A0;&#xFE0F; Error 1: Olvidar Activar el Entorno Virtual (Trabajar en el Python Global)</div>
+      <p style="margin-bottom: 4px;"><strong>¿Qué ocurre?:</strong> Si cierra la terminal y abre una nueva, el entorno virtual <strong>no está activo por defecto</strong>. Al ejecutar comandos o instalar paquetes, afectará el sistema operativo global en vez del proyecto.</p>
+      <div class="trouble-grid">
+        <div>
+          <strong>¿Cómo diagnosticarlo?:</strong>
+          <ul style="margin: 4px 0 0 14px; font-size: 8pt;">
+            <li>Ausencia del prefijo <code>(.venv)</code> al inicio del prompt.</li>
+            <li>En Linux/macOS: <code>which python</code> muestra <code>/usr/bin/python3</code>.</li>
+            <li>En Windows: <code>Get-Command python</code> muestra <code>C:\Program Files\Python313\python.exe</code> o ruta de WindowsApps.</li>
+          </ul>
+        </div>
+        <div>
+          <strong>Solución Técnica:</strong>
+          <p style="font-size: 8pt; margin: 4px 0 0 0;">Navegue a la carpeta del proyecto y reactive el entorno antes de cualquier tarea:<br>
+          <code style="font-size: 7.5pt; color: #1e3a8a;">source .venv/bin/activate</code> (Unix)<br>
+          <code style="font-size: 7.5pt; color: #1e3a8a;">.\.venv\Scripts\Activate.ps1</code> (Windows)</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Error B: PSSecurityException en Windows -->
+    <div class="trouble-card">
+      <div class="trouble-title">&#x1F6E1;&#xFE0F; Error 2: Bloqueo de Scripts en Windows (PSSecurityException / ExecutionPolicy)</div>
+      <p style="margin-bottom: 4px;"><strong>¿Qué ocurre?:</strong> Al ejecutar <code>.\.venv\Scripts\Activate.ps1</code>, PowerShell emite un error en rojo que indica que <em>"la ejecución de scripts está deshabilitada en este sistema"</em> (<code>PSSecurityException</code>). Ocurre porque la política por defecto de Windows es <code>Restricted</code>.</p>
+      <div class="trouble-grid">
+        <div>
+          <strong>Diagnóstico:</strong>
+          <p style="font-size: 8pt; margin-top: 2px;">PowerShell bloquea la carga de <code>Activate.ps1</code> para proteger al usuario contra scripts descargados sin firma digital.</p>
+        </div>
+        <div>
+          <strong>Solución Defensiva Segura:</strong>
+          <p style="font-size: 8pt; margin-top: 2px;">Habilite scripts <strong>únicamente para su sesión actual</strong> sin debilitar la seguridad permanente del sistema operativo ni requerir permisos de Administrador:<br>
+          <code style="font-size: 7.5pt; font-weight: bold; color: #0f172a;">Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned</code></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Error C: Mover o renombrar la carpeta -->
+    <div class="trouble-card trouble-critical">
+      <div class="trouble-title">&#x1F4C2; Error 3: Mover o Renombrar la Carpeta del Proyecto tras Crear el venv</div>
+      <p style="margin-bottom: 4px;"><strong>¿Qué ocurre?:</strong> Si el estudiante renombra la carpeta (ej. a <code>curso-python-defensivo-copia</code>) o la mueve a otra ubicación (de Descargas a Documentos o a una USB), el venv <strong>se rompe inmediatamente</strong>. El comando <code>python</code> devuelve errores como <code>No such file or directory</code> o <code>Fatal error in launcher</code>.</p>
+      <div class="trouble-grid">
+        <div>
+          <strong>¿Por qué se rompe técnicamente?:</strong>
+          <p style="font-size: 8pt; margin-top: 2px;">Al crearse un <code>venv</code>, Python escribe <strong>rutas absolutas fijas (hardcodeadas)</strong> en el archivo <code>.venv/pyvenv.cfg</code> y en la cabecera (shebang <code>#!</code>) de los scripts internos. Al cambiar la ruta padre, los binarios buscan una dirección que ya no existe.</p>
+        </div>
+        <div>
+          <strong>Regla de Oro y Solución:</strong>
+          <p style="font-size: 8pt; margin-top: 2px;"><strong>Los venvs son efímeros y no se mueven</strong>. Si movió la carpeta, desactive, borre la carpeta <code>.venv</code> y recréela limpia en 10 segundos:<br>
+          <code style="font-size: 7.5pt; color: #b91c1c;">rm -rf .venv</code> (o <code>Remove-Item -Recurse -Force .venv</code>)<br>
+          <code style="font-size: 7.5pt; color: #15803d;">python3.13 -m venv .venv</code></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Error D: ensurepip faltante en Linux -->
+    <div class="trouble-card trouble-info">
+      <div class="trouble-title">&#x1F427; Error 4: Paquete ensurepip Faltante en Linux (Ubuntu / Debian / Kali)</div>
+      <p style="margin-bottom: 4px;"><strong>¿Qué ocurre?:</strong> Al ejecutar <code>python3.13 -m venv .venv</code> en distribuciones basadas en Debian, el sistema arroja: <code>The virtual environment was not created successfully because ensurepip is not available</code>.</p>
+      <div class="trouble-grid">
+        <div>
+          <strong>Causa del Sistema Operativo:</strong>
+          <p style="font-size: 8pt; margin-top: 2px;">Debian y Ubuntu segregan intencionalmente la herramienta de inicialización de entornos en un paquete separado (<code>python3-venv</code>) para aligerar las imágenes mínimas de servidor.</p>
+        </div>
+        <div>
+          <strong>Solución Técnica:</strong>
+          <p style="font-size: 8pt; margin-top: 2px;">Instale el paquete de virtualización del gestor oficial ejecutando:<br>
+          <code style="font-size: 7.5pt; font-weight: bold; color: #0284c7;">sudo apt update && sudo apt install -y python3.13-venv</code></p>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="subsection-title">Paso 3: Verificación de la Versión del Intérprete</h3>
+    <p>Con el entorno virtual activo, confirme que el comando <code>python</code> apunta con certeza a la versión 3.13 requerida y al ejecutable aislado:</p>
+
+    <div class="terminal-container">
+      <div class="terminal-header">
+        <span>Terminal — Verificación de versión y ruta del entorno</span>
+        <span>bash / zsh / pwsh</span>
+      </div>
+
+      <div class="comment"># 1. Confirmar que la versión del intérprete activo sea estrictamente 3.13.x:</div>
+      <div><span class="prompt-nix">(.venv) $</span> <span class="cmd">python --version</span></div>
+      <div class="output">Python 3.13.0   <span class="comment"># (o 3.13.x correspondiente a la versión instalada)</span></div>
+
+      <div class="term-spacer"></div>
+
+      <div class="comment"># 2. Confirmar que el ejecutable provenga del venv local (en Linux o macOS):</div>
+      <div><span class="prompt-nix">(.venv) $</span> <span class="cmd">which python</span></div>
+      <div class="output">.../curso-python-defensivo/.venv/bin/python  <span class="comment"># Debe apuntar a la ruta interna de .venv</span></div>
+
+      <div class="term-spacer"></div>
+
+      <div class="comment"># 3. En Windows PowerShell, confirme la ruta ejecutando Get-Command:</div>
+      <div><span class="prompt-win">PS (.venv) &gt;</span> <span class="cmd">Get-Command python</span></div>
+      <div class="output">...\curso-python-defensivo\.venv\Scripts\python.exe</div>
+    </div>
+
+    <h3 class="subsection-title">Paso 4: Creación del Primer Script de Auditoría Local (hola.py)</h3>
+    <p>Abra su editor de texto plano (VS Code, Vim o Notepad) y guarde el siguiente código con el nombre exacto <code>hola.py</code> dentro de su carpeta <code>curso-python-defensivo</code>:</p>
+
+    <div class="terminal-container">
+      <div class="terminal-header">
+        <span>Código Fuente — hola.py</span>
+        <span>Python 3.13 UTF-8</span>
+      </div>
+      <div class="comment"># ==============================================================================</div>
+      <div class="comment"># COURSE: Python for Defensive Security: Fundamentals and Local Lab Tooling</div>
+      <div class="comment"># REPOSITORY: python-defensive-security | Session 01 (PyDefSec)</div>
+      <div class="comment"># PROPÓSITO: Verificación de entorno reproducible y auditoría inicial local</div>
+      <div class="comment"># ALCANCE: Entorno local autorizado (localhost / 127.0.0.1)</div>
+      <div class="comment"># ==============================================================================</div>
+
+      <div class="term-spacer"></div>
+
+      <div class="comment"># --- 1. IMPORTACIÓN DE MÓDULOS DEL SISTEMA Y TIEMPO ---</div>
+      <div><span style="color: #c084fc;">import</span> sys</div>
+      <div><span style="color: #c084fc;">from</span> datetime <span style="color: #c084fc;">import</span> datetime</div>
+
+      <div class="term-spacer"></div>
+
+      <div class="comment"># --- 2. METADATOS DEL OPERADOR (Reemplace con sus datos reales) ---</div>
+      <div>estudiante = <span style="color: #86efac;">"SU NOMBRE COMPLETO AQUÍ"</span></div>
+      <div>matricula_id = <span style="color: #86efac;">"SU MATRÍCULA O ID"</span></div>
+      <div>marca_tiempo = datetime.now().strftime(<span style="color: #86efac;">"%Y-%m-%d %H:%M:%S"</span>)</div>
+
+      <div class="term-spacer"></div>
+
+      <div class="comment"># --- 3. REPORTE DE AUDITORÍA FORMATEADO CON F-STRINGS ---</div>
+      <div>print(<span style="color: #86efac;">"=================================================="</span>)</div>
+      <div>print(<span style="color: #86efac;">"[ESTADO] INICIALIZACIÓN DE ENTORNO DEFENSIVO LOCAL"</span>)</div>
+      <div>print(<span style="color: #86efac;">"=================================================="</span>)</div>
+
+      <div style="height: 6px;"></div>
+
+      <div class="comment"># Telemetría del operador e intérprete</div>
+      <div>print(f<span style="color: #86efac;">"Operador Autorizado : {estudiante} (ID: {matricula_id})"</span>)</div>
+      <div>print(f<span style="color: #86efac;">"Timestamp Local     : {marca_tiempo}"</span>)</div>
+      <div>print(f<span style="color: #86efac;">"Intérprete Python   : {sys.version.split()[0]}"</span>)</div>
+      <div>print(f<span style="color: #86efac;">"Ruta del Ejecutable : {sys.executable}"</span>)</div>
+
+      <div style="height: 6px;"></div>
+
+      <div class="comment"># Declaración de alcance ético</div>
+      <div>print(<span style="color: #86efac;">"--------------------------------------------------"</span>)</div>
+      <div>print(<span style="color: #86efac;">"[DECLARACIÓN] Operación exclusiva en localhost y fixtures."</span>)</div>
+      <div>print(<span style="color: #86efac;">"[DECLARACIÓN] El entorno virtual está verificado y activo."</span>)</div>
+      <div>print(<span style="color: #86efac;">"=================================================="</span>)</div>
+    </div>
+
+    <p>Ejecute el script en su terminal y verifique la salida generada:</p>
+
+    <div class="terminal-container">
+      <div class="terminal-header">
+        <span>Terminal — Ejecución del Script</span>
+        <span>Prompt (.venv)</span>
+      </div>
+      <div><span class="prompt-nix">(.venv) $</span> <span class="cmd">python hola.py</span></div>
+
+      <div class="term-spacer"></div>
+
+      <div class="output">==================================================</div>
+      <div class="output">[ESTADO] INICIALIZACIÓN DE ENTORNO DEFENSIVO LOCAL</div>
+      <div class="output">==================================================</div>
+      <div class="output">Operador Autorizado : CARLOS MENDOZA (ID: DEF-2026-09)</div>
+      <div class="output">Timestamp Local     : 2026-09-10 10:15:32</div>
+      <div class="output">Intérprete Python   : 3.13.0</div>
+      <div class="output">Ruta del Ejecutable : /home/usuario/curso-python-defensivo/.venv/bin/python</div>
+      <div class="output">--------------------------------------------------</div>
+      <div class="output">[DECLARACIÓN] Operación exclusiva en localhost y fixtures.</div>
+      <div class="output">[DECLARACIÓN] El entorno virtual está verificado y activo.</div>
+      <div class="output">==================================================</div>
+    </div>
+
+    <!-- NUEVO PASO 5: RETO PRÁCTICO FINAL AUTÓNOMO -->
+    <div class="page-break"></div>
+    <h3 class="subsection-title" style="color: var(--accent-purple); font-size: 11pt;">
+      &#x1F6E0;&#xFE0F; Paso 5 / Reto Práctico Final Autónomo: Mi Primer Programa de Auditoría (<code>auditoria_local.py</code>)
+    </h3>
+    <p>En este ejercicio integrador, <strong>no copiará un script prehecho</strong>. Usted asumirá el rol de Analista de Ciberseguridad Defensiva y programará una utilidad autónoma denominada <code>auditoria_local.py</code> para inspeccionar y certificar formalmente la estación de trabajo local.</p>
+
+    <div class="callout callout-purple">
+      <div class="callout-title">&#x1F3AF; Arquitectura y Especificaciones del Script Lineal (4 Pasos Secuenciales)</div>
+      <p style="margin-bottom: 4px;">El script sigue una estructura lineal estricta (<strong>sin funciones <code>def</code>, sin anotaciones complejas ni <code>main()</code></strong>), procesando 4 fases de arriba a abajo:</p>
+      <ol style="font-size: 8.5pt; margin-left: 18px; margin-bottom: 0;">
+        <li><strong>Importación formal:</strong> Importar los módulos <code>sys</code> y <code>platform</code> completos, y extraer selectivamente la clase <code>datetime</code> mediante <code>from datetime import datetime</code>.</li>
+        <li><strong>Paso 1 — Identidad del Operador:</strong> Definir variables para su nombre de estudiante (<code>estudiante</code>), matrícula o código institucional (<code>matricula_id</code>) y rol operativo (<code>rol_defensivo</code>).</li>
+        <li><strong>Paso 2 — Telemetría del Sistema Operativo:</strong>
+          <ul style="margin: 2px 0 2px 14px;">
+            <li><code>platform.system()</code>: Captura el nombre del sistema operativo base (<code>"Linux"</code>, <code>"Darwin"</code> para macOS o <code>"Windows"</code>).</li>
+            <li><code>platform.release()</code>: Captura la versión o release del kernel del sistema operativo.</li>
+            <li><code>platform.machine()</code>: Captura la arquitectura de hardware del procesador (ej. <code>"x86_64"</code> o <code>"arm64"</code>).</li>
+            <li><code>datetime.now().strftime("%Y-%m-%d %H:%M:%S")</code>: Obtiene la marca de tiempo de auditoría estandarizada.</li>
+          </ul>
+        </li>
+        <li><strong>Paso 3 — Validación Booleana de Python 3.13 y Aislamiento:</strong>
+          <ul style="margin: 2px 0 2px 14px;">
+            <li><code>sys.version_info</code>: Tupla estructurada con números de versión. Comprobar rigurosamente: <code>sys.version_info.major == 3 and sys.version_info.minor == 13</code>. Si cumple, dictaminar <code>"[APROBADO: Estándar Python 3.13 activo]"</code>; si no, alertar <code>"[FALLO: Versión no autorizada (...)]"</code>.</li>
+            <li><code>sys.executable</code>: Ruta física del intérprete activo. Evaluar si la subcadena <code>".venv"</code> forma parte de la ruta para certificar aislamiento.</li>
+          </ul>
+        </li>
+        <li><strong>Paso 4 — Reporte Tabular Estructurado con f-strings:</strong> Imprimir el informe enmarcado con delimitadores ASCII/UTF-8 y justificación de texto (<code>{variable:&lt;49}</code>), concluyendo con la declaración formal de confinamiento ético a <code>localhost (127.0.0.1)</code>.</li>
+      </ol>
+    </div>
+
+    <div class="callout callout-info" style="margin: 10px 0;">
+      <div class="callout-title">&#x1F5A5;&#xFE0F; Instrucciones de Ejecución en Consola:</div>
+      <p style="margin-bottom: 0; font-size: 8.5pt;">Con el entorno virtual activado (indicador <code>(.venv)</code> visible en su terminal), ejecute el script desde la carpeta del curso:<br>
+      <code style="font-weight: bold; color: var(--primary); font-size: 9pt;">python auditoria_local.py</code> &nbsp;&nbsp;(o si está en la raíz del repositorio: <code>python src/modulo_01/sesion_01/auditoria_local.py</code>)</p>
+    </div>
+
+    <h4 class="subsubsection-title">Plantilla de Código Fuente Autónomo (<code>auditoria_local.py</code>):</h4>
+    <p style="font-size: 8pt; color: var(--text-muted); margin-bottom: 4px;">Complete cada sección <code># TODO:</code> en su editor de código y transcriba la versión final verificada:</p>
+    <div class="student-code-box">
+<span class="comment"># ==============================================================================
+# COURSE: Python for Defensive Security: Fundamentals and Local Lab Tooling
+# REPOSITORY: python-defensive-security | Session 01 (PyDefSec)
+# FILE: auditoria_local.py
+# PURPOSE: Plantilla de inicio para el Reto Autónomo de Auditoría Local.
+# SCOPE: Entorno de pruebas autorizado en localhost (127.0.0.1) únicamente.
+# ==============================================================================</span>
+
+import sys
+import platform
+from datetime import datetime
+
+<span class="comment"># ==============================================================================
+# --- PASO 1: Identidad del Analista Responsable ---
+# ==============================================================================</span>
+# TODO 1.1: Reemplace el texto entre comillas con su nombre completo.
+# TODO 1.2: Ingrese su identificador institucional o matrícula académica.
+# TODO 1.3: Personalice su rol operativo de seguridad defensiva si lo desea.
+
+estudiante = <span style="color: #86efac;">"ANALISTA EN ENTRENAMIENTO"</span>          <span class="comment"># TODO: Reemplace con su nombre</span>
+matricula_id = <span style="color: #86efac;">"DEF-2026-09"</span>                     <span class="comment"># TODO: Reemplace con su matrícula o ID</span>
+rol_defensivo = <span style="color: #86efac;">"Auditor Defensivo Nivel 1"</span>      <span class="comment"># TODO: Ajuste su rol asignado</span>
+
+<span class="comment"># ==============================================================================
+# --- PASO 2: Telemetría de la Máquina ---
+# ==============================================================================</span>
+# TODO 2.1: platform.system() retorna el nombre del SO (Linux, Darwin, Windows).
+# TODO 2.2: platform.release() retorna la versión específica del núcleo (kernel).
+# TODO 2.3: platform.machine() retorna la arquitectura del procesador (x86_64, arm64).
+# TODO 2.4: datetime.now().strftime(...) obtiene la fecha y hora actual formateada.
+
+os_sistema = platform.system()
+os_release = platform.release()
+os_arquitectura = platform.machine()
+timestamp_auditoria = datetime.now().strftime(<span style="color: #86efac;">"%Y-%m-%d %H:%M:%S"</span>)
+info_sistema = f<span style="color: #86efac;">"{os_sistema} ({os_arquitectura})"</span>
+
+<span class="comment"># ==============================================================================
+# --- PASO 3: Validación de Python 3.13 y Aislamiento ---
+# ==============================================================================</span>
+version_actual = f<span style="color: #86efac;">"{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}"</span>
+ruta_interprete = sys.executable
+
+# TODO 3.1: Comprobar mediante una expresión booleana si la versión es exactamente 3.13.
+es_version_valida = (sys.version_info.major == 3 and sys.version_info.minor == 13)
+
+# TODO 3.2: Evaluar la conformidad con una estructura condicional if / else.
+if es_version_valida:
+    estado_conformidad = <span style="color: #86efac;">"[APROBADO: Estándar Python 3.13 activo]"</span>
+else:
+    estado_conformidad = f<span style="color: #86efac;">"[FALLO: Versión no autorizada ({version_actual})]"</span>
+
+# TODO 3.3: Verificar el aislamiento del entorno comprobando si ".venv" está en la ruta.
+if <span style="color: #86efac;">".venv"</span> in ruta_interprete:
+    estado_aislamiento = <span style="color: #86efac;">"Aislado (.venv activo)"</span>
+else:
+    estado_aislamiento = <span style="color: #86efac;">"ADVERTENCIA: Fuera de .venv"</span>
+
+<span class="comment"># ==============================================================================
+# --- PASO 4: Reporte en Consola con f-strings ---
+# ==============================================================================</span>
+# TODO 4.1: Examine cada print() y ejecute el archivo para verificar que el recuadro
+#           tabular se imprima de forma clara con la declaración ética de localhost.
+
+borde = <span style="color: #86efac;">"+-----------------------------------------------------------------------------+"</span>
+
+print(borde)
+print(<span style="color: #86efac;">"| REPORTE DE TELEMETRÍA Y AUDITORÍA DE ENTORNO LOCAL DEFENSIVO                |"</span>)
+print(borde)
+print(f<span style="color: #86efac;">"| Analista Responsable    : {estudiante:&lt;49} |"</span>)
+print(f<span style="color: #86efac;">"| Credencial / ID         : {matricula_id:&lt;49} |"</span>)
+print(f<span style="color: #86efac;">"| Rol Técnico             : {rol_defensivo:&lt;49} |"</span>)
+print(f<span style="color: #86efac;">"| Timestamp de Auditoría  : {timestamp_auditoria:&lt;49} |"</span>)
+print(f<span style="color: #86efac;">"| Sistema Operativo       : {info_sistema:&lt;49} |"</span>)
+print(f<span style="color: #86efac;">"| Versión Kernel          : {os_release:&lt;49} |"</span>)
+print(f<span style="color: #86efac;">"| Versión de Python       : {version_actual:&lt;49} |"</span>)
+print(f<span style="color: #86efac;">"| Estado de Conformidad   : {estado_conformidad:&lt;49} |"</span>)
+print(f<span style="color: #86efac;">"| Estado de Aislamiento   : {estado_aislamiento:&lt;49} |"</span>)
+print(f<span style="color: #86efac;">"| Ruta del Ejecutable     : {ruta_interprete:&lt;49} |"</span>)
+print(borde)
+print(<span style="color: #86efac;">"| DECLARACIÓN: Operación confinada a localhost (127.0.0.1). Sin red externa.  |"</span>)
+print(borde)
+    </div>
+
+    <h4 class="subsubsection-title">Registro de Salida en Terminal (Evidencia de Ejecución):</h4>
+    <p style="font-size: 8pt; color: var(--text-muted); margin-bottom: 4px;">Pegue o transcriba la salida generada en su terminal al ejecutar <code>python auditoria_local.py</code>:</p>
+    <div class="student-output-box">
++-----------------------------------------------------------------------------+
+| REPORTE DE TELEMETRÍA Y AUDITORÍA DE ENTORNO LOCAL DEFENSIVO                |
++-----------------------------------------------------------------------------+
+| Analista Responsable    : CARLOS MENDOZA                                    |
+| Credencial / ID         : DEF-2026-09                                       |
+| Rol Técnico             : Auditor Defensivo Nivel 1                         |
+| Timestamp de Auditoría  : 2026-09-10 10:20:15                               |
+| Sistema Operativo       : Linux (x86_64)                                    |
+| Versión Kernel          : 6.8.0-45-generic                                  |
+| Versión de Python       : 3.13.0                                            |
+| Estado de Conformidad   : [APROBADO: Estándar Python 3.13 activo]           |
+| Estado de Aislamiento   : Aislado (.venv activo)                            |
+| Ruta del Ejecutable     : /home/usuario/curso-python-defensivo/.venv/bin/python |
++-----------------------------------------------------------------------------+
+| DECLARACIÓN: Operación confinada a localhost (127.0.0.1). Sin red externa.  |
++-----------------------------------------------------------------------------+
+    </div>
+
+    <table class="data-table" style="margin-top: 10px;">
+      <thead>
+        <tr>
+          <th class="check-box-cell">Auto</th>
+          <th>Criterio de Evaluación del Reto Autónomo</th>
+          <th>Estado Verificado por el Estudiante</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="check-box-cell"><span class="check-square"></span></td>
+          <td>Importación y uso simultáneo de <code>sys</code>, <code>platform</code> y <code>datetime</code></td>
+          <td>Módulos importados sin errores ni advertencias</td>
+        </tr>
+        <tr>
+          <td class="check-box-cell"><span class="check-square"></span></td>
+          <td>Comprobación algorítmica de versión 3.13 con <code>sys.version_info</code></td>
+          <td>Emite mensaje de aprobación condicional correcto</td>
+        </tr>
+        <tr>
+          <td class="check-box-cell"><span class="check-square"></span></td>
+          <td>Captura de telemetría del SO (nombre, versión, arquitectura)</td>
+          <td>Datos reflejan con exactitud la máquina anfitriona</td>
+        </tr>
+        <tr>
+          <td class="check-box-cell"><span class="check-square"></span></td>
+          <td>Salida profesional estructurada mediante f-strings y delimitadores</td>
+          <td>Reporte visual claro, alineado y con declaración de localhost</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- =======================================================================
+       4. TALLER DE DEPURACIÓN: ERRORES SEMBRADOS
+       ======================================================================= -->
+  <section>
+    <h2 class="section-title">4. Taller de Depuración: Anatomía de un Traceback y Errores Sembrados</h2>
+
+    <p>Aprender a leer los mensajes de error sin frustración es la habilidad técnica que distingue a un profesional sistemático. Cuando Python encuentra una anomalía que no puede procesar, detiene la ejecución y emite un <strong>Traceback</strong> (rastreo hacia atrás).</p>
+
+    <div class="callout callout-info">
+      <div class="callout-title">&#x1F50E; Cómo Leer un Traceback de Python en 3 Pasos Metódicos</div>
+      <ol style="margin-left: 18px; margin-bottom: 0; font-size: 8.5pt;">
+        <li><strong>Lea la última línea primero:</strong> Indica el tipo exacto de excepción (ej. <code>SyntaxError</code>) y la descripción técnica del fallo.</li>
+        <li><strong>Suba a la línea inmediata superior:</strong> Indica el nombre del archivo y el número de línea exacto donde ocurrió el incidente (ej. <code>File "hola.py", line 12</code>).</li>
+        <li><strong>Examine los marcadores de caracteres:</strong> Python 3.13 utiliza flechas <code>^^^^</code> para señalar el segmento exacto de código problemático.</li>
+      </ol>
+    </div>
+
+    <h3 class="subsection-title">Ejercicio 4.1: Error Sembrado de Sintaxis (SyntaxError)</h3>
+    <p>Abra un archivo temporal llamado <code>error1.py</code>, copie el siguiente código que contiene una comilla de cierre omitida y ejecútelo con <code>python error1.py</code>:</p>
+
+    <div class="terminal-container">
+      <div class="terminal-header">
+        <span>Código Erróneo — error1.py</span>
+        <span>Fallo Sembrado: Comilla no cerrada</span>
+      </div>
+      <div>mensaje_seguridad = <span style="color: #86efac;">"Monitoreo activo de red local</span> <span class="comment"># Falta la comilla de cierre "</span></div>
+      <div style="height: 6px;"></div>
+      <div>print(mensaje_seguridad)</div>
+    </div>
+
+    <p><strong>Traceback producido por Python 3.13 al ejecutar el script:</strong></p>
+    <div class="terminal-container">
+      <div class="terminal-header"><span>Salida de Error en Terminal</span><span>Traceback</span></div>
+      <div><span class="prompt-nix">(.venv) $</span> <span class="cmd">python error1.py</span></div>
+
+      <div class="term-spacer"></div>
+
+      <div class="output">  File <span style="color: #38bdf8;">"error1.py"</span>, line <span style="color: #fbbf24;">1</span></div>
+      <div class="output">    mensaje_seguridad = <span class="err-highlight">"Monitoreo activo de red local</span></div>
+      <div class="caret-highlight">                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</div>
+      <div class="err-highlight">SyntaxError: unterminated string literal (detected at line 1)</div>
+    </div>
+
+    <div style="background: #ffffff; border: 1px solid var(--border-color); border-radius: 4px; padding: 8px 10px; margin-bottom: 12px; font-size: 8.5pt;">
+      <strong>Diagnóstico Pedagógico:</strong> Python detectó una cadena de texto (<code>string literal</code>) que fue abierta con comillas dobles pero nunca finalizada antes del salto de línea.
+      <br><strong>Solución:</strong> Colocar la comilla doble de cierre: <code>mensaje_seguridad = "Monitoreo activo de red local"</code>.
+    </div>
+
+    <h3 class="subsection-title">Ejercicio 4.2: Error Sembrado de Indentación (IndentationError)</h3>
+    <p>Cree otro archivo llamado <code>error2.py</code>. En Python, el espaciado al inicio de una línea define la jerarquía lógica de bloques. Introduzca un espacio en blanco accidental al inicio de la segunda línea:</p>
+
+    <div class="terminal-container">
+      <div class="terminal-header">
+        <span>Código Erróneo — error2.py</span>
+        <span>Fallo Sembrado: Espacio de indentación inesperado</span>
+      </div>
+      <div>modo_operacion = <span style="color: #86efac;">"localhost_only"</span></div>
+      <div style="height: 6px;"></div>
+      <div> <span class="caret-highlight">&middot;&middot;&middot;&middot;</span>print(f<span style="color: #86efac;">"Modo actual: {modo_operacion}"</span>) <span class="comment"># Hay espacios indebidos al inicio</span></div>
+    </div>
+
+    <p><strong>Traceback producido por Python 3.13 al ejecutar el script:</strong></p>
+    <div class="terminal-container">
+      <div class="terminal-header"><span>Salida de Error en Terminal</span><span>Traceback</span></div>
+      <div><span class="prompt-nix">(.venv) $</span> <span class="cmd">python error2.py</span></div>
+
+      <div class="term-spacer"></div>
+
+      <div class="output">  File <span style="color: #38bdf8;">"error2.py"</span>, line <span style="color: #fbbf24;">2</span></div>
+      <div class="output">    print(f<span style="color: #86efac;">"Modo actual: {modo_operacion}"</span>)</div>
+      <div class="caret-highlight">    ^</div>
+      <div class="err-highlight">IndentationError: unexpected indent</div>
+    </div>
+
+    <div style="background: #ffffff; border: 1px solid var(--border-color); border-radius: 4px; padding: 8px 10px; font-size: 8.5pt;">
+      <strong>Diagnóstico Pedagógico:</strong> <code>unexpected indent</code> significa que Python encontró una sangría o indentación fuera de una estructura de control (como un <code>if</code> o una función). En el nivel global, las instrucciones deben iniciar en la columna 1 sin espacios previos.
+      <br><strong>Solución:</strong> Eliminar los espacios previos para que <code>print(...)</code> quede perfectamente alineado al margen izquierdo.
+    </div>
+  </section>
+
+  <div class="page-break"></div>
+
+  <!-- =======================================================================
+       5. LISTA DE VERIFICACIÓN DEL ENTORNO (CHECKLIST)
+       ======================================================================= -->
+  <section>
+    <h2 class="section-title">5. Lista de Verificación del Entorno (Checklist de Validación)</h2>
+    <p>Marque con una <strong>X</strong> cada elemento una vez validado empíricamente en su propia estación de trabajo:</p>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th class="check-box-cell">OK</th>
+          <th>Criterio Técnico y Operativo</th>
+          <th>Comando de Verificación Ejecutado</th>
+          <th>Resultado Esperado Observable</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="check-box-cell"><span class="check-square"></span></td>
+          <td><strong>Directorio exclusivo</strong></td>
+          <td><code>pwd</code> o <code>Get-Location</code></td>
+          <td>Ubicado dentro de <code>curso-python-defensivo</code></td>
+        </tr>
+        <tr>
+          <td class="check-box-cell"><span class="check-square"></span></td>
+          <td><strong>Aislamiento venv creado</strong></td>
+          <td><code>ls -la</code> o <code>dir -Force</code></td>
+          <td>Existe el subdirectorio <code>.venv/</code> con ejecutables</td>
+        </tr>
+        <tr>
+          <td class="check-box-cell"><span class="check-square"></span></td>
+          <td><strong>Entorno virtual activado</strong></td>
+          <td>Observación de la terminal</td>
+          <td>El prompt muestra el prefijo <code>(.venv)</code> al inicio</td>
+        </tr>
+        <tr>
+          <td class="check-box-cell"><span class="check-square"></span></td>
+          <td><strong>Versión de Python 3.13</strong></td>
+          <td><code>python --version</code></td>
+          <td>Muestra <code>Python 3.13.x</code> de forma exacta</td>
+        </tr>
+        <tr>
+          <td class="check-box-cell"><span class="check-square"></span></td>
+          <td><strong>Ruta aislada del intérprete</strong></td>
+          <td><code>which python</code> o <code>Get-Command python</code></td>
+          <td>La ruta apunta a <code>.venv/bin/python</code> o <code>.venv\Scripts\python.exe</code></td>
+        </tr>
+        <tr>
+          <td class="check-box-cell"><span class="check-square"></span></td>
+          <td><strong>Diagnóstico de venv dominado</strong></td>
+          <td>Lectura de Sección 3.1</td>
+          <td>Conoce soluciones para PSSecurityException, rutas rotas y ensurepip</td>
+        </tr>
+        <tr>
+          <td class="check-box-cell"><span class="check-square"></span></td>
+          <td><strong>Script hola.py operativo</strong></td>
+          <td><code>python hola.py</code></td>
+          <td>Imprime nombre, ID, fecha y declaración de localhost sin errores</td>
+        </tr>
+        <tr>
+          <td class="check-box-cell"><span class="check-square"></span></td>
+          <td><strong>Depuración SyntaxError</strong></td>
+          <td><code>python error1.py</code></td>
+          <td>Reproduce <code>unterminated string literal</code> y lo corrige</td>
+        </tr>
+        <tr>
+          <td class="check-box-cell"><span class="check-square"></span></td>
+          <td><strong>Depuración IndentationError</strong></td>
+          <td><code>python error2.py</code></td>
+          <td>Reproduce <code>unexpected indent</code> y lo corrige</td>
+        </tr>
+        <tr>
+          <td class="check-box-cell"><span class="check-square"></span></td>
+          <td><strong>Reto auditoria_local.py completado</strong></td>
+          <td><code>python auditoria_local.py</code></td>
+          <td>Genera reporte tabular autónomo con comprobación 3.13 y telemetría</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- =======================================================================
+       6. EVALUACIÓN DIAGNÓSTICA INICIAL FORMATIVA (10 REACTIVOS)
+       ======================================================================= -->
+  <section>
+    <h2 class="section-title">6. Evaluación Diagnóstica Inicial Formativa (10 Reactivos)</h2>
+    <div class="callout callout-info" style="margin-top: 4px; margin-bottom: 10px;">
+      <div class="callout-title">&#x1F4DD; Propósito de este instrumento:</div>
+      Este diagnóstico <strong>no tiene calificación sumativa ni afecta su promedio</strong>. Su objetivo estricto es identificar nociones previas sobre terminales, lógica computacional y lectura de errores para que el docente pueda calibrar el andamiaje y soporte durante las primeras semanas. Responda con honestidad individual.
+    </div>
+
+    <div class="diagnostic-container">
+      
+      <!-- Reactivo 1 -->
+      <div class="question-item">
+        <div class="question-text">1. En una terminal de línea de comandos (Bash, Zsh o PowerShell), ¿cuál es el comando estándar para cambiar de directorio de trabajo?</div>
+        <div class="options-grid">
+          <label class="option-label"><span class="radio-circle"></span> a) <code>mv</code> o <code>move</code></label>
+          <label class="option-label"><span class="radio-circle"></span> b) <code>cd</code> (Change Directory)</label>
+          <label class="option-label"><span class="radio-circle"></span> c) <code>pwd</code> o <code>echo %cd%</code></label>
+          <label class="option-label"><span class="radio-circle"></span> d) <code>touch</code> o <code>new</code></label>
+        </div>
+      </div>
+
+      <!-- Reactivo 2 -->
+      <div class="question-item">
+        <div class="question-text">2. ¿Cuál es la diferencia fundamental entre una ruta absoluta y una ruta relativa en el sistema de archivos?</div>
+        <div class="options-grid">
+          <label class="option-label"><span class="radio-circle"></span> a) La ruta absoluta comienza desde la raíz (<code>/</code> o <code>C:\</code>); la relativa parte del directorio actual.</label>
+          <label class="option-label"><span class="radio-circle"></span> b) La ruta absoluta solo se usa en Windows y la relativa solo en Linux.</label>
+          <label class="option-label"><span class="radio-circle"></span> c) La ruta relativa solo funciona para archivos ejecutables.</label>
+          <label class="option-label"><span class="radio-circle"></span> d) No existe diferencia operativa; son términos estrictamente sinónimos.</label>
+        </div>
+      </div>
+
+      <!-- Reactivo 3 -->
+      <div class="question-item">
+        <div class="question-text">3. Cuando decimos que Python es un lenguaje interpretado, ¿qué significa técnicamente respecto al flujo de ejecución?</div>
+        <div class="options-grid">
+          <label class="option-label"><span class="radio-circle"></span> a) Requiere compilación manual a código máquina binario (<code>.exe</code>) antes de ejecutarse.</label>
+          <label class="option-label"><span class="radio-circle"></span> b) El intérprete de Python lee, traduce y ejecuta las instrucciones línea por línea o en bytecode en tiempo de ejecución.</label>
+          <label class="option-label"><span class="radio-circle"></span> c) Que el código solo puede funcionar si la computadora tiene conexión activa a Internet.</label>
+          <label class="option-label"><span class="radio-circle"></span> d) Que el código fuente se destruye automáticamente tras cada ejecución.</label>
+        </div>
+      </div>
+
+      <!-- Reactivo 4 -->
+      <div class="question-item">
+        <div class="question-text">4. ¿Cuál es el propósito primario de crear un entorno virtual con <code>python -m venv .venv</code> en un proyecto?</div>
+        <div class="options-grid">
+          <label class="option-label"><span class="radio-circle"></span> a) Proteger el sistema operativo contra malware de red mediante virtualización de hardware.</label>
+          <label class="option-label"><span class="radio-circle"></span> b) Aislar las bibliotecas y paquetes instalados para evitar conflictos entre proyectos y con el sistema base.</label>
+          <label class="option-label"><span class="radio-circle"></span> c) Aumentar la velocidad del procesador y optimizar la tarjeta gráfica del equipo.</label>
+          <label class="option-label"><span class="radio-circle"></span> d) Impedir que otros usuarios de la computadora puedan leer el código fuente.</label>
+        </div>
+      </div>
+
+      <!-- Reactivo 5 -->
+      <div class="question-item">
+        <div class="question-text">5. Desde una perspectiva de seguridad técnica, ¿un entorno virtual (venv) actúa como un sandbox o contenedor de aislamiento de procesos?</div>
+        <div class="options-grid">
+          <label class="option-label"><span class="radio-circle"></span> a) Sí, confina las llamadas al sistema e impide cualquier acceso al disco duro fuera de la carpeta.</label>
+          <label class="option-label"><span class="radio-circle"></span> b) Sí, bloquea automáticamente todas las conexiones hacia direcciones IP externas no deseadas.</label>
+          <label class="option-label"><span class="radio-circle"></span> c) No; el código corre con los mismos privilegios del usuario anfitrión y tiene acceso pleno a recursos de red y disco.</label>
+          <label class="option-label"><span class="radio-circle"></span> d) Solo si se activa ejecutando PowerShell con permisos de Administrador.</label>
+        </div>
+      </div>
+
+      <!-- Reactivo 6 -->
+      <div class="question-item">
+        <div class="question-text">6. Si desea probar rápidamente el resultado de sumar dos números o el comportamiento de una función aislada, ¿qué modalidad es más ágil?</div>
+        <div class="options-grid">
+          <label class="option-label"><span class="radio-circle"></span> a) Crear un script <code>.py</code> en disco, guardarlo y compilarlo con el comando <code>make</code>.</label>
+          <label class="option-label"><span class="radio-circle"></span> b) Abrir el intérprete interactivo REPL escribiendo <code>python</code> directamente en la terminal.</label>
+          <label class="option-label"><span class="radio-circle"></span> c) Reiniciar el sistema operativo en modo a prueba de fallos con soporte de red.</label>
+          <label class="option-label"><span class="radio-circle"></span> d) Desinstalar y reinstalar Python para refrescar la memoria caché del equipo.</label>
+        </div>
+      </div>
+
+      <!-- Reactivo 7 -->
+      <div class="question-item">
+        <div class="question-text">7. Al presentarse un error en pantalla durante la ejecución de un programa, ¿cuál es el procedimiento metodológico correcto para leer el Traceback?</div>
+        <div class="options-grid">
+          <label class="option-label"><span class="radio-circle"></span> a) Cerrar la terminal de inmediato para evitar la corrupción de datos en el disco.</label>
+          <label class="option-label"><span class="radio-circle"></span> b) Leer únicamente la primera línea de la terminal y cambiar el nombre del archivo de script.</label>
+          <label class="option-label"><span class="radio-circle"></span> c) Examinar la última línea para identificar el tipo de excepción y revisar el número de línea y punteros <code>^^^^</code> asociados.</label>
+          <label class="option-label"><span class="radio-circle"></span> d) Borrar todas las líneas de código del script y volver a escribirlas de memoria.</label>
+        </div>
+      </div>
+
+      <!-- Reactivo 8 -->
+      <div class="question-item">
+        <div class="question-text">8. ¿Qué diferencia conceptual existe entre el número <code>2026</code> y el texto <code>"2026"</code> en el diseño de un programa defensivo?</div>
+        <div class="options-grid">
+          <label class="option-label"><span class="radio-circle"></span> a) Ninguna; la computadora los interpreta y procesa exactamente de la misma manera en todo contexto.</label>
+          <label class="option-label"><span class="radio-circle"></span> b) <code>2026</code> es un entero numérico que permite operaciones aritméticas; <code>"2026"</code> es una cadena de caracteres (texto plano).</label>
+          <label class="option-label"><span class="radio-circle"></span> c) <code>"2026"</code> ocupa menos espacio en memoria RAM que el número <code>2026</code>.</label>
+          <label class="option-label"><span class="radio-circle"></span> d) Las comillas dobles obligan al procesador a encriptar el valor numérico con AES-256.</label>
+        </div>
+      </div>
+
+      <!-- Reactivo 9 -->
+      <div class="question-item">
+        <div class="question-text">9. ¿Por qué en este curso de Python for Defensive Security los laboratorios se restringen estrictamente a <code>localhost</code> (127.0.0.1)?</div>
+        <div class="options-grid">
+          <label class="option-label"><span class="radio-circle"></span> a) Porque los paquetes TCP/IP enviados a 127.0.0.1 nunca salen al cable de red ni afectan equipos ajenos.</label>
+          <label class="option-label"><span class="radio-circle"></span> b) Porque los sistemas operativos modernos no tienen soporte para tarjetas de red externas en Python.</label>
+          <label class="option-label"><span class="radio-circle"></span> c) Porque la velocidad de transmisión se reduce deliberadamente a 10 bits por segundo.</label>
+          <label class="option-label"><span class="radio-circle"></span> d) Porque 127.0.0.1 es la dirección IP pública del servidor central de Python.</label>
+        </div>
+      </div>
+
+      <!-- Reactivo 10 -->
+      <div class="question-item">
+        <div class="question-text">10. Si durante una práctica de laboratorio un script exhibe un comportamiento anómalo (ej. intenta conectarse a una IP desconocida), ¿cuál es el protocolo a seguir?</div>
+        <div class="options-grid">
+          <label class="option-label"><span class="radio-circle"></span> a) Ocultar el incidente, apagar la computadora inmediatamente y salir del aula sin reportar.</label>
+          <label class="option-label"><span class="radio-circle"></span> b) Detener la ejecución con <code>Ctrl + C</code> de inmediato y notificar al docente; reportar a tiempo nunca conlleva penalización.</label>
+          <label class="option-label"><span class="radio-circle"></span> c) Dejar el script corriendo durante la noche para observar hasta dónde logra llegar la conexión.</label>
+          <label class="option-label"><span class="radio-circle"></span> d) Modificar la IP de la máquina de un compañero para transferirle la conexión anómala.</label>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =======================================================================
+       7. REQUISITOS DE ENTREGA DE LA EVIDENCIA TÉCNICA
+       ======================================================================= -->
+  <section>
+    <h2 class="section-title">7. Requisitos de Entrega de la Evidencia Técnica</h2>
+    
+    <p>Para acreditar la evidencia formativa de la Sesión 01, el estudiante debe consignar los siguientes artefactos en la plataforma académica antes del cierre estipulado:</p>
+
+    <ol style="font-size: 9pt;">
+      <li><strong>Capturas de Pantalla Nítidas de la Terminal:</strong>
+        <br>La evidencia debe ser legible en su totalidad y documentar los tres hitos clave:
+        <ul style="margin-top: 4px; margin-bottom: 6px;">
+          <li>El prompt con el entorno virtual activo visible: <code>(.venv)</code> junto a <code>python --version</code> (3.13.x).</li>
+          <li>La ejecución exitosa de <code>python hola.py</code> mostrando metadatos de auditoría inicial.</li>
+          <li>La ejecución exitosa del programa autónomo <code>python auditoria_local.py</code> con telemetría del sistema y validación de versión 3.13.</li>
+        </ul>
+      </li>
+      <li><strong>Ficha de Verificación Firmada:</strong> Este cuaderno completado digitalmente o impreso, incluyendo el código de <code>auditoria_local.py</code>, la lista de verificación (Sección 5) cotejada y la firma de compromiso.</li>
+      <li><strong>Formato de Archivo:</strong> Guardar el entregable bajo la convención técnica de nombres:
+        <br><code style="font-weight: 700; color: var(--primary);">evidencia_s01_[matricula]_[primerapellido].pdf</code>
+      </li>
+    </ol>
+
+    <div class="signature-box">
+      <div style="font-size: 8pt; color: var(--text-muted); margin-bottom: 12px; text-align: justify;">
+        <strong>Declaración del Estudiante:</strong> Certifico que la totalidad de los comandos, scripts (incluyendo el programa autónomo <code>auditoria_local.py</code>) y diagnósticos documentados en esta guía fueron desarrollados y ejecutados por mí en mi estación de trabajo local, cumpliendo las normas de seguridad, el uso exclusivo de bucle local (<code>localhost</code>) y la política institucional de abstención de asistentes de IA para las sesiones de fundamentos técnicos (Sesiones 01–18).
+      </div>
+      <div class="signature-grid">
+        <div>
+          <div class="sig-line">Firma del Estudiante / Alumno</div>
+        </div>
+        <div>
+          <div class="sig-line">Visto Bueno Docente (Revisión de Entorno)</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =======================================================================
+       PIE DE PÁGINA
+       ======================================================================= -->
+  <footer style="margin-top: 24px; padding-top: 8px; border-top: 1px solid var(--border-light); font-size: 8pt; color: var(--text-muted); display: flex; justify-content: space-between;">
+    <span>Python for Defensive Security — Material Oficial de Laboratorio (GitHub: python-defensive-security)</span>
+    <span>Módulo 1: Sesión 01 | Entorno reproducible y primer programa</span>
+    <span>Página de Cuaderno Continuo (Impresión A4)</span>
+  </footer>
+
+</div>
+
+</body>
+</html>
