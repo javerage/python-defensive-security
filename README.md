@@ -11,6 +11,19 @@
 
 🌐 **Live Course Portal & Workbooks:** [https://javerage.github.io/python-defensive-security/](https://javerage.github.io/python-defensive-security/)
 
+<table>
+  <tr>
+    <td align="center" width="160">
+      <img src="docs/qr_code.svg" width="140" height="140" alt="Quick Access QR Code" />
+    </td>
+    <td>
+      <strong>📱 Mobile & Quick Classroom Access</strong><br>
+      Scan this QR code with your phone or tablet camera to instantly open the interactive course portal and student workbooks.<br><br>
+      ⭐ <em>If you find this material useful for learning or teaching, please star this repository and follow on GitHub!</em>
+    </td>
+  </tr>
+</table>
+
 ---
 
 ## Course Overview
@@ -47,6 +60,7 @@ python-defensive-security/
 │           └── README.md        # Session 01 execution guide and instructions
 ├── docs/                        # Public student workbooks & GitHub Pages portal
 │   ├── index.html               # Web portal index for interactive student access
+│   ├── qr_code.svg              # Instant access QR code vector graphic
 │   ├── COURSE_BRANDING_EN.md    # Canonical naming specifications and course metadata
 │   └── modulo_01/               # Module 01: Environment and Syntax
 │       └── sesion_01/

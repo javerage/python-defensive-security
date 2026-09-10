@@ -33,7 +33,7 @@
       color: white;
       padding: 36px 32px;
       border-radius: 12px;
-      margin-bottom: 28px;
+      margin-bottom: 24px;
       box-shadow: 0 4px 12px rgba(15, 23, 42, 0.12);
     }
     .badge {
@@ -70,6 +70,95 @@
       font-weight: 600;
     }
     .repo-link:hover { text-decoration: underline; color: #bfdbfe; }
+
+    /* QR Code & Social Showcase Card */
+    .qr-showcase {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 28px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 28px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    .qr-box {
+      flex-shrink: 0;
+      width: 170px;
+      height: 170px;
+      padding: 8px;
+      background: #ffffff;
+      border: 2px dashed var(--accent);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .qr-box img {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    .qr-content {
+      flex: 1;
+    }
+    .qr-tag {
+      font-size: 11px;
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+    .qr-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--text-dark);
+      margin-bottom: 6px;
+    }
+    .qr-desc {
+      font-size: 13.5px;
+      color: #64748b;
+      margin-bottom: 14px;
+    }
+    .social-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .social-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border-radius: 6px;
+      font-size: 12.5px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      border: 1px solid var(--border);
+      background: #f8fafc;
+      color: var(--text-dark);
+    }
+    .social-btn:hover {
+      background: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
+      transform: translateY(-1px);
+    }
+    .social-btn-star {
+      background: #fef08a;
+      border-color: #fde047;
+      color: #854d0e;
+    }
+    .social-btn-star:hover {
+      background: #facc15;
+      color: #713f12;
+      border-color: #eab308;
+    }
+
     h2 {
       font-size: 18px;
       color: var(--text-dark);
@@ -163,8 +252,19 @@
     footer {
       text-align: center;
       margin-top: 36px;
-      font-size: 12px;
+      font-size: 12.5px;
       color: #64748b;
+      line-height: 1.8;
+    }
+
+    @media (max-width: 640px) {
+      .qr-showcase {
+        flex-direction: column;
+        text-align: center;
+      }
+      .social-links {
+        justify-content: center;
+      }
     }
   </style>
 </head>
@@ -175,9 +275,29 @@
       <h1>Python for Defensive Security</h1>
       <p class="lead">Fundamentals and Local Lab Tooling. Hands-on 40-session curriculum from Python fundamentals to defensive automation, log telemetry, and local lab verification.</p>
       <a class="repo-link" href="https://github.com/javerage/python-defensive-security" target="_blank" rel="noopener">
-        <span>&#128187; GitHub Repository: javerage/python-defensive-security</span> &rarr;
+        <span>&#128187; GitHub: javerage/python-defensive-security</span> &rarr;
       </a>
     </header>
+
+    <!-- QR CODE & COMMUNITY / FOLLOW SECTION -->
+    <div class="qr-showcase">
+      <div class="qr-box">
+        <img src="qr_code.svg" alt="Código QR para acceso rápido al curso en GitHub Pages">
+      </div>
+      <div class="qr-content">
+        <div class="qr-tag">Acceso Móvil Instantáneo</div>
+        <div class="qr-title">¡Escanea con tu teléfono y sigue la clase!</div>
+        <p class="qr-desc">Apunta la cámara de tu celular a este código QR para abrir el portal y consultar los cuadernos de taller desde cualquier dispositivo.</p>
+        <div class="social-links">
+          <a class="social-btn social-btn-star" href="https://github.com/javerage/python-defensive-security" target="_blank" rel="noopener">
+            <span>&#11088;</span> Danos una Estrella en GitHub
+          </a>
+          <a class="social-btn" href="https://github.com/javerage" target="_blank" rel="noopener">
+            <span>&#128100;</span> Seguir en GitHub (@javerage)
+          </a>
+        </div>
+      </div>
+    </div>
 
     <h2><span>&#128218;</span> Cuadernos de Trabajo Interactivos (Student Workbooks)</h2>
 
@@ -203,7 +323,8 @@
     </div>
 
     <footer>
-      <p>Python for Defensive Security (PyDefSec) &copy; 2026 • Operación exclusiva en localhost (127.0.0.1)</p>
+      <p><strong>Python for Defensive Security (PyDefSec) &copy; 2026</strong> • Operación exclusiva en localhost (127.0.0.1)</p>
+      <p>Desarrollado con fines educativos y de defensa cibernética. Si este material te es útil, ¡apóyanos compartiendo y dando una estrella en GitHub!</p>
     </footer>
   </div>
 </body>
