@@ -3,140 +3,136 @@
 COURSE: Python for Defensive Security: Fundamentals and Local Lab Tooling
 REPOSITORY: python-defensive-security | Session 01 (PyDefSec)
 FILE: auditoria_local.py
-PURPOSE: Plantilla de inicio para el Reto Autónomo de Auditoría Local.
-SCOPE: Entorno de pruebas autorizado en localhost (127.0.0.1) únicamente.
+PURPOSE: Starter template for the Autonomous Local Audit Challenge.
+SCOPE: Localhost authorized testing environment (127.0.0.1) only.
 ==============================================================================
 
-INSTRUCCIONES PARA EL ESTUDIANTE:
-    En este reto construirá su primera herramienta autónoma de auditoría defensiva.
-    Este script se ejecuta de manera secuencial (de arriba hacia abajo).
-    No requiere definir funciones complejas; todo el flujo se procesa paso a paso.
+STUDENT INSTRUCTIONS:
+    In this challenge, you will construct your first autonomous defensive audit tool.
+    This script executes linearly (top-to-bottom).
+    It does not require defining complex functions; the entire flow is processed step by step.
 
-    Complete cada una de las secciones marcadas con '# TODO:' modificando los
-    valores de prueba con sus datos reales o verificando la telemetría obtenida.
+    Complete each section marked with '# TODO:' by updating test values
+    with your authorized data or validating the acquired system telemetry.
 
-    Para ejecutar este script dentro de su entorno virtual activo (.venv):
+    To execute this script inside your active virtual environment (.venv):
         python auditoria_local.py
-    o desde la raíz del repositorio:
+    or from the repository root:
         python src/modulo_01/sesion_01/auditoria_local.py
 
-    Verifique que en la consola se imprima el reporte tabular con la identidad
-    del analista, telemetría de la máquina, validación de Python 3.13 y el
-    compromiso de confinamiento ético en localhost.
+    Verify that the terminal displays the formatted tabular report with the
+    analyst identity, host telemetry, Python 3.13 compliance, and the
+    localhost ethical confinement declaration.
 """
 
 # ==============================================================================
-# IMPORTACIÓN DE MÓDULOS DE LA BIBLIOTECA ESTÁNDAR
+# STANDARD LIBRARY MODULE IMPORTS
 # ==============================================================================
-# En Python, los módulos son archivos con código predefinido que podemos reutilizar.
+# In Python, modules are reusable standard library packages.
 #
-# 'import sys' e 'import platform':
-# Importan el módulo completo. Para usar sus herramientas escribimos el nombre
-# del módulo seguido de un punto (ejemplo: sys.version_info o platform.system()).
+# 'import sys' and 'import platform':
+# Import the full module namespace. Access functions with dot notation
+# (e.g., sys.version_info or platform.system()).
 #
 # 'from datetime import datetime':
-# Importa únicamente la clase 'datetime' desde el módulo 'datetime'. Esto nos
-# permite escribir directamente datetime.now() en lugar de datetime.datetime.now().
+# Imports only the 'datetime' class from the 'datetime' module. This allows
+# direct access to datetime.now() rather than datetime.datetime.now().
 
-import sys
 import platform
+import sys
 from datetime import datetime
 
-
 # ==============================================================================
-# --- PASO 1: Identidad del Analista Responsable ---
+# --- STEP 1: Responsible Analyst Identity ---
 # ==============================================================================
-# Asignamos cadenas de texto (tipo str) a variables para documentar quién es el
-# operador autorizado responsable de ejecutar esta auditoría defensiva.
+# Assign string literals (type str) to variables documenting the authorized
+# defensive security operator running this audit.
 #
-# TODO 1.1: Reemplace el texto entre comillas con su nombre completo.
-# TODO 1.2: Ingrese su identificador institucional o matrícula académica.
-# TODO 1.3: Personalice su rol operativo de seguridad defensiva si lo desea.
+# TODO 1.1: Replace the text with your full name.
+# TODO 1.2: Enter your student ID or institutional credential.
+# TODO 1.3: Customize your defensive operational security role if desired.
 
-estudiante = "ANALISTA EN ENTRENAMIENTO"          # TODO: Reemplace con su nombre
-matricula_id = "DEF-2026-09"                     # TODO: Reemplace con su matrícula o ID
-rol_defensivo = "Auditor Defensivo Nivel 1"      # TODO: Ajuste su rol asignado
-
+student_name = "TRAINEE ANALYST"                  # TODO: Replace with your name
+student_id = "DEF-2026-09"                       # TODO: Replace with your credential or ID
+analyst_role = "Defensive Security Auditor L1"    # TODO: Adjust your assigned role
 
 # ==============================================================================
-# --- PASO 2: Telemetría de la Máquina ---
+# --- STEP 2: Host Machine Telemetry ---
 # ==============================================================================
-# En ciberseguridad defensiva, la telemetría es la recolección automática de datos
-# sobre el estado y características del sistema anfitrión (host).
+# In defensive cybersecurity, telemetry is the automated collection of system
+# state and hardware/kernel attributes from the host machine.
 #
-# TODO 2.1: platform.system() retorna el nombre del SO (Linux, Darwin para macOS, Windows).
-# TODO 2.2: platform.release() retorna la versión específica del núcleo (kernel).
-# TODO 2.3: platform.machine() retorna la arquitectura del procesador (x86_64, arm64, etc.).
-# TODO 2.4: datetime.now().strftime(...) obtiene la fecha y hora actual formateada.
+# TODO 2.1: platform.system() returns the OS family (Linux, Darwin for macOS, Windows).
+# TODO 2.2: platform.release() returns the specific OS kernel release version.
+# TODO 2.3: platform.machine() returns the CPU architecture (x86_64, arm64, etc.).
+# TODO 2.4: datetime.now().strftime(...) formats the active system clock timestamp.
 
-os_sistema = platform.system()
+os_name = platform.system()
 os_release = platform.release()
-os_arquitectura = platform.machine()
-timestamp_auditoria = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+os_architecture = platform.machine()
+audit_timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-# Combinamos el nombre del sistema operativo y la arquitectura en un solo texto
-info_sistema = f"{os_sistema} ({os_arquitectura})"
-
+# Combine operating system and CPU architecture into a single formatted string
+system_info = f"{os_name} ({os_architecture})"
 
 # ==============================================================================
-# --- PASO 3: Validación de Python 3.13 y Aislamiento ---
+# --- STEP 3: Python 3.13 Validation & Environment Isolation ---
 # ==============================================================================
-# Todo entorno defensivo profesional debe certificar la versión del lenguaje y el
-# aislamiento de dependencias para garantizar reproducibilidad y evitar daños
-# al sistema operativo principal.
+# A professional defensive workstation must certify interpreter baseline version
+# and dependency isolation to guarantee reproducibility and prevent host OS drift.
 #
-# sys.version_info contiene información detallada sobre la versión del intérprete:
-# - sys.version_info.major: Versión principal (debe ser 3)
-# - sys.version_info.minor: Versión secundaria (debe ser 13)
-# - sys.version_info.micro: Versión de parche (ejemplo: 0)
+# sys.version_info provides structured interpreter version metadata:
+# - sys.version_info.major: Major version (must be 3)
+# - sys.version_info.minor: Minor version (must be 13)
+# - sys.version_info.micro: Patch release number (e.g., 0)
 
-version_actual = f"{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}"
-ruta_interprete = sys.executable
+current_version = f"{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}"
+interpreter_path = sys.executable
 
-# TODO 3.1: Comprobar mediante una expresión booleana si la versión es exactamente 3.13.
-#           El operador 'and' exige que ambas condiciones sean verdaderas simultáneamente.
-es_version_valida = sys.version_info.major == 3 and sys.version_info.minor == 13
+# TODO 3.1: Evaluate whether the active interpreter satisfies Python 3.13.
+#           The 'and' boolean operator requires both expressions to evaluate to True.
+is_valid_version = sys.version_info.major == 3 and sys.version_info.minor == 13
 
-# TODO 3.2: Evaluar la conformidad con una estructura condicional if / else.
-if es_version_valida:
-    estado_conformidad = "[APROBADO: Estándar Python 3.13 activo]"
+# TODO 3.2: Evaluate version compliance status using conditional branching (if / else).
+if is_valid_version:
+    compliance_status = "[APPROVED: Active Python 3.13 standard]"
 else:
-    estado_conformidad = f"[FALLO: Versión no autorizada ({version_actual})]"
+    compliance_status = f"[FAIL: Unauthorized version ({current_version})]"
 
-# TODO 3.3: Verificar el aislamiento del entorno.
-#           Comprobamos si la subcadena '.venv' está presente en la ruta del ejecutable.
-if ".venv" in ruta_interprete:
-    estado_aislamiento = "Aislado (.venv activo)"
+# TODO 3.3: Verify virtual environment isolation boundary.
+#           Evaluate whether the '.venv' substring exists within the interpreter executable path.
+is_venv_isolated = ".venv" in interpreter_path
+if is_venv_isolated:
+    isolation_status = "Isolated (.venv active)"
 else:
-    estado_aislamiento = "ADVERTENCIA: Fuera de .venv"
-
+    isolation_status = "WARNING: Outside .venv"
 
 # ==============================================================================
-# --- PASO 4: Reporte en Consola con f-strings ---
+# --- STEP 4: Formatted Terminal Report with f-strings ---
 # ==============================================================================
-# Mostramos los resultados en la terminal dentro de un recuadro estructurado en ASCII.
-# Las f-strings (f"...") nos permiten insertar variables directamente dentro del texto.
-# La sintaxis {:<49} alinea el contenido a la izquierda ocupando un espacio fijo de
-# 49 caracteres, garantizando que el borde derecho de la tabla quede recto.
+# Display audit telemetry within a structured ASCII border.
+# Python f-strings allow direct expression embedding.
+# The format specifier {:<49} left-aligns text to a fixed width of 49 characters,
+# maintaining vertical column alignment across standard terminals.
 #
-# TODO 4.1: Examine cada print() y ejecute el archivo para verificar que el recuadro
-#           tabular se imprima de forma clara con la declaración ética de localhost.
+# TODO 4.1: Review the print() statements and execute the script to verify
+#           that the tabular output prints cleanly with the localhost ethical scope.
 
-borde = "+-----------------------------------------------------------------------------+"
+horizontal_border = "+-----------------------------------------------------------------------------+"
 
-print(borde)
-print("| REPORTE DE TELEMETRÍA Y AUDITORÍA DE ENTORNO LOCAL DEFENSIVO                |")
-print(borde)
-print(f"| Analista Responsable    : {estudiante:<49} |")
-print(f"| Credencial / ID         : {matricula_id:<49} |")
-print(f"| Rol Técnico             : {rol_defensivo:<49} |")
-print(f"| Timestamp de Auditoría  : {timestamp_auditoria:<49} |")
-print(f"| Sistema Operativo       : {info_sistema:<49} |")
-print(f"| Versión Kernel          : {os_release:<49} |")
-print(f"| Versión de Python       : {version_actual:<49} |")
-print(f"| Estado de Conformidad   : {estado_conformidad:<49} |")
-print(f"| Estado de Aislamiento   : {estado_aislamiento:<49} |")
-print(f"| Ruta del Ejecutable     : {ruta_interprete:<49} |")
-print(borde)
-print("| DECLARACIÓN: Operación confinada a localhost (127.0.0.1). Sin red externa.  |")
-print(borde)
+print(horizontal_border)
+print("| LOCAL DEFENSIVE ENVIRONMENT TELEMETRY & AUDIT REPORT                        |")
+print(horizontal_border)
+print(f"| Responsible Analyst     : {student_name:<49} |")
+print(f"| Credential / Student ID : {student_id:<49} |")
+print(f"| Technical Role          : {analyst_role:<49} |")
+print(f"| Audit Timestamp         : {audit_timestamp:<49} |")
+print(f"| Operating System        : {system_info:<49} |")
+print(f"| Kernel Release          : {os_release:<49} |")
+print(f"| Python Version          : {current_version:<49} |")
+print(f"| Compliance Status       : {compliance_status:<49} |")
+print(f"| Isolation Status        : {isolation_status:<49} |")
+print(f"| Interpreter Path        : {interpreter_path:<49} |")
+print(horizontal_border)
+print("| DECLARATION: Operation confined to localhost (127.0.0.1). No external net.  |")
+print(horizontal_border)

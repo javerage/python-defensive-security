@@ -675,11 +675,12 @@
     <ul style="font-size: 9pt;">
       <li><strong>Configurar un entorno local reproducible:</strong> Crear la carpeta de trabajo exclusiva (<code>curso-python-defensivo/</code>) y un entorno virtual aislado (<code>venv</code>) en su sistema operativo.</li>
       <li><strong>Diagnosticar y resolver anomalías en entornos virtuales:</strong> Identificar y mitigar fallos como omisión de activación, políticas de PowerShell en Windows, rutas rotas por traslados de carpetas y ausencia de <code>ensurepip</code> en Linux.</li>
+      <li><strong>Dominar la ejecución profesional de scripts en consola:</strong> Comprender la anatomía del comando de ejecución (invocador <code>python</code> + archivo de script), verificar la presencia de archivos con <code>dir</code> o <code>ls</code>, y emplear atajos de terminal (autocompletado con <code>Tab</code> e historial con <code>↑</code>).</li>
       <li><strong>Dominar la sintaxis básica de importación y salida:</strong> Comprender el funcionamiento de <code>import</code>, la biblioteca estándar ("baterías incluidas"), los módulos <code>sys</code> y <code>datetime</code>, y el formateo profesional con f-strings.</li>
       <li><strong>Distinguir mecanismos de ejecución:</strong> Diferenciar con claridad entre la evaluación inmediata en el bucle interactivo (REPL) y la ejecución formal de archivos de código persistentes (scripts <code>.py</code>).</li>
       <li><strong>Comprender los límites de seguridad de un entorno virtual:</strong> Reconocer técnicamente por qué un <code>venv</code> aísla dependencias de software pero <em>no</em> provee contención de procesos (sandbox).</li>
       <li><strong>Interpretar trazas de error (Tracebacks):</strong> Leer de forma metodológica las indicaciones del intérprete de Python 3.13 ante excepciones de sintaxis (<code>SyntaxError</code>) e indentación (<code>IndentationError</code>).</li>
-      <li><strong>Construir herramientas autónomas de auditoría:</strong> Diseñar desde cero y ejecutar un programa de telemetría local (<code>auditoria_local.py</code>) que valide la conformidad de la versión de Python 3.13 y registre metadatos bajo alcance ético.</li>
+      <li><strong>Construir herramientas autónomas de auditoría con estándares globales:</strong> Diseñar desde cero y ejecutar un programa de telemetría local (<code>auditoria_local.py</code>) con identificadores 100% en inglés bajo PEP 8 (<code>student_name</code>, <code>student_id</code>, <code>current_timestamp</code>, <code>os_name</code>, <code>is_valid_version</code>, etc.) validando Python 3.13 bajo alcance ético.</li>
     </ul>
 
     <div class="callout callout-critical">
@@ -741,7 +742,7 @@
 
     <div class="callout callout-tip" style="margin: 10px 0;">
       <div class="callout-title">&#x1F4CD; Principio Pedagógico de la Sesión 01: Ejecución Secuencial Lineal (Sin Funciones <code>def</code>)</div>
-      <p style="margin-bottom: 0; font-size: 8.5pt;">En esta Sesión 01, todo el código se ejecuta de manera <strong>estrictamente secuencial, línea por línea, de arriba hacia abajo</strong>. No utilizamos funciones definidas con <code>def</code>, anotaciones de tipo complejas (<code>-&gt;</code>) ni funciones de entrada como <code>main()</code>. Estas estructuras avanzadas de modularización se dominarán progresivamente a partir del Módulo 6 (Sesiones 11 y 12). En esta fase inicial, dominar el flujo lineal de asignación de variables, llamadas al sistema operativo y formateo de texto es el cimiento indispensable.</p>
+      <p style="margin-bottom: 0; font-size: 8.5pt;">En esta Sesión 01, todo el código se ejecuta de manera <strong>estrictamente secuencial, línea por línea, de arriba hacia abajo</strong>. No utilizamos funciones complejas definidas con <code>def</code>, anotaciones de tipo avanzadas ni funciones de entrada como <code>main()</code>. Estas estructuras de modularización se dominarán progresivamente a partir del Módulo 6. En esta fase inicial, dominar el flujo lineal de asignación de variables en inglés bajo PEP 8, llamadas al sistema operativo y formateo de texto es el cimiento indispensable.</p>
     </div>
 
     <!-- SUBSECCIÓN ANATOMÍA DE BIBLIOTECAS: SYS Y DATETIME -->
@@ -798,24 +799,24 @@
     <h3 class="subsection-title">2.5 Formateo de Salida en Consola: f-strings y Auditoría Defensiva</h3>
     <p>Al programar herramientas de seguridad, la salida en consola no es simple decoración; es la <strong>interfaz de auditoría técnica</strong> que consumirán analistas forenses o analizadores automatizados (parsers).</p>
     
-    <p><strong>El problema de concatenar con <code>+</code>:</strong> Históricamente, se unían textos usando el operador de suma: <code>print("Versión: " + sys.version_info.major)</code>. Esta práctica produce inmediatamente un error crítico en tiempo de ejecución: <code>TypeError: can only concatenate str (not "int") to str</code>. Obliga al programador a envolver cada número u objeto en <code>str(...)</code>, resultando en un código saturado, frágil e ineficiente.</p>
+    <p><strong>El problema de concatenar con <code>+</code>:</strong> Históricamente, se unían textos usando el operador de suma: <code>print("Version: " + sys.version_info.major)</code>. Esta práctica produce inmediatamente un error crítico en tiempo de ejecución: <code>TypeError: can only concatenate str (not "int") to str</code>. Obliga al programador a envolver cada número u objeto en <code>str(...)</code>, resultando en un código saturado, frágil e ineficiente.</p>
 
-    <p><strong>La solución moderna: f-strings (Cadenas Literales con Formato):</strong> Introducidas en Python 3.6 y optimizadas en 3.13, se declaran anteponiendo una letra <code>f</code> o <code>F</code> antes de las comillas: <code>f"Texto {variable}"</code>. El intérprete evalúa cualquier expresión dentro de las llaves <code>{ }</code> en tiempo de ejecución y la convierte automáticamente a texto:</p>
+    <p><strong>La solución moderna: f-strings (Cadenas Literales con Formato):</strong> Introducidas en Python 3.6 y optimizadas en 3.13, se declaran anteponiendo una letra <code>f</code> o <code>F</code> antes de las comillas: <code>f"Texto {variable}"</code>. El intérprete evalúa cualquier expresión dentro de las llaves <code>{ }</code> en tiempo de ejecución y la convierte automáticamente a texto. Conforme al estándar global de la industria y la guía de estilo <strong>PEP 8</strong>, todos los identificadores de variables en nuestro código se escriben en <strong>inglés idiomático</strong> (ej. <code>student_name</code>, <code>student_id</code>, <code>current_timestamp</code>):</p>
 
     <div class="terminal-container" style="margin: 10px 0 14px 0;">
-      <div class="terminal-header"><span>Comparativa de Sintaxis — Concatenación vs f-string</span><span>Python 3.13</span></div>
-      <div class="comment"># Forma antigua, propensa a TypeErrors y difícil de leer:</div>
-      <div>print(<span style="color: #f87171;">"Analista: " + estudiante + " | Python: " + str(sys.version_info.major) + "." + str(sys.version_info.minor)</span>)</div>
+      <div class="terminal-header"><span>Comparativa de Sintaxis — Concatenación vs f-string</span><span>Python 3.13 (PEP 8)</span></div>
+      <div class="comment"># Legacy style: prone to TypeErrors and hard to read</div>
+      <div>print(<span style="color: #f87171;">"Analyst: " + student_name + " | Python: " + str(sys.version_info.major) + "." + str(sys.version_info.minor)</span>)</div>
 
       <div class="term-spacer"></div>
 
-      <div class="comment"># Forma recomendada en ciberseguridad (f-string limpia, legible y rápida):</div>
-      <div>print(<span style="color: #4ade80;">f"Analista: {estudiante} | Python: {sys.version_info.major}.{sys.version_info.minor}"</span>)</div>
+      <div class="comment"># Modern style in defensive security: clean, readable, and fast f-string</div>
+      <div>print(<span style="color: #4ade80;">f"Analyst: {student_name} | Python: {sys.version_info.major}.{sys.version_info.minor}"</span>)</div>
     </div>
 
     <div class="callout callout-info" style="margin-top: 8px;">
       <div class="callout-title">&#x1F4CB; Regla de Oro en Auditoría Defensiva: Salidas Estructuradas</div>
-      <p style="margin-bottom: 0;">Un buen script defensivo <strong>nunca imprime datos sueltos sin contexto</strong>. Utiliza encabezados con delimitadores (<code>===</code> o <code>---</code>), etiquetas de severidad o estado (ej. <code>[INFO]</code>, <code>[OK]</code>, <code>[ALERTA]</code>) y marcas de tiempo unificadas. Esto permite procesar la salida mediante tuberías (pipes) como <code>grep</code>, <code>findstr</code> o redirigirla directamente a bitácoras de auditoría.</p>
+      <p style="margin-bottom: 0;">Un buen script defensivo <strong>nunca imprime datos sueltos sin contexto</strong>. Utiliza encabezados con delimitadores (<code>===</code> o <code>---</code>), etiquetas de severidad o estado (ej. <code>[INFO]</code>, <code>[OK]</code>, <code>[ALERT]</code>) y marcas de tiempo unificadas. Esto permite procesar la salida mediante tuberías (pipes) como <code>grep</code>, <code>findstr</code> o redirigirla directamente a bitácoras de auditoría.</p>
     </div>
   </section>
 
@@ -942,8 +943,8 @@ source .venv/bin/activate</div>
           <p style="font-size: 8pt; margin-top: 2px;">Al crearse un <code>venv</code>, Python escribe <strong>rutas absolutas fijas (hardcodeadas)</strong> en el archivo <code>.venv/pyvenv.cfg</code> y en la cabecera (shebang <code>#!</code>) de los scripts internos. Al cambiar la ruta padre, los binarios buscan una dirección que ya no existe.</p>
         </div>
         <div>
-          <strong>Regla de Oro y Solución:</strong>
-          <p style="font-size: 8pt; margin-top: 2px;"><strong>Los venvs son efímeros y no se mueven</strong>. Si movió la carpeta, desactive, borre la carpeta <code>.venv</code> y recréela limpia en 10 segundos:<br>
+          <strong>Solución y Regla de Oro:</strong>
+          <p style="font-size: 8pt; margin-top: 2px;"><strong>Los venvs son efímeros y no se mueven</strong>. Si movió la carpeta, desactive el entorno, borre la carpeta <code>.venv</code> y recréela limpia en 10 segundos:<br>
           <code style="font-size: 7.5pt; color: #b91c1c;">rm -rf .venv</code> (o <code>Remove-Item -Recurse -Force .venv</code>)<br>
           <code style="font-size: 7.5pt; color: #15803d;">python3.13 -m venv .venv</code></p>
         </div>
@@ -967,7 +968,7 @@ source .venv/bin/activate</div>
       </div>
     </div>
 
-    <h3 class="subsection-title">Paso 3: Verificación de la Versión del Intérprete</h3>
+    <h3 class="subsection-title">Paso 3: Verificación de la Versión del Intérprete y del Entorno Aislado</h3>
     <p>Con el entorno virtual activo, confirme que el comando <code>python</code> apunta con certeza a la versión 3.13 requerida y al ejecutable aislado:</p>
 
     <div class="terminal-container">
@@ -993,59 +994,143 @@ source .venv/bin/activate</div>
       <div class="output">...\curso-python-defensivo\.venv\Scripts\python.exe</div>
     </div>
 
+    <!-- =====================================================================
+         NUEVA SECCIÓN OBLIGATORIA: CÓMO SE EJECUTA UN SCRIPT EN LA VIDA REAL
+         ===================================================================== -->
+    <div class="callout callout-purple" style="margin-top: 18px; margin-bottom: 14px;">
+      <div class="callout-title" style="font-size: 10.5pt;">
+        &#x1F680; 3.2 ¿Cómo se ejecuta un script de Python en la vida real? (Paso a Paso en la Terminal)
+      </div>
+      <p style="margin-bottom: 6px;">
+        Uno de los mayores obstáculos para quienes inician en programación y ciberseguridad es la desconexión entre el editor de código y la terminal. Un script <strong>no se ejecuta mágicamente haciendo doble clic</strong>: en el ámbito profesional y forense, los programas se controlan con precisión milimétrica desde la consola de comandos.
+      </p>
+      <p style="margin-bottom: 0;">
+        A continuación, se detalla el procedimiento profesional estándar que utilizará a lo largo de toda su carrera técnica.
+      </p>
+    </div>
+
+    <div style="background: #ffffff; border: 1px solid var(--border-color); border-radius: 6px; padding: 12px 14px; margin-bottom: 14px;">
+      <h4 class="subsubsection-title" style="color: var(--primary); font-size: 9.5pt; margin-top: 0;">
+        &#x1F4CD; Paso 1: Verificar ubicación con <code>dir</code> o <code>ls</code> (Confirmar que el archivo existe en la carpeta actual)
+      </h4>
+      <p style="font-size: 8.5pt; margin-bottom: 6px;">
+        Antes de intentar ejecutar cualquier programa, debe cerciorarse de que su terminal esté ubicada en el mismo directorio donde guardó el archivo (el <em>Current Working Directory</em>). Si intenta invocar un archivo que está en otra carpeta, Python emitirá el fallo canónico: <code>FileNotFoundError: [Errno 2] No such file or directory: 'hola.py'</code>.
+      </p>
+      <ul style="font-size: 8.5pt; margin-left: 18px; margin-bottom: 6px;">
+        <li><strong>En Windows (PowerShell / CMD):</strong> Escriba <code>dir</code> (o <code>ls</code> en PowerShell) y presione <code>Enter</code>.</li>
+        <li><strong>En macOS y Linux (Zsh / Bash):</strong> Escriba <code>ls</code> (o <code>ls -l</code> para vista detallada) y presione <code>Enter</code>.</li>
+      </ul>
+      <p style="font-size: 8.5pt; margin-bottom: 6px;">
+        Inspeccione la lista resultante: debe ver explícitamente listado su archivo (por ejemplo, <code>hola.py</code> o <code>auditoria_local.py</code>). Si no aparece, navegue con <code>cd</code> hasta la carpeta correcta antes de continuar.
+      </p>
+
+      <div class="terminal-container" style="margin: 6px 0 10px 0;">
+        <div class="terminal-header"><span>Terminal — Verificación de presencia del script en el directorio</span><span>ls / dir</span></div>
+        <div class="comment"># Verificar que hola.py existe en la carpeta de trabajo actual:</div>
+        <div><span class="prompt-nix">(.venv) usuario@defensive-host:~/curso-python-defensivo$</span> <span class="cmd">ls</span></div>
+        <div class="output">.venv   hola.py   auditoria_local.py   <span class="comment"># <- ¡Confirmado! El archivo está presente aquí</span></div>
+      </div>
+
+      <h4 class="subsubsection-title" style="color: var(--primary); font-size: 9.5pt; margin-top: 10px;">
+        &#x2699;&#xFE0F; Paso 2: Ejecutar con <code>python nombre_archivo.py</code> (Anatomía del comando: Invocador + Archivo)
+      </h4>
+      <p style="font-size: 8.5pt; margin-bottom: 6px;">
+        Para poner en marcha el script, la sintaxis formal consta de dos componentes inseparables:
+      </p>
+      
+      <div style="background: #f1f5f9; border: 1px solid #cbd5e1; border-radius: 4px; padding: 8px 12px; margin: 8px 0; font-size: 8.5pt;">
+        <div style="font-family: ui-monospace, monospace; font-size: 9pt; font-weight: bold; color: var(--primary-dark); margin-bottom: 4px;">
+          python &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; hola.py
+          <br>
+          <span style="color: var(--secondary); font-weight: normal;">[1. INVOCADOR]</span> &nbsp;&nbsp;&nbsp;&nbsp; <span style="color: var(--accent-green); font-weight: normal;">[2. ARCHIVO / ARGUMENTO]</span>
+        </div>
+        <ol style="margin-left: 18px; margin-bottom: 0; font-size: 8pt;">
+          <li><strong>El Invocador (<code>python</code>):</strong> Es el ejecutable binario del intérprete de Python (el motor de procesamiento) alojado en su entorno virtual. Le dice al sistema operativo: <em>"Abre el motor de Python en memoria RAM"</em>.</li>
+          <li><strong>El Archivo / Argumento (<code>hola.py</code>):</strong> Es la ruta relativa del archivo de texto plano que contiene las instrucciones en código Python que el motor debe leer, compilar a bytecode en memoria y ejecutar en estricto orden secuencial.</li>
+        </ol>
+      </div>
+
+      <h4 class="subsubsection-title" style="color: #b45309; font-size: 9.5pt; margin-top: 12px;">
+        &#x1F977; Trucos Ninja de Terminal para Principiantes (Productividad y Cero Errores)
+      </h4>
+      <p style="font-size: 8.5pt; margin-bottom: 6px;">
+        Los analistas de seguridad experimentados nunca teclean los nombres de archivo completos letra por letra ni reescriben comandos largos. Adopte estas dos destrezas desde el primer día:
+      </p>
+
+      <div class="trouble-grid" style="grid-template-columns: 1fr 1fr; margin-top: 6px;">
+        <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 4px; padding: 8px 10px;">
+          <strong style="color: #92400e; font-size: 8.5pt;">1. Autocompletar con la tecla <code>Tab</code> (⇥):</strong>
+          <p style="font-size: 8pt; margin-top: 3px; margin-bottom: 0; color: #78350f;">
+            Escriba solo el inicio del comando, por ejemplo: <code>python ho</code> y presione la tecla <strong>Tab</strong>. La terminal detectará el archivo y completará automáticamente a <code>python hola.py</code>.
+            <br><br>
+            <em>Regla Ninja:</em> Ahorra tiempo y elimina el 95% de los errores tipográficos (typos). Si presiona <code>Tab</code> y la terminal no completa nada, ¡es una alerta temprana de que el archivo no existe en esa carpeta! Si hay varios archivos que inician igual, presione <code>Tab</code> dos veces seguidas para ver las coincidencias.
+          </p>
+        </div>
+        <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 4px; padding: 8px 10px;">
+          <strong style="color: #166534; font-size: 8.5pt;">2. Repetir comandos con la flecha hacia arriba (<code>↑</code>):</strong>
+          <p style="font-size: 8pt; margin-top: 3px; margin-bottom: 0; color: #14532d;">
+            Cada vez que modifica su código en el editor y lo guarda (<code>Ctrl + S</code> o <code>Cmd + S</code>), <strong>no vuelva a escribir el comando en la terminal</strong>.
+            <br><br>
+            <em>Regla Ninja:</em> Haga clic en la terminal y presione una vez la tecla de <strong>Flecha hacia Arriba (<code>↑</code>)</strong> de su teclado. La consola recuperará instantáneamente el último comando ejecutado (<code>python hola.py</code>). Presione <code>Enter</code> y ejecute de inmediato. Presionando <code>↑</code> varias veces podrá explorar todo el historial de comandos de su sesión.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PASO 4: CREACIÓN DEL PRIMER SCRIPT HOLA.PY -->
     <h3 class="subsection-title">Paso 4: Creación del Primer Script de Auditoría Local (hola.py)</h3>
-    <p>Abra su editor de texto plano (VS Code, Vim o Notepad) y guarde el siguiente código con el nombre exacto <code>hola.py</code> dentro de su carpeta <code>curso-python-defensivo</code>:</p>
+    <p>Abra su editor de texto plano (VS Code, Vim o Notepad) y guarde el siguiente código con el nombre exacto <code>hola.py</code> dentro de su carpeta <code>curso-python-defensivo</code>. Observe que, siguiendo las mejores prácticas de la industria (PEP 8), todas las variables y comentarios de código se escriben en <strong>inglés idiomático</strong> (<code>student_name</code>, <code>student_id</code>, <code>current_timestamp</code>):</p>
 
     <div class="terminal-container">
       <div class="terminal-header">
         <span>Código Fuente — hola.py</span>
-        <span>Python 3.13 UTF-8</span>
+        <span>Python 3.13 UTF-8 (PEP 8 Standard)</span>
       </div>
       <div class="comment"># ==============================================================================</div>
       <div class="comment"># COURSE: Python for Defensive Security: Fundamentals and Local Lab Tooling</div>
       <div class="comment"># REPOSITORY: python-defensive-security | Session 01 (PyDefSec)</div>
-      <div class="comment"># PROPÓSITO: Verificación de entorno reproducible y auditoría inicial local</div>
-      <div class="comment"># ALCANCE: Entorno local autorizado (localhost / 127.0.0.1)</div>
+      <div class="comment"># PURPOSE: Reproducible environment verification and initial local audit</div>
+      <div class="comment"># SCOPE: Authorized local environment (localhost / 127.0.0.1)</div>
       <div class="comment"># ==============================================================================</div>
 
       <div class="term-spacer"></div>
 
-      <div class="comment"># --- 1. IMPORTACIÓN DE MÓDULOS DEL SISTEMA Y TIEMPO ---</div>
+      <div class="comment"># --- 1. SYSTEM AND TIME MODULE IMPORTS ---</div>
       <div><span style="color: #c084fc;">import</span> sys</div>
       <div><span style="color: #c084fc;">from</span> datetime <span style="color: #c084fc;">import</span> datetime</div>
 
       <div class="term-spacer"></div>
 
-      <div class="comment"># --- 2. METADATOS DEL OPERADOR (Reemplace con sus datos reales) ---</div>
-      <div>estudiante = <span style="color: #86efac;">"SU NOMBRE COMPLETO AQUÍ"</span></div>
-      <div>matricula_id = <span style="color: #86efac;">"SU MATRÍCULA O ID"</span></div>
-      <div>marca_tiempo = datetime.now().strftime(<span style="color: #86efac;">"%Y-%m-%d %H:%M:%S"</span>)</div>
+      <div class="comment"># --- 2. OPERATOR METADATA (Replace with your actual data) ---</div>
+      <div>student_name = <span style="color: #86efac;">"SU NOMBRE COMPLETO AQUÍ"</span></div>
+      <div>student_id = <span style="color: #86efac;">"SU MATRÍCULA O ID"</span></div>
+      <div>current_timestamp = datetime.now().strftime(<span style="color: #86efac;">"%Y-%m-%d %H:%M:%S"</span>)</div>
 
       <div class="term-spacer"></div>
 
-      <div class="comment"># --- 3. REPORTE DE AUDITORÍA FORMATEADO CON F-STRINGS ---</div>
+      <div class="comment"># --- 3. FORMATTED AUDIT REPORT WITH F-STRINGS ---</div>
       <div>print(<span style="color: #86efac;">"=================================================="</span>)</div>
-      <div>print(<span style="color: #86efac;">"[ESTADO] INICIALIZACIÓN DE ENTORNO DEFENSIVO LOCAL"</span>)</div>
+      <div>print(<span style="color: #86efac;">"[STATUS] LOCAL DEFENSIVE LAB INITIALIZATION"</span>)</div>
       <div>print(<span style="color: #86efac;">"=================================================="</span>)</div>
 
       <div style="height: 6px;"></div>
 
-      <div class="comment"># Telemetría del operador e intérprete</div>
-      <div>print(f<span style="color: #86efac;">"Operador Autorizado : {estudiante} (ID: {matricula_id})"</span>)</div>
-      <div>print(f<span style="color: #86efac;">"Timestamp Local     : {marca_tiempo}"</span>)</div>
-      <div>print(f<span style="color: #86efac;">"Intérprete Python   : {sys.version.split()[0]}"</span>)</div>
-      <div>print(f<span style="color: #86efac;">"Ruta del Ejecutable : {sys.executable}"</span>)</div>
+      <div class="comment"># Operator and interpreter telemetry</div>
+      <div>print(f<span style="color: #86efac;">"Authorized Operator : {student_name} (ID: {student_id})"</span>)</div>
+      <div>print(f<span style="color: #86efac;">"Local Timestamp     : {current_timestamp}"</span>)</div>
+      <div>print(f<span style="color: #86efac;">"Python Interpreter  : {sys.version.split()[0]}"</span>)</div>
+      <div>print(f<span style="color: #86efac;">"Executable Path     : {sys.executable}"</span>)</div>
 
       <div style="height: 6px;"></div>
 
-      <div class="comment"># Declaración de alcance ético</div>
+      <div class="comment"># Ethical scope declaration</div>
       <div>print(<span style="color: #86efac;">"--------------------------------------------------"</span>)</div>
-      <div>print(<span style="color: #86efac;">"[DECLARACIÓN] Operación exclusiva en localhost y fixtures."</span>)</div>
-      <div>print(<span style="color: #86efac;">"[DECLARACIÓN] El entorno virtual está verificado y activo."</span>)</div>
+      <div>print(<span style="color: #86efac;">"[DECLARATION] Strictly confined to localhost and local fixtures."</span>)</div>
+      <div>print(<span style="color: #86efac;">"[DECLARATION] Virtual environment verified and isolated."</span>)</div>
       <div>print(<span style="color: #86efac;">"=================================================="</span>)</div>
     </div>
 
-    <p>Ejecute el script en su terminal y verifique la salida generada:</p>
+    <p>Ejecute el script en su terminal aplicando lo aprendido en la sección 3.2 (verifique con <code>ls</code>/<code>dir</code>, use autocompletado <code>Tab</code>) y coteje la salida generada:</p>
 
     <div class="terminal-container">
       <div class="terminal-header">
@@ -1057,19 +1142,19 @@ source .venv/bin/activate</div>
       <div class="term-spacer"></div>
 
       <div class="output">==================================================</div>
-      <div class="output">[ESTADO] INICIALIZACIÓN DE ENTORNO DEFENSIVO LOCAL</div>
+      <div class="output">[STATUS] LOCAL DEFENSIVE LAB INITIALIZATION</div>
       <div class="output">==================================================</div>
-      <div class="output">Operador Autorizado : CARLOS MENDOZA (ID: DEF-2026-09)</div>
-      <div class="output">Timestamp Local     : 2026-09-10 10:15:32</div>
-      <div class="output">Intérprete Python   : 3.13.0</div>
-      <div class="output">Ruta del Ejecutable : /home/usuario/curso-python-defensivo/.venv/bin/python</div>
+      <div class="output">Authorized Operator : CARLOS MENDOZA (ID: DEF-2026-09)</div>
+      <div class="output">Local Timestamp     : 2026-09-10 10:15:32</div>
+      <div class="output">Python Interpreter  : 3.13.0</div>
+      <div class="output">Executable Path     : /home/usuario/curso-python-defensivo/.venv/bin/python</div>
       <div class="output">--------------------------------------------------</div>
-      <div class="output">[DECLARACIÓN] Operación exclusiva en localhost y fixtures.</div>
-      <div class="output">[DECLARACIÓN] El entorno virtual está verificado y activo.</div>
+      <div class="output">[DECLARATION] Strictly confined to localhost and local fixtures.</div>
+      <div class="output">[DECLARATION] Virtual environment verified and isolated.</div>
       <div class="output">==================================================</div>
     </div>
 
-    <!-- NUEVO PASO 5: RETO PRÁCTICO FINAL AUTÓNOMO -->
+    <!-- PASO 5: RETO PRÁCTICO FINAL AUTÓNOMO -->
     <div class="page-break"></div>
     <h3 class="subsection-title" style="color: var(--accent-purple); font-size: 11pt;">
       &#x1F6E0;&#xFE0F; Paso 5 / Reto Práctico Final Autónomo: Mi Primer Programa de Auditoría (<code>auditoria_local.py</code>)
@@ -1078,25 +1163,26 @@ source .venv/bin/activate</div>
 
     <div class="callout callout-purple">
       <div class="callout-title">&#x1F3AF; Arquitectura y Especificaciones del Script Lineal (4 Pasos Secuenciales)</div>
-      <p style="margin-bottom: 4px;">El script sigue una estructura lineal estricta (<strong>sin funciones <code>def</code>, sin anotaciones complejas ni <code>main()</code></strong>), procesando 4 fases de arriba a abajo:</p>
+      <p style="margin-bottom: 4px;">El script sigue una estructura lineal estricta (<strong>sin funciones <code>def</code>, sin anotaciones complejas ni <code>main()</code></strong>), procesando 4 fases de arriba a abajo con identificadores profesionales en inglés:</p>
       <ol style="font-size: 8.5pt; margin-left: 18px; margin-bottom: 0;">
         <li><strong>Importación formal:</strong> Importar los módulos <code>sys</code> y <code>platform</code> completos, y extraer selectivamente la clase <code>datetime</code> mediante <code>from datetime import datetime</code>.</li>
-        <li><strong>Paso 1 — Identidad del Operador:</strong> Definir variables para su nombre de estudiante (<code>estudiante</code>), matrícula o código institucional (<code>matricula_id</code>) y rol operativo (<code>rol_defensivo</code>).</li>
-        <li><strong>Paso 2 — Telemetría del Sistema Operativo:</strong>
+        <li><strong>Paso 1 — Identidad del Operador (Operator Identity):</strong> Definir variables para su nombre de estudiante (<code>student_name</code>), matrícula o código institucional (<code>student_id</code>) y rol operativo asignado (<code>analyst_role</code>).</li>
+        <li><strong>Paso 2 — Telemetría del Sistema Operativo (Host Telemetry):</strong>
           <ul style="margin: 2px 0 2px 14px;">
-            <li><code>platform.system()</code>: Captura el nombre del sistema operativo base (<code>"Linux"</code>, <code>"Darwin"</code> para macOS o <code>"Windows"</code>).</li>
-            <li><code>platform.release()</code>: Captura la versión o release del kernel del sistema operativo.</li>
-            <li><code>platform.machine()</code>: Captura la arquitectura de hardware del procesador (ej. <code>"x86_64"</code> o <code>"arm64"</code>).</li>
-            <li><code>datetime.now().strftime("%Y-%m-%d %H:%M:%S")</code>: Obtiene la marca de tiempo de auditoría estandarizada.</li>
+            <li><code>platform.system()</code> asignado a <code>os_name</code>: Captura el nombre del sistema operativo base (<code>"Linux"</code>, <code>"Darwin"</code> para macOS o <code>"Windows"</code>).</li>
+            <li><code>platform.release()</code> asignado a <code>os_release</code>: Captura la versión o release del kernel del sistema operativo.</li>
+            <li><code>platform.machine()</code> asignado a <code>os_architecture</code>: Captura la arquitectura de hardware del procesador (ej. <code>"x86_64"</code> o <code>"arm64"</code>).</li>
+            <li><code>datetime.now().strftime("%Y-%m-%d %H:%M:%S")</code> asignado a <code>current_timestamp</code>: Obtiene la marca de tiempo de auditoría estandarizada.</li>
+            <li>Combinación en <code>system_info = f"{os_name} ({os_architecture})"</code>.</li>
           </ul>
         </li>
-        <li><strong>Paso 3 — Validación Booleana de Python 3.13 y Aislamiento:</strong>
+        <li><strong>Paso 3 — Validación Booleana de Python 3.13 y Aislamiento (Validation & Isolation):</strong>
           <ul style="margin: 2px 0 2px 14px;">
-            <li><code>sys.version_info</code>: Tupla estructurada con números de versión. Comprobar rigurosamente: <code>sys.version_info.major == 3 and sys.version_info.minor == 13</code>. Si cumple, dictaminar <code>"[APROBADO: Estándar Python 3.13 activo]"</code>; si no, alertar <code>"[FALLO: Versión no autorizada (...)]"</code>.</li>
-            <li><code>sys.executable</code>: Ruta física del intérprete activo. Evaluar si la subcadena <code>".venv"</code> forma parte de la ruta para certificar aislamiento.</li>
+            <li><code>sys.version_info</code>: Tupla estructurada con números de versión. Comprobar rigurosamente: <code>is_valid_version = (sys.version_info.major == 3 and sys.version_info.minor == 13)</code>. Si cumple, dictaminar para <code>compliance_status</code> el valor <code>"[APPROVED: Python 3.13 Standard Active]"</code>; si no, alertar <code>f"[FAILED: Unauthorized Version ({current_version})]"</code>.</li>
+            <li><code>sys.executable</code> asignado a <code>interpreter_path</code>: Ruta física del intérprete activo. Evaluar con una expresión booleana si <code>".venv" in interpreter_path</code> asignando a <code>is_venv_isolated</code> para certificar aislamiento.</li>
           </ul>
         </li>
-        <li><strong>Paso 4 — Reporte Tabular Estructurado con f-strings:</strong> Imprimir el informe enmarcado con delimitadores ASCII/UTF-8 y justificación de texto (<code>{variable:&lt;49}</code>), concluyendo con la declaración formal de confinamiento ético a <code>localhost (127.0.0.1)</code>.</li>
+        <li><strong>Paso 4 — Reporte Tabular Estructurado con f-strings (Tabular Output):</strong> Imprimir el informe enmarcado con el delimitador <code>horizontal_border</code> y justificación de texto (<code>{variable:&lt;49}</code>), concluyendo con la declaración formal de confinamiento ético a <code>localhost (127.0.0.1)</code>.</li>
       </ol>
     </div>
 
@@ -1107,14 +1193,14 @@ source .venv/bin/activate</div>
     </div>
 
     <h4 class="subsubsection-title">Plantilla de Código Fuente Autónomo (<code>auditoria_local.py</code>):</h4>
-    <p style="font-size: 8pt; color: var(--text-muted); margin-bottom: 4px;">Complete cada sección <code># TODO:</code> en su editor de código y transcriba la versión final verificada:</p>
+    <p style="font-size: 8pt; color: var(--text-muted); margin-bottom: 4px;">Complete cada sección <code># TODO:</code> en su editor de código respetando la convención de identificadores en inglés (PEP 8):</p>
     <div class="student-code-box">
 <span class="comment"># ==============================================================================
 # COURSE: Python for Defensive Security: Fundamentals and Local Lab Tooling
 # REPOSITORY: python-defensive-security | Session 01 (PyDefSec)
 # FILE: auditoria_local.py
-# PURPOSE: Plantilla de inicio para el Reto Autónomo de Auditoría Local.
-# SCOPE: Entorno de pruebas autorizado en localhost (127.0.0.1) únicamente.
+# PURPOSE: Starter template for the Autonomous Local Audit Challenge.
+# SCOPE: Strictly authorized local test environment on localhost (127.0.0.1).
 # ==============================================================================</span>
 
 import sys
@@ -1122,95 +1208,95 @@ import platform
 from datetime import datetime
 
 <span class="comment"># ==============================================================================
-# --- PASO 1: Identidad del Analista Responsable ---
+# --- STEP 1: Responsible Analyst Identity ---
 # ==============================================================================</span>
-# TODO 1.1: Reemplace el texto entre comillas con su nombre completo.
-# TODO 1.2: Ingrese su identificador institucional o matrícula académica.
-# TODO 1.3: Personalice su rol operativo de seguridad defensiva si lo desea.
+# TODO 1.1: Replace the text with your full name.
+# TODO 1.2: Enter your institutional identifier or student ID.
+# TODO 1.3: Customize your assigned defensive security role if desired.
 
-estudiante = <span style="color: #86efac;">"ANALISTA EN ENTRENAMIENTO"</span>          <span class="comment"># TODO: Reemplace con su nombre</span>
-matricula_id = <span style="color: #86efac;">"DEF-2026-09"</span>                     <span class="comment"># TODO: Reemplace con su matrícula o ID</span>
-rol_defensivo = <span style="color: #86efac;">"Auditor Defensivo Nivel 1"</span>      <span class="comment"># TODO: Ajuste su rol asignado</span>
+student_name = <span style="color: #86efac;">"ANALYST IN TRAINING"</span>                <span class="comment"># TODO: Replace with your name</span>
+student_id = <span style="color: #86efac;">"DEF-2026-09"</span>                          <span class="comment"># TODO: Replace with your student ID</span>
+analyst_role = <span style="color: #86efac;">"Defensive Security Auditor Level 1"</span> <span class="comment"># TODO: Adjust your role</span>
 
 <span class="comment"># ==============================================================================
-# --- PASO 2: Telemetría de la Máquina ---
+# --- STEP 2: Host Machine Telemetry ---
 # ==============================================================================</span>
-# TODO 2.1: platform.system() retorna el nombre del SO (Linux, Darwin, Windows).
-# TODO 2.2: platform.release() retorna la versión específica del núcleo (kernel).
-# TODO 2.3: platform.machine() retorna la arquitectura del procesador (x86_64, arm64).
-# TODO 2.4: datetime.now().strftime(...) obtiene la fecha y hora actual formateada.
+# TODO 2.1: platform.system() returns the OS name (Linux, Darwin, Windows).
+# TODO 2.2: platform.release() returns the specific OS kernel release.
+# TODO 2.3: platform.machine() returns the hardware CPU architecture (x86_64, arm64).
+# TODO 2.4: datetime.now().strftime(...) retrieves the formatted current date and time.
 
-os_sistema = platform.system()
+os_name = platform.system()
 os_release = platform.release()
-os_arquitectura = platform.machine()
-timestamp_auditoria = datetime.now().strftime(<span style="color: #86efac;">"%Y-%m-%d %H:%M:%S"</span>)
-info_sistema = f<span style="color: #86efac;">"{os_sistema} ({os_arquitectura})"</span>
+os_architecture = platform.machine()
+current_timestamp = datetime.now().strftime(<span style="color: #86efac;">"%Y-%m-%d %H:%M:%S"</span>)
+system_info = f<span style="color: #86efac;">"{os_name} ({os_architecture})"</span>
 
 <span class="comment"># ==============================================================================
-# --- PASO 3: Validación de Python 3.13 y Aislamiento ---
+# --- STEP 3: Python 3.13 Validation and Isolation Check ---
 # ==============================================================================</span>
-version_actual = f<span style="color: #86efac;">"{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}"</span>
-ruta_interprete = sys.executable
+current_version = f<span style="color: #86efac;">"{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}"</span>
+interpreter_path = sys.executable
 
-# TODO 3.1: Comprobar mediante una expresión booleana si la versión es exactamente 3.13.
-es_version_valida = (sys.version_info.major == 3 and sys.version_info.minor == 13)
+# TODO 3.1: Evaluate via boolean logic if the interpreter is strictly Python 3.13.
+is_valid_version = (sys.version_info.major == 3 and sys.version_info.minor == 13)
 
-# TODO 3.2: Evaluar la conformidad con una estructura condicional if / else.
-if es_version_valida:
-    estado_conformidad = <span style="color: #86efac;">"[APROBADO: Estándar Python 3.13 activo]"</span>
+# TODO 3.2: Evaluate compliance using an if / else branching statement.
+if is_valid_version:
+    compliance_status = <span style="color: #86efac;">"[APPROVED: Python 3.13 Standard Active]"</span>
 else:
-    estado_conformidad = f<span style="color: #86efac;">"[FALLO: Versión no autorizada ({version_actual})]"</span>
+    compliance_status = f<span style="color: #86efac;">"[FAILED: Unauthorized Version ({current_version})]"</span>
 
-# TODO 3.3: Verificar el aislamiento del entorno comprobando si ".venv" está en la ruta.
-if <span style="color: #86efac;">".venv"</span> in ruta_interprete:
-    estado_aislamiento = <span style="color: #86efac;">"Aislado (.venv activo)"</span>
+# TODO 3.3: Verify environment isolation by checking if ".venv" is in the interpreter path.
+is_venv_isolated = <span style="color: #86efac;">".venv"</span> in interpreter_path
+if is_venv_isolated:
+    isolation_status = <span style="color: #86efac;">"Isolated (.venv active)"</span>
 else:
-    estado_aislamiento = <span style="color: #86efac;">"ADVERTENCIA: Fuera de .venv"</span>
+    isolation_status = <span style="color: #86efac;">"WARNING: Running outside .venv"</span>
 
 <span class="comment"># ==============================================================================
-# --- PASO 4: Reporte en Consola con f-strings ---
+# --- STEP 4: Formatted Console Report using F-Strings ---
 # ==============================================================================</span>
-# TODO 4.1: Examine cada print() y ejecute el archivo para verificar que el recuadro
-#           tabular se imprima de forma clara con la declaración ética de localhost.
+# TODO 4.1: Examine each print() statement and verify the structured output.
 
-borde = <span style="color: #86efac;">"+-----------------------------------------------------------------------------+"</span>
+horizontal_border = <span style="color: #86efac;">"+-----------------------------------------------------------------------------+"</span>
 
-print(borde)
-print(<span style="color: #86efac;">"| REPORTE DE TELEMETRÍA Y AUDITORÍA DE ENTORNO LOCAL DEFENSIVO                |"</span>)
-print(borde)
-print(f<span style="color: #86efac;">"| Analista Responsable    : {estudiante:&lt;49} |"</span>)
-print(f<span style="color: #86efac;">"| Credencial / ID         : {matricula_id:&lt;49} |"</span>)
-print(f<span style="color: #86efac;">"| Rol Técnico             : {rol_defensivo:&lt;49} |"</span>)
-print(f<span style="color: #86efac;">"| Timestamp de Auditoría  : {timestamp_auditoria:&lt;49} |"</span>)
-print(f<span style="color: #86efac;">"| Sistema Operativo       : {info_sistema:&lt;49} |"</span>)
-print(f<span style="color: #86efac;">"| Versión Kernel          : {os_release:&lt;49} |"</span>)
-print(f<span style="color: #86efac;">"| Versión de Python       : {version_actual:&lt;49} |"</span>)
-print(f<span style="color: #86efac;">"| Estado de Conformidad   : {estado_conformidad:&lt;49} |"</span>)
-print(f<span style="color: #86efac;">"| Estado de Aislamiento   : {estado_aislamiento:&lt;49} |"</span>)
-print(f<span style="color: #86efac;">"| Ruta del Ejecutable     : {ruta_interprete:&lt;49} |"</span>)
-print(borde)
-print(<span style="color: #86efac;">"| DECLARACIÓN: Operación confinada a localhost (127.0.0.1). Sin red externa.  |"</span>)
-print(borde)
+print(horizontal_border)
+print(<span style="color: #86efac;">"| DEFENSIVE LOCAL ENVIRONMENT TELEMETRY & AUDIT REPORT                        |"</span>)
+print(horizontal_border)
+print(f<span style="color: #86efac;">"| Responsible Analyst     : {student_name:&lt;49} |"</span>)
+print(f<span style="color: #86efac;">"| Student / Operator ID   : {student_id:&lt;49} |"</span>)
+print(f<span style="color: #86efac;">"| Technical Role          : {analyst_role:&lt;49} |"</span>)
+print(f<span style="color: #86efac;">"| Audit Timestamp         : {current_timestamp:&lt;49} |"</span>)
+print(f<span style="color: #86efac;">"| Operating System        : {system_info:&lt;49} |"</span>)
+print(f<span style="color: #86efac;">"| Kernel Release          : {os_release:&lt;49} |"</span>)
+print(f<span style="color: #86efac;">"| Python Version          : {current_version:&lt;49} |"</span>)
+print(f<span style="color: #86efac;">"| Compliance Status       : {compliance_status:&lt;49} |"</span>)
+print(f<span style="color: #86efac;">"| Isolation Status        : {isolation_status:&lt;49} |"</span>)
+print(f<span style="color: #86efac;">"| Interpreter Path        : {interpreter_path:&lt;49} |"</span>)
+print(horizontal_border)
+print(<span style="color: #86efac;">"| DECLARATION: Confined strictly to localhost (127.0.0.1). No external net.   |"</span>)
+print(horizontal_border)
     </div>
 
     <h4 class="subsubsection-title">Registro de Salida en Terminal (Evidencia de Ejecución):</h4>
     <p style="font-size: 8pt; color: var(--text-muted); margin-bottom: 4px;">Pegue o transcriba la salida generada en su terminal al ejecutar <code>python auditoria_local.py</code>:</p>
     <div class="student-output-box">
 +-----------------------------------------------------------------------------+
-| REPORTE DE TELEMETRÍA Y AUDITORÍA DE ENTORNO LOCAL DEFENSIVO                |
+| DEFENSIVE LOCAL ENVIRONMENT TELEMETRY & AUDIT REPORT                        |
 +-----------------------------------------------------------------------------+
-| Analista Responsable    : CARLOS MENDOZA                                    |
-| Credencial / ID         : DEF-2026-09                                       |
-| Rol Técnico             : Auditor Defensivo Nivel 1                         |
-| Timestamp de Auditoría  : 2026-09-10 10:20:15                               |
-| Sistema Operativo       : Linux (x86_64)                                    |
-| Versión Kernel          : 6.8.0-45-generic                                  |
-| Versión de Python       : 3.13.0                                            |
-| Estado de Conformidad   : [APROBADO: Estándar Python 3.13 activo]           |
-| Estado de Aislamiento   : Aislado (.venv activo)                            |
-| Ruta del Ejecutable     : /home/usuario/curso-python-defensivo/.venv/bin/python |
+| Responsible Analyst     : CARLOS MENDOZA                                    |
+| Student / Operator ID   : DEF-2026-09                                       |
+| Technical Role          : Defensive Security Auditor Level 1                |
+| Audit Timestamp         : 2026-09-10 10:20:15                               |
+| Operating System        : Linux (x86_64)                                    |
+| Kernel Release          : 6.8.0-45-generic                                  |
+| Python Version          : 3.13.0                                            |
+| Compliance Status       : [APPROVED: Python 3.13 Standard Active]           |
+| Isolation Status        : Isolated (.venv active)                           |
+| Interpreter Path        : /home/usuario/curso-python-defensivo/.venv/bin/python |
 +-----------------------------------------------------------------------------+
-| DECLARACIÓN: Operación confinada a localhost (127.0.0.1). Sin red externa.  |
+| DECLARATION: Confined strictly to localhost (127.0.0.1). No external net.   |
 +-----------------------------------------------------------------------------+
     </div>
 
@@ -1230,18 +1316,18 @@ print(borde)
         </tr>
         <tr>
           <td class="check-box-cell"><span class="check-square"></span></td>
-          <td>Comprobación algorítmica de versión 3.13 con <code>sys.version_info</code></td>
-          <td>Emite mensaje de aprobación condicional correcto</td>
+          <td>Comprobación de versión 3.13 con <code>is_valid_version</code> y <code>sys.version_info</code></td>
+          <td>Emite mensaje de aprobación condicional <code>[APPROVED: ...]</code></td>
         </tr>
         <tr>
           <td class="check-box-cell"><span class="check-square"></span></td>
-          <td>Captura de telemetría del SO (nombre, versión, arquitectura)</td>
+          <td>Telemetría del SO capturada en <code>os_name</code>, <code>os_release</code> y <code>os_architecture</code></td>
           <td>Datos reflejan con exactitud la máquina anfitriona</td>
         </tr>
         <tr>
           <td class="check-box-cell"><span class="check-square"></span></td>
-          <td>Salida profesional estructurada mediante f-strings y delimitadores</td>
-          <td>Reporte visual claro, alineado y con declaración de localhost</td>
+          <td>Salida profesional estructurada mediante f-strings y delimitador <code>horizontal_border</code></td>
+          <td>Reporte visual alineado con justificación <code>&lt;49</code> y declaración de localhost</td>
         </tr>
       </tbody>
     </table>
@@ -1270,11 +1356,11 @@ print(borde)
     <div class="terminal-container">
       <div class="terminal-header">
         <span>Código Erróneo — error1.py</span>
-        <span>Fallo Sembrado: Comilla no cerrada</span>
+        <span>Fallo Sembrado: Comilla no cerrada (SyntaxError)</span>
       </div>
-      <div>mensaje_seguridad = <span style="color: #86efac;">"Monitoreo activo de red local</span> <span class="comment"># Falta la comilla de cierre "</span></div>
+      <div>security_message = <span style="color: #86efac;">"Active local network monitoring</span> <span class="comment"># Missing closing quote "</span></div>
       <div style="height: 6px;"></div>
-      <div>print(mensaje_seguridad)</div>
+      <div>print(security_message)</div>
     </div>
 
     <p><strong>Traceback producido por Python 3.13 al ejecutar el script:</strong></p>
@@ -1285,14 +1371,14 @@ print(borde)
       <div class="term-spacer"></div>
 
       <div class="output">  File <span style="color: #38bdf8;">"error1.py"</span>, line <span style="color: #fbbf24;">1</span></div>
-      <div class="output">    mensaje_seguridad = <span class="err-highlight">"Monitoreo activo de red local</span></div>
-      <div class="caret-highlight">                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</div>
+      <div class="output">    security_message = <span class="err-highlight">"Active local network monitoring</span></div>
+      <div class="caret-highlight">                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</div>
       <div class="err-highlight">SyntaxError: unterminated string literal (detected at line 1)</div>
     </div>
 
     <div style="background: #ffffff; border: 1px solid var(--border-color); border-radius: 4px; padding: 8px 10px; margin-bottom: 12px; font-size: 8.5pt;">
-      <strong>Diagnóstico Pedagógico:</strong> Python detectó una cadena de texto (<code>string literal</code>) que fue abierta con comillas dobles pero nunca finalizada antes del salto de línea.
-      <br><strong>Solución:</strong> Colocar la comilla doble de cierre: <code>mensaje_seguridad = "Monitoreo activo de red local"</code>.
+      <strong>Diagnóstico Pedagógico:</strong> Python detectó una cadena de texto (<code>string literal</code>) asignada a <code>security_message</code> que fue abierta con comillas dobles pero nunca finalizada antes del salto de línea.
+      <br><strong>Solución:</strong> Colocar la comilla doble de cierre: <code>security_message = "Active local network monitoring"</code>.
     </div>
 
     <h3 class="subsection-title">Ejercicio 4.2: Error Sembrado de Indentación (IndentationError)</h3>
@@ -1303,9 +1389,9 @@ print(borde)
         <span>Código Erróneo — error2.py</span>
         <span>Fallo Sembrado: Espacio de indentación inesperado</span>
       </div>
-      <div>modo_operacion = <span style="color: #86efac;">"localhost_only"</span></div>
+      <div>operation_mode = <span style="color: #86efac;">"localhost_only"</span></div>
       <div style="height: 6px;"></div>
-      <div> <span class="caret-highlight">&middot;&middot;&middot;&middot;</span>print(f<span style="color: #86efac;">"Modo actual: {modo_operacion}"</span>) <span class="comment"># Hay espacios indebidos al inicio</span></div>
+      <div> <span class="caret-highlight">&middot;&middot;&middot;&middot;</span>print(f<span style="color: #86efac;">"Current mode: {operation_mode}"</span>) <span class="comment"># Indentation error on column 1</span></div>
     </div>
 
     <p><strong>Traceback producido por Python 3.13 al ejecutar el script:</strong></p>
@@ -1316,7 +1402,7 @@ print(borde)
       <div class="term-spacer"></div>
 
       <div class="output">  File <span style="color: #38bdf8;">"error2.py"</span>, line <span style="color: #fbbf24;">2</span></div>
-      <div class="output">    print(f<span style="color: #86efac;">"Modo actual: {modo_operacion}"</span>)</div>
+      <div class="output">    print(f<span style="color: #86efac;">"Current mode: {operation_mode}"</span>)</div>
       <div class="caret-highlight">    ^</div>
       <div class="err-highlight">IndentationError: unexpected indent</div>
     </div>
@@ -1384,9 +1470,15 @@ print(borde)
         </tr>
         <tr>
           <td class="check-box-cell"><span class="check-square"></span></td>
+          <td><strong>Ejecución real dominada (3.2)</strong></td>
+          <td><code>dir</code> / <code>ls</code>, <code>Tab</code> y <code>↑</code></td>
+          <td>Verifica ubicación previa y usa autocompletado e historial</td>
+        </tr>
+        <tr>
+          <td class="check-box-cell"><span class="check-square"></span></td>
           <td><strong>Script hola.py operativo</strong></td>
           <td><code>python hola.py</code></td>
-          <td>Imprime nombre, ID, fecha y declaración de localhost sin errores</td>
+          <td>Imprime <code>student_name</code>, <code>student_id</code> y telemetría sin errores</td>
         </tr>
         <tr>
           <td class="check-box-cell"><span class="check-square"></span></td>
@@ -1404,7 +1496,7 @@ print(borde)
           <td class="check-box-cell"><span class="check-square"></span></td>
           <td><strong>Reto auditoria_local.py completado</strong></td>
           <td><code>python auditoria_local.py</code></td>
-          <td>Genera reporte tabular autónomo con comprobación 3.13 y telemetría</td>
+          <td>Genera reporte tabular autónomo con validación <code>is_valid_version</code></td>
         </tr>
       </tbody>
     </table>

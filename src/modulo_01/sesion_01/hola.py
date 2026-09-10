@@ -40,37 +40,38 @@ def main() -> None:
     """Execute local defensive environment verification and display audit telemetry."""
     # --- 1. OPERATOR METADATA ---
     # Replace these placeholders with your authorized student identity details
-    estudiante: str = "ESTUDIANTE DEFENSIVO"
-    matricula_id: str = "DEF-2026-09"
-    marca_tiempo: str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    student_name: str = "DEFENSIVE STUDENT"
+    student_id: str = "DEF-2026-09"
+    current_timestamp: str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     # --- 2. PYTHON RUNTIME INSPECTION ---
     python_version: str = sys.version.split()[0]
-    executable_path: str = sys.executable
-    is_version_approved: bool = verify_python_version()
+    interpreter_path: str = sys.executable
+    expected_version: str = "3.13.x"
+    is_valid_version: bool = verify_python_version()
 
     # --- 3. FORMATTED AUDIT REPORT ---
     print("==================================================")
-    print("[ESTADO] INICIALIZACIÓN DE ENTORNO DEFENSIVO LOCAL")
+    print("[STATUS] LOCAL DEFENSIVE ENVIRONMENT INITIALIZATION")
     print("==================================================")
-    print(f"Operador Autorizado : {estudiante} (ID: {matricula_id})")
-    print(f"Timestamp Local     : {marca_tiempo}")
-    print(f"Intérprete Python   : {python_version}")
-    print(f"Ruta del Ejecutable : {executable_path}")
+    print(f"Authorized Operator  : {student_name} (ID: {student_id})")
+    print(f"Local Timestamp      : {current_timestamp}")
+    print(f"Python Interpreter   : {python_version}")
+    print(f"Executable Path      : {interpreter_path}")
 
     # Version approval verification
-    if is_version_approved:
-        print("Conformidad Versión : [APROBADO: Estándar Python 3.13 activo]")
+    if is_valid_version:
+        print("Version Compliance   : [APPROVED: Active Python 3.13 standard]")
     else:
-        print(f"Conformidad Versión : [ALERTA: Se detectó {python_version}, se requiere 3.13.x]")
+        print(f"Version Compliance   : [ALERT: Detected {python_version}, expected {expected_version}]")
 
     # Ethical confinement and scope declarations
     print("--------------------------------------------------")
-    print("[DECLARACIÓN] Operación exclusiva en localhost y fixtures.")
-    if ".venv" in executable_path:
-        print("[DECLARACIÓN] El entorno virtual está verificado y activo.")
+    print("[DECLARATION] Exclusive operation on localhost and local fixtures.")
+    if ".venv" in interpreter_path:
+        print("[DECLARATION] Virtual environment verified and active.")
     else:
-        print("[ADVERTENCIA] El intérprete activo no reside dentro de '.venv'.")
+        print("[WARNING] Active interpreter does not reside within '.venv'.")
     print("==================================================")
 
 
