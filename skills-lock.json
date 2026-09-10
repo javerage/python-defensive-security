@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "skills": {
+    "course-creation": {
+      "source": "omer-metin/skills-for-antigravity",
+      "sourceType": "github",
+      "skillPath": "skills/course-creation/SKILL.md",
+      "computedHash": "f699b4ae6ab855ab4e052f51dd6f3663bc031120f94a9a8819eada2d8bd386e9"
+    },
+    "course-guide": {
+      "source": "rohitg00/ai-engineering-from-scratch",
+      "sourceType": "github",
+      "skillPath": "skills/course-guide/SKILL.md",
+      "computedHash": "17f5c2f6040cbe7cf989f91db0247414ddfdd5e0400efa9cbb7868541a63342b"
+    },
+    "curriculum-knowledge-architecture-designer": {
+      "source": "garethmanning/education-agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/curriculum-assessment/curriculum-knowledge-architecture-designer/SKILL.md",
+      "computedHash": "d3fb625833d32bd68fbce0beec2b3c8fff494e40d9b63f0798085146e2740c0c"
+    }
+  }
+}

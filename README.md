@@ -5,8 +5,11 @@
 [![Curriculum: 40 Sessions](https://img.shields.io/badge/curriculum-40%20sessions-green.svg)](#curriculum-roadmap)
 [![Security Focus: Defensive](https://img.shields.io/badge/focus-defensive%20security-crimson.svg)](#ethical-confinement--rules-of-engagement)
 [![Lab Scope: Localhost Only](https://img.shields.io/badge/scope-127.0.0.1%20only-blueviolet.svg)](#ethical-confinement--rules-of-engagement)
+[![GitHub Pages](https://img.shields.io/badge/docs-GitHub%20Pages-2563eb.svg)](https://javerage.github.io/python-defensive-security/)
 
 > **Hands-on 40-session curriculum: from Python programming fundamentals to defensive security automation, log analysis, and local lab verification.**
+
+🌐 **Live Course Portal & Workbooks:** [https://javerage.github.io/python-defensive-security/](https://javerage.github.io/python-defensive-security/)
 
 ---
 
@@ -42,7 +45,8 @@ python-defensive-security/
 │           ├── hola.py          # Environment verification baseline script
 │           ├── auditoria_local.py # Student autonomous local audit template
 │           └── README.md        # Session 01 execution guide and instructions
-├── materiales/                  # Public student workbooks and interactive guides
+├── docs/                        # Public student workbooks & GitHub Pages portal
+│   ├── index.html               # Web portal index for interactive student access
 │   ├── COURSE_BRANDING_EN.md    # Canonical naming specifications and course metadata
 │   └── modulo_01/               # Module 01: Environment and Syntax
 │       └── sesion_01/
@@ -122,9 +126,9 @@ Refer to [`src/modulo_01/sesion_01/README.md`](src/modulo_01/sesion_01/README.md
 
 ## How to Use Student Workbooks
 
-Student materials (such as `material_estudiante_sesion_01.html`) are delivered as **100% self-contained HTML5 documents**:
-- **Offline Capable:** No external CDN or internet connection is required to render styles, code blocks, or worksheets.
-- **Browser-Ready:** Double-click any `.html` file to open it in Chrome, Firefox, Edge, or Safari.
+Student materials are accessible online via GitHub Pages or offline directly in the browser:
+- **Online (Interactive Portal):** Open [https://javerage.github.io/python-defensive-security/](https://javerage.github.io/python-defensive-security/) in any modern browser.
+- **Offline Capable:** No external CDN or internet connection is required. Double-click `material_estudiante_sesion_01.html` directly from disk.
 - **Print / PDF Friendly:** Pre-configured with `@media print` CSS rules. Press `Ctrl + P` (or `Cmd + P`) and select **Save as PDF** on A4 paper for a clean printable workbook.
 
 ---
