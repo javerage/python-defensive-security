@@ -1331,6 +1331,22 @@ print(horizontal_border)
         </tr>
       </tbody>
     </table>
+
+    <!-- RETO EXTRA DE APRENDIZAJE: DIAGNÓSTICO Y TOLERANCIA DE VERSIONES -->
+    <div class="callout callout-warning" style="margin-top: 14px; border-left-color: #d97706; background-color: #fffbeb;">
+      <div class="callout-title" style="color: #92400e;">🏆 Reto Extra de Aprendizaje (Troubleshooting Challenge): Tolerancia de Versiones</div>
+      <p><strong>¿Qué ocurre si tu máquina tiene instalada una versión diferente como Python 3.12 o 3.14?</strong></p>
+      <p>En el Paso 3, la condición original evalúa una igualdad estricta:</p>
+      <div style="background: #1e293b; color: #f8fafc; padding: 6px 10px; border-radius: 4px; font-family: monospace; font-size: 8.5pt; margin: 6px 0;">
+        is_valid_version = sys.version_info.major == 3 and sys.version_info.minor == 13
+      </div>
+      <p>Si ejecutas con Python 3.12 o 3.14, verás que tu script emite una alerta de versión no autorizada. <strong>Tu desafío consiste en:</strong></p>
+      <ol style="margin-left: 20px; font-size: 8.5pt; line-height: 1.4; margin-top: 4px;">
+        <li>Investigar cómo modificar la condición booleana para que acepte tanto la versión oficial (3.13) como cualquier versión compatible superior o igual a 3.12 utilizando el operador mayor o igual (<code>&gt;=</code>).</li>
+        <li><em>Pista de código:</em> <code>is_valid_version = sys.version_info.major == 3 and sys.version_info.minor &gt;= 12</code></li>
+        <li>Si quieres ir un paso más allá, crea dos banderas booleanas distintas: <code>is_exact_certified</code> (para 3.13) y <code>is_compatible</code> (para &gt;= 3.12), y ajusta el texto en <code>compliance_status</code>. ¡Esto demuestra dominio de variables y lógica condicional desde tu primera clase!</li>
+      </ol>
+    </div>
   </section>
 
   <!-- =======================================================================

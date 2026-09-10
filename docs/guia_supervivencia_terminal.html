@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hoja de Supervivencia de Terminal | Python for Defensive Security</title>
+  <style>
+    :root {
+      --primary: #0f172a;
+      --accent: #2563eb;
+      --accent-dark: #1d4ed8;
+      --success: #16a34a;
+      --warning: #d97706;
+      --danger: #dc2626;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --border: #e2e8f0;
+      --text: #334155;
+      --text-dark: #0f172a;
+      --code-bg: #1e293b;
+      --code-text: #38bdf8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.4;
+      font-size: 13px;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      background: var(--card-bg);
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      border: 1px solid var(--border);
+    }
+
+    header {
+      border-bottom: 2px solid var(--accent);
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .header-title h1 {
+      font-size: 20px;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 800;
+    }
+
+    .header-title p {
+      font-size: 12px;
+      color: #64748b;
+      font-weight: 500;
+    }
+
+    .badge-course {
+      background: #eff6ff;
+      color: var(--accent);
+      padding: 4px 10px;
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 700;
+      border: 1px solid #bfdbfe;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .card {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 14px;
+      position: relative;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 8px;
+      border-bottom: 1px solid #f1f5f9;
+      padding-bottom: 6px;
+    }
+
+    .card-header h2 {
+      font-size: 13px;
+      color: var(--text-dark);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    .card-icon {
+      font-size: 15px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+
+    th, td {
+      padding: 5px 6px;
+      text-align: left;
+      border-bottom: 1px solid #f1f5f9;
+      vertical-align: top;
+    }
+
+    th {
+      color: #64748b;
+      font-weight: 600;
+      font-size: 11px;
+      text-transform: uppercase;
+      background: #f8fafc;
+    }
+
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 11.5px;
+      background: #f1f5f9;
+      color: #0f172a;
+      padding: 2px 5px;
+      border-radius: 4px;
+      border: 1px solid #e2e8f0;
+      white-space: nowrap;
+      font-weight: 600;
+    }
+
+    .code-term {
+      background: var(--code-bg);
+      color: var(--code-text);
+      border: none;
+      display: block;
+      padding: 6px 8px;
+      border-radius: 6px;
+      margin-top: 4px;
+      font-size: 11.5px;
+    }
+
+    kbd {
+      background-color: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-radius: 4px;
+      box-shadow: 0 1px 1px rgba(0,0,0,0.15), 0 1px 0 rgba(255,255,255,0.8) inset;
+      color: #334155;
+      display: inline-block;
+      font-size: 10.5px;
+      font-weight: 700;
+      line-height: 1;
+      padding: 3px 6px;
+      white-space: nowrap;
+      font-family: inherit;
+    }
+
+    .ninja-box {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 8px;
+      padding: 10px 12px;
+    }
+
+    .ninja-box h3 {
+      color: #166534;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .alert-box {
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      border-radius: 8px;
+      padding: 10px 12px;
+    }
+
+    .alert-box h3 {
+      color: #92400e;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .doctor-box {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-radius: 8px;
+      padding: 10px 12px;
+    }
+
+    .doctor-box h3 {
+      color: #1e40af;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .footer {
+      margin-top: 14px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      font-size: 10.5px;
+      color: #64748b;
+    }
+
+    .footer a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    @media print {
+      @page {
+        size: A4 portrait;
+        margin: 8mm 8mm 8mm 8mm;
+      }
+      body {
+        background: #ffffff;
+        padding: 0;
+        font-size: 11px;
+      }
+      .container {
+        border: none;
+        box-shadow: none;
+        padding: 0;
+        max-width: 100%;
+      }
+      header {
+        margin-bottom: 10px;
+        padding-bottom: 8px;
+      }
+      .grid-2, .grid-3 {
+        gap: 8px;
+        margin-bottom: 8px;
+      }
+      .card {
+        padding: 8px 10px;
+      }
+      code {
+        font-size: 10.5px;
+      }
+      .footer {
+        margin-top: 8px;
+        padding-top: 6px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <div class="header-title">
+      <h1>⚡ Hoja de Supervivencia de Terminal</h1>
+      <p>Comandos Esenciales y Atajos de Productividad para Analistas de Ciberseguridad Defensiva</p>
+    </div>
+    <div class="badge-course">PyDefSec | Lab Essentials</div>
+  </header>
+
+  <!-- FILA 1: Navegación y Entornos Virtuales -->
+  <div class="grid-2">
+    <!-- Card 1: Navegación -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-icon">📂</span>
+        <h2>1. Navegación en el Sistema de Archivos</h2>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 28%;">Acción</th>
+            <th style="width: 36%;">Windows (PowerShell)</th>
+            <th style="width: 36%;">Linux / macOS (Bash/Zsh)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>¿Dónde estoy?</strong></td>
+            <td><code>pwd</code></td>
+            <td><code>pwd</code></td>
+          </tr>
+          <tr>
+            <td><strong>Listar archivos</strong></td>
+            <td><code>dir</code></td>
+            <td><code>ls -la</code></td>
+          </tr>
+          <tr>
+            <td><strong>Entrar a carpeta</strong></td>
+            <td><code>cd nombre_carpeta</code></td>
+            <td><code>cd nombre_carpeta</code></td>
+          </tr>
+          <tr>
+            <td><strong>Subir un nivel</strong></td>
+            <td><code>cd ..</code></td>
+            <td><code>cd ..</code></td>
+          </tr>
+          <tr>
+            <td><strong>Crear carpeta</strong></td>
+            <td><code>mkdir mi_laboratorio</code></td>
+            <td><code>mkdir mi_laboratorio</code></td>
+          </tr>
+          <tr>
+            <td><strong>Limpiar pantalla</strong></td>
+            <td><code>cls</code> o <code>clear</code></td>
+            <td><code>clear</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Card 2: Entornos Virtuales -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-icon">🛡️</span>
+        <h2>2. Entorno Virtual Aislado (venv)</h2>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 25%;">Paso</th>
+            <th style="width: 40%;">Windows (PowerShell)</th>
+            <th style="width: 35%;">Linux / macOS</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>1. Crear</strong></td>
+            <td><code>python -m venv .venv</code></td>
+            <td><code>python3 -m venv .venv</code></td>
+          </tr>
+          <tr>
+            <td><strong>2. Activar</strong></td>
+            <td><code>.venv\Scripts\Activate.ps1</code></td>
+            <td><code>source .venv/bin/activate</code></td>
+          </tr>
+          <tr>
+            <td><strong>¿Activo?</strong></td>
+            <td colspan="2"><span style="color: var(--success); font-weight: bold;">✔ Tu prompt debe iniciar con:</span> <code>(.venv)</code></td>
+          </tr>
+          <tr>
+            <td><strong>3. Salir</strong></td>
+            <td><code>deactivate</code></td>
+            <td><code>deactivate</code></td>
+          </tr>
+          <tr>
+            <td><strong>Desbloqueo</strong></td>
+            <td colspan="2"><span style="color: var(--danger); font-weight: bold;">Si Windows bloquea scripts:</span><br>
+            <code>Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- FILA 2: Ejecución, Trucos Ninja y Diagnóstico Rápido -->
+  <div class="grid-3">
+    <!-- Card 3: Ejecución de Scripts -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-icon">🚀</span>
+        <h2>3. Ejecutar Programas</h2>
+      </div>
+      <p style="font-size: 11.5px; margin-bottom: 6px;">Siempre confirma que el archivo esté en tu carpeta con <code>dir</code> o <code>ls</code> antes de ejecutar:</p>
+      
+      <div style="margin-bottom: 8px;">
+        <span style="font-size: 11px; font-weight: bold; color: #475569;">Ejecutar script en Windows / macOS / Linux:</span>
+        <code class="code-term">python hola.py</code>
+      </div>
+
+      <div>
+        <span style="font-size: 11px; font-weight: bold; color: #475569;">Ejecutar reto de auditoría:</span>
+        <code class="code-term">python auditoria_local.py</code>
+      </div>
+    </div>
+
+    <!-- Card 4: Trucos Ninja -->
+    <div class="ninja-box">
+      <h3><span>🥷</span> 4 Atajos Ninja de Productividad</h3>
+      <ul style="padding-left: 16px; font-size: 11.5px; line-height: 1.5;">
+        <li><kbd>Tab</kbd> : <strong>Autocompleta</strong> nombres de archivo y carpetas (¡evita errores de dedo!).</li>
+        <li><kbd>↑</kbd> / <kbd>↓</kbd> : <strong>Historial</strong> de comandos (no vuelvas a escribir comandos largos).</li>
+        <li><kbd>Ctrl</kbd> + <kbd>C</kbd> : <strong>Abortar / Detener</strong> de emergencia cualquier programa trabado.</li>
+        <li><kbd>Ctrl</kbd> + <kbd>L</kbd> : Limpiar la pantalla instantáneamente en bash/zsh.</li>
+      </ul>
+    </div>
+
+    <!-- Card 5: Doctor de Entorno -->
+    <div class="doctor-box">
+      <h3><span>🩺</span> Diagnóstico en 1-Clic</h3>
+      <p style="font-size: 11.5px; margin-bottom: 6px;">¿Dudas si tu entorno está bien configurado? Ejecuta el verificador oficial:</p>
+      <code class="code-term">python doctor.py</code>
+      <p style="font-size: 11px; color: #1e40af; margin-top: 6px;">
+        Revisa automáticamente: versión de Python, aislamiento de <code>.venv</code>, permisos de PowerShell y sistema operativo.
+      </p>
+    </div>
+  </div>
+
+  <!-- FILA 3: Tarjeta de Contingencias y Alertas Críticas -->
+  <div class="alert-box">
+    <h3><span>⚠️</span> Semáforo de Contingencias: ¿Qué hacer si algo sale mal?</h3>
+    <table style="font-size: 11.5px;">
+      <tbody>
+        <tr>
+          <td style="width: 32%;"><strong>Aparecen los caracteres <code>&gt;&gt;&gt;</code></strong></td>
+          <td style="width: 68%;">Estás dentro de la consola interactiva (REPL) de Python, <em>no en la terminal del sistema</em>. Sal de ahí escribiendo <code>exit()</code> y presiona <kbd>Enter</kbd>.</td>
+        </tr>
+        <tr>
+          <td><strong>Error: <code>File ... cannot be loaded (PSSecurityException)</code></strong></td>
+          <td>Windows bloquea scripts por seguridad. Ejecuta en PowerShell: <code>Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass</code> y vuelve a activar el venv.</td>
+        </tr>
+        <tr>
+          <td><strong>VS Code dice "WSL" o "Ubuntu" estando en Windows</strong></td>
+          <td>VS Code se conectó a una máquina virtual de Linux por error. Cierra esa ventana y en tu terminal selecciona <strong>Windows PowerShell</strong> como perfil predeterminado.</td>
+        </tr>
+        <tr>
+          <td><strong>El prompt no muestra <code>(.venv)</code></strong></td>
+          <td>No has activado tu entorno virtual. Ejecuta <code>.venv\Scripts\Activate.ps1</code> (Windows) o <code>source .venv/bin/activate</code> (Linux/macOS) antes de correr tus scripts.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="footer">
+    <span>Curso: <strong>Python for Defensive Security (PyDefSec)</strong> — Material de consulta rápida para estudiantes</span>
+    <span>Portal Oficial: <a href="https://javerage.github.io/python-defensive-security/" target="_blank">javerage.github.io/python-defensive-security</a></span>
+  </div>
+</div>
+
+</body>
+</html>
