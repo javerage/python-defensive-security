@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Workbook — Session 02 | Python for Defensive Security</title>
+  <style>
+    /* ==========================================================================
+       ESTILOS GLOBALES Y TIPOGRAFÍA ACADÉMICA NEUTRAL (PyDefSec)
+       ========================================================================== */
+    :root {
+      --primary: #1e3a8a;          /* Azul institucional profundo */
+      --primary-dark: #0f172a;     /* Pizarra oscura */
+      --primary-light: #eff6ff;    /* Azul tenue de fondo */
+      --secondary: #0284c7;        /* Azul cian de acento */
+      --accent-red: #b91c1c;       /* Rojo advertencia / ético */
+      --accent-red-light: #fef2f2;
+      --accent-amber: #b45309;     /* Ámbar aviso */
+      --accent-amber-light: #fffbeb;
+      --accent-green: #15803d;     /* Verde éxito / verificación */
+      --accent-green-light: #f0fdf4;
+      --accent-purple: #6b21a8;    /* Púrpura sintaxis / conceptos */
+      --accent-purple-light: #faf5ff;
+      --text-main: #1f2937;        /* Texto principal */
+      --text-muted: #4b5563;       /* Texto secundario */
+      --border-color: #d1d5db;     /* Bordes sutiles */
+      --border-light: #e5e7eb;
+      --bg-card: #f9fafb;
+      --bg-terminal: #0f172a;
+      --term-text: #f8fafc;
+      --term-prompt: #38bdf8;
+      --term-accent: #4ade80;
+      --term-warn: #fbbf24;
+      --term-err: #f87171;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-size: 9pt;
+      line-height: 1.5;
+      color: var(--text-main);
+      background-color: #ffffff;
+      padding: 0;
+      margin: 0;
+    }
+
+    .page-container {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 20px 28px;
+    }
+
+    /* ==========================================================================
+       ENCABEZADO INSTITUCIONAL Y METADATOS DEL ESTUDIANTE
+       ========================================================================== */
+    .header-institution {
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 10px;
+      margin-bottom: 14px;
+    }
+
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 6px;
+    }
+
+    .inst-titles h1 {
+      font-size: 14pt;
+      color: var(--primary);
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.2px;
+    }
+
+    .inst-titles h2 {
+      font-size: 10.5pt;
+      color: var(--text-muted);
+      font-weight: 600;
+      margin-top: 2px;
+    }
+
+    .badge-container {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 3px;
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 7pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 2px 7px;
+      border-radius: 4px;
+      border: 1px solid transparent;
+    }
+
+    .badge-primary {
+      background-color: var(--primary-light);
+      color: var(--primary);
+      border-color: #bfdbfe;
+    }
+
+    .badge-neutral {
+      background-color: #f3f4f6;
+      color: #374151;
+      border-color: #e5e7eb;
+    }
+
+    .badge-alert {
+      background-color: var(--accent-red-light);
+      color: var(--accent-red);
+      border-color: #fecaca;
+    }
+
+    .badge-purple {
+      background-color: var(--accent-purple-light);
+      color: var(--accent-purple);
+      border-color: #e9d5ff;
+    }
+
+    /* Caja de Datos del Estudiante */
+    .student-data-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 10px 12px;
+      margin-bottom: 16px;
+    }
+
+    .data-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1.2fr 1fr;
+      gap: 8px 14px;
+      align-items: end;
+    }
+
+    .data-field {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .data-label {
+      font-size: 7pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 2px;
+    }
+
+    .data-line {
+      border-bottom: 1px dashed var(--border-color);
+      height: 18px;
+      font-size: 8.5pt;
+      color: #111827;
+      font-weight: 500;
+    }
+
+    /* ==========================================================================
+       TÍTULOS DE SECCIONES
+       ========================================================================== */
+    h2.section-title {
+      font-size: 11pt;
+      color: var(--primary);
+      border-bottom: 1.5px solid var(--border-light);
+      padding-bottom: 3px;
+      margin-top: 18px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    h3.subsection-title {
+      font-size: 9.5pt;
+      color: var(--primary-dark);
+      margin-top: 12px;
+      margin-bottom: 5px;
+      font-weight: 600;
+    }
+
+    h4.subsubsection-title {
+      font-size: 8.5pt;
+      color: var(--text-muted);
+      margin-top: 8px;
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    p {
+      margin-bottom: 8px;
+      text-align: justify;
+    }
+
+    ul, ol {
+      margin-left: 18px;
+      margin-bottom: 8px;
+    }
+
+    li {
+      margin-bottom: 3px;
+    }
+
+    /* ==========================================================================
+       CALLOUTS / CUADROS DE ÉNFASIS
+       ========================================================================== */
+    .callout {
+      border-left: 4px solid var(--primary);
+      background-color: var(--primary-light);
+      padding: 8px 12px;
+      border-radius: 0 5px 5px 0;
+      margin: 10px 0;
+      font-size: 8.5pt;
+    }
+
+    .callout-title {
+      font-weight: 700;
+      font-size: 9pt;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .callout-info {
+      border-left-color: var(--secondary);
+      background-color: #f0f9ff;
+    }
+    .callout-info .callout-title { color: #0369a1; }
+
+    .callout-critical {
+      border-left-color: var(--accent-red);
+      background-color: var(--accent-red-light);
+      border: 1px solid #fecaca;
+      border-left-width: 4px;
+    }
+    .callout-critical .callout-title { color: var(--accent-red); }
+
+    .callout-warning {
+      border-left-color: var(--accent-amber);
+      background-color: var(--accent-amber-light);
+    }
+    .callout-warning .callout-title { color: var(--accent-amber); }
+
+    .callout-tip {
+      border-left-color: var(--accent-green);
+      background-color: var(--accent-green-light);
+    }
+    .callout-tip .callout-title { color: var(--accent-green); }
+
+    .callout-purple {
+      border-left-color: var(--accent-purple);
+      background-color: var(--accent-purple-light);
+    }
+    .callout-purple .callout-title { color: var(--accent-purple); }
+
+    /* ==========================================================================
+       TERMINALES Y BLOQUES DE CÓDIGO
+       ========================================================================== */
+    .terminal-container {
+      background-color: var(--bg-terminal);
+      color: var(--term-text);
+      border-radius: 5px;
+      padding: 10px 12px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 8pt;
+      line-height: 1.45;
+      margin: 10px 0 12px 0;
+      overflow-x: auto;
+      border: 1px solid #334155;
+    }
+
+    .terminal-header {
+      color: #94a3b8;
+      font-size: 7pt;
+      border-bottom: 1px solid #334155;
+      padding-bottom: 3px;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .prompt-win { color: var(--term-prompt); font-weight: 600; }
+    .prompt-nix { color: var(--term-accent); font-weight: 600; }
+    .cmd { color: #ffffff; font-weight: 600; }
+    .output { color: #cbd5e1; }
+    .comment { color: #64748b; font-style: italic; }
+    .err-highlight { color: var(--term-err); font-weight: bold; }
+    .caret-highlight { color: var(--term-warn); font-weight: bold; }
+
+    /* Pestañas multiplataforma visuales */
+    .os-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+      margin: 8px 0 12px 0;
+    }
+
+    .os-card {
+      background: #f8fafc;
+      border: 1px solid var(--border-color);
+      border-radius: 5px;
+      padding: 8px 10px;
+    }
+
+    .os-title {
+      font-size: 7.5pt;
+      font-weight: 700;
+      color: var(--primary-dark);
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--border-light);
+      padding-bottom: 3px;
+      margin-bottom: 6px;
+    }
+
+    .os-code {
+      font-family: ui-monospace, Menlo, Monaco, Consolas, monospace;
+      font-size: 7.5pt;
+      background: #ffffff;
+      padding: 6px 8px;
+      border-radius: 4px;
+      border: 1px solid #cbd5e1;
+      white-space: pre-wrap;
+      word-break: break-word;
+      color: #0f172a;
+      line-height: 1.5;
+    }
+
+    /* ==========================================================================
+       TABLAS Y CHECKLISTS
+       ========================================================================== */
+    table.data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 8px 0 12px 0;
+      font-size: 8pt;
+    }
+
+    table.data-table th,
+    table.data-table td {
+      border: 1px solid var(--border-color);
+      padding: 5px 7px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    table.data-table th {
+      background-color: #f1f5f9;
+      color: var(--primary-dark);
+      font-weight: 700;
+      font-size: 7.5pt;
+      text-transform: uppercase;
+    }
+
+    table.data-table tr:nth-child(even) {
+      background-color: #f8fafc;
+    }
+
+    .check-box-cell {
+      text-align: center;
+      width: 38px;
+      vertical-align: middle;
+    }
+
+    .check-square {
+      display: inline-block;
+      width: 13px;
+      height: 13px;
+      border: 1.5px solid #4b5563;
+      border-radius: 3px;
+      vertical-align: middle;
+      background-color: #ffffff;
+    }
+
+    /* Tarjetas de error / Troubleshooting */
+    .trouble-card {
+      border: 1px solid var(--border-color);
+      border-left: 4px solid var(--accent-amber);
+      background-color: #ffffff;
+      border-radius: 4px;
+      padding: 8px 10px;
+      margin-bottom: 10px;
+      font-size: 8pt;
+    }
+
+    .trouble-card.trouble-critical {
+      border-left-color: var(--accent-red);
+    }
+
+    .trouble-title {
+      font-weight: 700;
+      font-size: 8.5pt;
+      color: var(--primary-dark);
+      margin-bottom: 3px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .trouble-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 8px;
+      margin-top: 5px;
+      background: #f8fafc;
+      padding: 6px 8px;
+      border-radius: 4px;
+      border: 1px solid var(--border-light);
+    }
+
+    /* Cajas de código para estudiante / retos */
+    .student-code-box {
+      border: 1px dashed #64748b;
+      background-color: #fbfcfe;
+      border-radius: 5px;
+      padding: 8px 10px;
+      margin: 6px 0 10px 0;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 7.5pt;
+      line-height: 1.45;
+      color: #334155;
+      white-space: pre-wrap;
+    }
+
+    .student-output-box {
+      border: 1px dashed #0284c7;
+      background-color: #f0f9ff;
+      border-radius: 5px;
+      padding: 8px 10px;
+      margin: 6px 0 10px 0;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 7.5pt;
+      line-height: 1.4;
+      color: #0369a1;
+      white-space: pre-wrap;
+    }
+
+    /* Bloque de firma */
+    .signature-box {
+      margin-top: 14px;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 10px 14px;
+      background-color: #ffffff;
+    }
+
+    .signature-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 10px;
+    }
+
+    .sig-line {
+      border-top: 1px solid #94a3b8;
+      padding-top: 4px;
+      text-align: center;
+      font-size: 7.5pt;
+      color: var(--text-muted);
+    }
+
+    /* ==========================================================================
+       REGLAS DE IMPRESIÓN Y REPRODUCCIÓN FÍSICA (A4)
+       ========================================================================== */
+    @page {
+      size: A4 portrait;
+      margin: 10mm 12mm 12mm 12mm;
+    }
+
+    @media print {
+      body {
+        font-size: 8pt;
+        line-height: 1.35;
+        background-color: #ffffff;
+      }
+
+      .page-container {
+        max-width: 100%;
+        padding: 0;
+        margin: 0;
+      }
+
+      .page-break {
+        page-break-before: always;
+        break-before: page;
+      }
+
+      .callout, .terminal-container, .student-code-box, .student-output-box,
+      .trouble-card, .signature-box, .os-tabs, table.data-table {
+        page-break-inside: avoid;
+        break-inside: avoid;
+      }
+
+      .badge {
+        border: 1px solid #cbd5e1 !important;
+      }
+
+      .terminal-container {
+        border: 1px solid #000000;
+        background-color: #0f172a !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="page-container">
+
+  <!-- =======================================================================
+       ENCABEZADO INSTITUCIONAL
+       ======================================================================= -->
+  <header class="header-institution">
+    <div class="header-top">
+      <div class="inst-titles">
+        <h1>Python for Defensive Security: Fundamentals &amp; Local Lab Tooling</h1>
+        <h2>Cuaderno de Trabajo Práctico — Sesión 02: Tipos de Datos, Entrada y Conversiones</h2>
+      </div>
+      <div class="badge-container">
+        <span class="badge badge-primary">SESIÓN 02 / 40</span>
+        <span class="badge badge-neutral">MÓDULO 01</span>
+        <span class="badge badge-alert">&#x1F512; DATOS LOCALES — SIN CONEXIONES DE RED</span>
+        <span class="badge badge-purple">&#x23F1; 60 MINUTOS EXACTOS</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- =======================================================================
+       METADATOS DEL ESTUDIANTE
+       ======================================================================= -->
+  <section class="student-data-card">
+    <div class="data-grid">
+      <div class="data-field">
+        <span class="data-label">Nombre del Estudiante / Operador:</span>
+        <div class="data-line"></div>
+      </div>
+      <div class="data-field">
+        <span class="data-label">Identificador / Matrícula:</span>
+        <div class="data-line"></div>
+      </div>
+      <div class="data-field">
+        <span class="data-label">Sistema Operativo Anfitrión:</span>
+        <div class="data-line">[ ] Windows &nbsp; [ ] macOS &nbsp; [ ] Linux</div>
+      </div>
+      <div class="data-field">
+        <span class="data-label">Fecha de Realización:</span>
+        <div class="data-line"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =======================================================================
+       1. OBJETIVOS DE APRENDIZAJE Y MARCO ÉTICO
+       ======================================================================= -->
+  <section>
+    <h2 class="section-title">1. Objetivos de Aprendizaje y Marco Ético</h2>
+    
+    <p>Al concluir esta sesión de 60 minutos, serás capaz de:</p>
+    <ul>
+      <li><strong>Reconocer tipos básicos:</strong> Distinguir <code>str</code>, <code>int</code>, <code>float</code> y <code>bool</code> en tu propio programa.</li>
+      <li><strong>Entrada de texto:</strong> Explicar que <code>input()</code> siempre devuelve texto (<code>str</code>), incluso si escribes dígitos.</li>
+      <li><strong>Conversión:</strong> Convertir ese texto con <code>int()</code> y <code>float()</code> antes de calcular.</li>
+      <li><strong>Operadores:</strong> Aplicar un operador aritmético (<code>*</code>) para una métrica y uno de comparación (<code>&gt;=</code>) para una decisión.</li>
+      <li><strong>Comunicación:</strong> Mostrar los resultados en un resumen simple y legible con <code>print()</code>: un encabezado más cinco líneas de datos.</li>
+    </ul>
+
+    <p>La secuencia de toda la sesión es explícita: <strong>entrada de texto → conversión → cálculo → decisión → comunicación</strong>.</p>
+
+    <div class="callout callout-info">
+      <div class="callout-title">&#x1F4CC; El repositorio es solamente respaldo</div>
+      <p style="margin-bottom: 0;">No necesitas clonar el repositorio ni conocer su estructura. Trabajarás en <strong>tu proyecto de la sesión 01</strong> (<code>curso-python-defensivo</code>) y crearás manualmente el archivo <code>perfil_operador.py</code>.</p>
+    </div>
+
+    <div class="callout callout-critical">
+      <div class="callout-title">&#x26A0;&#xFE0F; Compromiso Ético del Laboratorio Local</div>
+      <p style="margin-bottom: 0;">Todo el trabajo de esta sesión usa <strong>datos locales escritos por ti en tu propia máquina</strong>. No hay conexiones de red ni destinos externos.</p>
+    </div>
+  </section>
+
+  <!-- =======================================================================
+       2. FUNDAMENTOS CONCEPTUALES DE LA SESIÓN
+       ======================================================================= -->
+  <section>
+    <h2 class="section-title">2. Fundamentos Conceptuales de la Sesión</h2>
+
+    <p>
+      En Python, una <strong>variable</strong> es un nombre que apunta a un valor en memoria. Cada valor tiene un <strong>tipo</strong>: Python lo revisa antes de operar y no mezcla tipos sin tu permiso (por eso sumar texto con números produce un error en vez de un resultado corrupto).
+    </p>
+
+    <h3 class="subsection-title">Cómo nace una variable en Python (en clase, sin evaluar)</h3>
+    <p style="font-size: 8.5pt;">
+      En Python asignas un valor <strong>sin declarar antes el tipo</strong>:
+    </p>
+    <div class="student-code-box">failed_attempts = 5
+print(type(failed_attempts))  # Muestra: &lt;class 'int'&gt;</div>
+    <p style="font-size: 8.5pt;">
+      El <strong>nombre</strong> referencia un valor y el <strong>valor</strong> tiene el tipo. La función <code>type()</code> es solo una linterna para mirarlo; no es un tema evaluado.
+    </p>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Lenguaje</th>
+          <th>Cómo se escribe</th>
+          <th>Qué significa</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Python</strong></td>
+          <td><code>failed_attempts = 5</code></td>
+          <td>Asignas sin declarar el tipo.</td>
+        </tr>
+        <tr>
+          <td><strong>C / Java</strong></td>
+          <td><code>int failed_attempts = 5;</code></td>
+          <td>Declaras el tipo antes de asignar.</td>
+        </tr>
+        <tr>
+          <td><strong>JavaScript</strong></td>
+          <td><code>let failed_attempts = 5;</code></td>
+          <td><code>let</code> declara el enlace, pero no escribe el tipo del valor.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout callout-tip" style="margin: 8px 0;">
+      <div class="callout-title">&#x1F4CC; Tres precisiones y nada más</div>
+      <p style="margin-bottom: 3px; font-size: 8pt;">
+        <strong>Dinámico pero fuerte:</strong> no declaras tipos, pero Python tampoco mezcla automáticamente texto y números en operaciones incompatibles (por eso existe el <code>TypeError</code> de la sección 5).
+      </p>
+      <p style="margin-bottom: 3px; font-size: 8pt;">
+        <strong>Un solo <code>int</code>:</strong> Python 3 usa un entero de precisión arbitraria; no tiene <code>byte</code>, <code>short</code>, <code>int</code> y <code>long</code> de distinto rango como otros lenguajes (esos nombres, y <code>TINYINT</code> o <code>SMALLINT</code>, los verás en bases de datos). No es memoria infinita: el límite práctico es la memoria disponible.
+      </p>
+      <p style="margin-bottom: 0; font-size: 8pt;">
+        <strong>Alcance de hoy:</strong> en esta sesión trabajamos <code>str</code>, <code>int</code>, <code>float</code> y <code>bool</code>. Python posee otros tipos incorporados y colecciones que se estudiarán después; estos cuatro no son los únicos.
+      </p>
+    </div>
+
+    <!-- Tabla comparativa de tipos de datos -->
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th style="width: 15%;">Tipo de Dato</th>
+          <th style="width: 25%;">Representación y Sintaxis</th>
+          <th style="width: 35%;">Rol en Ciberseguridad Defensiva</th>
+          <th style="width: 25%;">Ejemplo en Código (PEP 8)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong><code>str</code></strong> (String)</td>
+          <td>Texto entre comillas simples o dobles.</td>
+          <td>Nombres, identificadores y todo lo que devuelve <code>input()</code>.</td>
+          <td><code>operator_name = "Alex Rivera"</code></td>
+        </tr>
+        <tr>
+          <td><strong><code>int</code></strong> (Integer)</td>
+          <td>Números enteros sin decimales.</td>
+          <td>Conteos: laboratorios completados, intentos, turnos.</td>
+          <td><code>completed_labs = 4</code></td>
+        </tr>
+        <tr>
+          <td><strong><code>float</code></strong> (Float)</td>
+          <td>Números con decimales.</td>
+          <td>Mediciones: promedios de horas, porcentajes, tiempos.</td>
+          <td><code>hours_per_lab = 2.5</code></td>
+        </tr>
+        <tr>
+          <td><strong><code>bool</code></strong> (Boolean)</td>
+          <td>Solo <code>True</code> o <code>False</code>.</td>
+          <td>Decisiones: ¿alcanzó el requisito? ¿avanza a la simulación?</td>
+          <td><code>ready_for_next = True</code></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Analogía Didáctica de la Vida Real -->
+    <div class="callout callout-info" style="margin: 10px 0;">
+      <div class="callout-title">&#x1F4A1; La ruta de tus datos: texto → número → resultado</div>
+      <p style="margin-bottom: 4px;">
+        Todo lo que escribes en <code>input()</code> llega como <strong>texto</strong> (<code>str</code>), incluso si tecleas <code>4</code>. Para Python, ese <code>4</code> entre comillas no es una cantidad: es un carácter.
+      </p>
+      <p style="margin-bottom: 0;">
+        Las funciones <code>int()</code> y <code>float()</code> <strong>transforman</strong> ese texto en número cuando el texto ya es numérico. No corrigen ni adivinan: si el texto no es un número (por ejemplo <code>'cuatro'</code>), el programa se interrumpe con <code>ValueError</code>. Controlar ese caso con <code>try/except</code> lo verás en una sesión posterior; hoy basta con ingresar números.
+      </p>
+    </div>
+
+    <!-- Restricción pedagógica -->
+    <div class="callout callout-tip" style="margin: 8px 0;">
+      <div class="callout-title">&#x1F4CD; Código en inglés, mensajes en español</div>
+      <p style="margin-bottom: 3px; font-size: 8pt;">
+        <strong>Código en inglés por consistencia y colaboración:</strong> las variables y comentarios van en inglés (<code>operator_name</code>, <code>completed_labs</code>, <code>total_practice_hours</code>) con estilo PEP 8, para que cualquier equipo pueda leer tu código y coincida con la documentación. Los mensajes que ve el usuario van en español.
+      </p>
+      <p style="margin-bottom: 0; font-size: 8pt;">
+        <strong>Código lineal en esta sesión:</strong> de arriba a abajo, sin funciones (<code>def</code>), sin <code>try/except</code> y sin colecciones (<code>list</code>, <code>dict</code>).
+      </p>
+    </div>
+  </section>
+
+  <!-- =======================================================================
+       3. GUÍA DE PRÁCTICA DE LABORATORIO PASO A PASO
+       ======================================================================= -->
+  <section>
+    <h2 class="section-title">3. Reutiliza tu Proyecto de la Sesión 01</h2>
+
+    <p>Todo el trabajo de hoy ocurre en <strong>tu proyecto de la sesión 01</strong> (<code>curso-python-defensivo</code>). Sigue estos pasos en orden:</p>
+
+    <ol style="font-size: 8.5pt; margin-left: 18px; margin-bottom: 10px;">
+      <li><strong>Localiza tu proyecto:</strong> abre la terminal en la carpeta <code>curso-python-defensivo</code> que creaste en la sesión 01.</li>
+      <li><strong>Activa el entorno:</strong> activa <code>.venv</code> hasta ver el prefijo <code>(.venv)</code> en el prompt.</li>
+      <li><strong>Verifica el intérprete:</strong> ejecuta <code>python --version</code> (o <code>python3 --version</code>) y confirma Python 3.13.x.</li>
+      <li><strong>Crea el archivo nuevo:</strong> crea manualmente <code>perfil_operador.py</code> en esa carpeta.</li>
+      <li><strong>Ejecuta ahí mismo:</strong> corre <code>python perfil_operador.py</code> sin cambiar de carpeta.</li>
+    </ol>
+
+    <div class="callout callout-purple" style="margin: 6px 0 10px 0;">
+      <div class="callout-title">&#x1F4BB; Higiene de terminal: "Mirar antes de saltar"</div>
+      <p style="font-size: 8pt; margin-bottom: 0;">
+        1. <strong>Lista primero:</strong> <code>dir</code> (Windows) o <code>ls</code> (Linux/macOS) para confirmar que <code>perfil_operador.py</code> existe donde estás.<br>
+        2. <strong>Autocompleta con <code>Tab</code>:</strong> escribe <code>python perfil</code> y presiona <code>Tab</code>.<br>
+        3. <strong>Repite con <code>↑</code>:</strong> la flecha arriba recupera el comando anterior.<br>
+        4. <strong>Cancela con <code>Ctrl + C</code>:</strong> si te equivocas en un <code>input()</code>, aborta limpiamente y reintenta.
+      </p>
+    </div>
+
+    <h3 class="subsection-title">Ruta principal — Windows (PowerShell)</h3>
+    <div class="terminal-container">
+      <div class="terminal-header"><span>Windows — Reutilizar proyecto</span><span>Python 3.13</span></div>
+<div><span class="prompt-win">PS&gt;</span> <span class="cmd">cd curso-python-defensivo</span></div>
+<div><span class="prompt-win">PS&gt;</span> <span class="cmd">dir</span></div>
+<div><span class="prompt-win">PS&gt;</span> <span class="cmd">.\.venv\Scripts\Activate.ps1</span></div>
+<div><span class="prompt-win">(.venv) PS&gt;</span> <span class="cmd">python --version</span></div>
+<div><span class="output">Python 3.13.x</span></div>
+<div><span class="comment"># Crea perfil_operador.py con tu editor y luego:</span></div>
+<div><span class="prompt-win">(.venv) PS&gt;</span> <span class="cmd">python perfil_operador.py</span></div>
+    </div>
+
+    <h3 class="subsection-title">Ruta principal — Linux / macOS</h3>
+    <div class="terminal-container">
+      <div class="terminal-header"><span>Linux / macOS — Reutilizar proyecto</span><span>Python 3.13</span></div>
+<div><span class="prompt-nix">(.venv) $</span> <span class="cmd">cd ~/curso-python-defensivo</span></div>
+<div><span class="prompt-nix">$</span> <span class="cmd">ls</span></div>
+<div><span class="prompt-nix">$</span> <span class="cmd">source .venv/bin/activate</span></div>
+<div><span class="prompt-nix">(.venv) $</span> <span class="cmd">python3 --version</span></div>
+<div><span class="output">Python 3.13.x</span></div>
+<div><span class="comment"># Crea perfil_operador.py con tu editor y luego:</span></div>
+<div><span class="prompt-nix">(.venv) $</span> <span class="cmd">python3 perfil_operador.py</span></div>
+    </div>
+
+    <div class="callout callout-warning" style="margin: 6px 0 10px 0;">
+      <div class="callout-title">&#x1F6DF; Ruta de recuperación (solo si perdiste tu proyecto)</div>
+      <p style="font-size: 8pt; margin-bottom: 4px;"><strong>Windows:</strong></p>
+      <p style="font-size: 8pt; font-family: ui-monospace, monospace; background: #fff; border: 1px solid #e5e7eb; border-radius: 4px; padding: 6px 8px;">mkdir curso-python-defensivo<br>cd curso-python-defensivo<br>py -3.13 -m venv .venv<br>.\.venv\Scripts\Activate.ps1<br>python --version</p>
+      <p style="font-size: 8pt; margin-bottom: 4px;"><strong>Linux / macOS:</strong></p>
+      <p style="font-size: 8pt; font-family: ui-monospace, monospace; background: #fff; border: 1px solid #e5e7eb; border-radius: 4px; padding: 6px 8px;">mkdir -p ~/curso-python-defensivo<br>cd ~/curso-python-defensivo<br>python3.13 -m venv .venv<br>source .venv/bin/activate<br>python3 --version</p>
+      <p style="font-size: 8pt; margin-bottom: 0;">Debes ver el prefijo <code>(.venv)</code> y la versión 3.13.x antes de continuar.</p>
+    </div>
+  </section>
+
+  <!-- =======================================================================
+       4. RETO PRÁCTICO AUTÓNOMO INDIVIDUAL
+       ======================================================================= -->
+  <section class="page-break">
+    <h2 class="section-title">4. Reto Práctico: Perfil de Operador (25 minutos)</h2>
+
+    <div class="callout callout-info" style="margin-bottom: 10px;">
+      <div class="callout-title">&#x1F3AF; Historia: revisar experiencia antes de la simulación (<code>perfil_operador.py</code>)</div>
+      <p style="margin-bottom: 0;">
+        Formas parte del equipo que coordina el entrenamiento de nuevos operadores de seguridad. Antes de permitir que un operador participe en una simulación de incidentes, debes revisar su experiencia práctica. Para ello registras su nombre, cuántos laboratorios introductorios completó y el promedio de horas que dedicó a cada uno. Al multiplicar los laboratorios completados por el promedio de horas, obtienes una estimación de sus horas totales de práctica. El programa de entrenamiento establece un mínimo de 10 horas antes de avanzar a la siguiente simulación. Finalmente, muestras un resumen que permite identificar al operador, revisar su progreso y saber si alcanzó ese requisito.
+      </p>
+    </div>
+
+    <h3 class="subsection-title">Los 5 pasos (en este orden):</h3>
+    <ol style="font-size: 8.5pt; margin-left: 18px; margin-bottom: 10px;">
+      <li><strong>Entrada de texto:</strong> pide los 3 datos con <code>input()</code> (<code>operator_name</code> identifica de quién es el progreso; <code>raw_completed_labs</code> y <code>raw_hours_per_lab</code> traen sus prácticas y su dedicación).</li>
+      <li><strong>Conversión:</strong> <code>completed_labs = int(raw_completed_labs)</code> (prácticas terminadas) y <code>hours_per_lab = float(raw_hours_per_lab)</code> (promedio de dedicación).</li>
+      <li><strong>Cálculo:</strong> <code>total_practice_hours = completed_labs * hours_per_lab</code> (la multiplicación estima la práctica acumulada).</li>
+      <li><strong>Decisión:</strong> <code>ready_for_next = total_practice_hours &gt;= 10.0</code> (verifica la regla explícita del programa; <code>True</code> alcanzó el requisito, <code>False</code> aún no — el programa no autoriza por sí solo).</li>
+      <li><strong>Comunicación:</strong> imprime el encabezado y las cinco líneas de datos con <code>print()</code> (evidencia legible para revisar la decisión).</li>
+    </ol>
+
+    <h3 class="subsection-title">Tu archivo <code>perfil_operador.py</code> (complétalo):</h3>
+    <div class="student-code-box">
+# STEP 1: Text input — input() ALWAYS returns str
+operator_name = input("Escribe el nombre del operador: ")
+raw_completed_labs = input("Escribe cuantos laboratorios completo: ")
+raw_hours_per_lab = input("Escribe el promedio de horas por laboratorio: ")
+
+# STEP 2: Conversion — TODO: convierte el texto en números
+completed_labs = int(raw_completed_labs)
+hours_per_lab = float(raw_hours_per_lab)
+
+# STEP 3: Calculation — TODO: una sola métrica
+total_practice_hours = completed_labs * hours_per_lab
+
+# STEP 4: Decision — TODO: verifica la regla de 10.0 horas (¿alcanzó el requisito?)
+ready_for_next = total_practice_hours >= 10.0
+
+# STEP 5: Communication — resumen simple y legible
+print("--- Resumen del operador ---")
+print(f"Nombre: {operator_name}")
+print(f"Laboratorios completados: {completed_labs}")
+print(f"Horas por laboratorio: {hours_per_lab}")
+print(f"Horas totales de practica: {total_practice_hours}")
+print(f"Listo para la siguiente practica: {ready_for_next}")
+    </div>
+
+    <h3 class="subsection-title">Salida esperada (verifica con estos datos):</h3>
+    <p style="font-size: 8pt;">Escribe cuando el programa lo pida: <code>Alex Rivera</code>, <code>4</code>, <code>2.5</code>.</p>
+    <div class="student-output-box">
+--- Resumen del operador ---
+Nombre: Alex Rivera
+Laboratorios completados: 4
+Horas por laboratorio: 2.5
+Horas totales de practica: 10.0
+Listo para la siguiente practica: True
+    </div>
+    <p style="font-size: 8pt;">Con tus propios datos los números cambian, pero el resumen siempre tiene el mismo encabezado y las mismas cinco líneas de datos legibles.</p>
+  </section>
+
+  <!-- =======================================================================
+       5. CLÍNICA DE ERRORES Y DIAGNÓSTICO (TROUBLESHOOTING)
+       ======================================================================= -->
+  <section>
+    <h2 class="section-title">5. Clínica de Errores: Lee el Mensaje</h2>
+    <p style="font-size: 8pt;">
+      Los errores te dicen exactamente qué pasó. Estos son los dos de esta sesión:
+    </p>
+
+    <!-- Error Provocado 1 -->
+    <div class="trouble-card trouble-critical">
+      <div class="trouble-title">&#x1F6A8; Error 1: TypeError por operar con texto sin convertir</div>
+      <div class="terminal-container" style="margin: 4px 0; padding: 6px 8px; font-size: 7.5pt;">
+<span class="comment">Traceback (most recent call last):</span>
+  File <span class="output">"perfil_operador.py"</span>, line <span class="output">12</span>, in <span class="output">&lt;module&gt;</span>
+    <span class="cmd">total_practice_hours = raw_completed_labs * hours_per_lab</span>
+<span class="err-highlight">TypeError: can't multiply sequence by non-int of type 'float'</span>
+      </div>
+      <div class="trouble-grid">
+        <div>
+          <strong>Qué pasó:</strong>
+          <p style="font-size: 7.5pt; margin-top: 2px;">
+            <code>raw_completed_labs</code> es el texto que devolvió <code>input()</code>. Python no multiplica texto por decimales sin tu permiso.
+          </p>
+        </div>
+        <div>
+          <strong>Cómo se corrige:</strong>
+          <p style="font-size: 7.5pt; margin-top: 2px;">
+            Convierte primero y opera después: <code>completed_labs = int(raw_completed_labs)</code> y luego <code>completed_labs * hours_per_lab</code>.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Error Provocado 2 -->
+    <div class="trouble-card">
+      <div class="trouble-title">&#x26A0;&#xFE0F; Error 2: ValueError por texto que no es número</div>
+      <div class="terminal-container" style="margin: 4px 0; padding: 6px 8px; font-size: 7.5pt;">
+<span class="comment">Traceback (most recent call last):</span>
+  File <span class="output">"perfil_operador.py"</span>, line <span class="output">10</span>, in <span class="output">&lt;module&gt;</span>
+    <span class="cmd">completed_labs = int(raw_completed_labs)</span>
+<span class="err-highlight">ValueError: invalid literal for int() with base 10: 'cuatro'</span>
+      </div>
+      <div class="trouble-grid">
+        <div>
+          <strong>Qué pasó:</strong>
+          <p style="font-size: 7.5pt; margin-top: 2px;">
+            <code>int()</code> solo transforma texto que ya es numérico. <code>'cuatro'</code>, <code>'2,5'</code> o una entrada vacía no lo son, así que el programa se interrumpe. La conversión <strong>no valida ni corrige</strong>.
+          </p>
+        </div>
+        <div>
+          <strong>Cómo se corrige hoy:</strong>
+          <p style="font-size: 7.5pt; margin-top: 2px;">
+            Vuelve a ejecutar con <code>↑</code> e ingresa solo números (<code>4</code>, <code>2.5</code>). Controlar este caso con <code>try/except</code> lo aprenderás en una sesión posterior.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =======================================================================
+       6. DESAFÍO DE EXTENSIÓN PARA AVANCE RÁPIDO
+       ======================================================================= -->
+  <section>
+    <h2 class="section-title">6. Desafío Opcional (no se evalúa)</h2>
+    <div class="callout callout-tip">
+      <div class="callout-title">&#x1F680; Solo si terminaste antes: decora tu resumen</div>
+      <p style="font-size: 8pt; margin-bottom: 0;">
+        Agrega líneas separadoras (por ejemplo <code>print("---")</code>) o un título con marcos ASCII alrededor de tu resumen. Es solo presentación y <strong>no afecta tu evaluación</strong>.
+      </p>
+    </div>
+  </section>
+
+  <!-- =======================================================================
+       7. LISTA DE VERIFICACIÓN RÁPIDA Y FIRMA DOCENTE (SIGN-OFF)
+       ======================================================================= -->
+  <section>
+    <h2 class="section-title">7. Lista de Verificación y Firma Docente</h2>
+    <p style="font-size: 8pt;">Antes de pedir la firma, comprueba cada punto y prepárate para explicarlo en voz alta:</p>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th class="check-box-cell">OK</th>
+          <th style="width: 38%;">Criterio de comprensión</th>
+          <th>Evidencia en tu pantalla</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="check-box-cell"><span class="check-square"></span></td>
+          <td><strong>Proyecto y entorno:</strong> trabajo en mi carpeta con <code>.venv</code></td>
+          <td>El prompt muestra <code>(.venv)</code>, Python es 3.13.x y el archivo es <code>perfil_operador.py</code> en mi proyecto.</td>
+        </tr>
+        <tr>
+          <td class="check-box-cell"><span class="check-square"></span></td>
+          <td><strong>Entrada y conversión:</strong> explico qué devuelve <code>input()</code> y por qué convierto</td>
+          <td>El programa pide 3 datos y convierte con <code>int()</code> y <code>float()</code> sin <code>TypeError</code>.</td>
+        </tr>
+        <tr>
+          <td class="check-box-cell"><span class="check-square"></span></td>
+          <td><strong>Cálculo y decisión:</strong> explico qué hace <code>*</code> y qué produce <code>&gt;=</code></td>
+          <td>El total estima la práctica acumulada (<code>completed_labs * hours_per_lab</code>) y la decisión verifica el requisito de 10 horas (<code>True</code> lo alcanzó, <code>False</code> aún no).</td>
+        </tr>
+        <tr>
+          <td class="check-box-cell"><span class="check-square"></span></td>
+          <td><strong>Comunicación:</strong> explico cómo llega cada resultado al resumen</td>
+          <td>Encabezado más cinco líneas de datos legibles; sé qué variable muestra cada línea de datos. Con el ejemplo: total <code>10.0</code>, <code>True</code>.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p style="font-size: 8pt;"><strong>Orientación de estilo (no se califica):</strong> escribe el código en inglés (<code>operator_name</code>, <code>ready_for_next</code>) y los mensajes para el usuario en español. El ejemplo usa f-strings como una forma cómoda de mostrar variables; la sintaxis de f-string no es un objetivo evaluado.</p>
+
+    <div class="signature-box">
+      <p style="font-size: 7.5pt; color: var(--text-muted); margin-bottom: 6px;">
+        <strong>Declaración del Estudiante:</strong> Certifico que el código presentado fue escrito por mí de forma autónoma sin asistentes de IA, que trabajé con datos locales en mi propia máquina y que puedo explicar qué devuelve <code>input()</code>, por qué convierto, qué hace cada operador y cómo llega cada resultado al resumen.
+      </p>
+      <div class="signature-grid">
+        <div>
+          <div class="sig-line">Firma del Estudiante / Operador</div>
+        </div>
+        <div>
+          <div class="sig-line">Sello / Validación Docente</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =======================================================================
+        8. TAREA POSTERIOR A LA CLASE (FUERA DE LOS 60 MINUTOS)
+        ======================================================================= -->
+  <section class="page-break">
+    <h2 class="section-title">8. Tarea Posterior a la Clase (fuera de los 60 minutos)</h2>
+
+    <p>Esta tarea es una transferencia un poco más compleja para hacer fuera de clase. No forma parte del cronograma ni expande el ejercicio principal.</p>
+
+    <div class="callout callout-info" style="margin-bottom: 10px;">
+      <div class="callout-title">&#x1F3AF; Historia: organizar observaciones para revisión humana (<code>analisis_acceso.py</code>)</div>
+      <p style="margin-bottom: 0;">
+        Actúas como el analista responsable de organizar observaciones iniciales para una revisión humana. El punto de partida es una alerta local de práctica sobre intentos fallidos de acceso. Registras el identificador de la cuenta del caso (<code>account_id</code>), cuántos eventos ocurrieron (<code>failed_attempts</code>) y la ventana temporal observada (<code>observation_minutes</code>). Calcular la frecuencia importa porque 12 intentos en 3 minutos no representan el mismo ritmo que 12 intentos durante una ventana mucho mayor. Dos reglas didácticas independientes generan dos señales: volumen (<code>many_failed_attempts</code>, con <code>&gt;= 5</code>) y ritmo (<code>rapid_attempts</code>, con <code>&gt;= 2.0</code>). <code>True</code> solo indica que se cumple la regla correspondiente; no son estándares universales ni prueban un ataque. Tu resumen le sirve a la persona responsable de revisar el caso para decidir si necesita recopilar más información o continuar una investigación humana. Crea manualmente <code>analisis_acceso.py</code> en tu proyecto personal, con código lineal y nombres técnicos en inglés (mensajes en español).
+      </p>
+    </div>
+
+    <h3 class="subsection-title">Los 5 pasos (en este orden):</h3>
+    <ol style="font-size: 8.5pt; margin-left: 18px; margin-bottom: 10px;">
+      <li><strong>Entrada de texto:</strong> pide los 3 datos con <code>input()</code> (<code>account_id</code> identifica la cuenta del caso; <code>raw_failed_attempts</code> y <code>raw_observation_minutes</code> traen eventos y ventana).</li>
+      <li><strong>Conversión:</strong> <code>failed_attempts = int(raw_failed_attempts)</code> (cuenta eventos) y <code>observation_minutes = float(raw_observation_minutes)</code> (delimita la ventana).</li>
+      <li><strong>Cálculo:</strong> <code>attempts_per_minute = failed_attempts / observation_minutes</code> (el ritmo permite comparar ventanas distintas).</li>
+      <li><strong>Decisiones:</strong> <code>many_failed_attempts = failed_attempts &gt;= 5</code> (volumen) y <code>rapid_attempts = attempts_per_minute &gt;= 2.0</code> (ritmo). Son reglas didácticas independientes; <code>True</code> solo indica que se cumple la regla. Sin <code>and</code>, sin funciones, sin colecciones, sin <code>try/except</code>, sin <code>if</code>.</li>
+      <li><strong>Comunicación:</strong> imprime el resumen legible para quien revisa el caso.</li>
+    </ol>
+
+    <h3 class="subsection-title">Comprueba con el ejemplo único:</h3>
+    <p style="font-size: 8pt;">Escribe cuando el programa lo pida: <code>admin-local</code>, <code>12</code>, <code>3</code>.</p>
+    <div class="student-output-box">
+--- Resumen de triage ---
+Cuenta: admin-local
+Intentos fallidos: 12
+Minutos observados: 3.0
+Intentos por minuto: 4.0
+Muchos intentos fallidos: True
+Intentos rapidos: True
+    </div>
+
+    <div class="callout callout-warning" style="margin: 6px 0 10px 0;">
+      <div class="callout-title">&#x26A0;&#xFE0F; Propósito real y límites</div>
+      <p style="font-size: 8pt; margin-bottom: 3px;">
+        El reporte <strong>organiza observaciones iniciales para la revisión humana</strong>: no confirma un ataque, no bloquea cuentas y no sustituye la investigación.
+      </p>
+      <p style="font-size: 8pt; margin-bottom: 0;">
+        Usa minutos <strong>mayores que cero</strong> (como el <code>3</code> del ejemplo): si <code>observation_minutes</code> vale <code>0</code> o <code>0.0</code>, la división produce <code>ZeroDivisionError</code>. Controlar ese error y otras entradas inválidas queda para la sesión de manejo de errores posterior.
+      </p>
+    </div>
+
+    <h3 class="subsection-title">Entrega y respaldo</h3>
+    <p style="font-size: 8pt;">
+      Para entregar, explica en voz alta por qué conviertes cada entrada, qué hace la división <code>/</code> y qué produce cada comparación <code>&gt;=</code>. El repositorio trae <code>homework_starter.py</code> (plantilla) y <code>homework_solution.py</code> (referencia) solo como respaldo: úsalos como contingencia o guía <strong>después</strong> de intentar la tarea por tu cuenta.
+    </p>
+  </section>
+
+</div>
+
+</body>
+</html>
