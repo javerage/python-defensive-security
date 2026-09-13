@@ -191,7 +191,7 @@ Esta tarea es una transferencia un poco más compleja para hacer fuera de clase.
 
 **Historia:** actúas como el auxiliar responsable de dejar lista una nota local de laboratorio para su revisión. El punto de partida es una nota de práctica sobre una revisión de inventario, distinta del registro de autenticación de clase. Para dejarla utilizable registras de quién es el trabajo (`student_name`, `student_id`), quitas el relleno que corrompería cualquier lectura por posición (`cleaned_note`), compruebas la limpieza con su primer carácter (`first_char`), lees de qué caso se trata con su código fijo de 12 caracteres (`case_id`), normalizas su nivel de nota a mayúsculas (`note_level`), enmascaras el alias de práctica en una copia saneada (`sanitized_note`) y compruebas si el texto contiene la etiqueta local de referencia (`is_local_ref`). `True` solo indica que esos caracteres aparecen en esta nota; no es un estándar universal, no revisa la red ni prueba nada sobre otros equipos. El resumen le sirve a la persona responsable de revisar el caso para verificar cada resultado en un solo lugar.
 
-Crea manualmente `analisis_registro.py` en tu proyecto personal, con código lineal y nombres técnicos en inglés (mensajes en español):
+Crea manualmente `record_analysis.py` en tu proyecto personal, con código lineal y nombres técnicos en inglés (mensajes en español):
 
 | Paso | Qué hace | Variables y fórmula |
 |------|----------|---------------------|

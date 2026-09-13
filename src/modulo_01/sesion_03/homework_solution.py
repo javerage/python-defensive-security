@@ -2,14 +2,14 @@
 ==============================================================================
 COURSE: Python for Defensive Security: Fundamentals and Local Lab Tooling
 REPOSITORY: python-defensive-security | Session 03 (PyDefSec)
-FILE: homework_solution.py (reference for analisis_registro.py)
+FILE: homework_solution.py (reference for record_analysis.py)
 PURPOSE: Review one synthetic local lab note and extract its basic parts:
          measure it, strip padding, read the first character, slice the
          fixed case code, normalize the note level, mask the practice
          operator alias, and check that the local reference tag
          LAB-LOCAL appears in the text.
 NOTE: Homework after class, outside the 60 minutes. Create
-      analisis_registro.py manually in your Session 01 project. Use this
+      record_analysis.py manually in your Session 01 project. Use this
       file only as backup guidance after attempting the task on your own.
 PEDAGOGICAL RESTRICTIONS:
     - Strictly top-to-bottom sequential script (no functions, no try/except,

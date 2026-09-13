@@ -2,22 +2,22 @@
 ==============================================================================
 COURSE: Python for Defensive Security: Fundamentals and Local Lab Tooling
 REPOSITORY: python-defensive-security | Session 03 (PyDefSec)
-FILE: homework_starter.py (guided skeleton for analisis_registro.py)
+FILE: homework_starter.py (guided skeleton for record_analysis.py)
 PURPOSE: Review one synthetic local lab note and extract its basic parts:
          measure it, strip padding, read the first character, slice the
          fixed case code, normalize the note level, mask the practice
          operator alias, and check that the local reference tag
          LAB-LOCAL appears in the text.
 NOTE: Homework after class, outside the 60 minutes. Create
-      analisis_registro.py manually in your Session 01 project. Complete
+      record_analysis.py manually in your Session 01 project. Complete
       each task marked TODO. This skeleton compiles plus runs; replaced
       placeholders give the expected summary. Check homework_solution.py
       only after trying alone.
 
 STUDENT INSTRUCTIONS:
     Work in your Session 01 project folder (curso-python-defensivo),
-    with .venv active. Save your work as analisis_registro.py plus run:
-        python analisis_registro.py
+    with .venv active. Save your work as record_analysis.py plus run:
+        python record_analysis.py
 
     Terminal hygiene:
         - Look before jumping: dir (Windows) or ls (macOS/Linux) first.
