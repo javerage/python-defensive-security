@@ -2,14 +2,14 @@
 ==============================================================================
 COURSE: Python for Defensive Security: Fundamentals and Local Lab Tooling
 REPOSITORY: python-defensive-security | Session 04 (PyDefSec)
-FILE: homework_solution.py (reference for evaluacion_alerta.py)
+FILE: homework_solution.py (reference for alert_evaluation.py)
 PURPOSE: Review one synthetic local practice alert with conditionals:
          check a volume rule with if/else, then assign a three-level
          review priority with an if/elif/else chain on the average
          response time, ordered from the most demanding threshold to
          the least demanding one.
 NOTE: Homework after class, outside the 60 minutes. Create
-      evaluacion_alerta.py manually in your Session 01 project. Use this
+      alert_evaluation.py manually in your Session 01 project. Use this
       file only as backup guidance after attempting the task on your own.
 PEDAGOGICAL RESTRICTIONS:
     - Strictly top-to-bottom sequential script (no functions, no try/except,

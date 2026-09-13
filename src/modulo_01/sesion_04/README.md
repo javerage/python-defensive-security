@@ -244,11 +244,11 @@ Si terminas antes, cambia `failed_attempts` a `3` y luego a `12`, ejecuta de nue
 
 ## Tarea posterior a la clase (fuera de los 60 minutos)
 
-Esta tarea es una transferencia un poco más compleja para hacer fuera de clase. No forma parte del cronograma ni expande el ejercicio principal. Usa un archivo nuevo (`evaluacion_alerta.py`), distinto del `incident_classifier.py` de clase y del desafío opcional de arriba.
+Esta tarea es una transferencia un poco más compleja para hacer fuera de clase. No forma parte del cronograma ni expande el ejercicio principal. Usa un archivo nuevo (`alert_evaluation.py`), distinto del `incident_classifier.py` de clase y del desafío opcional de arriba.
 
 **Historia:** actúas como el auxiliar responsable de dejar lista una alerta local de práctica para su revisión. El punto de partida es la revisión nocturna del servicio local de práctica, distinta de la observación de intentos de acceso de clase. Para dejarla utilizable registras de quién es el trabajo (`student_name`, `student_id`), pides por teclado las líneas de error de su registro sintético y la respuesta promedio y las conviertes (`raw_error_lines = input("Líneas de error: ")`, `error_lines = int(raw_error_lines)`, `raw_avg_response_ms = input("Respuesta promedio en ms: ")`, `avg_response_ms = float(raw_avg_response_ms)`; reactiva la sesión 02 sin manejo de errores), compruebas la regla de volumen del laboratorio con `if/else` (`many_errors = error_lines >= 10`) y clasificas el tiempo de respuesta en tres niveles con `if/elif/else` (`>= 1000.0` se revisa hoy con un mentor, `>= 500.0` se agenda esta semana, lo demás queda en el registro local). `True` solo indica que se cumple la regla correspondiente; los umbrales son reglas didácticas, no estándares universales, y no prueban un ataque. El resumen le sirve a la persona responsable de revisar el caso para priorizar la revisión humana en un solo lugar. La tarea integra entrada → conversión → decisión → comunicación, mientras el ejercicio principal aísla decisión → comunicación.
 
-Crea manualmente `evaluacion_alerta.py` en tu proyecto personal, con código lineal y nombres técnicos en inglés (mensajes en español):
+Crea manualmente `alert_evaluation.py` en tu proyecto personal, con código lineal y nombres técnicos en inglés (mensajes en español):
 
 | Paso | Qué hace | Variables y fórmula |
 |------|----------|---------------------|

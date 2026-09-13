@@ -2,22 +2,22 @@
 ==============================================================================
 COURSE: Python for Defensive Security: Fundamentals and Local Lab Tooling
 REPOSITORY: python-defensive-security | Session 04 (PyDefSec)
-FILE: homework_starter.py (guided skeleton for evaluacion_alerta.py)
+FILE: homework_starter.py (guided skeleton for alert_evaluation.py)
 PURPOSE: Review one synthetic local practice alert with conditionals:
          check a volume rule with if/else, then assign a three-level
          review priority with an if/elif/else chain on the average
          response time, ordered from the most demanding threshold to
          the least demanding one.
 NOTE: Homework after class, outside the 60 minutes. Create
-      evaluacion_alerta.py manually in your Session 01 project. Complete
+      alert_evaluation.py manually in your Session 01 project. Complete
       each task marked TODO. This skeleton compiles plus runs; PENDING
       marks unfinished work, and replaced placeholders give the expected
       summary. Check homework_solution.py only after trying alone.
 
 STUDENT INSTRUCTIONS:
     Work in your Session 01 project folder (curso-python-defensivo),
-    with .venv active. Save your work as evaluacion_alerta.py plus run:
-        python evaluacion_alerta.py
+    with .venv active. Save your work as alert_evaluation.py plus run:
+        python alert_evaluation.py
 
     Terminal hygiene:
         - Look before jumping: dir (Windows) or ls (macOS/Linux) first.
