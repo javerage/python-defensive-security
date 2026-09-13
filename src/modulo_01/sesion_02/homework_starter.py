@@ -2,20 +2,20 @@
 ==============================================================================
 COURSE: Python for Defensive Security: Fundamentals and Local Lab Tooling
 REPOSITORY: python-defensive-security | Session 02 (PyDefSec)
-FILE: homework_starter.py (guided skeleton for analisis_acceso.py)
+FILE: homework_starter.py (guided skeleton for access_analysis.py)
 PURPOSE: Act as the analyst responsible for organizing initial
          observations for human review. Starting from a local practice
          alert, prepare a triage summary for the person reviewing the case.
          Local data only. No network use.
-NOTE: Homework after class, outside the 60 minutes. Create analisis_acceso.py
+NOTE: Homework after class, outside the 60 minutes. Create access_analysis.py
       manually in your Session 01 project. Complete each task marked TODO.
       This skeleton compiles plus runs; replaced placeholders give the
       expected summary. Check homework_solution.py only after trying alone.
 
 STUDENT INSTRUCTIONS:
     Work in your Session 01 project folder (curso-python-defensivo),
-    with .venv active. Save your work as analisis_acceso.py plus run:
-        python analisis_acceso.py
+    with .venv active. Save your work as access_analysis.py plus run:
+        python access_analysis.py
 
     Test data: admin-local, 12, 3 (minutes above zero).
     Controlling zero plus other invalid entries belongs to a later session

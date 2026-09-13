@@ -2,12 +2,12 @@
 ==============================================================================
 COURSE: Python for Defensive Security: Fundamentals and Local Lab Tooling
 REPOSITORY: python-defensive-security | Session 02 (PyDefSec)
-FILE: solution.py (reference for perfil_operador.py)
+FILE: solution.py (reference for operator_profile.py)
 PURPOSE: Review practical experience before an incident simulation:
          register name, introductory labs plus average hours, estimate total
          practice hours, check the 10-hour program rule, show a summary.
 NOTE: The repository is only a backup. Students work in the project
-      created in Session 01 and create perfil_operador.py manually.
+      created in Session 01 and create operator_profile.py manually.
 PEDAGOGICAL RESTRICTIONS:
     - Strictly top-to-bottom sequential script (no functions, no try/except,
       no collections, no type hints, no main()).

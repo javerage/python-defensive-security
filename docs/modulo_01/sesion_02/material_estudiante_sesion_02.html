@@ -582,7 +582,7 @@
 
     <div class="callout callout-info">
       <div class="callout-title">&#x1F4CC; El repositorio es solamente respaldo</div>
-      <p style="margin-bottom: 0;">No necesitas clonar el repositorio ni conocer su estructura. Trabajarás en <strong>tu proyecto de la sesión 01</strong> (<code>curso-python-defensivo</code>) y crearás manualmente el archivo <code>perfil_operador.py</code>.</p>
+      <p style="margin-bottom: 0;">No necesitas clonar el repositorio ni conocer su estructura. Trabajarás en <strong>tu proyecto de la sesión 01</strong> (<code>curso-python-defensivo</code>) y crearás manualmente el archivo <code>operator_profile.py</code>.</p>
     </div>
 
     <div class="callout callout-critical">
@@ -724,14 +724,14 @@ print(type(failed_attempts))  # Muestra: &lt;class 'int'&gt;</div>
       <li><strong>Localiza tu proyecto:</strong> abre la terminal en la carpeta <code>curso-python-defensivo</code> que creaste en la sesión 01.</li>
       <li><strong>Activa el entorno:</strong> activa <code>.venv</code> hasta ver el prefijo <code>(.venv)</code> en el prompt.</li>
       <li><strong>Verifica el intérprete:</strong> ejecuta <code>python --version</code> (o <code>python3 --version</code>) y confirma Python 3.13.x.</li>
-      <li><strong>Crea el archivo nuevo:</strong> crea manualmente <code>perfil_operador.py</code> en esa carpeta.</li>
-      <li><strong>Ejecuta ahí mismo:</strong> corre <code>python perfil_operador.py</code> sin cambiar de carpeta.</li>
+      <li><strong>Crea el archivo nuevo:</strong> crea manualmente <code>operator_profile.py</code> en esa carpeta.</li>
+      <li><strong>Ejecuta ahí mismo:</strong> corre <code>python operator_profile.py</code> sin cambiar de carpeta.</li>
     </ol>
 
     <div class="callout callout-purple" style="margin: 6px 0 10px 0;">
       <div class="callout-title">&#x1F4BB; Higiene de terminal: "Mirar antes de saltar"</div>
       <p style="font-size: 8pt; margin-bottom: 0;">
-        1. <strong>Lista primero:</strong> <code>dir</code> (Windows) o <code>ls</code> (Linux/macOS) para confirmar que <code>perfil_operador.py</code> existe donde estás.<br>
+        1. <strong>Lista primero:</strong> <code>dir</code> (Windows) o <code>ls</code> (Linux/macOS) para confirmar que <code>operator_profile.py</code> existe donde estás.<br>
         2. <strong>Autocompleta con <code>Tab</code>:</strong> escribe <code>python perfil</code> y presiona <code>Tab</code>.<br>
         3. <strong>Repite con <code>↑</code>:</strong> la flecha arriba recupera el comando anterior.<br>
         4. <strong>Cancela con <code>Ctrl + C</code>:</strong> si te equivocas en un <code>input()</code>, aborta limpiamente y reintenta.
@@ -746,8 +746,8 @@ print(type(failed_attempts))  # Muestra: &lt;class 'int'&gt;</div>
 <div><span class="prompt-win">PS&gt;</span> <span class="cmd">.\.venv\Scripts\Activate.ps1</span></div>
 <div><span class="prompt-win">(.venv) PS&gt;</span> <span class="cmd">python --version</span></div>
 <div><span class="output">Python 3.13.x</span></div>
-<div><span class="comment"># Crea perfil_operador.py con tu editor y luego:</span></div>
-<div><span class="prompt-win">(.venv) PS&gt;</span> <span class="cmd">python perfil_operador.py</span></div>
+<div><span class="comment"># Crea operator_profile.py con tu editor y luego:</span></div>
+<div><span class="prompt-win">(.venv) PS&gt;</span> <span class="cmd">python operator_profile.py</span></div>
     </div>
 
     <h3 class="subsection-title">Ruta principal — Linux / macOS</h3>
@@ -758,8 +758,8 @@ print(type(failed_attempts))  # Muestra: &lt;class 'int'&gt;</div>
 <div><span class="prompt-nix">$</span> <span class="cmd">source .venv/bin/activate</span></div>
 <div><span class="prompt-nix">(.venv) $</span> <span class="cmd">python3 --version</span></div>
 <div><span class="output">Python 3.13.x</span></div>
-<div><span class="comment"># Crea perfil_operador.py con tu editor y luego:</span></div>
-<div><span class="prompt-nix">(.venv) $</span> <span class="cmd">python3 perfil_operador.py</span></div>
+<div><span class="comment"># Crea operator_profile.py con tu editor y luego:</span></div>
+<div><span class="prompt-nix">(.venv) $</span> <span class="cmd">python3 operator_profile.py</span></div>
     </div>
 
     <div class="callout callout-warning" style="margin: 6px 0 10px 0;">
@@ -779,7 +779,7 @@ print(type(failed_attempts))  # Muestra: &lt;class 'int'&gt;</div>
     <h2 class="section-title">4. Reto Práctico: Perfil de Operador (25 minutos)</h2>
 
     <div class="callout callout-info" style="margin-bottom: 10px;">
-      <div class="callout-title">&#x1F3AF; Historia: revisar experiencia antes de la simulación (<code>perfil_operador.py</code>)</div>
+      <div class="callout-title">&#x1F3AF; Historia: revisar experiencia antes de la simulación (<code>operator_profile.py</code>)</div>
       <p style="margin-bottom: 0;">
         Formas parte del equipo que coordina el entrenamiento de nuevos operadores de seguridad. Antes de permitir que un operador participe en una simulación de incidentes, debes revisar su experiencia práctica. Para ello registras su nombre, cuántos laboratorios introductorios completó y el promedio de horas que dedicó a cada uno. Al multiplicar los laboratorios completados por el promedio de horas, obtienes una estimación de sus horas totales de práctica. El programa de entrenamiento establece un mínimo de 10 horas antes de avanzar a la siguiente simulación. Finalmente, muestras un resumen que permite identificar al operador, revisar su progreso y saber si alcanzó ese requisito.
       </p>
@@ -794,7 +794,7 @@ print(type(failed_attempts))  # Muestra: &lt;class 'int'&gt;</div>
       <li><strong>Comunicación:</strong> imprime el encabezado y las cinco líneas de datos con <code>print()</code> (evidencia legible para revisar la decisión).</li>
     </ol>
 
-    <h3 class="subsection-title">Tu archivo <code>perfil_operador.py</code> (complétalo):</h3>
+    <h3 class="subsection-title">Tu archivo <code>operator_profile.py</code> (complétalo):</h3>
     <div class="student-code-box">
 # STEP 1: Text input — input() ALWAYS returns str
 operator_name = input("Escribe el nombre del operador: ")
@@ -847,7 +847,7 @@ Listo para la siguiente practica: True
       <div class="trouble-title">&#x1F6A8; Error 1: TypeError por operar con texto sin convertir</div>
       <div class="terminal-container" style="margin: 4px 0; padding: 6px 8px; font-size: 7.5pt;">
 <span class="comment">Traceback (most recent call last):</span>
-  File <span class="output">"perfil_operador.py"</span>, line <span class="output">12</span>, in <span class="output">&lt;module&gt;</span>
+  File <span class="output">"operator_profile.py"</span>, line <span class="output">12</span>, in <span class="output">&lt;module&gt;</span>
     <span class="cmd">total_practice_hours = raw_completed_labs * hours_per_lab</span>
 <span class="err-highlight">TypeError: can't multiply sequence by non-int of type 'float'</span>
       </div>
@@ -872,7 +872,7 @@ Listo para la siguiente practica: True
       <div class="trouble-title">&#x26A0;&#xFE0F; Error 2: ValueError por texto que no es número</div>
       <div class="terminal-container" style="margin: 4px 0; padding: 6px 8px; font-size: 7.5pt;">
 <span class="comment">Traceback (most recent call last):</span>
-  File <span class="output">"perfil_operador.py"</span>, line <span class="output">10</span>, in <span class="output">&lt;module&gt;</span>
+  File <span class="output">"operator_profile.py"</span>, line <span class="output">10</span>, in <span class="output">&lt;module&gt;</span>
     <span class="cmd">completed_labs = int(raw_completed_labs)</span>
 <span class="err-highlight">ValueError: invalid literal for int() with base 10: 'cuatro'</span>
       </div>
@@ -925,7 +925,7 @@ Listo para la siguiente practica: True
         <tr>
           <td class="check-box-cell"><span class="check-square"></span></td>
           <td><strong>Proyecto y entorno:</strong> trabajo en mi carpeta con <code>.venv</code></td>
-          <td>El prompt muestra <code>(.venv)</code>, Python es 3.13.x y el archivo es <code>perfil_operador.py</code> en mi proyecto.</td>
+          <td>El prompt muestra <code>(.venv)</code>, Python es 3.13.x y el archivo es <code>operator_profile.py</code> en mi proyecto.</td>
         </tr>
         <tr>
           <td class="check-box-cell"><span class="check-square"></span></td>
@@ -971,9 +971,9 @@ Listo para la siguiente practica: True
     <p>Esta tarea es una transferencia un poco más compleja para hacer fuera de clase. No forma parte del cronograma ni expande el ejercicio principal.</p>
 
     <div class="callout callout-info" style="margin-bottom: 10px;">
-      <div class="callout-title">&#x1F3AF; Historia: organizar observaciones para revisión humana (<code>analisis_acceso.py</code>)</div>
+      <div class="callout-title">&#x1F3AF; Historia: organizar observaciones para revisión humana (<code>access_analysis.py</code>)</div>
       <p style="margin-bottom: 0;">
-        Actúas como el analista responsable de organizar observaciones iniciales para una revisión humana. El punto de partida es una alerta local de práctica sobre intentos fallidos de acceso. Registras el identificador de la cuenta del caso (<code>account_id</code>), cuántos eventos ocurrieron (<code>failed_attempts</code>) y la ventana temporal observada (<code>observation_minutes</code>). Calcular la frecuencia importa porque 12 intentos en 3 minutos no representan el mismo ritmo que 12 intentos durante una ventana mucho mayor. Dos reglas didácticas independientes generan dos señales: volumen (<code>many_failed_attempts</code>, con <code>&gt;= 5</code>) y ritmo (<code>rapid_attempts</code>, con <code>&gt;= 2.0</code>). <code>True</code> solo indica que se cumple la regla correspondiente; no son estándares universales ni prueban un ataque. Tu resumen le sirve a la persona responsable de revisar el caso para decidir si necesita recopilar más información o continuar una investigación humana. Crea manualmente <code>analisis_acceso.py</code> en tu proyecto personal, con código lineal y nombres técnicos en inglés (mensajes en español).
+        Actúas como el analista responsable de organizar observaciones iniciales para una revisión humana. El punto de partida es una alerta local de práctica sobre intentos fallidos de acceso. Registras el identificador de la cuenta del caso (<code>account_id</code>), cuántos eventos ocurrieron (<code>failed_attempts</code>) y la ventana temporal observada (<code>observation_minutes</code>). Calcular la frecuencia importa porque 12 intentos en 3 minutos no representan el mismo ritmo que 12 intentos durante una ventana mucho mayor. Dos reglas didácticas independientes generan dos señales: volumen (<code>many_failed_attempts</code>, con <code>&gt;= 5</code>) y ritmo (<code>rapid_attempts</code>, con <code>&gt;= 2.0</code>). <code>True</code> solo indica que se cumple la regla correspondiente; no son estándares universales ni prueban un ataque. Tu resumen le sirve a la persona responsable de revisar el caso para decidir si necesita recopilar más información o continuar una investigación humana. Crea manualmente <code>access_analysis.py</code> en tu proyecto personal, con código lineal y nombres técnicos en inglés (mensajes en español).
       </p>
     </div>
 

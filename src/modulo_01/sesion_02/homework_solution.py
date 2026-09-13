@@ -2,12 +2,12 @@
 ==============================================================================
 COURSE: Python for Defensive Security: Fundamentals and Local Lab Tooling
 REPOSITORY: python-defensive-security | Session 02 (PyDefSec)
-FILE: homework_solution.py (reference for analisis_acceso.py)
+FILE: homework_solution.py (reference for access_analysis.py)
 PURPOSE: Act as the analyst responsible for organizing initial
          observations for human review. Starting from a local practice
          alert, prepare a triage summary for the person reviewing the case.
          Local data only. No network use.
-NOTE: Homework after class, outside the 60 minutes. Create analisis_acceso.py
+NOTE: Homework after class, outside the 60 minutes. Create access_analysis.py
       manually in your Session 01 project. Use this file only as backup
       guidance after attempting the task on your own.
 PEDAGOGICAL RESTRICTIONS:

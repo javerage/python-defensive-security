@@ -2,19 +2,19 @@
 ==============================================================================
 COURSE: Python for Defensive Security: Fundamentals and Local Lab Tooling
 REPOSITORY: python-defensive-security | Session 02 (PyDefSec)
-FILE: starter.py (guided skeleton for perfil_operador.py)
+FILE: starter.py (guided skeleton for operator_profile.py)
 PURPOSE: Review practical experience before an incident simulation:
          register name, introductory labs plus average hours, estimate total
          practice hours, check the 10-hour program rule, show a summary.
-NOTE: The repository is only a backup. Create perfil_operador.py manually
+NOTE: The repository is only a backup. Create operator_profile.py manually
       in your Session 01 project and complete each task marked TODO.
       This skeleton compiles and runs; replaced placeholders give the
       expected summary.
 
 STUDENT INSTRUCTIONS:
     Work in your Session 01 project folder (curso-python-defensivo),
-    with .venv active. Save your work as perfil_operador.py and run:
-        python perfil_operador.py
+    with .venv active. Save your work as operator_profile.py and run:
+        python operator_profile.py
 
     Terminal hygiene:
         - Look before jumping: dir (Windows) or ls (macOS/Linux) first.

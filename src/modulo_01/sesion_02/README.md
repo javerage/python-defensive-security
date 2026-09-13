@@ -8,14 +8,14 @@ Al terminar la sesión podrás **revisar la experiencia práctica de un operador
 
 1. Abre tu proyecto de la sesión 01 (`curso-python-defensivo`) y activa `.venv`.
 2. Verifica el intérprete (`python --version` debe responder Python 3.13.x).
-3. Crea manualmente el archivo `perfil_operador.py` y escribe el ejercicio.
-4. Ejecuta `python perfil_operador.py` y comprueba el resumen con el ejemplo de abajo.
+3. Crea manualmente el archivo `operator_profile.py` y escribe el ejercicio.
+4. Ejecuta `python operator_profile.py` y comprueba el resumen con el ejemplo de abajo.
 
 > El repositorio es solamente respaldo. No necesitas clonarlo ni navegar su estructura para completar la sesión.
 
 ## Duración (60 minutos)
 
-10 min reencuentro con tu proyecto y verificación · 15 min secuencia y demo · 25 min práctica con `perfil_operador.py` · 10 min verificación de comprensión y cierre.
+10 min reencuentro con tu proyecto y verificación · 15 min secuencia y demo · 25 min práctica con `operator_profile.py` · 10 min verificación de comprensión y cierre.
 
 ## Historia del ejercicio
 
@@ -73,10 +73,10 @@ dir
 python --version
 
 # 4. Crea manualmente el archivo nuevo para esta sesión
-notepad perfil_operador.py
+notepad operator_profile.py
 
 # 5. Ejecuta tu ejercicio
-python perfil_operador.py
+python operator_profile.py
 ```
 
 > Si PowerShell bloquea la activación, ejecuta primero `Set-ExecutionPolicy -Scope Process Bypass` y vuelve a activar.
@@ -95,10 +95,10 @@ source .venv/bin/activate
 python3 --version
 
 # 4. Crea manualmente el archivo nuevo para esta sesión
-touch perfil_operador.py
+touch operator_profile.py
 
 # 5. Ejecuta tu ejercicio
-python3 perfil_operador.py
+python3 operator_profile.py
 ```
 
 ## Ruta breve de recuperación (si perdiste tu proyecto)
@@ -129,7 +129,7 @@ Debes ver el prefijo `(.venv)` en el prompt y la versión Python 3.13.x.
 
 ## Ejercicio obligatorio
 
-Crea `perfil_operador.py` con código lineal (sin funciones, sin `try/except`, sin colecciones) que haga lo siguiente:
+Crea `operator_profile.py` con código lineal (sin funciones, sin `try/except`, sin colecciones) que haga lo siguiente:
 
 | Paso | Qué hace | Variables |
 |------|----------|-----------|
@@ -198,7 +198,7 @@ Esta tarea es una transferencia un poco más compleja para hacer fuera de clase.
 
 **Historia:** actúas como el analista responsable de organizar observaciones iniciales para una revisión humana. El punto de partida es una alerta local de práctica sobre intentos fallidos de acceso. Para preparar el resumen registras el identificador de la cuenta del caso (`account_id`), cuantos eventos ocurrieron (`failed_attempts`) y la ventana temporal observada (`observation_minutes`). Calcular la frecuencia importa porque 12 intentos en 3 minutos no representan el mismo ritmo que 12 intentos durante una ventana mucho mayor. Dos reglas didácticas independientes —`>= 5` para practicar conteo y `>= 2.0` para practicar división y comparación— generan dos señales: volumen (`many_failed_attempts`) y ritmo (`rapid_attempts`). `True` solo indica que se cumple la regla correspondiente; no son estándares universales ni prueban un ataque. El resumen le sirve a la persona responsable de revisar el caso para decidir si necesita recopilar más información o continuar una investigación humana.
 
-Crea manualmente `analisis_acceso.py` en tu proyecto personal, con código lineal y nombres técnicos en inglés (mensajes en español):
+Crea manualmente `access_analysis.py` en tu proyecto personal, con código lineal y nombres técnicos en inglés (mensajes en español):
 
 | Paso | Qué hace | Variables y fórmula |
 |------|----------|---------------------|
