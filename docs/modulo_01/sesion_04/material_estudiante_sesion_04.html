@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Workbook — Session 04 | Python for Defensive Security</title>
+  <style>
+    /* ==========================================================================
+       ESTILOS GLOBALES Y TIPOGRAFÍA ACADÉMICA NEUTRAL (PyDefSec)
+       ========================================================================== */
+    :root {
+      --primary: #1e3a8a;          /* Azul institucional profundo */
+      --primary-dark: #0f172a;     /* Pizarra oscura */
+      --primary-light: #eff6ff;    /* Azul tenue de fondo */
+      --secondary: #0284c7;        /* Azul cian de acento */
+      --accent-red: #b91c1c;       /* Rojo advertencia / ético */
+      --accent-red-light: #fef2f2;
+      --accent-amber: #b45309;     /* Ámbar aviso */
+      --accent-amber-light: #fffbeb;
+      --accent-green: #15803d;     /* Verde éxito / verificación */
+      --accent-green-light: #f0fdf4;
+      --accent-purple: #6b21a8;    /* Púrpura sintaxis / conceptos */
+      --accent-purple-light: #faf5ff;
+      --text-main: #1f2937;        /* Texto principal */
+      --text-muted: #4b5563;       /* Texto secundario */
+      --border-color: #d1d5db;     /* Bordes sutiles */
+      --border-light: #e5e7eb;
+      --bg-card: #f9fafb;
+      --bg-terminal: #0f172a;
+      --term-text: #f8fafc;
+      --term-prompt: #38bdf8;
+      --term-accent: #4ade80;
+      --term-warn: #fbbf24;
+      --term-err: #f87171;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-size: 9pt;
+      line-height: 1.5;
+      color: var(--text-main);
+      background-color: #ffffff;
+      padding: 0;
+      margin: 0;
+    }
+
+    .page-container {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 20px 28px;
+    }
+
+    /* ==========================================================================
+       ENCABEZADO INSTITUCIONAL Y METADATOS DEL ESTUDIANTE
+       ========================================================================== */
+    .header-institution {
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 10px;
+      margin-bottom: 14px;
+    }
+
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 6px;
+    }
+
+    .inst-titles h1 {
+      font-size: 14pt;
+      color: var(--primary);
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.2px;
+    }
+
+    .inst-titles h2 {
+      font-size: 10.5pt;
+      color: var(--text-muted);
+      font-weight: 600;
+      margin-top: 2px;
+    }
+
+    .badge-container {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 3px;
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 7pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 2px 7px;
+      border-radius: 4px;
+      border: 1px solid transparent;
+    }
+
+    .badge-primary {
+      background-color: var(--primary-light);
+      color: var(--primary);
+      border-color: #bfdbfe;
+    }
+
+    .badge-neutral {
+      background-color: #f3f4f6;
+      color: #374151;
+      border-color: #e5e7eb;
+    }
+
+    .badge-alert {
+      background-color: var(--accent-red-light);
+      color: var(--accent-red);
+      border-color: #fecaca;
+    }
+
+    .badge-purple {
+      background-color: var(--accent-purple-light);
+      color: var(--accent-purple);
+      border-color: #e9d5ff;
+    }
+
+    /* Caja de Datos del Estudiante */
+    .student-data-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 10px 12px;
+      margin-bottom: 16px;
+    }
+
+    .data-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1.2fr 1fr;
+      gap: 8px 14px;
+      align-items: end;
+    }
+
+    .data-field {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .data-label {
+      font-size: 7pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 2px;
+    }
+
+    .data-line {
+      border-bottom: 1px dashed var(--border-color);
+      height: 18px;
+      font-size: 8.5pt;
+      color: #111827;
+      font-weight: 500;
+    }
+
+    /* ==========================================================================
+       TÍTULOS DE SECCIONES
+       ========================================================================== */
+    h2.section-title {
+      font-size: 11pt;
+      color: var(--primary);
+      border-bottom: 1.5px solid var(--border-light);
+      padding-bottom: 3px;
+      margin-top: 18px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    h3.subsection-title {
+      font-size: 9.5pt;
+      color: var(--primary-dark);
+      margin-top: 12px;
+      margin-bottom: 5px;
+      font-weight: 600;
+    }
+
+    h4.subsubsection-title {
+      font-size: 8.5pt;
+      color: var(--text-muted);
+      margin-top: 8px;
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    p {
+      margin-bottom: 8px;
+      text-align: justify;
+    }
+
+    ul, ol {
+      margin-left: 18px;
+      margin-bottom: 8px;
+    }
+
+    li {
+      margin-bottom: 3px;
+    }
+
+    /* ==========================================================================
+       CALLOUTS / CUADROS DE ÉNFASIS
+       ========================================================================== */
+    .callout {
+      border-left: 4px solid var(--primary);
+      background-color: var(--primary-light);
+      padding: 8px 12px;
+      border-radius: 0 5px 5px 0;
+      margin: 10px 0;
+      font-size: 8.5pt;
+    }
+
+    .callout-title {
+      font-weight: 700;
+      font-size: 9pt;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .callout-info {
+      border-left-color: var(--secondary);
+      background-color: #f0f9ff;
+    }
+    .callout-info .callout-title { color: #0369a1; }
+
+    .callout-critical {
+      border-left-color: var(--accent-red);
+      background-color: var(--accent-red-light);
+      border: 1px solid #fecaca;
+      border-left-width: 4px;
+    }
+    .callout-critical .callout-title { color: var(--accent-red); }
+
+    .callout-warning {
+      border-left-color: var(--accent-amber);
+      background-color: var(--accent-amber-light);
+    }
+    .callout-warning .callout-title { color: var(--accent-amber); }
+
+    .callout-tip {
+      border-left-color: var(--accent-green);
+      background-color: var(--accent-green-light);
+    }
+    .callout-tip .callout-title { color: var(--accent-green); }
+
+    .callout-purple {
+      border-left-color: var(--accent-purple);
+      background-color: var(--accent-purple-light);
+    }
+    .callout-purple .callout-title { color: var(--accent-purple); }
+
+    /* ==========================================================================
+       TERMINALES Y BLOQUES DE CÓDIGO
+       ========================================================================== */
+    .terminal-container {
+      background-color: var(--bg-terminal);
+      color: var(--term-text);
+      border-radius: 5px;
+      padding: 10px 12px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 8pt;
+      line-height: 1.45;
+      margin: 10px 0 12px 0;
+      overflow-x: auto;
+      border: 1px solid #334155;
+    }
+
+    .terminal-header {
+      color: #94a3b8;
+      font-size: 7pt;
+      border-bottom: 1px solid #334155;
+      padding-bottom: 3px;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .prompt-win { color: var(--term-prompt); font-weight: 600; }
+    .prompt-nix { color: var(--term-accent); font-weight: 600; }
+    .cmd { color: #ffffff; font-weight: 600; }
+    .output { color: #cbd5e1; }
+    .comment { color: #64748b; font-style: italic; }
+    .err-highlight { color: var(--term-err); font-weight: bold; }
+    .caret-highlight { color: var(--term-warn); font-weight: bold; }
+
+    /* Pestañas multiplataforma visuales */
+    .os-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+      margin: 8px 0 12px 0;
+    }
+
+    .os-card {
+      background: #f8fafc;
+      border: 1px solid var(--border-color);
+      border-radius: 5px;
+      padding: 8px 10px;
+    }
+
+    .os-title {
+      font-size: 7.5pt;
+      font-weight: 700;
+      color: var(--primary-dark);
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--border-light);
+      padding-bottom: 3px;
+      margin-bottom: 6px;
+    }
+
+    .os-code {
+      font-family: ui-monospace, Menlo, Monaco, Consolas, monospace;
+      font-size: 7.5pt;
+      background: #ffffff;
+      padding: 6px 8px;
+      border-radius: 4px;
+      border: 1px solid #cbd5e1;
+      white-space: pre-wrap;
+      word-break: break-word;
+      color: #0f172a;
+      line-height: 1.5;
+    }
+
+    /* ==========================================================================
+       TABLAS Y CHECKLISTS
+       ========================================================================== */
+    table.data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 8px 0 12px 0;
+      font-size: 8pt;
+    }
+
+    table.data-table th,
+    table.data-table td {
+      border: 1px solid var(--border-color);
+      padding: 5px 7px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    table.data-table th {
+      background-color: #f1f5f9;
+      color: var(--primary-dark);
+      font-weight: 700;
+      font-size: 7.5pt;
+      text-transform: uppercase;
+    }
+
+    table.data-table tr:nth-child(even) {
+      background-color: #f8fafc;
+    }
+
+    .check-box-cell {
+      text-align: center;
+      width: 38px;
+      vertical-align: middle;
+    }
+
+    .check-square {
+      display: inline-block;
+      width: 13px;
+      height: 13px;
+      border: 1.5px solid #4b5563;
+      border-radius: 3px;
+      vertical-align: middle;
+      background-color: #ffffff;
+    }
+
+    /* Tarjetas de error / Troubleshooting */
+    .trouble-card {
+      border: 1px solid var(--border-color);
+      border-left: 4px solid var(--accent-amber);
+      background-color: #ffffff;
+      border-radius: 4px;
+      padding: 8px 10px;
+      margin-bottom: 10px;
+      font-size: 8pt;
+    }
+
+    .trouble-card.trouble-critical {
+      border-left-color: var(--accent-red);
+    }
+
+    .trouble-title {
+      font-weight: 700;
+      font-size: 8.5pt;
+      color: var(--primary-dark);
+      margin-bottom: 3px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .trouble-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 8px;
+      margin-top: 5px;
+      background: #f8fafc;
+      padding: 6px 8px;
+      border-radius: 4px;
+      border: 1px solid var(--border-light);
+    }
+
+    /* Cajas de código para estudiante / retos */
+    .student-code-box {
+      border: 1px dashed #64748b;
+      background-color: #fbfcfe;
+      border-radius: 5px;
+      padding: 8px 10px;
+      margin: 6px 0 10px 0;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 7.5pt;
+      line-height: 1.45;
+      color: #334155;
+      white-space: pre-wrap;
+    }
+
+    .student-output-box {
+      border: 1px dashed #0284c7;
+      background-color: #f0f9ff;
+      border-radius: 5px;
+      padding: 8px 10px;
+      margin: 6px 0 10px 0;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 7.5pt;
+      line-height: 1.4;
+      color: #0369a1;
+      white-space: pre-wrap;
+    }
+
+    /* Bloque de firma */
+    .signature-box {
+      margin-top: 14px;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 10px 14px;
+      background-color: #ffffff;
+    }
+
+    .signature-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 10px;
+    }
+
+    .sig-line {
+      border-top: 1px solid #94a3b8;
+      padding-top: 4px;
+      text-align: center;
+      font-size: 7.5pt;
+      color: var(--text-muted);
+    }
+
+    /* ==========================================================================
+       REGLAS DE IMPRESIÓN Y REPRODUCCIÓN FÍSICA (A4)
+       ========================================================================== */
+    @page {
+      size: A4 portrait;
+      margin: 12mm 15mm 15mm 15mm;
+    }
+
+    @media print {
+      body {
+        font-size: 8pt;
+        line-height: 1.35;
+        background-color: #ffffff;
+      }
+
+      .page-container {
+        max-width: 100%;
+        padding: 0;
+        margin: 0;
+      }
+
+      .page-break {
+        page-break-before: always;
+        break-before: page;
+      }
+
+      .callout, .terminal-container, .student-code-box, .student-output-box,
+      .trouble-card, .signature-box, .os-tabs, table.data-table {
+        page-break-inside: avoid;
+        break-inside: avoid;
+      }
+
+      .badge {
+        border: 1px solid #cbd5e1 !important;
+      }
+
+      .terminal-container {
+        border: 1px solid #000000;
+        background-color: #0f172a !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="page-container">
+
+  <!-- =======================================================================
+       ENCABEZADO INSTITUCIONAL
+       ======================================================================= -->
+  <header class="header-institution">
+    <div class="header-top">
+      <div class="inst-titles">
+        <h1>Python for Defensive Security: Fundamentals &amp; Local Lab Tooling</h1>
+        <h2>Cuaderno de Trabajo Práctico — Sesión 04: Decisiones condicionales y clasificación local</h2>
+      </div>
+      <div class="badge-container">
+        <span class="badge badge-primary">SESIÓN 04 / 40</span>
+        <span class="badge badge-neutral">MÓDULO 01</span>
+        <span class="badge badge-alert">&#x1F512; DATOS LOCALES — SIN CONEXIONES DE RED</span>
+        <span class="badge badge-purple">&#x23F1; 60 MINUTOS EXACTOS</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- =======================================================================
+       METADATOS DEL ESTUDIANTE
+       ======================================================================= -->
+  <section class="student-data-card">
+    <div class="data-grid">
+      <div class="data-field">
+        <span class="data-label">Nombre del Estudiante / Operador:</span>
+        <div class="data-line"></div>
+      </div>
+      <div class="data-field">
+        <span class="data-label">Identificador / Matrícula:</span>
+        <div class="data-line"></div>
+      </div>
+      <div class="data-field">
+        <span class="data-label">Sistema Operativo Anfitrión:</span>
+        <div class="data-line">[ ] Windows &nbsp; [ ] macOS &nbsp; [ ] Linux</div>
+      </div>
+      <div class="data-field">
+        <span class="data-label">Fecha de Realización:</span>
+        <div class="data-line"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =======================================================================
+       1. OBJETIVOS DE APRENDIZAJE Y MARCO ÉTICO
+       ======================================================================= -->
+  <section>
+    <h2 class="section-title">1. Objetivos de Aprendizaje y Marco Ético</h2>
+    
+    <p>Al concluir esta sesión de 60 minutos, serás capaz de:</p>
+    <ul>
+      <li><strong>Regla de volumen:</strong> Comprobar una regla explícita con la comparación <code>&gt;=</code> y usar el booleano resultante directamente como condición de un <code>if/else</code>.</li>
+      <li><strong>Cadena de tres niveles:</strong> Clasificar un mismo conteo con <code>if/elif/else</code>, de la condición más exigente a la menos exigente, sabiendo que solo corre la primera rama verdadera.</li>
+      <li><strong>Orden con causa:</strong> Explicar por qué invertir el orden produce un error silencioso (la rama exigente nunca corre) y cómo corregirlo.</li>
+      <li><strong>Límites honestos:</strong> Distinguir etiquetas y recomendaciones para revisión humana de acciones reales (el programa no bloquea, no aísla y no contacta nada).</li>
+      <li><strong>Comunicación:</strong> Mostrar los resultados en un resumen simple y legible con <code>print()</code>: un encabezado más siete líneas de datos.</li>
+    </ul>
+
+    <p>La secuencia de toda la sesión es explícita: <strong>evidencia → expresión booleana → condición → rama ejecutada → mensaje/recomendación</strong>.</p>
+
+    <div class="callout callout-info">
+      <div class="callout-title">&#x1F4CC; El repositorio es solamente respaldo</div>
+      <p style="margin-bottom: 0;">No necesitas clonar el repositorio ni conocer su estructura. Trabajarás en <strong>tu proyecto de la sesión 01</strong> (<code>curso-python-defensivo</code>) y crearás manualmente el archivo <code>incident_classifier.py</code>.</p>
+    </div>
+
+    <div class="callout callout-critical">
+      <div class="callout-title">&#x26A0;&#xFE0F; Compromiso Ético del Laboratorio Local</div>
+      <p style="margin-bottom: 0;">Todo el trabajo de esta sesión usa <strong>datos sintéticos escritos por ti en tu propia máquina</strong>. No hay conexiones de red ni destinos externos. Las etiquetas y recomendaciones del programa organizan la revisión humana: no ejecutan ninguna acción.</p>
+    </div>
+  </section>
+
+  <!-- =======================================================================
+       2. FUNDAMENTOS CONCEPTUALES DE LA SESIÓN
+       ======================================================================= -->
+  <section>
+    <h2 class="section-title">2. Fundamentos Conceptuales de la Sesión</h2>
+
+    <p>
+      Una <strong>decisión condicional</strong> elige qué parte del programa se ejecuta a partir de una evidencia. En la Sesión 02 aprendiste que una comparación como <code>&gt;=</code> produce un valor booleano (<code>True</code> o <code>False</code>); en la Sesión 03 aprendiste a preparar y leer evidencia textual local. Hoy unes ambas ideas: la evidencia produce un booleano, el booleano elige una rama y la rama deja un mensaje o una recomendación en el resumen.
+    </p>
+
+    <h3 class="subsection-title">Cómo decide Python con if (en clase, sin evaluar nada más)</h3>
+    <p style="font-size: 8.5pt;">
+      Una condición elige <strong>una sola rama</strong>. Primero miras la regla de volumen, que ya conoces de la Sesión 02:
+    </p>
+    <div class="student-code-box">many_failed_attempts = failed_attempts >= 5
+
+if many_failed_attempts:
+    volume_message = "Regla de volumen cumplida: 5 o más intentos"
+else:
+    volume_message = "Regla de volumen no cumplida: menos de 5 intentos"</div>
+    <p style="font-size: 8.5pt;">
+      La comparación produce el booleano y el <code>if/else</code> lo usa directamente como condición: con <code>True</code> corre la primera rama, con <code>False</code> corre la segunda. Nunca corren las dos.
+    </p>
+    <p style="font-size: 8.5pt;">
+      Con tres niveles, la cadena se lee de arriba a abajo y <strong>se detiene en la primera condición verdadera</strong>:
+    </p>
+    <div class="student-code-box">if failed_attempts >= 10:
+    risk_label = "HIGH"
+elif failed_attempts >= 5:
+    risk_label = "MEDIUM"
+else:
+    risk_label = "LOW"</div>
+    <p style="font-size: 8.5pt;">
+      Con 9, la primera condición es falsa y la segunda es verdadera: corre <code>MEDIUM</code>. Por eso el orden va de la condición más exigente (<code>&gt;= 10</code>) a la menos exigente (<code>&gt;= 5</code>).
+    </p>
+
+    <div class="callout callout-tip" style="margin: 8px 0;">
+      <div class="callout-title">&#x1F4CC; Tres precisiones y nada más</div>
+      <p style="margin-bottom: 3px; font-size: 8pt;">
+        <strong>Solo la primera rama verdadera corre:</strong> si inviertes el orden y pruebas <code>&gt;= 5</code> antes que <code>&gt;= 10</code>, un valor como 12 se detiene en <code>MEDIUM</code> y <code>HIGH</code> nunca corre, sin ningún mensaje de error (verás este caso en la sección 5).
+      </p>
+      <p style="margin-bottom: 3px; font-size: 8pt;">
+        <strong>Condiciones de hoy, nada más:</strong> la comparación <code>&gt;=</code> y un booleano ya calculado usado directo como condición. Combinar condiciones con <code>and</code>/<code>or</code>, buscar con <code>in</code>, comparar identidad con <code>is None</code> y anidar un <code>if</code> dentro de otro quedan para sesiones posteriores.
+      </p>
+      <p style="margin-bottom: 0; font-size: 8pt;">
+        <strong>Alcance de hoy:</strong> en esta sesión trabajamos <code>str</code>, <code>int</code> y <code>bool</code> con <code>if</code>/<code>elif</code>/<code>else</code>. Los umbrales <code>&gt;= 10</code> y <code>&gt;= 5</code> son reglas didácticas de este laboratorio, no estándares universales.
+      </p>
+    </div>
+
+    <!-- Tabla de reglas del laboratorio -->
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th style="width: 25%;">Regla del laboratorio</th>
+          <th style="width: 30%;">Condición (en este orden)</th>
+          <th style="width: 45%;">Etiqueta y recomendación para revisión humana</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Regla de volumen</strong></td>
+          <td><code>many_failed_attempts</code> es <code>True</code> / <code>False</code></td>
+          <td>Mensaje de volumen: se cumplió la regla de 5 o más intentos, o no se cumplió.</td>
+        </tr>
+        <tr>
+          <td><strong>Revisión de hoy</strong></td>
+          <td><code>failed_attempts &gt;= 10</code> (primera)</td>
+          <td><code>HIGH</code> — <code>Revisar hoy con un mentor</code>.</td>
+        </tr>
+        <tr>
+          <td><strong>Revisión de la semana</strong></td>
+          <td><code>failed_attempts &gt;= 5</code> (segunda)</td>
+          <td><code>MEDIUM</code> — <code>Agendar revisión esta semana</code>.</td>
+        </tr>
+        <tr>
+          <td><strong>Registro local</strong></td>
+          <td>En otro caso (<code>else</code>)</td>
+          <td><code>LOW</code> — <code>Conservar en el registro local</code>.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Analogía Didáctica de la Vida Real -->
+    <div class="callout callout-info" style="margin: 10px 0;">
+      <div class="callout-title">&#x1F4A1; La bandeja de revisión: primero lo urgente, luego lo demás</div>
+      <p style="margin-bottom: 4px;">
+        Piensa en la bandeja de entrada de quien revisa casos: primero aparta los pocos que debe ver hoy, luego los que pueden esperar a la semana y al final deja el resto archivado.
+      </p>
+      <p style="margin-bottom: 0;">
+        La cadena <code>if/elif/else</code> hace lo mismo con tu observación: pregunta primero lo más exigente (<code>&gt;= 10</code>) y solo si no aplica pregunta lo siguiente (<code>&gt;= 5</code>). Cada observación cae en una sola bandeja, igual que cada ejecución corre una sola rama.
+      </p>
+    </div>
+
+    <!-- Restricción pedagógica -->
+    <div class="callout callout-tip" style="margin: 8px 0;">
+      <div class="callout-title">&#x1F4CD; Código en inglés, mensajes en español</div>
+      <p style="margin-bottom: 3px; font-size: 8pt;">
+        <strong>Código en inglés por consistencia y colaboración:</strong> las variables y comentarios van en inglés (<code>failed_attempts</code>, <code>many_failed_attempts</code>, <code>risk_label</code>, <code>review_action</code>) con estilo PEP 8, para que cualquier equipo pueda leer tu código. Los mensajes que ve el usuario van en español.
+      </p>
+      <p style="margin-bottom: 0; font-size: 8pt;">
+        <strong>Código lineal en esta sesión:</strong> de arriba a abajo, con un <code>if/else</code> y una cadena breve <code>if/elif/else</code>. Sin funciones (<code>def</code>), sin <code>try/except</code>, sin colecciones (<code>list</code>, <code>dict</code>), sin <code>imports</code> y sin archivos ni red.
+      </p>
+    </div>
+  </section>
+
+  <!-- =======================================================================
+       3. GUÍA DE PRÁCTICA DE LABORATORIO PASO A PASO
+       ======================================================================= -->
+  <section>
+    <h2 class="section-title">3. Reutiliza tu Proyecto de la Sesión 01</h2>
+
+    <p>Todo el trabajo de hoy ocurre en <strong>tu proyecto de la sesión 01</strong> (<code>curso-python-defensivo</code>). Sigue estos pasos en orden:</p>
+
+    <ol style="font-size: 8.5pt; margin-left: 18px; margin-bottom: 10px;">
+      <li><strong>Localiza tu proyecto:</strong> abre la terminal en la carpeta <code>curso-python-defensivo</code> que creaste en la sesión 01.</li>
+      <li><strong>Activa el entorno:</strong> activa <code>.venv</code> hasta ver el prefijo <code>(.venv)</code> en el prompt.</li>
+      <li><strong>Verifica el intérprete:</strong> ejecuta <code>python --version</code> (o <code>python3 --version</code>) y confirma Python 3.13.x.</li>
+      <li><strong>Crea el archivo nuevo:</strong> crea manualmente <code>incident_classifier.py</code> en esa carpeta.</li>
+      <li><strong>Ejecuta ahí mismo:</strong> corre <code>python incident_classifier.py</code> sin cambiar de carpeta.</li>
+    </ol>
+
+    <div class="callout callout-purple" style="margin: 6px 0 10px 0;">
+      <div class="callout-title">&#x1F4BB; Higiene de terminal: "Mirar antes de saltar"</div>
+      <p style="font-size: 8pt; margin-bottom: 0;">
+        1. <strong>Lista primero:</strong> <code>dir</code> (Windows) o <code>ls</code> (Linux/macOS) para confirmar que <code>incident_classifier.py</code> existe donde estás.<br>
+        2. <strong>Autocompleta con <code>Tab</code>:</strong> escribe <code>python incident</code> y presiona <code>Tab</code>.<br>
+        3. <strong>Repite con <code>↑</code>:</strong> la flecha arriba recupera el comando anterior.<br>
+        4. <strong>Cancela con <code>Ctrl + C</code>:</strong> si algo se queda esperando, aborta limpiamente y reintenta.
+      </p>
+    </div>
+
+    <h3 class="subsection-title">Ruta principal — Windows (PowerShell)</h3>
+    <div class="terminal-container">
+      <div class="terminal-header"><span>Windows — Reutilizar proyecto</span><span>Python 3.13</span></div>
+<div><span class="prompt-win">PS&gt;</span> <span class="cmd">cd curso-python-defensivo</span></div>
+<div><span class="prompt-win">PS&gt;</span> <span class="cmd">dir</span></div>
+<div><span class="prompt-win">PS&gt;</span> <span class="cmd">.\.venv\Scripts\Activate.ps1</span></div>
+<div><span class="prompt-win">(.venv) PS&gt;</span> <span class="cmd">python --version</span></div>
+<div><span class="output">Python 3.13.x</span></div>
+<div><span class="comment"># Crea incident_classifier.py con tu editor y luego:</span></div>
+<div><span class="prompt-win">(.venv) PS&gt;</span> <span class="cmd">python incident_classifier.py</span></div>
+    </div>
+
+    <h3 class="subsection-title">Ruta principal — Linux (Bash)</h3>
+    <div class="terminal-container">
+      <div class="terminal-header"><span>Linux — Reutilizar proyecto</span><span>Python 3.13</span></div>
+<div><span class="prompt-nix">(.venv) $</span> <span class="cmd">cd ~/curso-python-defensivo</span></div>
+<div><span class="prompt-nix">$</span> <span class="cmd">ls</span></div>
+<div><span class="prompt-nix">$</span> <span class="cmd">source .venv/bin/activate</span></div>
+<div><span class="prompt-nix">(.venv) $</span> <span class="cmd">python3 --version</span></div>
+<div><span class="output">Python 3.13.x</span></div>
+<div><span class="comment"># Crea incident_classifier.py con tu editor y luego:</span></div>
+<div><span class="prompt-nix">(.venv) $</span> <span class="cmd">python3 incident_classifier.py</span></div>
+    </div>
+
+    <h3 class="subsection-title">Ruta principal — macOS (Zsh)</h3>
+    <div class="terminal-container">
+      <div class="terminal-header"><span>macOS — Reutilizar proyecto</span><span>Python 3.13</span></div>
+<div><span class="prompt-nix">(.venv) $</span> <span class="cmd">cd ~/curso-python-defensivo</span></div>
+<div><span class="prompt-nix">$</span> <span class="cmd">ls</span></div>
+<div><span class="prompt-nix">$</span> <span class="cmd">source .venv/bin/activate</span></div>
+<div><span class="prompt-nix">(.venv) $</span> <span class="cmd">python3 --version</span></div>
+<div><span class="output">Python 3.13.x</span></div>
+<div><span class="comment"># Crea incident_classifier.py con tu editor y luego:</span></div>
+<div><span class="prompt-nix">(.venv) $</span> <span class="cmd">python3 incident_classifier.py</span></div>
+    </div>
+    <p style="font-size: 8pt;">Desarrollo local en macOS con <code>python3</code>. La validación final del laboratorio se realiza en Windows con <code>python</code>.</p>
+
+    <div class="callout callout-warning" style="margin: 6px 0 10px 0;">
+      <div class="callout-title">&#x1F6DF; Ruta de recuperación (solo si perdiste tu proyecto)</div>
+      <p style="font-size: 8pt; margin-bottom: 4px;"><strong>Windows:</strong></p>
+      <p style="font-size: 8pt; font-family: ui-monospace, monospace; background: #fff; border: 1px solid #e5e7eb; border-radius: 4px; padding: 6px 8px;">mkdir curso-python-defensivo<br>cd curso-python-defensivo<br>py -3.13 -m venv .venv<br>.\.venv\Scripts\Activate.ps1<br>python --version</p>
+      <p style="font-size: 8pt; margin-bottom: 4px;"><strong>Linux:</strong></p>
+      <p style="font-size: 8pt; font-family: ui-monospace, monospace; background: #fff; border: 1px solid #e5e7eb; border-radius: 4px; padding: 6px 8px;">mkdir -p ~/curso-python-defensivo<br>cd ~/curso-python-defensivo<br>python3.13 -m venv .venv<br>source .venv/bin/activate<br>python3 --version</p>
+      <p style="font-size: 8pt; margin-bottom: 4px;"><strong>macOS:</strong></p>
+      <p style="font-size: 8pt; font-family: ui-monospace, monospace; background: #fff; border: 1px solid #e5e7eb; border-radius: 4px; padding: 6px 8px;">mkdir -p ~/curso-python-defensivo<br>cd ~/curso-python-defensivo<br>python3.13 -m venv .venv<br>source .venv/bin/activate<br>python3 --version</p>
+      <p style="font-size: 8pt; margin-bottom: 0;">Debes ver el prefijo <code>(.venv)</code> y la versión 3.13.x antes de continuar.</p>
+    </div>
+  </section>
+
+  <!-- =======================================================================
+       4. RETO PRÁCTICO AUTÓNOMO INDIVIDUAL
+       ======================================================================= -->
+  <section class="page-break">
+    <h2 class="section-title">4. Reto Práctico: Clasificar una Observación Local (25 minutos)</h2>
+
+    <div class="callout callout-info" style="margin-bottom: 10px;">
+      <div class="callout-title">&#x1F3AF; Historia: preparar una observación para revisión humana (<code>incident_classifier.py</code>)</div>
+      <p style="margin-bottom: 0;">
+        Formas parte del equipo que prepara observaciones de práctica para revisión humana. El cuaderno de práctica registra <strong>una observación</strong>: 9 intentos fallidos de acceso en la máquina local de entrenamiento. Antes de pasarla a quien revisa el caso, la clasificas en tu propia máquina con dos decisiones encadenadas. Primero compruebas la regla de volumen del laboratorio (5 o más intentos) con un <code>if/else</code> simple. Después asignas una prioridad de revisión de tres niveles con una cadena breve <code>if/elif/else</code> sobre el mismo conteo. Finalmente muestras un resumen que permite identificar de quién es el trabajo, revisar cada resultado y saber qué rama se ejecutó.
+      </p>
+    </div>
+
+    <h3 class="subsection-title">La evidencia y las reglas (léelas antes de programar):</h3>
+    <div class="student-code-box">failed_attempts = 9</div>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Regla del laboratorio</th>
+          <th>Condición (en este orden)</th>
+          <th>Etiqueta y recomendación</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Revisión de hoy</strong></td>
+          <td><code>failed_attempts &gt;= 10</code> (primera)</td>
+          <td><code>HIGH</code> — <code>Revisar hoy con un mentor</code></td>
+        </tr>
+        <tr>
+          <td><strong>Revisión de la semana</strong></td>
+          <td><code>failed_attempts &gt;= 5</code> (segunda)</td>
+          <td><code>MEDIUM</code> — <code>Agendar revisión esta semana</code></td>
+        </tr>
+        <tr>
+          <td><strong>Registro local</strong></td>
+          <td>En otro caso (<code>else</code>)</td>
+          <td><code>LOW</code> — <code>Conservar en el registro local</code></td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="font-size: 8pt;">Regla de volumen: <code>many_failed_attempts = failed_attempts &gt;= 5</code>. Los umbrales son reglas didácticas de este laboratorio, no estándares universales.</p>
+
+    <h3 class="subsection-title">Los 4 pasos (en este orden):</h3>
+    <ol style="font-size: 8.5pt; margin-left: 18px; margin-bottom: 10px;">
+      <li><strong>Evidencia:</strong> asigna el conteo observado de la práctica y tu identidad (<code>failed_attempts = 9</code> trae el caso; <code>student_name</code> y <code>student_id</code> dicen de quién es el trabajo).</li>
+      <li><strong>Regla de volumen:</strong> <code>many_failed_attempts = failed_attempts &gt;= 5</code> (la comparación produce el booleano) y un <code>if/else</code> cuya condición es ese booleano usado directo: con <code>True</code> corre el mensaje de regla cumplida, con <code>False</code> el de regla no cumplida.</li>
+      <li><strong>Prioridad:</strong> clasifica el mismo conteo con <code>if/elif/else</code> de la condición más exigente a la menos exigente (<code>&gt;= 10</code> hoy con un mentor, <code>&gt;= 5</code> esta semana, lo demás al registro local) en <code>risk_label</code> y <code>review_action</code>.</li>
+      <li><strong>Comunicación:</strong> imprime el encabezado y las siete líneas de datos con <code>print()</code> (evidencia legible para revisar qué rama se ejecutó). Código lineal: sin funciones, sin <code>try/except</code>, sin colecciones, sin <code>imports</code>, sin <code>and</code>/<code>or</code>/<code>in</code>/<code>is None</code> y sin anidación.</li>
+    </ol>
+
+    <h3 class="subsection-title">Tu archivo <code>incident_classifier.py</code> (complétalo):</h3>
+    <div class="student-code-box">
+# STEP 1: Evidence (given) — one local observation, nothing decided yet
+failed_attempts = 9
+
+student_name = "Alex Mendez"
+student_id = "DEF-2026-09"
+
+# STEP 2: Volume rule — TODO: produce el booleano y decide con if/else
+many_failed_attempts = False  # TODO: produce el booleano con la regla de volumen
+volume_message = "PENDING"  # TODO: decide con if/else sobre ese booleano
+
+# STEP 3: Priority — TODO: clasifica en tres niveles, de lo más exigente a lo menos exigente
+risk_label = "PENDING"  # TODO: clasifica con if/elif/else
+review_action = "PENDING"  # TODO: recomienda con la misma cadena
+
+# STEP 4: Communication — resumen simple y legible
+print("--- Resumen del incidente ---")
+print(f"Nombre: {student_name}")
+print(f"Identificador: {student_id}")
+print(f"Intentos fallidos: {failed_attempts}")
+print(f"Regla de volumen cumplida: {many_failed_attempts}")
+print(f"Mensaje de volumen: {volume_message}")
+print(f"Nivel de riesgo: {risk_label}")
+print(f"Revisión recomendada: {review_action}")
+    </div>
+
+    <h3 class="subsection-title">Salida esperada (verifica con tu ejecución):</h3>
+    <p style="font-size: 8pt;">Usa tus propios nombre e identificador; los demás valores deben coincidir.</p>
+    <div class="student-output-box">
+--- Resumen del incidente ---
+Nombre: Alex Mendez
+Identificador: DEF-2026-09
+Intentos fallidos: 9
+Regla de volumen cumplida: True
+Mensaje de volumen: Regla de volumen cumplida: 5 o más intentos
+Nivel de riesgo: MEDIUM
+Revisión recomendada: Agendar revisión esta semana
+    </div>
+    <p style="font-size: 8pt;">Con tus propios datos el nombre y el identificador cambian, pero el resumen siempre tiene el mismo encabezado y las mismas siete líneas de datos legibles. Con 9, la primera condición (<code>&gt;= 10</code>) es falsa y la segunda (<code>&gt;= 5</code>) es verdadera: corre <code>MEDIUM</code>.</p>
+
+    <div class="callout callout-warning" style="margin: 6px 0 10px 0;">
+      <div class="callout-title">&#x1F4CC; Lo que el resumen sí dice y lo que no dice</div>
+      <p style="font-size: 8pt; margin-bottom: 0;">
+        El resumen <strong>organiza la evidencia para la revisión humana</strong>: etiquetas (<code>HIGH</code>, <code>MEDIUM</code>, <code>LOW</code>) y recomendaciones (<code>Revisar hoy con un mentor</code>, <code>Agendar revisión esta semana</code>, <code>Conservar en el registro local</code>). No bloquea tráfico, no aísla equipos, no termina procesos y no abre conexiones. <code>True</code> solo indica que se cumple la regla correspondiente.
+      </p>
+    </div>
+  </section>
+
+  <!-- =======================================================================
+       5. CLÍNICA DE ERRORES Y DIAGNÓSTICO (TROUBLESHOOTING)
+       ======================================================================= -->
+  <section>
+    <h2 class="section-title">5. Clínica de Errores: Lee el Mensaje</h2>
+    <p style="font-size: 8pt;">
+      Los errores te dicen exactamente qué pasó. Estos son los dos de esta sesión: uno que interrumpe con traza completa de Python 3.13 y uno silencioso que clasifica mal sin avisar:
+    </p>
+
+    <!-- Error Provocado 1 -->
+    <div class="trouble-card trouble-critical">
+      <div class="trouble-title">&#x1F6A8; Error 1: IndentationError por escribir la rama sin sangría</div>
+      <div class="terminal-container" style="margin: 4px 0; padding: 6px 8px; font-size: 7.5pt;">
+  File <span class="output">"incident_classifier.py"</span>, line <span class="output">48</span>, in <span class="output">&lt;module&gt;</span>
+    <span class="cmd">volume_message = "Regla de volumen cumplida: 5 o más intentos"</span>
+    <span class="caret-highlight">^^^^^^^^^^^^^^</span>
+<span class="err-highlight">IndentationError: expected an indented block after 'if' statement on line 47</span>
+      </div>
+      <div class="trouble-grid">
+        <div>
+          <strong>Qué pasó:</strong>
+          <p style="font-size: 7.5pt; margin-top: 2px;">
+            Escribiste el cuerpo de la rama pegado al margen, sin los 4 espacios de sangría. Python exige indentar cada rama: sin sangría no sabe qué líneas pertenecen al <code>if</code> de la línea 47 y se detiene.
+          </p>
+        </div>
+        <div>
+          <strong>Cómo se corrige:</strong>
+          <p style="font-size: 7.5pt; margin-top: 2px;">
+            Indenta 4 espacios todas las líneas de cada rama y vuelve a ejecutar con <code>↑</code>. Todas las ramas del mismo bloque llevan la misma sangría.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Error Provocado 2 -->
+    <div class="trouble-card">
+      <div class="trouble-title">&#x26A0;&#xFE0F; Error 2: error silencioso por probar los umbrales al revés (sin traza)</div>
+      <div class="terminal-container" style="margin: 4px 0; padding: 6px 8px; font-size: 7.5pt;">
+<span class="comment"># Código con el orden invertido (NO lo copies): la rama exigente nunca corre</span>
+<div><span class="cmd">if failed_attempts >= 5:</span></div>
+<div><span class="cmd">    risk_label = "MEDIUM"</span></div>
+<div><span class="cmd">elif failed_attempts >= 10:</span></div>
+<div><span class="cmd">    risk_label = "HIGH"</span></div>
+<div><span class="output">--- Resumen del incidente ---</span></div>
+<div><span class="output">Intentos fallidos: 12</span></div>
+<div><span class="output">Nivel de riesgo: MEDIUM   ← mal clasificado, y Python no avisó</span></div>
+      </div>
+      <div class="trouble-grid">
+        <div>
+          <strong>Qué pasó:</strong>
+          <p style="font-size: 7.5pt; margin-top: 2px;">
+            Python corre <strong>solo la primera rama verdadera</strong>. Con 12, la condición <code>&gt;= 5</code> ya es verdadera, así que corre <code>MEDIUM</code> y nunca llega a probar <code>&gt;= 10</code>. No hay mensaje de error: el programa corre y clasifica mal en silencio.
+          </p>
+        </div>
+        <div>
+          <strong>Cómo se corrige:</strong>
+          <p style="font-size: 7.5pt; margin-top: 2px;">
+            Ordena siempre de la condición más exigente a la menos exigente: primero <code>&gt;= 10</code>, luego <code>&gt;= 5</code>, al final <code>else</code>. Con ese orden, 12 corre <code>HIGH</code> y 9 corre <code>MEDIUM</code>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =======================================================================
+       6. DESAFÍO DE EXTENSIÓN PARA AVANCE RÁPIDO
+       ======================================================================= -->
+  <section>
+    <h2 class="section-title">6. Desafío Opcional para Avance Rápido (no se evalúa)</h2>
+    <div class="callout callout-tip">
+      <div class="callout-title">&#x1F680; Solo si terminaste antes: prueba 3 y 12 y di qué rama corre</div>
+      <p style="font-size: 8pt; margin-bottom: 4px;">
+        Cambia <code>failed_attempts</code> a <code>3</code>, ejecuta de nuevo con <code>↑</code> y di en voz alta qué rama se ejecuta y por qué. Repite con <code>12</code>. Son valores ya explicados, aplicados a tus dos decisiones. Ocurre dentro de la clase.
+      </p>
+      <p style="font-size: 8pt; margin-bottom: 0;">
+        Es solo práctica extra y <strong>no afecta tu evaluación</strong>. Sin sintaxis nueva. No lo confundas con la <strong>Tarea Posterior</strong> de la sección 8, que se hace fuera de clase con un archivo distinto (<code>evaluacion_alerta.py</code>).
+      </p>
+    </div>
+  </section>
+
+  <!-- =======================================================================
+       7. LISTA DE VERIFICACIÓN RÁPIDA Y FIRMA DOCENTE (SIGN-OFF)
+       ======================================================================= -->
+  <section>
+    <h2 class="section-title">7. Lista de Verificación y Firma Docente</h2>
+    <p style="font-size: 8pt;">Antes de pedir la firma, comprueba cada punto y prepárate para explicarlo en voz alta:</p>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th class="check-box-cell">OK</th>
+          <th style="width: 38%;">Criterio de comprensión</th>
+          <th>Evidencia en tu pantalla</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="check-box-cell"><span class="check-square"></span></td>
+          <td><strong>Proyecto y entorno:</strong> trabajo en mi carpeta con <code>.venv</code></td>
+          <td>El prompt muestra <code>(.venv)</code>, Python es 3.13.x y el archivo es <code>incident_classifier.py</code> en mi proyecto.</td>
+        </tr>
+        <tr>
+          <td class="check-box-cell"><span class="check-square"></span></td>
+          <td><strong>Regla de volumen:</strong> explico qué produce <code>&gt;= 5</code> y cómo el booleano elige la rama del <code>if/else</code></td>
+          <td>Volumen <code>True</code> con 9 y mensaje de regla cumplida; sé qué rama corre con <code>True</code> y cuál con <code>False</code>.</td>
+        </tr>
+        <tr>
+          <td class="check-box-cell"><span class="check-square"></span></td>
+          <td><strong>Prioridad y orden:</strong> explico por qué la cadena va de lo más exigente a lo menos exigente</td>
+          <td>Nivel <code>MEDIUM</code> con 9; sé por qué 12 mal ordenado caería en <code>MEDIUM</code> sin error y cómo se corrige.</td>
+        </tr>
+        <tr>
+          <td class="check-box-cell"><span class="check-square"></span></td>
+          <td><strong>Límites y comunicación:</strong> explico qué recomienda cada rama, qué NO hace el programa y cómo llega cada resultado al resumen</td>
+          <td>Recomendación <code>Agendar revisión esta semana</code> y encabezado más siete líneas de datos legibles.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p style="font-size: 8pt;"><strong>Orientación de estilo (no se califica):</strong> escribe el código en inglés (<code>failed_attempts</code>, <code>risk_label</code>) y los mensajes para el usuario en español. El ejemplo usa f-strings como una forma cómoda de mostrar variables; la sintaxis de f-string no es un objetivo evaluado.</p>
+
+    <div class="signature-box">
+      <p style="font-size: 7.5pt; color: var(--text-muted); margin-bottom: 6px;">
+        <strong>Declaración del Estudiante:</strong> Certifico que el código presentado fue escrito por mí de forma autónoma sin asistentes de IA, que trabajé con datos sintéticos en mi propia máquina sin conexiones de red y que puedo explicar la cadena evidencia → expresión booleana → condición → rama ejecutada → mensaje/recomendación, por qué importa el orden y qué NO hace mi programa.
+      </p>
+      <div class="signature-grid">
+        <div>
+          <div class="sig-line">Firma del Estudiante / Operador</div>
+        </div>
+        <div>
+          <div class="sig-line">Sello / Validación Docente</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =======================================================================
+       8. TAREA POSTERIOR A LA CLASE (FUERA DE LOS 60 MINUTOS)
+       ======================================================================= -->
+  <section class="page-break">
+    <h2 class="section-title">8. Tarea Posterior a la Clase (fuera de los 60 minutos)</h2>
+
+    <p style="font-size: 8pt;">Esta tarea es una transferencia un poco más compleja para hacer fuera de clase. No forma parte del cronograma ni expande el ejercicio principal. Usa un archivo nuevo (<code>evaluacion_alerta.py</code>), distinto del <code>incident_classifier.py</code> de clase y del desafío de la sección 6.</p>
+
+    <div class="callout callout-info" style="margin-bottom: 10px;">
+      <div class="callout-title">&#x1F3AF; Historia: dejar lista una alerta local de práctica (<code>evaluacion_alerta.py</code>)</div>
+      <p style="margin-bottom: 0;">
+        Actúas como el auxiliar responsable de dejar lista una alerta local de práctica para su revisión. El punto de partida es la revisión nocturna del servicio local de práctica, distinta de la observación de intentos de acceso de clase. Para dejarla utilizable registras de quién es el trabajo (<code>student_name</code>, <code>student_id</code>), pides por teclado las líneas de error de su registro sintético y la respuesta promedio y las conviertes (<code>raw_error_lines = input("Líneas de error: ")</code>, <code>error_lines = int(raw_error_lines)</code>, <code>raw_avg_response_ms = input("Respuesta promedio en ms: ")</code>, <code>avg_response_ms = float(raw_avg_response_ms)</code>; reactiva la Sesión 02 sin manejo de errores), compruebas la regla de volumen del laboratorio con <code>if/else</code> (<code>many_errors = error_lines &gt;= 10</code>) y clasificas el tiempo de respuesta en tres niveles con <code>if/elif/else</code> (<code>&gt;= 1000.0</code> se revisa hoy con un mentor, <code>&gt;= 500.0</code> se agenda esta semana, lo demás queda en el registro local). <code>True</code> solo indica que se cumple la regla correspondiente; los umbrales son reglas didácticas, no estándares universales, y no prueban un ataque. Tu resumen le sirve a la persona responsable de revisar el caso para priorizar la revisión humana en un solo lugar. La tarea integra entrada → conversión → decisión → comunicación, mientras el ejercicio principal aísla decisión → comunicación. Crea manualmente <code>evaluacion_alerta.py</code> en tu proyecto personal, con código lineal y nombres técnicos en inglés (mensajes en español).
+      </p>
+    </div>
+
+    <h3 class="subsection-title">Punto de partida: la entrada por teclado (escríbela tal cual)</h3>
+    <div class="student-code-box">raw_error_lines = input("Líneas de error: ")
+error_lines = int(raw_error_lines)
+raw_avg_response_ms = input("Respuesta promedio en ms: ")
+avg_response_ms = float(raw_avg_response_ms)</div>
+    <p style="font-size: 8pt;">Escribe ambas peticiones exactas con esos prompts y esas conversiones: el programa debe pedir y convertir antes de decidir. Para comprobar, escribe <code>14</code> y <code>850.0</code>; el resumen debe coincidir con el ejemplo único de abajo. Si se escribe texto no numérico, el programa se interrumpe con <code>ValueError</code>: es el comportamiento esperado y no se captura con <code>try/except</code> en esta sesión. Sin validación, reintentos, bucles, funciones, <code>try/except</code>, <code>imports</code> ni conceptos futuros. No necesitas abrir el repositorio ni consultar la solución para completar la tarea.</p>
+
+    <h3 class="subsection-title">Antes de programar, analiza (sin ejecutar código):</h3>
+    <ol style="font-size: 8.5pt; margin-left: 18px; margin-bottom: 10px;">
+      <li>Qué conteo alimenta el booleano de volumen y qué regla comprueba <code>&gt;= 10</code>.</li>
+      <li>Qué número alimenta la cadena de tres niveles y por qué <code>&gt;= 1000.0</code> debe probarse antes que <code>&gt;= 500.0</code>.</li>
+      <li>Qué rama corre con 850.0 y qué le pide a un humano hacer (y qué no hace por sí sola).</li>
+      <li>Qué significan <code>HIGH</code>, <code>MEDIUM</code> y <code>LOW</code> en esta tarea y por qué ninguna ejecuta una acción.</li>
+    </ol>
+
+    <h3 class="subsection-title">Los 4 pasos (en este orden):</h3>
+    <ol style="font-size: 8.5pt; margin-left: 18px; margin-bottom: 10px;">
+      <li><strong>Evidencia:</strong> pide la alerta por teclado y conviértela (reactiva la Sesión 02: <code>raw_error_lines = input("Líneas de error: ")</code> → <code>int(...)</code>; <code>raw_avg_response_ms = input("Respuesta promedio en ms: ")</code> → <code>float(...)</code>) y tu identidad (<code>student_name</code>, <code>student_id</code>).</li>
+      <li><strong>Regla de volumen:</strong> <code>many_errors = error_lines &gt;= 10</code> (la comparación produce el booleano) y un <code>if/else</code> cuya condición es ese booleano usado directo, con los mensajes de la tabla de abajo.</li>
+      <li><strong>Prioridad:</strong> clasifica <code>avg_response_ms</code> con <code>if/elif/else</code> de la condición más exigente a la menos exigente (<code>&gt;= 1000.0</code> hoy con un mentor, <code>&gt;= 500.0</code> esta semana, lo demás al registro local) en <code>risk_label</code> y <code>review_action</code>.</li>
+      <li><strong>Comunicación:</strong> imprime el encabezado y las siete líneas de datos con <code>print()</code> (evidencia legible para revisar qué rama se ejecutó). Código lineal: sin validación, reintentos, bucles, funciones, <code>try/except</code>, colecciones, <code>imports</code>, <code>and</code>/<code>or</code>/<code>in</code>/<code>is None</code> ni anidación.</li>
+    </ol>
+
+    <h3 class="subsection-title">Comprueba con el ejemplo único:</h3>
+    <p style="font-size: 8pt;">Usa tus propios nombre e identificador; los demás valores deben coincidir. Escribe <code>14</code> y <code>850.0</code> cuando el programa lo pida.</p>
+    <div class="student-output-box">
+--- Resumen de la alerta ---
+Nombre: Alex Mendez
+Identificador: DEF-2026-09
+Líneas de error: 14
+Regla de volumen cumplida: True
+Mensaje de volumen: Regla de volumen cumplida: 10 o más líneas de error
+Respuesta promedio: 850.0 ms
+Nivel de riesgo: MEDIUM
+Revisión recomendada: Agendar revisión esta semana
+    </div>
+    <p style="font-size: 8pt;">Con 850.0, la primera condición (<code>&gt;= 1000.0</code>) es falsa y la segunda (<code>&gt;= 500.0</code>) es verdadera: corre <code>MEDIUM</code>. La tarea integra entrada → conversión → decisión → comunicación, mientras el ejercicio principal aísla decisión → comunicación.</p>
+
+    <div class="callout callout-warning" style="margin: 6px 0 10px 0;">
+      <div class="callout-title">&#x26A0;&#xFE0F; Propósito real y límites</div>
+      <p style="font-size: 8pt; margin-bottom: 3px;">
+        El resumen <strong>organiza la evidencia local para la revisión humana</strong>: no confirma un incidente, no bloquea nada, no aísla equipos y no sustituye la investigación.
+      </p>
+      <p style="font-size: 8pt; margin-bottom: 0;">
+        <code>True</code> significa que se cumple la regla didáctica correspondiente. Las recomendaciones piden a un humano revisar; no ejecutan acciones por sí solas.
+      </p>
+    </div>
+
+    <h3 class="subsection-title">Entrega y respaldo</h3>
+    <p style="font-size: 8pt;">
+      Para entregar, explica en voz alta la cadena evidencia → expresión booleana → condición → rama ejecutada → mensaje/recomendación para ambas decisiones, por qué importa el orden de la cadena y cómo llega cada resultado al resumen. El repositorio trae <code>homework_starter.py</code> (plantilla) y <code>homework_solution.py</code> (referencia) solo como respaldo: úsalos como contingencia o guía <strong>después</strong> de intentar la tarea por tu cuenta.
+    </p>
+  </section>
+
+</div>
+
+</body>
+</html>
