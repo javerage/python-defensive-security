@@ -31,8 +31,14 @@ jobs:
           python -m py_compile doctor.py
           python -m py_compile src/modulo_01/sesion_01/hola.py
           python -m py_compile src/modulo_01/sesion_01/auditoria_local.py
+          python -m py_compile src/modulo_01/sesion_02/starter.py
+          python -m py_compile src/modulo_01/sesion_02/solution.py
+          python -m py_compile src/modulo_01/sesion_03/starter.py
+          python -m py_compile src/modulo_01/sesion_03/solution.py
+          python -m py_compile src/modulo_01/sesion_04/starter.py
+          python -m py_compile src/modulo_01/sesion_04/solution.py
 
-      - name: Test Environment Creation & Doctor (Ubuntu)
+      - name: Test Environment Creation & Labs Execution (Ubuntu)
         if: runner.os == 'Linux'
         run: |
           python -m venv .venv
@@ -40,8 +46,13 @@ jobs:
           python doctor.py
           python src/modulo_01/sesion_01/hola.py
           python src/modulo_01/sesion_01/auditoria_local.py
+          printf "Alex Mendez\nSTAT-101\n3\n8080\n8.0\n" | python src/modulo_01/sesion_02/solution.py
+          python src/modulo_01/sesion_03/starter.py
+          python src/modulo_01/sesion_03/solution.py
+          python src/modulo_01/sesion_04/starter.py
+          python src/modulo_01/sesion_04/solution.py
 
-      - name: Test Environment Creation & Doctor (Windows)
+      - name: Test Environment Creation & Labs Execution (Windows)
         if: runner.os == 'Windows'
         shell: pwsh
         run: |
@@ -50,3 +61,8 @@ jobs:
           python doctor.py
           python src/modulo_01/sesion_01/hola.py
           python src/modulo_01/sesion_01/auditoria_local.py
+          "Alex Mendez`nSTAT-101`n3`n8080`n8.0" | python src/modulo_01/sesion_02/solution.py
+          python src/modulo_01/sesion_03/starter.py
+          python src/modulo_01/sesion_03/solution.py
+          python src/modulo_01/sesion_04/starter.py
+          python src/modulo_01/sesion_04/solution.py

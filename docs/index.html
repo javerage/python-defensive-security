@@ -249,6 +249,19 @@
       font-weight: 600;
       white-space: nowrap;
     }
+    .session-item-review {
+      background: #fcfcfc;
+      border: 1px dashed #cbd5e1;
+    }
+    .session-item-review:hover {
+      border-color: #d97706;
+      box-shadow: 0 4px 10px rgba(217, 119, 6, 0.08);
+    }
+    .session-action-review {
+      background: #fffbeb;
+      color: #92400e;
+      border: 1px solid #fde68a;
+    }
     footer {
       text-align: center;
       margin-top: 36px;
@@ -324,9 +337,9 @@
     <div class="module-card">
       <div class="module-header">
         <div class="module-title">Módulo 1: Entorno y Sintaxis</div>
-        <span class="module-status">Sesión 01 Disponible</span>
+        <span class="module-status">Sesiones 01 y 02 Publicadas • 03 a 04 en Revisión</span>
       </div>
-      <ul class="sessions-list">
+      <ul class="sessions-list" style="display: flex; flex-direction: column; gap: 10px;">
         <li>
           <a class="session-item" href="modulo_01/sesion_01/material_estudiante_sesion_01.html">
             <div class="session-info">
@@ -336,6 +349,42 @@
             </div>
             <div class="session-action">
               Abrir Cuaderno &rarr;
+            </div>
+          </a>
+        </li>
+        <li>
+          <a class="session-item" href="modulo_01/sesion_02/material_estudiante_sesion_02.html">
+            <div class="session-info">
+              <span class="session-num">Sesión 02 • 60 Minutos</span>
+              <span class="session-name">Variables, Tipos de Datos y Entrada Defensiva</span>
+              <span class="session-meta">Tipos primitivos (str, int, float, bool), input(), aduana de datos y operator_profile.py</span>
+            </div>
+            <div class="session-action">
+              Abrir Cuaderno &rarr;
+            </div>
+          </a>
+        </li>
+        <li>
+          <a class="session-item session-item-review" href="modulo_01/sesion_03/material_estudiante_sesion_03.html">
+            <div class="session-info">
+              <span class="session-num" style="color: #d97706;">Sesión 03 • 60 Minutos</span>
+              <span class="session-name">Cadenas, Índices y Métodos de Limpieza</span>
+              <span class="session-meta">Inmutabilidad, slicing, métodos strip/lower/split/find y normalizador_logs.py</span>
+            </div>
+            <div class="session-action session-action-review">
+              🔍 En Revisión &rarr;
+            </div>
+          </a>
+        </li>
+        <li>
+          <a class="session-item session-item-review" href="modulo_01/sesion_04/material_estudiante_sesion_04.html">
+            <div class="session-info">
+              <span class="session-num" style="color: #d97706;">Sesión 04 • 60 Minutos</span>
+              <span class="session-name">Estructuras Condicionales y Comparaciones</span>
+              <span class="session-meta">Decisiones if/elif/else, operadores lógicos/relacionales y clasificador_severidad.py</span>
+            </div>
+            <div class="session-action session-action-review">
+              🔍 En Revisión &rarr;
             </div>
           </a>
         </li>
