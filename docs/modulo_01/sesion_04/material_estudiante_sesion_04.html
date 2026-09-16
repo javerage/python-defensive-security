@@ -789,6 +789,24 @@ else:
     <table class="data-table">
       <thead>
         <tr>
+          <th>Condición de volumen</th>
+          <th>Valor exacto de <code>volume_message</code></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>many_failed_attempts</code> es <code>True</code></td>
+          <td><code>Regla de volumen cumplida: 5 o más intentos</code></td>
+        </tr>
+        <tr>
+          <td><code>many_failed_attempts</code> es <code>False</code></td>
+          <td><code>Regla de volumen no cumplida: menos de 5 intentos</code></td>
+        </tr>
+      </tbody>
+    </table>
+    <table class="data-table">
+      <thead>
+        <tr>
           <th>Regla del laboratorio</th>
           <th>Condición (en este orden)</th>
           <th>Etiqueta y recomendación</th>
@@ -817,8 +835,8 @@ else:
     <h3 class="subsection-title">Los 4 pasos (en este orden):</h3>
     <ol style="font-size: 8.5pt; margin-left: 18px; margin-bottom: 10px;">
       <li><strong>Evidencia:</strong> asigna el conteo observado de la práctica y tu identidad (<code>failed_attempts = 9</code> trae el caso; <code>student_name</code> y <code>student_id</code> dicen de quién es el trabajo).</li>
-      <li><strong>Regla de volumen:</strong> <code>many_failed_attempts = failed_attempts &gt;= 5</code> (la comparación produce el booleano) y un <code>if/else</code> cuya condición es ese booleano usado directo: con <code>True</code> corre el mensaje de regla cumplida, con <code>False</code> el de regla no cumplida.</li>
-      <li><strong>Prioridad:</strong> clasifica el mismo conteo con <code>if/elif/else</code> de la condición más exigente a la menos exigente (<code>&gt;= 10</code> hoy con un mentor, <code>&gt;= 5</code> esta semana, lo demás al registro local) en <code>risk_label</code> y <code>review_action</code>.</li>
+      <li><strong>Regla de volumen:</strong> <code>many_failed_attempts = failed_attempts &gt;= 5</code> (la comparación produce el booleano) y un <code>if/else</code> cuya condición es ese booleano usado directo: con <code>True</code> asigna <code>volume_message = "Regla de volumen cumplida: 5 o más intentos"</code>; con <code>False</code> asigna <code>volume_message = "Regla de volumen no cumplida: menos de 5 intentos"</code> (ver la tabla de volumen de arriba).</li>
+      <li><strong>Prioridad:</strong> clasifica el mismo conteo con <code>if/elif/else</code> de la condición más exigente a la menos exigente, en este orden y con estos valores exactos (ver la tabla de tres niveles de arriba): si <code>failed_attempts &gt;= 10</code>, <code>risk_label = &quot;HIGH&quot;</code> y <code>review_action = &quot;Revisar hoy con un mentor&quot;</code>; si <code>failed_attempts &gt;= 5</code>, <code>risk_label = &quot;MEDIUM&quot;</code> y <code>review_action = &quot;Agendar revisión esta semana&quot;</code>; en otro caso (<code>else</code>), <code>risk_label = &quot;LOW&quot;</code> y <code>review_action = &quot;Conservar en el registro local&quot;</code>.</li>
       <li><strong>Comunicación:</strong> imprime el encabezado y las siete líneas de datos con <code>print()</code> (evidencia legible para revisar qué rama se ejecutó). Código lineal: sin funciones, sin <code>try/except</code>, sin colecciones, sin <code>imports</code>, sin <code>and</code>/<code>or</code>/<code>in</code>/<code>is None</code> y sin anidación.</li>
     </ol>
 
@@ -834,9 +852,9 @@ student_id = "DEF-2026-09"
 many_failed_attempts = False  # TODO: produce el booleano con la regla de volumen
 volume_message = "PENDING"  # TODO: decide con if/else sobre ese booleano
 
-# STEP 3: Priority — TODO: clasifica en tres niveles, de lo más exigente a lo menos exigente
-risk_label = "PENDING"  # TODO: clasifica con if/elif/else
-review_action = "PENDING"  # TODO: recomienda con la misma cadena
+# STEP 3: Priority — TODO: construye el if/elif/else con los tres casos de la tabla inmediata de arriba
+risk_label = "PENDING"  # TODO: asigna en cada rama ("HIGH", "MEDIUM" o "LOW" según la tabla)
+review_action = "PENDING"  # TODO: asigna en la misma rama ("Revisar hoy con un mentor", "Agendar revisión esta semana" o "Conservar en el registro local")
 
 # STEP 4: Communication — resumen simple y legible
 print("--- Resumen del incidente ---")
@@ -1044,6 +1062,43 @@ avg_response_ms = float(raw_avg_response_ms)</div>
       <li><strong>Prioridad:</strong> clasifica <code>avg_response_ms</code> con <code>if/elif/else</code> de la condición más exigente a la menos exigente (<code>&gt;= 1000.0</code> hoy con un mentor, <code>&gt;= 500.0</code> esta semana, lo demás al registro local) en <code>risk_label</code> y <code>review_action</code>.</li>
       <li><strong>Comunicación:</strong> imprime el encabezado y las siete líneas de datos con <code>print()</code> (evidencia legible para revisar qué rama se ejecutó). Código lineal: sin validación, reintentos, bucles, funciones, <code>try/except</code>, colecciones, <code>imports</code>, <code>and</code>/<code>or</code>/<code>in</code>/<code>is None</code> ni anidación.</li>
     </ol>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Decisión del laboratorio</th>
+          <th>Condición (en este orden)</th>
+          <th>Valor exacto que debes asignar</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Regla de volumen</strong></td>
+          <td><code>many_errors</code> es <code>True</code></td>
+          <td><code>volume_message = "Regla de volumen cumplida: 10 o más líneas de error"</code></td>
+        </tr>
+        <tr>
+          <td><strong>Regla de volumen</strong></td>
+          <td><code>many_errors</code> es <code>False</code></td>
+          <td><code>volume_message = "Regla de volumen no cumplida: menos de 10 líneas de error"</code></td>
+        </tr>
+        <tr>
+          <td><strong>Revisión de hoy</strong></td>
+          <td><code>avg_response_ms &gt;= 1000.0</code> (primera)</td>
+          <td><code>risk_label = "HIGH"</code> — <code>review_action = "Revisar hoy con un mentor"</code></td>
+        </tr>
+        <tr>
+          <td><strong>Revisión de la semana</strong></td>
+          <td><code>avg_response_ms &gt;= 500.0</code> (segunda)</td>
+          <td><code>risk_label = "MEDIUM"</code> — <code>review_action = "Agendar revisión esta semana"</code></td>
+        </tr>
+        <tr>
+          <td><strong>Registro local</strong></td>
+          <td>En otro caso (<code>else</code>)</td>
+          <td><code>risk_label = "LOW"</code> — <code>review_action = "Conservar en el registro local"</code></td>
+        </tr>
+      </tbody>
+    </table>
 
     <h3 class="subsection-title">Comprueba con el ejemplo único:</h3>
     <p style="font-size: 8pt;">Usa tus propios nombre e identificador; los demás valores deben coincidir. Escribe <code>14</code> y <code>850.0</code> cuando el programa lo pida.</p>
