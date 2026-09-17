@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Workbook — Session 06 | Python for Defensive Security</title>
+  <style>
+    :root {
+      --primary: #1e3a8a;
+      --primary-dark: #0f172a;
+      --primary-light: #eff6ff;
+      --secondary: #0284c7;
+      --accent-red: #b91c1c;
+      --accent-red-light: #fef2f2;
+      --accent-amber: #b45309;
+      --accent-amber-light: #fffbeb;
+      --accent-green: #15803d;
+      --accent-green-light: #f0fdf4;
+      --accent-purple: #6b21a8;
+      --accent-purple-light: #faf5ff;
+      --text-main: #1f2937;
+      --text-muted: #4b5563;
+      --border-color: #d1d5db;
+      --border-light: #e5e7eb;
+      --bg-card: #f9fafb;
+      --bg-terminal: #0f172a;
+      --term-text: #f8fafc;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-size: 9pt; line-height: 1.5; color: var(--text-main); background-color: #ffffff; padding: 0; margin: 0;
+    }
+    .page-container { max-width: 920px; margin: 0 auto; padding: 20px 28px; }
+    .header-institution { border-bottom: 2px solid var(--primary); padding-bottom: 10px; margin-bottom: 14px; }
+    .header-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; }
+    .inst-titles h1 { font-size: 14pt; color: var(--primary); font-weight: 700; line-height: 1.2; letter-spacing: -0.2px; }
+    .inst-titles h2 { font-size: 10.5pt; color: var(--text-muted); font-weight: 600; margin-top: 2px; }
+    .badge-container { display: flex; flex-direction: column; align-items: flex-end; gap: 3px; }
+    .badge { display: inline-block; font-size: 7pt; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; padding: 2px 7px; border-radius: 4px; border: 1px solid transparent; }
+    .badge-primary { background-color: var(--primary-light); color: var(--primary); border-color: #bfdbfe; }
+    .badge-neutral { background-color: #f3f4f6; color: #374151; border-color: #e5e7eb; }
+    .badge-alert { background-color: var(--accent-red-light); color: var(--accent-red); border-color: #fecaca; }
+    .student-data-card { background-color: var(--bg-card); border: 1px solid var(--border-color); border-radius: 6px; padding: 12px 14px; margin-bottom: 18px; }
+    .data-grid { display: grid; grid-template-columns: 2fr 1fr 1.2fr 1fr; gap: 10px 16px; align-items: end; }
+    .data-field { display: flex; flex-direction: column; }
+    .data-label { font-size: 7.5pt; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 3px; }
+    .data-line { border-bottom: 1px dashed #6b7280; min-height: 20px; font-size: 9pt; color: var(--text-main); padding: 0 4px; }
+    h2.section-title { font-size: 11.5pt; color: var(--primary-dark); border-bottom: 1.5px solid var(--border-color); padding-bottom: 4px; margin-top: 22px; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+    h3.subsection-title { font-size: 10pt; color: var(--primary); margin-top: 14px; margin-bottom: 6px; font-weight: 700; }
+    p { margin-bottom: 10px; text-align: justify; }
+    ul, ol { margin-left: 20px; margin-bottom: 10px; }
+    li { margin-bottom: 4px; }
+    .callout { border-left: 4px solid var(--primary); background-color: var(--primary-light); padding: 10px 14px; border-radius: 0 6px 6px 0; margin: 12px 0; font-size: 9pt; }
+    .callout-title { font-weight: 700; font-size: 9.5pt; margin-bottom: 5px; display: flex; align-items: center; gap: 6px; }
+    .callout-info { border-left-color: var(--secondary); background-color: #f0f9ff; }
+    .callout-info .callout-title { color: #0369a1; }
+    .callout-critical { border-left-color: var(--accent-red); background-color: var(--accent-red-light); border: 1px solid #fecaca; border-left-width: 5px; }
+    .callout-critical .callout-title { color: var(--accent-red); }
+    .callout-warning { border-left-color: var(--accent-amber); background-color: var(--accent-amber-light); }
+    .callout-warning .callout-title { color: var(--accent-amber); }
+    .callout-tip { border-left-color: var(--accent-green); background-color: var(--accent-green-light); }
+    .callout-tip .callout-title { color: var(--accent-green); }
+    .callout-purple { border-left-color: var(--accent-purple); background-color: var(--accent-purple-light); }
+    .callout-purple .callout-title { color: var(--accent-purple); }
+    .terminal-container { background-color: var(--bg-terminal); color: var(--term-text); border-radius: 6px; padding: 13px 15px; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 8.5pt; line-height: 1.55; margin: 12px 0 16px 0; overflow-x: auto; border: 1px solid #334155; white-space: pre-wrap; }
+    .terminal-header { color: #94a3b8; font-size: 7.5pt; border-bottom: 1px solid #334155; padding-bottom: 4px; margin-bottom: 10px; display: flex; justify-content: space-between; text-transform: uppercase; letter-spacing: 0.5px; }
+    table.data-table { width: 100%; border-collapse: collapse; margin: 10px 0 14px 0; font-size: 8.5pt; }
+    table.data-table th, table.data-table td { border: 1px solid var(--border-color); padding: 6px 8px; text-align: left; vertical-align: top; }
+    table.data-table th { background-color: #f1f5f9; color: var(--primary-dark); font-weight: 700; font-size: 8pt; text-transform: uppercase; }
+    table.data-table tr:nth-child(even) { background-color: #f8fafc; }
+    .check-box-cell { text-align: center; width: 45px; vertical-align: middle; }
+    .check-square { display: inline-block; width: 14px; height: 14px; border: 1.5px solid #4b5563; border-radius: 3px; vertical-align: middle; background-color: #ffffff; }
+    .trouble-card { border: 1px solid var(--border-color); border-left: 4px solid var(--accent-amber); background-color: #ffffff; border-radius: 4px; padding: 10px 12px; margin-bottom: 12px; font-size: 8.5pt; }
+    .trouble-card.trouble-critical { border-left-color: var(--accent-red); }
+    .trouble-title { font-weight: 700; font-size: 9pt; color: var(--primary-dark); margin-bottom: 4px; }
+    .trouble-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 8px; margin-top: 6px; background: #f8fafc; padding: 6px 8px; border-radius: 4px; border: 1px solid var(--border-light); }
+    .student-code-box { border: 1px dashed #64748b; background-color: #fbfcfe; border-radius: 6px; padding: 10px 12px; margin: 8px 0 12px 0; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 8pt; line-height: 1.5; color: #334155; white-space: pre-wrap; }
+    .student-output-box { border: 1px dashed #0284c7; background-color: #f0f9ff; border-radius: 6px; padding: 10px 12px; margin: 8px 0 12px 0; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 8pt; line-height: 1.45; color: #0369a1; white-space: pre-wrap; }
+    .signature-box { border: 1px solid var(--border-color); background-color: var(--bg-card); border-radius: 6px; padding: 12px 14px; margin-top: 16px; }
+    .signature-grid { display: grid; grid-template-columns: 2fr 1.5fr; gap: 20px; margin-top: 24px; align-items: end; }
+    .sig-line { border-top: 1px solid #4b5563; padding-top: 4px; text-align: center; font-size: 8pt; color: var(--text-muted); font-weight: 600; }
+    @media print {
+      @page { size: A4 portrait; margin: 12mm 15mm 15mm 15mm; }
+      body { font-size: 8.5pt; line-height: 1.36; color: #000000; background: #ffffff; }
+      .page-container { max-width: 100%; padding: 0; margin: 0; }
+      h2.section-title { font-size: 10.5pt; margin-top: 14px; margin-bottom: 6px; page-break-after: avoid; break-after: avoid; }
+      h3.subsection-title { font-size: 9.5pt; page-break-after: avoid; break-after: avoid; }
+      .callout, .terminal-container, .student-data-card, table.data-table, .signature-box, .trouble-card, .student-code-box, .student-output-box { page-break-inside: avoid; break-inside: avoid; }
+      .terminal-container { background-color: #0f172a !important; color: #f8fafc !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .badge-primary, .badge-neutral, .badge-alert { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .page-break { page-break-before: always; break-before: page; }
+      .check-square { border-color: #000000; }
+    }
+  </style>
+</head>
+<body>
+<div class="page-container">
+
+  <header class="header-institution">
+    <div class="header-top">
+      <div class="inst-titles">
+        <h1>Python for Defensive Security</h1>
+        <h2>Python for Defensive Security: Fundamentals and Local Lab Tooling — Módulo 01</h2>
+      </div>
+      <div class="badge-container">
+        <span class="badge badge-primary">Sesión 06 | 60 minutos</span>
+        <span class="badge badge-neutral">Nivel: principiante absoluto</span>
+        <span class="badge badge-alert">Sin IA generativa (S01–S18)</span>
+      </div>
+    </div>
+    <div style="font-size: 8.5pt; color: var(--text-muted); display: flex; justify-content: space-between;">
+      <span><strong>Documento:</strong> Cuaderno de trabajo del estudiante | <strong>GitHub:</strong> python-defensive-security</span>
+      <span><strong>Versión Base Oficial:</strong> Python 3.13 (entorno local reproducible)</span>
+    </div>
+  </header>
+
+  <section class="student-data-card">
+    <div class="data-grid">
+      <div class="data-field"><span class="data-label">Nombre completo del estudiante:</span><div class="data-line"></div></div>
+      <div class="data-field"><span class="data-label">Matrícula / ID:</span><div class="data-line"></div></div>
+      <div class="data-field"><span class="data-label">Sistema operativo anfitrión:</span><div class="data-line">[ ] Windows &nbsp; [ ] macOS &nbsp; [ ] Linux</div></div>
+      <div class="data-field"><span class="data-label">Fecha de realización:</span><div class="data-line"></div></div>
+    </div>
+  </section>
+
+  <h2 style="font-size: 13pt; color: var(--primary); margin-bottom: 4px;">Cuaderno de Trabajo Práctico — Sesión 06: Listas y pipeline de eventos locales</h2>
+  <p style="font-size: 8.5pt; color: var(--text-muted);">Al minuto 60 habrás creado <code>event_pipeline.py</code>: procesa UNA lista de eventos con seis operaciones (<code>append</code>, <code>count</code>, <code>index</code>, <code>remove</code>, <code>sort</code>, slicing), con impresión intermedia tras cada mutación y un resumen final.</p>
+
+  <!-- 1. OBJETIVOS -->
+  <section>
+    <h2 class="section-title">1. Objetivos de Aprendizaje y Marco Ético</h2>
+    <p>Al concluir satisfactoriamente esta sesión formativa, el estudiante será capaz de:</p>
+    <ul style="font-size: 9pt;">
+      <li><strong>Dominio de listas:</strong> crear listas, leer posiciones que empiezan en <code>0</code> y copiar rangos con slicing <code>[0:3]</code> sobre eventos sintéticos locales.</li>
+      <li><strong>Métodos básicos:</strong> agregar con <code>append</code>, contar con <code>count</code>, localizar con <code>index</code>, eliminar por valor con <code>remove</code> y ordenar con <code>sort</code>, mostrando el estado tras cada operación.</li>
+      <li><strong>Pipeline defensivo:</strong> encadenar seis operaciones en orden sobre la misma lista y reunir total, conteo, posición y muestra en un resumen legible.</li>
+    </ul>
+    <div class="callout callout-critical">
+      <div class="callout-title">⚠️ Compromiso Ético y Reglas del Laboratorio Defensivo Local</div>
+      <p style="margin-bottom: 4px;">Este curso está orientado de manera estricta al <strong>análisis, inspección y defensa de sistemas locales</strong>. Toda práctica se desarrollará exclusivamente en la carpeta asignada (<code>curso-python-defensivo/</code>) y sobre destinos en bucle local (<code>localhost</code>, <code>127.0.0.1</code>, <code>::1</code>) o fixtures provistas por el docente.</p>
+      <p style="margin-bottom: 0;"><strong>Prohibiciones absolutas:</strong> Queda estrictamente vetado el escaneo o conexión hacia direcciones IP externas, la instalación o prueba de código orientado a malware o persistencia, el uso de credenciales reales ajenas y la desactivación intencional de controles de seguridad. La transgresión de estos límites activa el umbral eliminatorio de no aprobación inmediata del curso.</p>
+    </div>
+  </section>
+
+  <!-- 2. FUNDAMENTOS -->
+  <section>
+    <h2 class="section-title">2. Fundamentos Conceptuales de la Sesión</h2>
+    <p>Una <strong>lista</strong> guarda varios valores juntos conservando su orden y permitiendo duplicados. En sesiones anteriores trabajaste con un valor a la vez; hoy guardas <strong>cinco eventos</strong> en una sola variable y los procesas con un pipeline: cada operación transforma la lista y una impresión inmediata prueba qué cambió antes de seguir. Nada avanza a ciegas.</p>
+
+    <h3 class="subsection-title">Cómo procesa Python una lista (en clase, sin evaluar nada más)</h3>
+    <p style="font-size: 8.5pt;">Las posiciones empiezan en <code>0</code>: el primer evento vive en <code>[0]</code>. Cada operación devuelve algo distinto:</p>
+    <div class="student-code-box">event_log.append("WARNING: reintento local programado")
+error_count = event_log.count("ERROR: disco lleno en el laboratorio")
+error_position = event_log.index("ERROR: disco lleno en el laboratorio")</div>
+    <p style="font-size: 8.5pt;"><code>append</code> agrega al final y no devuelve nada útil; <code>count</code> devuelve cuántos coinciden (aquí <code>1</code>) sin borrar; <code>index</code> devuelve la posición del primer coincidente (aquí <code>3</code>).</p>
+    <div class="student-code-box">event_log.remove("INFO: respaldo local completo")
+event_log.sort()
+recent_events = event_log[0:3]</div>
+    <p style="font-size: 8.5pt;"><code>remove</code> borra por valor el primer coincidente; <code>sort</code> ordena la misma lista y devuelve <code>None</code> (por eso se llama solo, nunca se asigna); el rebanado <code>[0:3]</code> copia las posiciones <code>0</code>, <code>1</code> y <code>2</code> en una lista nueva sin tocar el original.</p>
+
+    <div class="callout callout-tip" style="margin: 8px 0;">
+      <div class="callout-title">📌 Tres precisiones y nada más</div>
+      <p style="margin-bottom: 3px; font-size: 8pt;"><strong>Cada operación devuelve algo distinto:</strong> <code>append</code> nada útil, <code>count</code> cuántos, <code>index</code> dónde, <code>sort</code> <code>None</code>. Si escribes <code>ordered_log = event_log.sort()</code>, después ves <code>None</code> sin ningún mensaje de error (verás este caso en la sección 5).</p>
+      <p style="margin-bottom: 3px; font-size: 8pt;"><strong>Operaciones de hoy, nada más:</strong> creación, índices, slicing, <code>len()</code> y los métodos <code>append</code>, <code>count</code>, <code>index</code>, <code>remove</code> y <code>sort</code>. El desempaquetado y las matrices (listas anidadas) <strong>solo se mencionan: no se usan ni se evalúan en esta sesión</strong>.</p>
+      <p style="margin-bottom: 0; font-size: 8pt;"><strong>Alcance de hoy:</strong> listas de texto en memoria con impresiones intermedias. Las etiquetas <code>INFO</code>/<code>WARNING</code>/<code>ERROR</code> son didácticas del laboratorio, no estándares universales. Los diccionarios llegan en la Sesión 07 y los bucles en la Sesión 09.</p>
+    </div>
+
+    <h3 class="subsection-title">Mapa breve de colecciones (solo orientación, sin ejercicios nuevos)</h3>
+    <table class="data-table">
+      <thead><tr><th>Colección</th><th>Idea en una línea</th><th>Alcance en el curso</th></tr></thead>
+      <tbody>
+        <tr><td><strong><code>list</code></strong></td><td>Orden guarda, duplicados permite; se lee por posición desde <code>0</code>.</td><td><strong>Hoy en profundidad:</strong> la única colección que se construye y evalúa.</td></tr>
+        <tr><td><strong><code>tuple</code></strong></td><td>Orden fijo sin cambios.</td><td>Llega en la S08 (solo se menciona hoy).</td></tr>
+        <tr><td><strong><code>set</code></strong></td><td>Elementos únicos sin orden.</td><td>Llega en la S08 (solo se menciona hoy).</td></tr>
+        <tr><td><strong><code>dict</code></strong></td><td>Pares clave-valor.</td><td>Llega en la S07 (solo se menciona hoy).</td></tr>
+        <tr><td><strong><code>range</code></strong></td><td>Secuencias de números para repetir con bucles.</td><td>Llega en la S09 con bucles (solo se menciona hoy).</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size: 8pt;">Las demás colecciones solo se nombran para ubicarte: no tienen ejercicios, métodos ni evaluación en esta sesión.</p>
+
+    <table class="data-table">
+      <thead><tr><th style="width: 18%;">Operación</th><th style="width: 42%;">Llamada</th><th style="width: 40%;">Efecto y resultado</th></tr></thead>
+      <tbody>
+        <tr><td><strong>1. Agregar</strong></td><td><code>append("WARNING: reintento local programado")</code></td><td>La lista pasa de <code>5</code> a <code>6</code> eventos.</td></tr>
+        <tr><td><strong>2. Contar</strong></td><td><code>count("ERROR: disco lleno en el laboratorio")</code></td><td><code>error_count = 1</code> (contar no elimina).</td></tr>
+        <tr><td><strong>3. Localizar</strong></td><td><code>index("ERROR: disco lleno en el laboratorio")</code></td><td><code>error_position = 3</code> (las posiciones empiezan en <code>0</code>).</td></tr>
+        <tr><td><strong>4. Eliminar</strong></td><td><code>remove("INFO: respaldo local completo")</code></td><td>Borra por valor el primer coincidente; vuelve a <code>5</code>.</td></tr>
+        <tr><td><strong>5. Ordenar</strong></td><td><code>sort()</code> (solo, sin asignar)</td><td>Ordena la misma lista; devuelve <code>None</code>.</td></tr>
+        <tr><td><strong>6. Rebanar</strong></td><td><code>event_log[0:3]</code></td><td><code>recent_events</code> copia <code>0</code>, <code>1</code> y <code>2</code> sin tocar el original.</td></tr>
+      </tbody>
+    </table>
+
+    <h3 class="subsection-title">Lectura abstracta: pregunta → operación → evidencia</h3>
+    <p style="font-size: 8.5pt;">Lee cada paso como una decisión, no como una llamada para copiar. Cada pregunta del caso se responde con una operación y deja una evidencia impresa:</p>
+    <table class="data-table">
+      <thead><tr><th>Pregunta del caso</th><th>Operación</th><th>Variable/llamada</th><th>Evidencia impresa</th></tr></thead>
+      <tbody>
+        <tr><td>¿Qué evento nuevo falta al final?</td><td>Agregar</td><td><code>event_log.append("WARNING: reintento local programado")</code></td><td><code>Eventos tras agregar: 6</code></td></tr>
+        <tr><td>¿Cuántas veces aparece el error de disco lleno?</td><td>Contar</td><td><code>error_count = event_log.count("ERROR: disco lleno en el laboratorio")</code></td><td><code>Errores de disco lleno: 1</code></td></tr>
+        <tr><td>¿En qué posición está ese error?</td><td>Localizar</td><td><code>error_position = event_log.index("ERROR: disco lleno en el laboratorio")</code></td><td><code>Posición del error: 3</code></td></tr>
+        <tr><td>¿Qué evento ya archivado debe salir?</td><td>Eliminar</td><td><code>event_log.remove("INFO: respaldo local completo")</code></td><td><code>Eventos tras eliminar: 5</code></td></tr>
+        <tr><td>¿Cómo queda la misma lista en orden?</td><td>Ordenar</td><td><code>event_log.sort()</code> (solo, sin asignar)</td><td>Lista ordenada</td></tr>
+        <tr><td>¿Qué tres eventos muestro sin tocar el original?</td><td>Rebanar</td><td><code>recent_events = event_log[0:3]</code></td><td>Muestra de tres</td></tr>
+      </tbody>
+    </table>
+
+    <h3 class="subsection-title">Consultas comunes de listas: preguntar antes de romper</h3>
+    <table class="data-table">
+      <thead><tr><th>Consulta</th><th>Qué responde</th><th>Si falta el valor</th></tr></thead>
+      <tbody>
+        <tr><td><code>target_event in event_log</code></td><td>¿Existe este evento? (<code>True</code>/<code>False</code>)</td><td><code>False</code></td></tr>
+        <tr><td><code>event_log.count(target_event)</code></td><td>¿Cuántos coinciden?</td><td><code>0</code></td></tr>
+        <tr><td><code>event_log.index(target_event)</code></td><td>¿Dónde está el primero?</td><td><code>ValueError</code> (sin <code>try/except</code> en esta sesión)</td></tr>
+        <tr><td><code>text.find(value)</code> (texto, S03)</td><td>¿Dónde aparece en la cadena?</td><td><code>-1</code></td></tr>
+      </tbody>
+    </table>
+    <p style="font-size: 8pt;"><code>in</code> es un <strong>operador de pertenencia</strong>, no un método: no lleva paréntesis propios y no modifica la lista. Contraste clave: <code>str.find()</code> ante un valor ausente devuelve <code>-1</code>, mientras <code>list.index()</code> ante un valor ausente interrumpe con <code>ValueError</code>. Por eso primero se pregunta sin romper y el pipeline usa <code>index()</code> solo sobre un valor conocido del fixture.</p>
+    <div class="student-code-box">target_event = "ERROR: disco lleno en el laboratorio"
+print(target_event in event_log)  # True
+print("ERROR: inexistente" in event_log)  # False</div>
+    <p style="font-size: 8pt;">Este ejemplo responde a la pregunta “¿existe este evento?”: el primer caso está presente (<code>True</code>) y el segundo está ausente (<code>False</code>). <code>in</code> <strong>no</strong> es un séptimo paso evaluado: no añade línea al resumen ni cambia las salidas. Solo permite preguntar primero sin romper.</p>
+
+    <div class="callout callout-info" style="margin: 10px 0;">
+      <div class="callout-title">💡 La bandeja de apuntes que se ordena sola por pasos</div>
+      <p style="margin-bottom: 4px;">Piensa en una bandeja con tus apuntes de la jornada: primero agregas la última nota al final, luego cuentas cuántas hablan del disco, marcas en qué posición está, retiras la que ya archivaste, ordenas lo que queda y fotocopias las tres primeras.</p>
+      <p style="margin-bottom: 0;">Tu pipeline hace lo mismo con la lista: cada operación es un paso visible y cada impresión es la prueba de que el paso ocurrió antes de seguir al siguiente.</p>
+    </div>
+
+    <div class="callout callout-tip" style="margin: 8px 0;">
+      <div class="callout-title">📍 Código en inglés, mensajes en español</div>
+      <p style="margin-bottom: 3px; font-size: 8pt;"><strong>Código en inglés por consistencia y colaboración:</strong> las variables y comentarios van en inglés (<code>event_log</code>, <code>error_count</code>, <code>error_position</code>, <code>recent_events</code>) con estilo PEP 8, para que cualquier equipo pueda leer tu código. Los mensajes que ve el usuario van en español.</p>
+      <p style="margin-bottom: 0; font-size: 8pt;"><strong>Código lineal en esta sesión:</strong> de arriba a abajo, con seis operaciones sobre una lista en memoria. Sin funciones (<code>def</code>), sin <code>try/except</code>, sin bucles, sin diccionarios, sin <code>imports</code> y sin archivos ni red.</p>
+    </div>
+  </section>
+
+  <!-- 3. PROYECTO -->
+  <section>
+    <h2 class="section-title">3. Reutiliza tu Proyecto de la Sesión 01</h2>
+    <p>Todo el trabajo de hoy ocurre en <strong>tu proyecto de la sesión 01</strong> (<code>curso-python-defensivo</code>). Sigue estos pasos en orden:</p>
+    <ol style="font-size: 8.5pt; margin-left: 18px; margin-bottom: 10px;">
+      <li><strong>Localiza tu proyecto:</strong> abre la terminal en la carpeta <code>curso-python-defensivo</code> que creaste en la sesión 01.</li>
+      <li><strong>Activa el entorno:</strong> activa <code>.venv</code> hasta ver el prefijo <code>(.venv)</code> en el prompt.</li>
+      <li><strong>Verifica el intérprete:</strong> ejecuta <code>python --version</code> (o <code>python3 --version</code>) y confirma Python 3.13.x.</li>
+      <li><strong>Crea el archivo nuevo:</strong> crea manualmente <code>event_pipeline.py</code> en esa carpeta.</li>
+      <li><strong>Ejecuta ahí mismo:</strong> corre <code>python event_pipeline.py</code> sin cambiar de carpeta.</li>
+    </ol>
+    <div class="callout callout-purple" style="margin: 6px 0 10px 0;">
+      <div class="callout-title">💻 Higiene de terminal: "Mirar antes de saltar"</div>
+      <p style="font-size: 8pt; margin-bottom: 0;">1. <strong>Lista primero:</strong> <code>dir</code> (Windows) o <code>ls</code> (Linux/macOS) para confirmar que <code>event_pipeline.py</code> existe donde estás.<br>2. <strong>Autocompleta con <code>Tab</code>:</strong> escribe <code>python event</code> y presiona <code>Tab</code>.<br>3. <strong>Repite con <code>↑</code>:</strong> la flecha arriba recupera el comando anterior.<br>4. <strong>Cancela con <code>Ctrl + C</code>:</strong> si algo se queda esperando, aborta limpiamente y reintenta.</p>
+    </div>
+    <h3 class="subsection-title">Ruta principal — Windows (PowerShell)</h3>
+    <div class="terminal-container"><div class="terminal-header"><span>Windows — Reutilizar proyecto</span><span>Python 3.13</span></div>cd curso-python-defensivo
+dir
+.\.venv\Scripts\Activate.ps1
+python --version
+notepad event_pipeline.py
+python event_pipeline.py</div>
+    <h3 class="subsection-title">Ruta principal — Linux (Bash)</h3>
+    <div class="terminal-container"><div class="terminal-header"><span>Linux — Reutilizar proyecto</span><span>Python 3.13</span></div>cd ~/curso-python-defensivo
+ls
+source .venv/bin/activate
+python3 --version
+touch event_pipeline.py
+python3 event_pipeline.py</div>
+    <h3 class="subsection-title">Ruta principal — macOS (Zsh)</h3>
+    <div class="terminal-container"><div class="terminal-header"><span>macOS — Reutilizar proyecto</span><span>Python 3.13</span></div>cd ~/curso-python-defensivo
+ls
+source .venv/bin/activate
+python3 --version
+touch event_pipeline.py
+python3 event_pipeline.py</div>
+    <div class="callout callout-warning" style="margin: 6px 0 10px 0;">
+      <div class="callout-title">⚠️ Si perdiste tu proyecto (ruta de recuperación)</div>
+      <p style="font-size: 8pt; margin-bottom: 0;">Reconstrúyelo antes de empezar: crea <code>curso-python-defensivo</code>, crea <code>.venv</code> con Python 3.13, actívalo y verifica el prefijo <code>(.venv)</code> más la versión. Desarrollo local en macOS con <code>python3</code>; la validación final del laboratorio se realiza en Windows con <code>python</code>.</p>
+    </div>
+  </section>
+
+  <!-- 4. RETO -->
+  <section class="page-break">
+    <h2 class="section-title">4. Reto Práctico: Procesar los Eventos del Servicio (25 minutos)</h2>
+    <div class="callout callout-info" style="margin-bottom: 12px;">
+      <div class="callout-title">🎯 Escenario Defensivo: los apuntes antes de archivarlos</div>
+      <p style="margin-bottom: 4px;"><strong>Rol:</strong> formas parte del equipo que ordena los apuntes de la jornada antes de archivarlos. <strong>Evidencia recibida:</strong> el cuaderno trae <strong>cinco eventos en memoria</strong> (arranque, memoria alta, respaldo, disco lleno, usuario), todos locales y sintéticos. <strong>Problema:</strong> los apuntes llegan desordenados y sin conteo. <strong>Consecuencia si no se procesan:</strong> el caso se archiva a ciegas, sin total ni muestra verificable.</p>
+      <p style="margin-bottom: 0;"><strong>Seis decisiones en orden:</strong> agregas el sexto evento con <code>append</code>, cuentas el error de disco lleno con <code>count</code>, localizas su posición con <code>index</code>, eliminas el evento archivado con <code>remove</code>, ordenas con <code>sort</code> y copias la muestra con <code>[0:3]</code>. <strong>Resultado verificable:</strong> cada operación deja su impresión y el resumen final reúne total (<code>5</code>), conteo (<code>1</code>), posición (<code>3</code>) y muestra de tres.</p>
+    </div>
+    <h3 class="subsection-title">La lista inicial (léela antes de programar):</h3>
+    <div class="student-code-box">event_log = [
+    "INFO: servicio local iniciado",
+    "WARNING: memoria alta en el laboratorio",
+    "INFO: respaldo local completo",
+    "ERROR: disco lleno en el laboratorio",
+    "INFO: usuario local registrado",
+]</div>
+    <p style="font-size: 8.5pt;">Cinco eventos, posiciones <code>0</code> a <code>4</code>. El error de disco lleno vive en la posición <code>3</code>.</p>
+    <h3 class="subsection-title">Los 3 pasos (en este orden):</h3>
+    <ol style="font-size: 8.5pt; margin-left: 18px; margin-bottom: 10px;">
+      <li><strong>Evidencia:</strong> asigna la lista de cinco eventos más tu identidad (<code>student_name</code>, <code>student_id</code>) e imprime el tamaño inicial (<code>5</code>).</li>
+      <li><strong>Pipeline:</strong> aplica las seis operaciones en orden (agregar → contar → localizar → eliminar → ordenar → rebanar), con impresión intermedia tras cada mutación.</li>
+      <li><strong>Comunicación:</strong> imprime el encabezado y las seis líneas de datos.</li>
+    </ol>
+    <p style="font-size: 8.5pt;">El paso 3 imprime el informe con el resultado final: lo que se entrega a quien revisa el caso. Las impresiones intermedias son la bitácora del proceso: prueban cada operación mientras se trabaja. El resumen es el único lugar con la identidad del trabajo (<code>Nombre</code>, <code>Identificador</code>) y con el estado cerrado (<code>Total final</code>); algunos valores ya aparecieron en la bitácora con otro sentido (estado transitorio frente a resultado final). No es una repetición inútil: la bitácora sirve a quien ejecuta y el informe a quien revisa, como en S04/S05.</p>
+    <h3 class="subsection-title">Tu archivo <code>event_pipeline.py</code> (complétalo):</h3>
+    <div class="student-code-box"># STEP 1 (given): event_log (5 items), student_name, student_id,
+# print initial size (5)
+
+# TODO 2.1 (operation 1 of 6): add the late event at the end with append.
+# Case question: which event arrived late and is missing from the list?
+# Call: event_log.append("WARNING: reintento local programado")
+# Decide to use append because the need is adding one item at the end.
+# Evidence check only: size moves 5 -&gt; 6.
+# TODO 2.2: print the new size with len() to prove the event was added.
+# Case question: what does the new size prove after the append?
+# Call: print with f"Eventos tras agregar: {len(event_log)}" using len.
+# Decide to use len because the need is showing the size as evidence.
+# Evidence check only: 6.
+# TODO 2.3 (operation 2 of 6): count the disk-full matches with count, without removing.
+# Case question: how many times does the disk-full error appear in the list?
+# Call: event_log.count("ERROR: disco lleno en el laboratorio") stored in error_count.
+# Decide to use count because the need is how-many matches without removing.
+# Evidence check only: 1.
+# TODO 2.4: print the count result to prove how many disk-full errors exist.
+# Case question: what does the count prove about the disk-full error?
+# Call: print with f"Errores de disco lleno: {error_count}" showing the count result.
+# Decide to print the count variable because the need is leaving the count as evidence.
+# Evidence check only: 1.
+# TODO 2.5 (operation 3 of 6): locate the first match position with index, counting from 0.
+# Case question: where does the first disk-full error sit in the list?
+# Call: event_log.index("ERROR: disco lleno en el laboratorio") stored in error_position.
+# Decide to use index because the need is the position of the first match from 0.
+# Evidence check only: 3.
+# TODO 2.6: print the position result to prove where the first match sits.
+# Case question: what does the position prove about the disk-full error?
+# Call: print with f"Posición del error: {error_position}" showing the index result.
+# Decide to print the index variable because the need is leaving the position as evidence.
+# Evidence check only: 3.
+# TODO 2.7 (operation 4 of 6): take out the archived item by value with remove.
+# Case question: which event must be taken out once it is archived?
+# Call: event_log.remove("INFO: respaldo local completo")
+# Decide to use remove because the need is deleting one item by value.
+# Evidence check only: size moves 6 -&gt; 5.
+# TODO 2.8: print the new size with len() to prove the event was removed.
+# Case question: what does the new size prove after the remove?
+# Call: print with f"Eventos tras eliminar: {len(event_log)}" using len.
+# Decide to use len because the need is showing the size as evidence of remove.
+# Evidence check only: 5.
+# TODO 2.9 (operation 5 of 6): order the same list in place with sort, used alone and never assigned.
+# Case question: how should the same list look in order without creating a new list?
+# Call: event_log.sort() alone; decide to use sort because the need is ordering in place.
+# Do not store the result because sort returns None.
+# TODO 2.10: print the ordered list to prove the sort result.
+# Case question: what does the ordered state prove after sort?
+# Call: print with f"Eventos ordenados: {event_log}" showing the sort result.
+# Decide to print the same list because the need is leaving the ordered state as evidence.
+# TODO 2.11 (operation 6 of 6): copy a three-item sample with slicing [0:3] without touching the original.
+# Case question: which three-item sample shows the head of the ordered list?
+# Call: event_log[0:3] stored in recent_events, keeping positions 0, 1, and 2.
+# Decide to use slicing [0:3] because the need is copying a range without touching the original.
+# Evidence check only: positions 0, 1, and 2.
+# TODO 2.12: print the sample to prove what the [0:3] slice copied.
+# Case question: what does the three-item sample prove about the ordered list?
+# Call: print with f"Muestra ordenada: {recent_events}" showing the [0:3] result.
+# Decide to print the slice variable because the need is leaving the sample as evidence.
+
+# STEP 3 (given): print the final report for the reviewer: "--- Resumen de eventos ---" header + 6 data lines (identity + closed state)</div>
+    <h3 class="subsection-title">Salida esperada (verifica con tu ejecución):</h3>
+    <div class="student-output-box">Eventos iniciales: 5
+Eventos tras agregar: 6
+Errores de disco lleno: 1
+Posición del error: 3
+Eventos tras eliminar: 5
+Eventos ordenados: ['ERROR: disco lleno en el laboratorio', 'INFO: servicio local iniciado', 'INFO: usuario local registrado', 'WARNING: memoria alta en el laboratorio', 'WARNING: reintento local programado']
+Muestra ordenada: ['ERROR: disco lleno en el laboratorio', 'INFO: servicio local iniciado', 'INFO: usuario local registrado']
+--- Resumen de eventos ---
+Nombre: Alex Mendez
+Identificador: DEF-2026-09
+Total final: 5
+Errores de disco lleno: 1
+Posición del error: 3
+Muestra ordenada: ['ERROR: disco lleno en el laboratorio', 'INFO: servicio local iniciado', 'INFO: usuario local registrado']</div>
+  </section>
+
+  <!-- 5. ERRORES -->
+  <section>
+    <h2 class="section-title">5. Clínica de Errores: Lee el Mensaje</h2>
+    <p style="font-size: 8.5pt;">En Python 3.13, las trazas de error (<em>Tracebacks</em>) señalan la línea y columna exacta de la falla con caracteres <code>^^^^^</code>. Analiza y resuelve los 2 errores típicos de esta sesión:</p>
+    <div class="trouble-card trouble-critical">
+      <div class="trouble-title">🚨 Error 1: IndexError por pedir una posición inexistente</div>
+      <div class="terminal-container" style="margin: 4px 0; padding: 6px 8px; font-size: 7.5pt;"><div class="terminal-header"><span>Traza real de Python 3.13</span><span>event_pipeline.py</span></div>  File "event_pipeline.py", line 40, in &lt;module&gt;
+    sixth_event = event_log[6]
+                  ~~~~~~~~~^^^
+IndexError: list index out of range</div>
+      <div class="trouble-grid"><div><strong>Causa raíz:</strong><p style="font-size: 8pt; margin-top: 2px;">La lista tiene 5 elementos (posiciones <code>0</code> a <code>4</code>). Python numera desde <code>0</code>: la última posición válida es el tamaño menos uno.</p></div><div><strong>Corrección:</strong><p style="font-size: 8pt; margin-top: 2px;">Pide una posición dentro del rango o comprueba el tamaño con <code>len()</code> antes.</p></div></div>
+    </div>
+    <div class="trouble-card">
+      <div class="trouble-title">⚠️ Error 2: asignar sort() y ver None en silencio (sin traza)</div>
+      <div class="terminal-container" style="margin: 4px 0; padding: 6px 8px; font-size: 7.5pt;"><div class="terminal-header"><span>Salida sin error… pero con None</span><span>event_pipeline.py</span></div>ordered_log = event_log.sort()
+print(ordered_log)   # muestra None</div>
+      <div class="trouble-grid"><div><strong>Causa raíz:</strong><p style="font-size: 8pt; margin-top: 2px;"><code>sort</code> ordena la misma lista y devuelve <code>None</code> a propósito; la variable guarda ese <code>None</code>.</p></div><div><strong>Corrección:</strong><p style="font-size: 8pt; margin-top: 2px;">Llama <code>event_log.sort()</code> solo en su línea y sigue usando <code>event_log</code>.</p></div></div>
+    </div>
+    <div class="callout callout-info" style="margin: 8px 0;">
+      <div class="callout-title">📌 Nota documentada: ValueError (no es un tercer error provocado)</div>
+      <p style="font-size: 8pt; margin-bottom: 0;">Si <code>index()</code> o <code>remove()</code> reciben un texto que no está letra por letra en la lista, Python interrumpe con <code>ValueError: '...' is not in list</code>. Contraste con S03: <code>text.find(value)</code> ante un texto ausente devuelve <code>-1</code>, mientras <code>list.index(value)</code> ante un valor ausente interrumpe con <code>ValueError</code>. La corrección es copiar el texto exacto de los materiales. No se usa <code>try/except</code> en esta sesión; en clase solo se provocan los dos errores de arriba.</p>
+    </div>
+  </section>
+
+  <!-- 6. DESAFÍO -->
+  <section>
+    <h2 class="section-title">6. Desafío Opcional para Avance Rápido (no se evalúa)</h2>
+    <div class="callout callout-tip">
+      <div class="callout-title">🚀 Predice el rebanado [1:4]</div>
+      <p style="font-size: 8.5pt; margin-bottom: 0;">Predice en voz alta qué tres eventos contiene <code>event_log[1:4]</code> después de ordenar y compruébalo agregando un <code>print(event_log[1:4])</code> temporal al final. Es solo práctica extra dentro de la clase con sintaxis ya explicada: no cambia tu calificación y no usa conceptos nuevos.</p>
+    </div>
+  </section>
+
+  <!-- 7. VERIFICACIÓN -->
+  <section>
+    <h2 class="section-title">7. Lista de Verificación y Firma Docente</h2>
+    <p style="font-size: 8.5pt;">Marca cada casilla tras comprobar visualmente el resultado en tu pantalla. La evaluación cubre comprensión y resultados, no formato:</p>
+    <table class="data-table">
+      <thead><tr><th class="check-box-cell">OK</th><th>Criterio observable</th><th>Evidencia en pantalla</th></tr></thead>
+      <tbody>
+        <tr><td class="check-box-cell"><span class="check-square"></span></td><td><strong>Colección ordenada:</strong> explicas qué guarda la lista y desde qué posición</td><td>Cinco eventos, posiciones <code>0</code> a <code>4</code></td></tr>
+        <tr><td class="check-box-cell"><span class="check-square"></span></td><td><strong>Seis operaciones:</strong> dices qué devuelve cada una</td><td><code>6</code>, <code>1</code>, <code>3</code>, <code>5</code>, ordenada, muestra de tres</td></tr>
+        <tr><td class="check-box-cell"><span class="check-square"></span></td><td><strong>Estado visible:</strong> cada mutación deja su impresión</td><td>siete impresiones previas al resumen</td></tr>
+        <tr><td class="check-box-cell"><span class="check-square"></span></td><td><strong>Límites honestos:</strong> dices qué NO hace tu programa</td><td>No lee archivos, no toca la red, no confirma un incidente</td></tr>
+        <tr><td class="check-box-cell"><span class="check-square"></span></td><td><strong>Resumen completo:</strong> cada resultado llega a su línea</td><td>Encabezado más seis líneas de datos</td></tr>
+      </tbody>
+    </table>
+    <div class="signature-box">
+      <p style="font-size: 8pt; color: var(--text-muted); margin-bottom: 8px;"><strong>Declaración del Estudiante:</strong> Certifico que el código presentado fue escrito por mí de forma autónoma sin asistentes de IA generativa, que operó exclusivamente en localhost (127.0.0.1) y sobre fixtures sintéticos locales, y que comprendo el propósito de cada variable e instrucción ejecutada.</p>
+      <div class="signature-grid"><div><div class="sig-line">Firma del Estudiante</div></div><div><div class="sig-line">Sello / Validación Docente (&lt; 15 seg)</div></div></div>
+    </div>
+  </section>
+
+  <!-- 8. TAREA -->
+  <section>
+    <h2 class="section-title">8. Tarea Posterior a la Clase (fuera de los 60 minutos)</h2>
+    <p style="font-size: 8.5pt;"><strong>Historia (turno de noche, caso propio):</strong> eres el auxiliar del <strong>turno de noche</strong> y debes dejar lista la <strong>cola de alertas locales</strong> antes del relevo, distinta de la lista de eventos del servicio de clase. <strong>Evidencia recibida:</strong> cinco alertas pendientes (reintento pendiente, verificación completa, sensor sin respuesta, turno registrado, espacio bajo). <strong>Problema:</strong> la cola llega sin nota de cierre, sin conteo del error del sensor y sin muestra prioritaria. <strong>Consecuencia si no se procesa:</strong> el relevo recibe una cola sin verificar. <strong>Seis decisiones en orden:</strong> agregas la nota archivada (<code>6</code>), cuentas los errores del sensor (<code>sensor_errors = 1</code>), localizas su posición (<code>sensor_position = 2</code>), eliminas la verificación archivada (<code>5</code>), ordenas (<code>sort</code> solo) y copias la muestra (<code>[0:3]</code> → <code>priority_sample</code>). <strong>Resultado verificable:</strong> total <code>5</code>, errores <code>1</code>, posición <code>2</code> y muestra de tres empezando en <code>ERROR</code>. La tarea aplica la misma técnica sobre una cola nueva, mientras el ejercicio de clase procesa la lista del servicio.</p>
+    <h3 class="subsection-title">Mapeo abstracto de la tarea (pregunta → operación → evidencia):</h3>
+    <table class="data-table">
+      <thead><tr><th>Pregunta del turno</th><th>Operación</th><th>Variable/llamada</th><th>Evidencia impresa</th></tr></thead>
+      <tbody>
+        <tr><td>¿Qué nota falta al final de la cola?</td><td>Agregar</td><td><code>alert_queue.append("INFO: nota local archivada")</code></td><td><code>Alertas tras agregar: 6</code></td></tr>
+        <tr><td>¿Cuántos errores del sensor hay?</td><td>Contar</td><td><code>sensor_errors = alert_queue.count("ERROR: sensor local sin respuesta")</code></td><td><code>Errores del sensor: 1</code></td></tr>
+        <tr><td>¿En qué posición está ese error?</td><td>Localizar</td><td><code>sensor_position = alert_queue.index("ERROR: sensor local sin respuesta")</code></td><td><code>Posición del error: 2</code></td></tr>
+        <tr><td>¿Qué verificación archivada debe salir?</td><td>Eliminar</td><td><code>alert_queue.remove("INFO: verificación local completa")</code></td><td><code>Alertas tras eliminar: 5</code></td></tr>
+        <tr><td>¿Cómo queda la misma cola en orden?</td><td>Ordenar</td><td><code>alert_queue.sort()</code> (solo, sin asignar)</td><td>Cola ordenada</td></tr>
+        <tr><td>¿Qué tres alertas prioritarias muestro?</td><td>Rebanar</td><td><code>priority_sample = alert_queue[0:3]</code></td><td>Muestra de tres</td></tr>
+      </tbody>
+    </table>
+    <h3 class="subsection-title">La cola inicial (escríbela tal cual):</h3>
+    <div class="student-code-box">alert_queue = [
+    "WARNING: reintento local pendiente",
+    "INFO: verificación local completa",
+    "ERROR: sensor local sin respuesta",
+    "INFO: turno de revisión registrado",
+    "WARNING: espacio bajo en el laboratorio",
+]</div>
+    <h3 class="subsection-title">Antes de programar, analiza (sin ejecutar código):</h3>
+    <ul style="font-size: 8.5pt; margin-left: 18px; margin-bottom: 10px;">
+      <li>Qué texto busca <code>count()</code> y si contar lo elimina.</li>
+      <li>Qué posición devuelve <code>index()</code> para el error del sensor y por qué empieza en <code>0</code>.</li>
+      <li>Qué elemento borra <code>remove()</code> y cómo pasa el tamaño de <code>6</code> a <code>5</code>; por qué <code>sort()</code> se llama sin asignar y qué tres posiciones copia <code>[0:3]</code>.</li>
+    </ul>
+    <h3 class="subsection-title">Los 3 pasos (en este orden):</h3>
+    <ol style="font-size: 8.5pt; margin-left: 18px; margin-bottom: 10px;">
+      <li><strong>Evidencia:</strong> asigna la cola de cinco alertas más tu identidad e imprime el tamaño inicial (<code>5</code>).</li>
+      <li><strong>Pipeline:</strong> <code>append</code> → <code>6</code>; <code>count</code> → <code>sensor_errors = 1</code>; <code>index</code> → <code>sensor_position = 2</code>; <code>remove</code> → <code>5</code>; <code>sort</code> solo; <code>[0:3]</code> → <code>priority_sample</code>.</li>
+      <li><strong>Comunicación:</strong> resumen legible para quien revisa el turno.</li>
+    </ol>
+    <h3 class="subsection-title">Comprueba con el ejemplo único:</h3>
+    <div class="student-output-box">Alertas iniciales: 5
+Alertas tras agregar: 6
+Errores del sensor: 1
+Posición del error: 2
+Alertas tras eliminar: 5
+Alertas ordenadas: ['ERROR: sensor local sin respuesta', 'INFO: nota local archivada', 'INFO: turno de revisión registrado', 'WARNING: espacio bajo en el laboratorio', 'WARNING: reintento local pendiente']
+Muestra prioritaria: ['ERROR: sensor local sin respuesta', 'INFO: nota local archivada', 'INFO: turno de revisión registrado']
+--- Resumen de la cola ---
+Nombre: Alex Mendez
+Identificador: DEF-2026-09
+Total final: 5
+Errores del sensor: 1
+Posición del error: 2
+Muestra prioritaria: ['ERROR: sensor local sin respuesta', 'INFO: nota local archivada', 'INFO: turno de revisión registrado']</div>
+    <div class="callout callout-warning" style="margin: 6px 0 10px 0;">
+      <div class="callout-title">⚠️ Propósito y límites</div>
+      <p style="font-size: 8pt; margin-bottom: 0;">El resumen organiza la evidencia local para la revisión humana: <strong>no</strong> lee archivos, no toca la red, no confirma un incidente y no sustituye la investigación.</p>
+    </div>
+    <h3 class="subsection-title">Entrega y respaldo</h3>
+    <p style="font-size: 8.5pt;">Crea manualmente <code>alert_queue.py</code> en tu proyecto personal. <strong>Entrega:</strong> explica en voz alta la cadena colección → operación → estado visible → muestra final para las seis operaciones. Además explica qué cambia en el dominio (turno de noche, cola de alertas) y qué técnica se conserva (mismo pipeline de seis operaciones, misma cadena de evidencia). El repositorio contiene <code>homework_starter.py</code> y <code>homework_solution.py</code> solo como respaldo: úsalos <strong>después</strong> de intentar la tarea por tu cuenta.</p>
+  </section>
+
+</div>
+</body>
+</html>
