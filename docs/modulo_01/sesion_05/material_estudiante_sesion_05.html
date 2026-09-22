@@ -161,6 +161,23 @@ else:
     <p style="font-size: 8.5pt;">Con <code>or</code> basta una sola coincidencia:</p>
     <div class="student-code-box">level_ok = log_level == "INFO" or log_level == "WARNING" or log_level == "ERROR"</div>
     <p style="font-size: 8.5pt;">Con <code>WARNING</code>, la segunda comparación ya es verdadera y <code>level_ok</code> es <code>True</code>. Con <code>DEBUG</code>, las tres son falsas y <code>level_ok</code> es <code>False</code>.</p>
+    <p style="font-size: 8.5pt;">El comportamiento de <code>and</code>, <code>or</code> y <code>not</code> se resume en estas tablas de verdad. Léelas antes de seguir: explican por qué cada chequeo decide lo que decide.</p>
+    <table class="data-table">
+      <thead><tr><th style="width: 22%;">Operador</th><th style="width: 38%;">Combinación</th><th style="width: 40%;">Resultado y lectura</th></tr></thead>
+      <tbody>
+        <tr><td rowspan="4"><strong><code>and</code></strong><br>exige cada parte</td><td><code>True and True</code></td><td><code>True</code>: solo cuando ambas partes se cumplen.</td></tr>
+        <tr><td><code>True and False</code></td><td><code>False</code>: basta un incumplimiento para rechazar.</td></tr>
+        <tr><td><code>False and True</code></td><td><code>False</code>: el orden no cambia el rechazo.</td></tr>
+        <tr><td><code>False and False</code></td><td><code>False</code>: ninguna parte se cumple.</td></tr>
+        <tr><td rowspan="4"><strong><code>or</code></strong><br>basta una coincidencia</td><td><code>True or True</code></td><td><code>True</code>: hay coincidencia de sobra.</td></tr>
+        <tr><td><code>True or False</code></td><td><code>True</code>: basta la primera coincidencia.</td></tr>
+        <tr><td><code>False or True</code></td><td><code>True</code>: basta la segunda coincidencia.</td></tr>
+        <tr><td><code>False or False</code></td><td><code>False</code>: solo se rechaza cuando nada coincide.</td></tr>
+        <tr><td rowspan="2"><strong><code>not</code></strong><br>invierte el veredicto</td><td><code>not True</code></td><td><code>False</code>: lo listo no requiere corrección.</td></tr>
+        <tr><td><code>not False</code></td><td><code>True</code>: lo no listo sí requiere corrección.</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size: 8.5pt;">Conexión con tu programa: el puerto usa <code>and</code> porque necesita rango inferior y superior a la vez; el nivel usa <code>or</code> porque le basta una de las tres opciones; el veredicto final usa <code>and</code> porque basta un <code>False</code> parcial para detener la configuración, y <code>not</code> invierte ese veredicto en <code>needs_fix</code>.</p>
     <p style="font-size: 8.5pt;">Con <code>is None</code> detectas ausencia y con <code>not</code> inviertes un veredicto:</p>
     <div class="student-code-box">note_missing = reviewer_note is None
 needs_fix = not config_ready</div>
@@ -300,11 +317,11 @@ python3 config_check.py</div>
     <table class="data-table">
       <thead><tr><th>Dato del caso</th><th>Variable</th><th>Pregunta / regla</th><th>Booleano y mensaje</th><th>Contribución al veredicto</th></tr></thead>
       <tbody>
-        <tr><td>Puerto local <code>18080</code></td><td><code>target_port</code></td><td>¿Dentro de <code>1-65535</code>? (<code>and</code>)</td><td><code>port_ok</code> + <code>port_message</code></td><td>Parte de <code>config_ready</code>; un <code>False</code> detiene la configuración</td></tr>
-        <tr><td>Ruta <code>configs/lab.conf</code></td><td><code>config_path</code> contra <code>known_config_path</code></td><td>¿Vacía? ¿Coincide con la conocida? (<code>if/elif/else</code>)</td><td><code>path_ok</code> + <code>path_message</code></td><td>Parte de <code>config_ready</code>; un <code>False</code> detiene la configuración</td></tr>
-        <tr><td>Nivel <code>WARNING</code></td><td><code>log_level</code></td><td>¿Coincide con alguna opción? (<code>or</code>)</td><td><code>level_ok</code> + <code>level_message</code></td><td>Parte de <code>config_ready</code>; un <code>False</code> detiene la configuración</td></tr>
-        <tr><td>Ausencia de nota (<code>None</code>)</td><td><code>reviewer_note</code></td><td>¿No llegó ninguna nota? (<code>is None</code>)</td><td><code>note_missing</code> + <code>note_message</code></td><td>Informa a la revisión; no bloquea el veredicto</td></tr>
-        <tr><td>Veredicto combinado</td><td><code>config_ready</code>, <code>needs_fix</code>, <code>final_decision</code></td><td>¿Cada parcial es <code>True</code>? (<code>and</code>)</td><td><code>config_ready</code>, <code>needs_fix</code>, <code>final_decision</code></td><td>Decisión final: lista o detenida</td></tr>
+        <tr><td>Puerto local <code>18080</code></td><td><code>target_port</code></td><td>¿Está dentro del rango <code>1-65535</code>? (<code>and</code>) — válidas: <code>1</code>–<code>65535</code> (ej. <code>18080</code>, <code>80</code>); inválidas: fuera de rango (ej. <code>0</code>, <code>99999</code>)</td><td><code>port_ok</code> + <code>port_message</code></td><td>Parte de <code>config_ready</code>; un <code>False</code> detiene la configuración</td></tr>
+        <tr><td>Ruta <code>configs/lab.conf</code></td><td><code>config_path</code> contra <code>known_config_path</code></td><td>¿Está vacía o coincide con la conocida? (<code>if/elif/else</code>) — válida: <code>configs/lab.conf</code>; inválidas: vacía (<code>""</code>) o distinta de la conocida (ej. <code>configs/otra.conf</code>)</td><td><code>path_ok</code> + <code>path_message</code></td><td>Parte de <code>config_ready</code>; un <code>False</code> detiene la configuración</td></tr>
+        <tr><td>Nivel <code>WARNING</code></td><td><code>log_level</code></td><td>¿Es <code>INFO</code>, <code>WARNING</code> o <code>ERROR</code>? (<code>or</code>) — válidas: <code>INFO</code>/<code>WARNING</code>/<code>ERROR</code>; inválidas: cualquier otro (ej. <code>DEBUG</code>, <code>""</code>, <code>"info"</code>)</td><td><code>level_ok</code> + <code>level_message</code></td><td>Parte de <code>config_ready</code>; un <code>False</code> detiene la configuración</td></tr>
+        <tr><td>Ausencia de nota (<code>None</code>)</td><td><code>reviewer_note</code></td><td>¿No llegó ninguna nota? (<code>is None</code>) — sin nota: <code>None</code> (<code>True</code>, se continúa sin comentarios); con nota: cualquier texto (<code>False</code>, registrada)</td><td><code>note_missing</code> + <code>note_message</code></td><td>Informa a la revisión; no bloquea el veredicto</td></tr>
+        <tr><td>Veredicto combinado</td><td><code>config_ready</code>, <code>needs_fix</code>, <code>final_decision</code></td><td>¿Cada parcial es <code>True</code>? (<code>and</code>) — lista: todo <code>True</code>; detenida: un <code>False</code> (ej. puerto <code>0</code>)</td><td><code>config_ready</code>, <code>needs_fix</code>, <code>final_decision</code></td><td>Decisión final: lista o detenida</td></tr>
       </tbody>
     </table>
     <p style="font-size: 8.5pt;">Primero abstrae con la historia y el mapeo; después codifica siguiendo la secuencia campo → chequeo booleano → mensaje específico → veredicto combinado → recomendación.</p>
@@ -327,16 +344,27 @@ reviewer_note = None</div>
 # log_level, reviewer_note, student_name, student_id
 
 # TODO 2.1: port_ok with target_port &gt;= 1 and target_port &lt;= 65535
-# TODO 2.2: port_message with if/else over port_ok
-# TODO 2.3: path_message + path_ok with if/elif/else ("", unknown, known)
+# TODO 2.2: port_message with if/else over port_ok:
+#   True -&gt; "Puerto válido: dentro del rango 1-65535"
+#   False -&gt; "Puerto inválido: fuera del rango 1-65535"
+# TODO 2.3: path_message + path_ok with if/elif/else:
+#   "" -&gt; "Ruta inválida: está vacía" + False
+#   unknown -&gt; "Ruta inválida: no es una ruta conocida del laboratorio" + False
+#   known -&gt; "Ruta válida: archivo conocido del laboratorio" + True
 # TODO 2.4: level_ok with or over the three allowed levels
-# TODO 2.5: level_message with if/else over level_ok
+# TODO 2.5: level_message with if/else over level_ok:
+#   True -&gt; "Nivel válido: organiza la revisión humana"
+#   False -&gt; "Nivel inválido: debe ser INFO, WARNING o ERROR"
 # TODO 2.6: note_missing with reviewer_note is None
-# TODO 2.7: note_message with if/else over note_missing
+# TODO 2.7: note_message with if/else over note_missing:
+#   True -&gt; "Sin nota del revisor: se continúa sin comentarios"
+#   False -&gt; "Nota del revisor registrada"
 
 # TODO 3.1: config_ready with port_ok and path_ok and level_ok
 # TODO 3.2: needs_fix with not config_ready
-# TODO 3.3: final_decision with if/else over config_ready
+# TODO 3.3: final_decision with if/else over config_ready:
+#   True -&gt; "Configuración lista para la práctica local"
+#   False -&gt; "Configuración detenida: corrige los campos marcados"
 
 # STEP 4 (given): print "--- Resumen de la configuración ---" + 12 lines</div>
     <h3 class="subsection-title">Salida esperada (verifica con tu ejecución):</h3>
@@ -417,11 +445,11 @@ print(level_ok)   # con log_level = "DEBUG" muestra True</div>
     <table class="data-table">
       <thead><tr><th>Dato del caso</th><th>Variable</th><th>Pregunta / regla</th><th>Booleano y mensaje</th><th>Contribución al veredicto</th></tr></thead>
       <tbody>
-        <tr><td>Puerto por teclado (<code>8080</code>)</td><td><code>raw_target_port</code> → <code>target_port</code></td><td>¿Dentro de <code>1-65535</code> tras <code>int()</code>? (<code>and</code>)</td><td><code>port_ok</code> + <code>port_message</code></td><td>Parte de <code>config_ready</code></td></tr>
-        <tr><td>Ruta fija <code>configs/lab.conf</code></td><td><code>config_path</code> contra <code>known_config_path</code></td><td>¿Coincide con la conocida? (<code>if/elif/else</code>)</td><td><code>path_ok</code> + <code>path_message</code></td><td>Parte de <code>config_ready</code></td></tr>
-        <tr><td>Nivel por teclado (<code>INFO</code>)</td><td><code>log_level</code></td><td>¿Coincide con alguna opción? (<code>or</code>)</td><td><code>level_ok</code> + <code>level_message</code></td><td>Parte de <code>config_ready</code></td></tr>
-        <tr><td>Ausencia de nota (<code>None</code>)</td><td><code>reviewer_note</code></td><td>¿No llegó ninguna nota? (<code>is None</code>)</td><td><code>note_missing</code> + <code>note_message</code></td><td>Informa a la revisión</td></tr>
-        <tr><td>Veredicto combinado</td><td><code>config_ready</code>, <code>needs_fix</code>, <code>final_decision</code></td><td>¿Cada parcial es <code>True</code>? (<code>and</code>)</td><td><code>config_ready</code>, <code>needs_fix</code>, <code>final_decision</code></td><td>Decisión final para quien revisa</td></tr>
+        <tr><td>Puerto por teclado (<code>8080</code>)</td><td><code>raw_target_port</code> → <code>target_port</code></td><td>¿Está dentro del rango <code>1-65535</code> tras <code>int()</code>? (<code>and</code>) — válidas: <code>1</code>–<code>65535</code> (ej. <code>8080</code>); inválidas: fuera de rango (ej. <code>0</code>, <code>99999</code>)</td><td><code>port_ok</code> + <code>port_message</code></td><td>Parte de <code>config_ready</code></td></tr>
+        <tr><td>Ruta fija <code>configs/lab.conf</code></td><td><code>config_path</code> contra <code>known_config_path</code></td><td>¿Está vacía o coincide con la conocida? (<code>if/elif/else</code>) — válida: <code>configs/lab.conf</code>; inválidas: vacía (<code>""</code>) o distinta de la conocida</td><td><code>path_ok</code> + <code>path_message</code></td><td>Parte de <code>config_ready</code></td></tr>
+        <tr><td>Nivel por teclado (<code>INFO</code>)</td><td><code>log_level</code></td><td>¿Es <code>INFO</code>, <code>WARNING</code> o <code>ERROR</code>? (<code>or</code>) — válidas: <code>INFO</code>/<code>WARNING</code>/<code>ERROR</code>; inválidas: cualquier otro (ej. <code>DEBUG</code>, <code>""</code>, <code>"info"</code>)</td><td><code>level_ok</code> + <code>level_message</code></td><td>Parte de <code>config_ready</code></td></tr>
+        <tr><td>Ausencia de nota (<code>None</code>)</td><td><code>reviewer_note</code></td><td>¿No llegó ninguna nota? (<code>is None</code>) — sin nota: <code>None</code> (<code>True</code>, se continúa sin comentarios); con nota: cualquier texto (<code>False</code>, registrada)</td><td><code>note_missing</code> + <code>note_message</code></td><td>Informa a la revisión</td></tr>
+        <tr><td>Veredicto combinado</td><td><code>config_ready</code>, <code>needs_fix</code>, <code>final_decision</code></td><td>¿Cada parcial es <code>True</code>? (<code>and</code>) — lista: todo <code>True</code>; detenida: un <code>False</code> (ej. puerto <code>0</code>)</td><td><code>config_ready</code>, <code>needs_fix</code>, <code>final_decision</code></td><td>Decisión final para quien revisa</td></tr>
       </tbody>
     </table>
     <p style="font-size: 8.5pt;">Primero abstrae con la historia y el mapeo; después codifica. Sin sintaxis nueva: solo <code>input</code> + <code>int</code> de la Sesión 02 y <code>and</code>/<code>or</code>/<code>not</code> más <code>is None</code> de esta sesión.</p>

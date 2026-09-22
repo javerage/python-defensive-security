@@ -148,7 +148,7 @@ level_ok = log_level == "INFO" or log_level == "WARNING" or log_level == "ERROR"
 if level_ok:
     level_message = "Nivel válido: organiza la revisión humana"
 else:
-    level_message = "Nivel inválido: usa INFO, WARNING o ERROR"
+    level_message = "Nivel inválido: debe ser INFO, WARNING o ERROR"
 
 # Absence of value ("no note arrived"): purpose similar to null
 # elsewhere, but Python's unique None object. is None checks

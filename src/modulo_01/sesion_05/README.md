@@ -286,7 +286,7 @@ reviewer_note = None
 |-------|-----------|--------|------------------------------|
 | Puerto | `target_port >= 1 and target_port <= 65535` | `18080` → `True` | `Puerto inválido: fuera del rango 1-65535` |
 | Ruta | `""` → inválida; distinta de la conocida → inválida; igual → válida | `configs/lab.conf` → válida | `Ruta inválida: está vacía` / `Ruta inválida: no es una ruta conocida del laboratorio` |
-| Nivel | `== "INFO" or == "WARNING" or == "ERROR"` | `WARNING` → `True` | `Nivel inválido: usa INFO, WARNING o ERROR` |
+| Nivel | `== "INFO" or == "WARNING" or == "ERROR"` | `WARNING` → `True` | `Nivel inválido: debe ser INFO, WARNING o ERROR` |
 | Nota | `reviewer_note is None` → sin nota | `None` → sin nota | (continúa sin comentarios) |
 | Veredicto | `port_ok and path_ok and level_ok` | Todo `True` → lista | `Configuración detenida: corrige los campos marcados` |
 
