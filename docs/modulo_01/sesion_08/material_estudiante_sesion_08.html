@@ -246,7 +246,7 @@ python3 event_groups.py</div>
       <tbody>
         <tr><td>20 observaciones con repeticiones</td><td><code>event_ips</code></td><td>Lista: conserva orden y duplicados (<code>20</code>)</td><td>Total registrado</td></tr>
         <tr><td>Ficha del analista (3 campos)</td><td><code>analyst_record</code></td><td>Tupla inmutable: solo lectura con índice</td><td>Identidad del parte</td></tr>
-        <tr><td>Direcciones únicas</td><td><code>unique_ips</code> → <code>ordered_ips</code></td><td>Set + <code>sorted()</code>: <code>11</code> únicas</td><td>Lista ordenada para lectura</td></tr>
+        <tr><td>Direcciones únicas</td><td><code>unique_ips</code> → <code>ordered_ips</code></td><td>Set + <code>sorted()</code>: <code>11</code> únicas</td><td>Valores de la lista ordenada para lectura</td></tr>
         <tr><td>Clasificación local / documental</td><td><code>loopback_seen</code>, conteos</td><td><code>in</code> sobre texto: 7 locales, 4 documentales</td><td>Grupos del parte</td></tr>
       </tbody>
     </table>
@@ -263,7 +263,7 @@ analyst_record = ("Alex Mendez", "DEF-2026-09", 20)</div>
     <ol style="font-size: 8.5pt; margin-left: 18px; margin-bottom: 10px;">
       <li><strong>Evidencia:</strong> asigna la lista de 20 más la tupla e imprime el total (<code>20</code>).</li>
       <li><strong>Agrupación:</strong> convierte a set, ordena con <code>sorted()</code> y verifica presencia con <code>in</code>.</li>
-      <li><strong>Comunicación:</strong> imprime el encabezado y las líneas del parte con conteos y lista ordenada.</li>
+      <li><strong>Comunicación:</strong> imprime el encabezado y las líneas del parte con conteos y los valores de la lista ordenada.</li>
     </ol>
     <h3 class="subsection-title">Tu archivo <code>event_groups.py</code> (complétalo):</h3>
     <div class="student-code-box"># STEP 1 (given): event_ips (20), analyst_record (3 fields),
@@ -296,7 +296,7 @@ Nombre: Alex Mendez
 Identificador: DEF-2026-09
 Total de observaciones: 20
 Únicas: 11
-Lista ordenada: 11 direcciones</div>
+Lista ordenada: ['127.0.0.1', '127.0.0.2', '127.0.0.3', '127.0.0.4', '127.0.0.5', '127.0.0.53', '192.0.2.10', '192.0.2.20', '192.0.2.30', '192.0.2.40', '::1']</div>
     <div class="callout callout-warning" style="margin: 6px 0 10px 0;">
       <div class="callout-title">⚠️ Casos de borde para explorar (cambia el valor y re-ejecuta con ↑)</div>
       <p style="font-size: 8pt; margin-bottom: 0;">Pregunta <code>"10.9.9.9" in unique_ips</code> → <code>False</code> · convierte de nuevo con <code>set()</code> → sigue <code>11</code> · ordena con <code>sorted()</code> → el set original sigue sin orden. Di en voz alta qué cambia y por qué.</p>
@@ -342,7 +342,7 @@ TypeError: 'tuple' object does not support item assignment</div>
         <tr><td class="check-box-cell"><span class="check-square"></span></td><td><strong>Deduplicación:</strong> explicas 20 frente a 11</td><td><code>20</code> registradas, <code>11</code> únicas, 9 repeticiones</td></tr>
         <tr><td class="check-box-cell"><span class="check-square"></span></td><td><strong>Pertenencia:</strong> distingues presencia de conexión</td><td><code>True</code> para vista, <code>False</code> para ausente, sin red</td></tr>
         <tr><td class="check-box-cell"><span class="check-square"></span></td><td><strong>Límites honestos:</strong> dices qué NO hace tu programa</td><td>No abre puertos, no toca disco/red, no confirma un incidente</td></tr>
-        <tr><td class="check-box-cell"><span class="check-square"></span></td><td><strong>Parte completo:</strong> cada grupo llega a su línea</td><td>Encabezado más líneas de conteos y lista ordenada</td></tr>
+        <tr><td class="check-box-cell"><span class="check-square"></span></td><td><strong>Parte completo:</strong> cada grupo llega a su línea</td><td>Encabezado más líneas de conteos y los valores de la lista ordenada mostrados</td></tr>
       </tbody>
     </table>
     <div class="signature-box">
@@ -361,7 +361,7 @@ TypeError: 'tuple' object does not support item assignment</div>
       <tbody>
         <tr><td>20 observaciones del turno</td><td><code>shift_ips</code></td><td>Lista con duplicados (<code>20</code>)</td><td>Total registrado</td></tr>
         <tr><td>Ficha del turno (3 campos)</td><td><code>shift_record</code></td><td>Tupla inmutable, solo lectura</td><td>Identidad del parte</td></tr>
-        <tr><td>Únicas del turno</td><td><code>shift_unique</code></td><td>Set + <code>sorted()</code> (<code>10</code>)</td><td>Lista ordenada</td></tr>
+        <tr><td>Únicas del turno</td><td><code>shift_unique</code></td><td>Set + <code>sorted()</code> (<code>10</code>)</td><td>Valores de la lista ordenada</td></tr>
         <tr><td>Presencia del turno</td><td><code>shift_seen</code></td><td><code>in</code> sobre texto, sin red</td><td>Verificación</td></tr>
       </tbody>
     </table>
@@ -394,7 +394,7 @@ Desconocida vista: False
 Nombre: Alex Mendez
 Total de observaciones: 20
 Únicas: 10
-Lista ordenada: 10 direcciones</div>
+Lista ordenada: ['127.0.0.1', '127.0.0.10', '127.0.0.11', '127.0.0.12', '127.0.0.13', '192.0.2.50', '192.0.2.51', '192.0.2.52', '192.0.2.53', '::1']</div>
     <div class="callout callout-warning" style="margin: 6px 0 10px 0;">
       <div class="callout-title">⚠️ Propósito y límites</div>
       <p style="font-size: 8pt; margin-bottom: 0;">El parte organiza direcciones locales para la revisión: <strong>no</strong> abre puertos, <strong>no</strong> toca disco/red salvo lectura local indicada y <strong>no</strong> confirma un incidente.</p>

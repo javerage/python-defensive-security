@@ -40,13 +40,13 @@ Absolute beginners need the guide, starter, solution, and expected output to des
   - Checks: targeted text search and structural HTML readback.
   - Evidence: HTML embedded starter now lists TODO 2.6 (seven loopback addresses, one `int(address in unique_ips)` per address, expect 7) and TODO 2.7 (four TEST-NET-1 addresses, one `int(address in unique_ips)` per address, expect 4); error-clinic title reads converting the set to a list and assuming index 0 is stable; `solution.py` membership sums preserved unchanged; no style-note paragraph added (Session 07 verification showed it absent).
 
-- [ ] **S08-2 — Show the ordered values promised by the report**
+- [x] **S08-2 — Show the ordered values promised by the report**
   - Route: delegated writer.
   - Trigger: behavior, expected output, class starter/solution, and homework starter/solution must remain synchronized.
   - Print the actual ordered list in class and homework reports and update both documented expected outputs.
   - Acceptance: every report labeled `Lista ordenada` displays the ordered values rather than only their count.
   - Checks: run class and homework solutions; compare exact output with the HTML and README examples; structural readback.
-  - Evidence: pending.
+  - Evidence: `solution.py`/`starter.py` print `Lista ordenada: {ordered_ips}`; `homework_solution.py`/`homework_starter.py` print `Lista ordenada: {shift_ordered}`; HTML and README expected outputs carry the exact `repr` lists from real execution; line count and report structure preserved; `lista ordenada` wording now means shown values.
 
 ## Authorized Scope
 
@@ -60,13 +60,14 @@ The user authorized the editorial corrections identified during the Session 08 g
 ## Progress
 
 - Feature branch: `docs/session-08-alignment`.
-- Current task: S08-2.
+- Current task: complete (S08-1 and S08-2 done).
 - Engram mirror: pending — multiple active runtime sessions made the parent memory write ambiguous; no synchronization claimed.
 
 ## Verification Evidence
 
 - S08-1: structural HTML readback of embedded TODOs (TODO 2.6/2.7) and error-clinic title; `solution.py` membership sums read back unchanged (7 loopback + 4 documentation `int(... in unique_ips)` terms).
+- S08-2: `python3 src/modulo_01/sesion_08/solution.py` and `python3 src/modulo_01/sesion_08/homework_solution.py` executed; exact `Lista ordenada` list representations copied into HTML and README; structural readback of all four `.py` reports plus both documented examples; `git diff --check` clean.
 
 ## Next Step
 
-S08-1 committed; implement S08-2 (ordered values in class and homework reports plus documented expected outputs), verify with real execution, and record the second work-unit commit.
+Both work-unit commits recorded below; no push or PR per authorization. Remaining: reviewer sign-off only.
