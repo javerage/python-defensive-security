@@ -219,7 +219,7 @@ Total de observaciones: 20
 Lista ordenada: ['127.0.0.1', '127.0.0.2', '127.0.0.3', '127.0.0.4', '127.0.0.5', '127.0.0.53', '192.0.2.10', '192.0.2.20', '192.0.2.30', '192.0.2.40', '::1']
 ```
 
-Con tus propios datos el nombre y el identificador cambian, pero la forma de la salida es siempre la misma: seis impresiones intermedias más un encabezado y cuatro líneas de datos.
+Con tus propios datos el nombre y el identificador cambian, pero la forma de la salida es siempre la misma: seis impresiones intermedias más un encabezado y cinco líneas de datos.
 
 ## Nota precisa sobre lo que el programa sí hace y lo que no hace
 
@@ -246,7 +246,7 @@ Antes de pedir la firma del docente, comprueba que puedes explicar en voz alta:
 - [ ] Qué devuelve `"127.0.0.1" in unique_ips` frente a `"10.9.9.9" in unique_ips` y por qué ninguno toca la red.
 - [ ] Cómo llega cada grupo al parte (qué variable muestra cada línea).
 - [ ] Qué NO hace el programa (no abre puertos, no toca disco/red, no confirma un incidente).
-- [ ] Tu programa se ejecuta sin errores y muestra las seis impresiones intermedias más el encabezado y las cuatro líneas de datos.
+- [ ] Tu programa se ejecuta sin errores y muestra las seis impresiones intermedias más el encabezado y las cinco líneas de datos.
 
 ## Desafío opcional (sin impacto en la evaluación)
 

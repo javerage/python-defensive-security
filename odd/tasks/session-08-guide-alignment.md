@@ -67,7 +67,9 @@ The user authorized the editorial corrections identified during the Session 08 g
 
 - S08-1: structural HTML readback of embedded TODOs (TODO 2.6/2.7) and error-clinic title; `solution.py` membership sums read back unchanged (7 loopback + 4 documentation `int(... in unique_ips)` terms).
 - S08-2: `python3 src/modulo_01/sesion_08/solution.py` and `python3 src/modulo_01/sesion_08/homework_solution.py` executed; exact `Lista ordenada` list representations copied into HTML and README; structural readback of all four `.py` reports plus both documented examples; `git diff --check` clean.
+- Parent spot check: class solution output confirmed five report data lines; corrected two stale README references from four lines to five.
+- Work-unit commits: `78d4494` (S08-1), `e6d3e80` (S08-2); final README count correction included in a focused follow-up work unit.
 
 ## Next Step
 
-Both work-unit commits recorded below; no push or PR per authorization. Remaining: reviewer sign-off only.
+Complete the native review decision for this branch. No push or PR is authorized.
