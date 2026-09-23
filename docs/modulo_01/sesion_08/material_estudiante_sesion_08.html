@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Workbook — Session 08 | Python for Defensive Security</title>
+  <style>
+    :root {
+      --primary: #1e3a8a;
+      --primary-dark: #0f172a;
+      --primary-light: #eff6ff;
+      --secondary: #0284c7;
+      --accent-red: #b91c1c;
+      --accent-red-light: #fef2f2;
+      --accent-amber: #b45309;
+      --accent-amber-light: #fffbeb;
+      --accent-green: #15803d;
+      --accent-green-light: #f0fdf4;
+      --accent-purple: #6b21a8;
+      --accent-purple-light: #faf5ff;
+      --text-main: #1f2937;
+      --text-muted: #4b5563;
+      --border-color: #d1d5db;
+      --border-light: #e5e7eb;
+      --bg-card: #f9fafb;
+      --bg-terminal: #0f172a;
+      --term-text: #f8fafc;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-size: 9pt; line-height: 1.5; color: var(--text-main); background-color: #ffffff; padding: 0; margin: 0;
+    }
+    .page-container { max-width: 920px; margin: 0 auto; padding: 20px 28px; }
+    .header-institution { border-bottom: 2px solid var(--primary); padding-bottom: 10px; margin-bottom: 14px; }
+    .header-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; }
+    .inst-titles h1 { font-size: 14pt; color: var(--primary); font-weight: 700; line-height: 1.2; letter-spacing: -0.2px; }
+    .inst-titles h2 { font-size: 10.5pt; color: var(--text-muted); font-weight: 600; margin-top: 2px; }
+    .badge-container { display: flex; flex-direction: column; align-items: flex-end; gap: 3px; }
+    .badge { display: inline-block; font-size: 7pt; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; padding: 2px 7px; border-radius: 4px; border: 1px solid transparent; }
+    .badge-primary { background-color: var(--primary-light); color: var(--primary); border-color: #bfdbfe; }
+    .badge-neutral { background-color: #f3f4f6; color: #374151; border-color: #e5e7eb; }
+    .badge-alert { background-color: var(--accent-red-light); color: var(--accent-red); border-color: #fecaca; }
+    .student-data-card { background-color: var(--bg-card); border: 1px solid var(--border-color); border-radius: 6px; padding: 12px 14px; margin-bottom: 18px; }
+    .data-grid { display: grid; grid-template-columns: 2fr 1fr 1.2fr 1fr; gap: 10px 16px; align-items: end; }
+    .data-field { display: flex; flex-direction: column; }
+    .data-label { font-size: 7.5pt; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 3px; }
+    .data-line { border-bottom: 1px dashed #6b7280; min-height: 20px; font-size: 9pt; color: var(--text-main); padding: 0 4px; }
+    h2.section-title { font-size: 11.5pt; color: var(--primary-dark); border-bottom: 1.5px solid var(--border-color); padding-bottom: 4px; margin-top: 22px; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+    h3.subsection-title { font-size: 10pt; color: var(--primary); margin-top: 14px; margin-bottom: 6px; font-weight: 700; }
+    p { margin-bottom: 10px; text-align: justify; }
+    ul, ol { margin-left: 20px; margin-bottom: 10px; }
+    li { margin-bottom: 4px; }
+    .callout { border-left: 4px solid var(--primary); background-color: var(--primary-light); padding: 10px 14px; border-radius: 0 6px 6px 0; margin: 12px 0; font-size: 9pt; }
+    .callout-title { font-weight: 700; font-size: 9.5pt; margin-bottom: 5px; display: flex; align-items: center; gap: 6px; }
+    .callout-info { border-left-color: var(--secondary); background-color: #f0f9ff; }
+    .callout-info .callout-title { color: #0369a1; }
+    .callout-critical { border-left-color: var(--accent-red); background-color: var(--accent-red-light); border: 1px solid #fecaca; border-left-width: 5px; }
+    .callout-critical .callout-title { color: var(--accent-red); }
+    .callout-warning { border-left-color: var(--accent-amber); background-color: var(--accent-amber-light); }
+    .callout-warning .callout-title { color: var(--accent-amber); }
+    .callout-tip { border-left-color: var(--accent-green); background-color: var(--accent-green-light); }
+    .callout-tip .callout-title { color: var(--accent-green); }
+    .callout-purple { border-left-color: var(--accent-purple); background-color: var(--accent-purple-light); }
+    .callout-purple .callout-title { color: var(--accent-purple); }
+    .terminal-container { background-color: var(--bg-terminal); color: var(--term-text); border-radius: 6px; padding: 13px 15px; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 8.5pt; line-height: 1.55; margin: 12px 0 16px 0; overflow-x: auto; border: 1px solid #334155; white-space: pre-wrap; }
+    .terminal-header { color: #94a3b8; font-size: 7.5pt; border-bottom: 1px solid #334155; padding-bottom: 4px; margin-bottom: 10px; display: flex; justify-content: space-between; text-transform: uppercase; letter-spacing: 0.5px; }
+    table.data-table { width: 100%; border-collapse: collapse; margin: 10px 0 14px 0; font-size: 8.5pt; }
+    table.data-table th, table.data-table td { border: 1px solid var(--border-color); padding: 6px 8px; text-align: left; vertical-align: top; }
+    table.data-table th { background-color: #f1f5f9; color: var(--primary-dark); font-weight: 700; font-size: 8pt; text-transform: uppercase; }
+    table.data-table tr:nth-child(even) { background-color: #f8fafc; }
+    .check-box-cell { text-align: center; width: 45px; vertical-align: middle; }
+    .check-square { display: inline-block; width: 14px; height: 14px; border: 1.5px solid #4b5563; border-radius: 3px; vertical-align: middle; background-color: #ffffff; }
+    .trouble-card { border: 1px solid var(--border-color); border-left: 4px solid var(--accent-amber); background-color: #ffffff; border-radius: 4px; padding: 10px 12px; margin-bottom: 12px; font-size: 8.5pt; }
+    .trouble-card.trouble-critical { border-left-color: var(--accent-red); }
+    .trouble-title { font-weight: 700; font-size: 9pt; color: var(--primary-dark); margin-bottom: 4px; }
+    .trouble-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 8px; margin-top: 6px; background: #f8fafc; padding: 6px 8px; border-radius: 4px; border: 1px solid var(--border-light); }
+    .student-code-box { border: 1px dashed #64748b; background-color: #fbfcfe; border-radius: 6px; padding: 10px 12px; margin: 8px 0 12px 0; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 8pt; line-height: 1.5; color: #334155; white-space: pre-wrap; }
+    .student-output-box { border: 1px dashed #0284c7; background-color: #f0f9ff; border-radius: 6px; padding: 10px 12px; margin: 8px 0 12px 0; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 8pt; line-height: 1.45; color: #0369a1; white-space: pre-wrap; }
+    .signature-box { border: 1px solid var(--border-color); background-color: var(--bg-card); border-radius: 6px; padding: 12px 14px; margin-top: 16px; }
+    .signature-grid { display: grid; grid-template-columns: 2fr 1.5fr; gap: 20px; margin-top: 24px; align-items: end; }
+    .sig-line { border-top: 1px solid #4b5563; padding-top: 4px; text-align: center; font-size: 8pt; color: var(--text-muted); font-weight: 600; }
+    @media print {
+      @page { size: A4 portrait; margin: 12mm 15mm 15mm 15mm; }
+      body { font-size: 8.5pt; line-height: 1.36; color: #000000; background: #ffffff; }
+      .page-container { max-width: 100%; padding: 0; margin: 0; }
+      h2.section-title { font-size: 10.5pt; margin-top: 14px; margin-bottom: 6px; page-break-after: avoid; break-after: avoid; }
+      h3.subsection-title { font-size: 9.5pt; page-break-after: avoid; break-after: avoid; }
+      .callout, .terminal-container, .student-data-card, table.data-table, .signature-box, .trouble-card, .student-code-box, .student-output-box { page-break-inside: avoid; break-inside: avoid; }
+      .terminal-container { background-color: #0f172a !important; color: #f8fafc !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .badge-primary, .badge-neutral, .badge-alert { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .page-break { page-break-before: always; break-before: page; }
+      .check-square { border-color: #000000; }
+    }
+  </style>
+</head>
+<body>
+<div class="page-container">
+
+  <header class="header-institution">
+    <div class="header-top">
+      <div class="inst-titles">
+        <h1>Python for Defensive Security</h1>
+        <h2>Python for Defensive Security: Fundamentals and Local Lab Tooling — Módulo 01</h2>
+      </div>
+      <div class="badge-container">
+        <span class="badge badge-primary">Sesión 08 | 60 minutos</span>
+        <span class="badge badge-neutral">Nivel: principiante absoluto</span>
+        <span class="badge badge-alert">Sin IA generativa (S01–S18)</span>
+      </div>
+    </div>
+    <div style="font-size: 8.5pt; color: var(--text-muted); display: flex; justify-content: space-between;">
+      <span><strong>Documento:</strong> Cuaderno de trabajo del estudiante | <strong>GitHub:</strong> python-defensive-security</span>
+      <span><strong>Versión Base Oficial:</strong> Python 3.13 (entorno local reproducible)</span>
+    </div>
+  </header>
+
+  <section class="student-data-card">
+    <div class="data-grid">
+      <div class="data-field"><span class="data-label">Nombre completo del estudiante:</span><div class="data-line"></div></div>
+      <div class="data-field"><span class="data-label">Matrícula / ID:</span><div class="data-line"></div></div>
+      <div class="data-field"><span class="data-label">Sistema operativo anfitrión:</span><div class="data-line">[ ] Windows &nbsp; [ ] macOS &nbsp; [ ] Linux</div></div>
+      <div class="data-field"><span class="data-label">Fecha de realización:</span><div class="data-line"></div></div>
+    </div>
+  </section>
+
+  <h2 style="font-size: 13pt; color: var(--primary); margin-bottom: 4px;">Cuaderno de Trabajo Práctico — Sesión 08: Tuplas y sets para agrupar direcciones locales</h2>
+  <p style="font-size: 8.5pt; color: var(--text-muted);">Al minuto 60 habrás creado <code>event_groups.py</code>: guarda 20 observaciones con una lista, protege la ficha del analista en una tupla inmutable, deduplica direcciones con un set de 11 únicas y clasifica 7 locales frente a 4 documentales sin ningún bucle.</p>
+
+  <!-- 1. OBJETIVOS -->
+  <section>
+    <h2 class="section-title">1. Objetivos de Aprendizaje y Marco Ético</h2>
+    <p>Al concluir satisfactoriamente esta sesión formativa, el estudiante será capaz de:</p>
+    <ul style="font-size: 9pt;">
+      <li><strong>Distinguir tupla y lista:</strong> explicar que la tupla es inmutable (ficha protegida) mientras la lista conserva 20 entradas con orden y duplicados.</li>
+      <li><strong>Deduplicar con set:</strong> convertir la lista de 20 en un set de 11 únicas, ordenar con <code>sorted()</code> y contar con <code>len()</code> sin ningún bucle.</li>
+      <li><strong>Clasificar con pertenencia:</strong> usar <code>in</code> para separar 7 locales (<code>127.0.0.0/8</code> y <code>::1</code>) de 4 documentales (<code>192.0.2.0/24</code>), solo como texto, sin conexión.</li>
+    </ul>
+    <div class="callout callout-critical">
+      <div class="callout-title">⚠️ Compromiso Ético y Reglas del Laboratorio Defensivo Local</div>
+      <p style="margin-bottom: 4px;">Este curso está orientado de manera estricta al <strong>análisis, inspección y defensa de sistemas locales</strong>. Toda práctica se desarrollará exclusivamente en la carpeta asignada (<code>curso-python-defensivo/</code>) y sobre destinos en bucle local (<code>localhost</code>, <code>127.0.0.1</code>, <code>::1</code>) o fixtures provistas por el docente.</p>
+      <p style="margin-bottom: 0;"><strong>Prohibiciones absolutas:</strong> Queda estrictamente vetado el escaneo o conexión hacia direcciones IP externas, la instalación o prueba de código orientado a malware o persistencia, el uso de credenciales reales ajenas y la desactivación intencional de controles de seguridad. La transgresión de estos límites activa el umbral eliminatorio de no aprobación inmediata del curso.</p>
+    </div>
+  </section>
+
+  <!-- 2. FUNDAMENTOS -->
+  <section>
+    <h2 class="section-title">2. Fundamentos Conceptuales de la Sesión</h2>
+    <p>Una <strong>tupla</strong> es un registro sellado: guarda la ficha del analista y nadie puede cambiarla por accidente. Un <strong>set</strong> es una bolsa sin duplicados ni orden: guarda cada dirección una sola vez para responder "¿cuántas únicas hay?". En la Sesión 07 resumiste conteos con diccionarios; hoy agrupas 20 observaciones: la lista conserva las 20 con sus repeticiones, la tupla protege 3 campos y el set conserva 11 únicas.</p>
+
+    <h3 class="subsection-title">Cómo agrupa Python con tuplas y sets (en clase, sin evaluar nada más)</h3>
+    <p style="font-size: 8.5pt;">La tupla protege la ficha con paréntesis y no admite cambios:</p>
+    <div class="student-code-box">analyst_record = ("Alex Mendez", "DEF-2026-09", 20)</div>
+    <p style="font-size: 8.5pt;">Con índices lees cada campo: <code>analyst_record[0]</code> es <code>"Alex Mendez"</code> y <code>len(analyst_record)</code> es <code>3</code>. Intentar <code>analyst_record[0] = "Otro"</code> se interrumpe: la tupla es inmutable.</p>
+    <p style="font-size: 8.5pt;">El set elimina duplicados al convertir la lista:</p>
+    <div class="student-code-box">unique_ips = set(event_ips)
+ordered_ips = sorted(unique_ips)</div>
+    <p style="font-size: 8.5pt;">Con las 20 observaciones de la práctica, <code>len(event_ips)</code> es <code>20</code> y <code>len(unique_ips)</code> es <code>11</code>: se retiraron 9 repeticiones. El set no tiene orden, por eso se muestra con <code>sorted()</code>.</p>
+    <p style="font-size: 8.5pt;">La pertenencia con <code>in</code> clasifica sin conectar nada:</p>
+    <div class="student-code-box">loopback_seen = "127.0.0.1" in unique_ips
+missing_seen = "10.9.9.9" in unique_ips</div>
+    <p style="font-size: 8.5pt;"><code>loopback_seen</code> es <code>True</code> porque esa dirección sí está en el set. <code>missing_seen</code> es <code>False</code> porque <code>10.9.9.9</code> nunca se observó: <code>in</code> pregunta presencia, no conecta nada.</p>
+
+    <div class="callout callout-tip" style="margin: 8px 0;">
+      <div class="callout-title">📌 Tres precisiones y nada más</div>
+      <p style="margin-bottom: 3px; font-size: 8pt;"><strong>Tupla frente a lista:</strong> la tupla no cambia (<code>3</code> campos sellados); la lista sí cambia y conserva duplicados (<code>20</code> entradas). Si necesitas corregir la ficha, creas otra tupla: no la editas.</p>
+      <p style="margin-bottom: 3px; font-size: 8pt;"><strong>Sets de hoy, nada más:</strong> creación con <code>set()</code>, unicidad automática, <code>len()</code>, <code>in</code> y <code>sorted()</code> para mostrar. No hay bucles, no hay comprensión de conjuntos, no hay métodos de diccionario más allá de lo conocido.</p>
+      <p style="margin-bottom: 0; font-size: 8pt;"><strong>Alcance de hoy:</strong> 20 datos sintéticos del laboratorio: 7 únicos locales y 4 únicos documentales (<code>192.0.2.0/24</code>). Las etiquetas son didácticas del laboratorio, no estándares universales. Los bucles llegan en la Sesión 09.</p>
+    </div>
+
+    <table class="data-table">
+      <thead><tr><th style="width: 22%;">Estructura</th><th style="width: 40%;">Regla válida / inválida</th><th style="width: 38%;">Ejemplo de la sesión</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Tupla</strong></td><td>Válido: leer con índice. Inválido: asignar a un índice (inmutable).</td><td><code>analyst_record[0]</code> → <code>"Alex Mendez"</code>. <code>analyst_record[0] = "X"</code> → se interrumpe.</td></tr>
+        <tr><td><strong>Lista</strong></td><td>Válido: conserva orden y duplicados. Inválido: asumir que deduplica.</td><td><code>len(event_ips)</code> → <code>20</code>, con 9 repeticiones incluidas.</td></tr>
+        <tr><td><strong>Set</strong></td><td>Válido: una sola vez por valor, sin orden. Inválido: pedir índice <code>[0]</code>.</td><td><code>len(unique_ips)</code> → <code>11</code>; se muestra con <code>sorted()</code>.</td></tr>
+        <tr><td><strong>in</strong></td><td>Válido: pregunta presencia en el set. Inválido: creer que conecta red.</td><td><code>"127.0.0.1" in unique_ips</code> → <code>True</code>. <code>"10.9.9.9" in unique_ips</code> → <code>False</code>.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout callout-info" style="margin: 10px 0;">
+      <div class="callout-title">💡 La lista de asistencia y el sello</div>
+      <p style="margin-bottom: 4px;">Piensa en una lista de asistencia de 20 firmas donde varias personas firmaron dos veces: la lista conserva las 20 firmas con repeticiones. El set es la lista de nombres únicos (11): cada nombre aparece una vez, sin orden.</p>
+      <p style="margin-bottom: 0;">La tupla es el sello del laboratorio con 3 datos: una vez estampado no se borra. Si cambia un dato, se estampa un sello nuevo.</p>
+    </div>
+
+    <div class="callout callout-tip" style="margin: 8px 0;">
+      <div class="callout-title">📍 Código en inglés, mensajes en español</div>
+      <p style="margin-bottom: 3px; font-size: 8pt;"><strong>Código en inglés por consistencia y colaboración:</strong> las variables y comentarios van en inglés (<code>event_ips</code>, <code>unique_ips</code>, <code>ordered_ips</code>, <code>analyst_record</code>, <code>loopback_seen</code>) con estilo PEP 8, para que cualquier equipo pueda leer tu código. Los mensajes que ve el usuario van en español.</p>
+      <p style="margin-bottom: 0; font-size: 8pt;"><strong>Código lineal en esta sesión:</strong> de arriba a abajo, convirtiendo con <code>set()</code> y ordenando con <code>sorted()</code>, sin ningún bucle. Sin funciones (<code>def</code>), sin <code>try/except</code>, sin comprensión de conjuntos, sin <code>imports</code> y sin archivos ni red.</p>
+    </div>
+  </section>
+
+  <!-- 3. PROYECTO -->
+  <section>
+    <h2 class="section-title">3. Reutiliza tu Proyecto de la Sesión 01</h2>
+    <p>Todo el trabajo de hoy ocurre en <strong>tu proyecto de la sesión 01</strong> (<code>curso-python-defensivo</code>). Sigue estos pasos en orden:</p>
+    <ol style="font-size: 8.5pt; margin-left: 18px; margin-bottom: 10px;">
+      <li><strong>Localiza tu proyecto:</strong> abre la terminal en la carpeta <code>curso-python-defensivo</code> que creaste en la sesión 01.</li>
+      <li><strong>Activa el entorno:</strong> activa <code>.venv</code> hasta ver el prefijo <code>(.venv)</code> en el prompt.</li>
+      <li><strong>Verifica el intérprete:</strong> ejecuta <code>python --version</code> (o <code>python3 --version</code>) y confirma Python 3.13.x.</li>
+      <li><strong>Crea el archivo nuevo:</strong> crea manualmente <code>event_groups.py</code> en esa carpeta.</li>
+      <li><strong>Ejecuta ahí mismo:</strong> corre <code>python event_groups.py</code> sin cambiar de carpeta.</li>
+    </ol>
+    <div class="callout callout-purple" style="margin: 6px 0 10px 0;">
+      <div class="callout-title">💻 Higiene de terminal: "Mirar antes de saltar"</div>
+      <p style="font-size: 8pt; margin-bottom: 0;">1. <strong>Lista primero:</strong> <code>dir</code> (Windows) o <code>ls</code> (Linux/macOS) para confirmar que <code>event_groups.py</code> existe donde estás.<br>2. <strong>Autocompleta con <code>Tab</code>:</strong> escribe <code>python event</code> y presiona <code>Tab</code>.<br>3. <strong>Repite con <code>↑</code>:</strong> la flecha arriba recupera el comando anterior.<br>4. <strong>Cancela con <code>Ctrl + C</code>:</strong> si algo se queda esperando, aborta limpiamente y reintenta.</p>
+    </div>
+    <h3 class="subsection-title">Ruta principal — Windows (PowerShell)</h3>
+    <div class="terminal-container"><div class="terminal-header"><span>Windows — Reutilizar proyecto</span><span>Python 3.13</span></div>cd curso-python-defensivo
+dir
+.\.venv\Scripts\Activate.ps1
+python --version
+notepad event_groups.py
+python event_groups.py</div>
+    <h3 class="subsection-title">Ruta principal — Linux (Bash)</h3>
+    <div class="terminal-container"><div class="terminal-header"><span>Linux — Reutilizar proyecto</span><span>Python 3.13</span></div>cd ~/curso-python-defensivo
+ls
+source .venv/bin/activate
+python3 --version
+touch event_groups.py
+python3 event_groups.py</div>
+    <h3 class="subsection-title">Ruta principal — macOS (Zsh)</h3>
+    <div class="terminal-container"><div class="terminal-header"><span>macOS — Reutilizar proyecto</span><span>Python 3.13</span></div>cd ~/curso-python-defensivo
+ls
+source .venv/bin/activate
+python3 --version
+touch event_groups.py
+python3 event_groups.py</div>
+    <div class="callout callout-warning" style="margin: 6px 0 10px 0;">
+      <div class="callout-title">⚠️ Si perdiste tu proyecto (ruta de recuperación)</div>
+      <p style="font-size: 8pt; margin-bottom: 0;">Reconstrúyelo antes de empezar: crea <code>curso-python-defensivo</code>, crea <code>.venv</code> con Python 3.13, actívalo y verifica el prefijo <code>(.venv)</code> más la versión. Desarrollo local en macOS con <code>python3</code>; la validación final del laboratorio se realiza en Windows con <code>python</code>.</p>
+    </div>
+  </section>
+
+  <!-- 4. RETO -->
+  <section class="page-break">
+    <h2 class="section-title">4. Reto Práctico: Agrupar 20 Observaciones (25 minutos)</h2>
+    <div class="callout callout-info" style="margin-bottom: 12px;">
+      <div class="callout-title">🎯 Escenario Defensivo: el parte de direcciones del laboratorio</div>
+      <p style="margin-bottom: 0;">Recibes 20 observaciones de direcciones del laboratorio local con repeticiones: protege la ficha del analista en una tupla, deduplica con un set de 11 únicas y clasifica cada única como local o documental solo leyendo texto, sin abrir puertos ni tocar la red.</p>
+    </div>
+    <h3 class="subsection-title">Mapeo dominio → código (léelo antes de programar):</h3>
+    <table class="data-table">
+      <thead><tr><th>Dato del caso</th><th>Variable</th><th>Regla</th><th>Aporte al resumen</th></tr></thead>
+      <tbody>
+        <tr><td>20 observaciones con repeticiones</td><td><code>event_ips</code></td><td>Lista: conserva orden y duplicados (<code>20</code>)</td><td>Total registrado</td></tr>
+        <tr><td>Ficha del analista (3 campos)</td><td><code>analyst_record</code></td><td>Tupla inmutable: solo lectura con índice</td><td>Identidad del parte</td></tr>
+        <tr><td>Direcciones únicas</td><td><code>unique_ips</code> → <code>ordered_ips</code></td><td>Set + <code>sorted()</code>: <code>11</code> únicas</td><td>Lista ordenada para lectura</td></tr>
+        <tr><td>Clasificación local / documental</td><td><code>loopback_seen</code>, conteos</td><td><code>in</code> sobre texto: 7 locales, 4 documentales</td><td>Grupos del parte</td></tr>
+      </tbody>
+    </table>
+    <h3 class="subsection-title">Las 20 observaciones (léelas antes de programar):</h3>
+    <div class="student-code-box">event_ips = [
+    "127.0.0.1", "127.0.0.2", "127.0.0.1", "192.0.2.10", "127.0.0.53",
+    "::1", "127.0.0.2", "192.0.2.20", "127.0.0.1", "127.0.0.3",
+    "192.0.2.10", "::1", "127.0.0.53", "192.0.2.30", "127.0.0.4",
+    "127.0.0.1", "192.0.2.20", "::1", "127.0.0.5", "192.0.2.40",
+]
+analyst_record = ("Alex Mendez", "DEF-2026-09", 20)</div>
+    <p style="font-size: 8.5pt;">Totales esperados: <code>20</code> registradas, <code>11</code> únicas, <code>7</code> locales, <code>4</code> documentales. Las <code>192.0.2.x</code> son direcciones documentales de ejemplo (TEST-NET-1): solo se clasifican como texto, nunca se contactan.</p>
+    <h3 class="subsection-title">Los 3 pasos (en este orden):</h3>
+    <ol style="font-size: 8.5pt; margin-left: 18px; margin-bottom: 10px;">
+      <li><strong>Evidencia:</strong> asigna la lista de 20 más la tupla e imprime el total (<code>20</code>).</li>
+      <li><strong>Agrupación:</strong> convierte a set, ordena con <code>sorted()</code> y verifica presencia con <code>in</code>.</li>
+      <li><strong>Comunicación:</strong> imprime el encabezado y las líneas del parte con conteos y lista ordenada.</li>
+    </ol>
+    <h3 class="subsection-title">Tu archivo <code>event_groups.py</code> (complétalo):</h3>
+    <div class="student-code-box"># STEP 1 (given): event_ips (20), analyst_record (3 fields),
+# student_name, student_id, print "Observaciones registradas: 20"
+
+# TODO 2.1: unique_ips with set(event_ips) (expect 11 unique)
+# TODO 2.2: print "Direcciones únicas: 11"
+# TODO 2.3: ordered_ips with sorted(unique_ips) (given pattern)
+# TODO 2.4: loopback_seen with "127.0.0.1" in unique_ips,
+#   print "Bucle local visto: True" (expect True)
+# TODO 2.5: missing_seen with "10.9.9.9" in unique_ips,
+#   print "Desconocida vista: False" (expect False)
+# TODO 2.6: local_count with one int(address in unique_ips) per loopback
+#   address (127.0.0.1, 127.0.0.2, 127.0.0.53, ::1, 127.0.0.3,
+#   127.0.0.4, 127.0.0.5), print "Locales: 7" (expect 7)
+# TODO 2.7: doc_count with one int(address in unique_ips) per TEST-NET-1
+#   address (192.0.2.10, 192.0.2.20, 192.0.2.30, 192.0.2.40),
+#   print "Documentales: 4" (expect 4)
+
+# STEP 3 (given): print "--- Parte de direcciones ---" + data lines</div>
+    <h3 class="subsection-title">Salida esperada (verifica con tu ejecución):</h3>
+    <div class="student-output-box">Observaciones registradas: 20
+Direcciones únicas: 11
+Bucle local visto: True
+Desconocida vista: False
+Locales: 7
+Documentales: 4
+--- Parte de direcciones ---
+Nombre: Alex Mendez
+Identificador: DEF-2026-09
+Total de observaciones: 20
+Únicas: 11
+Lista ordenada: 11 direcciones</div>
+    <div class="callout callout-warning" style="margin: 6px 0 10px 0;">
+      <div class="callout-title">⚠️ Casos de borde para explorar (cambia el valor y re-ejecuta con ↑)</div>
+      <p style="font-size: 8pt; margin-bottom: 0;">Pregunta <code>"10.9.9.9" in unique_ips</code> → <code>False</code> · convierte de nuevo con <code>set()</code> → sigue <code>11</code> · ordena con <code>sorted()</code> → el set original sigue sin orden. Di en voz alta qué cambia y por qué.</p>
+    </div>
+  </section>
+
+  <!-- 5. ERRORES -->
+  <section>
+    <h2 class="section-title">5. Clínica de Errores: Lee el Mensaje</h2>
+    <p style="font-size: 8.5pt;">En Python 3.13, las trazas de error (<em>Tracebacks</em>) señalan la línea y columna exacta de la falla con caracteres <code>^^^^^</code>. Analiza y resuelve los 2 errores típicos de esta sesión:</p>
+    <div class="trouble-card trouble-critical">
+      <div class="trouble-title">🚨 Error 1: TypeError por editar una tupla</div>
+      <div class="terminal-container" style="margin: 4px 0; padding: 6px 8px; font-size: 7.5pt;"><div class="terminal-header"><span>Traza real de Python 3.13</span><span>event_groups.py</span></div>  File "event_groups.py", line 28, in &lt;module&gt;
+    analyst_record[0] = "Otro nombre"
+    ~~~~~~~~~~~~~~^^^
+TypeError: 'tuple' object does not support item assignment</div>
+      <div class="trouble-grid"><div><strong>Causa raíz:</strong><p style="font-size: 8pt; margin-top: 2px;">La tupla es inmutable: Python señala los corchetes porque ese puesto no admite asignación.</p></div><div><strong>Corrección:</strong><p style="font-size: 8pt; margin-top: 2px;">Lee con <code>analyst_record[0]</code>; si cambia la ficha, crea una tupla nueva completa.</p></div></div>
+    </div>
+    <div class="trouble-card">
+      <div class="trouble-title">⚠️ Error 2: convertir el set a lista y asumir que el índice 0 es estable</div>
+      <div class="terminal-container" style="margin: 4px 0; padding: 6px 8px; font-size: 7.5pt;"><div class="terminal-header"><span>Salida sin error… pero con orden falso</span><span>event_groups.py</span></div>print(list(unique_ips)[0])   # hoy muestra una, mañana otra: sin orden</div>
+      <div class="trouble-grid"><div><strong>Causa raíz:</strong><p style="font-size: 8pt; margin-top: 2px;">El set no tiene orden: el puesto <code>[0]</code> no significa "la primera registrada", así que cada ejecución puede mostrar otra.</p></div><div><strong>Corrección:</strong><p style="font-size: 8pt; margin-top: 2px;">Muestra con <code>sorted(unique_ips)</code> y cuenta con <code>len(unique_ips)</code>.</p></div></div>
+    </div>
+  </section>
+
+  <!-- 6. DESAFÍO -->
+  <section>
+    <h2 class="section-title">6. Desafío Opcional para Avance Rápido (no se evalúa)</h2>
+    <div class="callout callout-tip">
+      <div class="callout-title">🚀 20 frente a 11: lista contra set</div>
+      <p style="font-size: 8.5pt; margin-bottom: 0;">Agrega un <code>print(len(event_ips))</code> y un <code>print(len(unique_ips))</code> temporales al final, ejecuta con <code>↑</code> y di en voz alta por qué el primero muestra <code>20</code> y el segundo <code>11</code>. Esta comparación (lista con duplicados frente a set único) prepara la Sesión 09. Es solo práctica extra: no cambia tu calificación y no usa sintaxis nueva.</p>
+    </div>
+  </section>
+
+  <!-- 7. VERIFICACIÓN -->
+  <section>
+    <h2 class="section-title">7. Lista de Verificación y Firma Docente</h2>
+    <p style="font-size: 8.5pt;">Marca cada casilla tras comprobar visualmente el resultado en tu pantalla. La evaluación cubre comprensión y resultados, no formato:</p>
+    <table class="data-table">
+      <thead><tr><th class="check-box-cell">OK</th><th>Criterio observable</th><th>Evidencia en pantalla</th></tr></thead>
+      <tbody>
+        <tr><td class="check-box-cell"><span class="check-square"></span></td><td><strong>Tupla protegida:</strong> explicas por qué la ficha no se edita</td><td><code>analyst_record[0]</code> leído; edición → <code>TypeError</code></td></tr>
+        <tr><td class="check-box-cell"><span class="check-square"></span></td><td><strong>Deduplicación:</strong> explicas 20 frente a 11</td><td><code>20</code> registradas, <code>11</code> únicas, 9 repeticiones</td></tr>
+        <tr><td class="check-box-cell"><span class="check-square"></span></td><td><strong>Pertenencia:</strong> distingues presencia de conexión</td><td><code>True</code> para vista, <code>False</code> para ausente, sin red</td></tr>
+        <tr><td class="check-box-cell"><span class="check-square"></span></td><td><strong>Límites honestos:</strong> dices qué NO hace tu programa</td><td>No abre puertos, no toca disco/red, no confirma un incidente</td></tr>
+        <tr><td class="check-box-cell"><span class="check-square"></span></td><td><strong>Parte completo:</strong> cada grupo llega a su línea</td><td>Encabezado más líneas de conteos y lista ordenada</td></tr>
+      </tbody>
+    </table>
+    <div class="signature-box">
+      <p style="font-size: 8pt; color: var(--text-muted); margin-bottom: 8px;"><strong>Declaración del Estudiante:</strong> Certifico que el código presentado fue escrito por mí de forma autónoma sin asistentes de IA generativa, que operó exclusivamente en localhost (127.0.0.1) y sobre fixtures sintéticos locales, y que comprendo el propósito de cada variable e instrucción ejecutada.</p>
+      <div class="signature-grid"><div><div class="sig-line">Firma del Estudiante</div></div><div><div class="sig-line">Sello / Validación Docente (&lt; 15 seg)</div></div></div>
+    </div>
+  </section>
+
+  <!-- 8. TAREA -->
+  <section>
+    <h2 class="section-title">8. Tarea Posterior a la Clase (fuera de los 60 minutos)</h2>
+    <p style="font-size: 8.5pt;">Dejas listo el <strong>parte del turno de noche</strong> antes de entregarlo, distinto de la lista del día de clase. Partes de 20 observaciones nuevas del turno, aplicas la misma técnica de tupla + set, proteges tu ficha y muestras el parte ordenado. La tarea aplica la misma técnica sobre datos nuevos, mientras el ejercicio de clase agrupa la lista del día.</p>
+    <h3 class="subsection-title">Mapeo dominio → código de la tarea (léelo antes de programar):</h3>
+    <table class="data-table">
+      <thead><tr><th>Dato del caso</th><th>Variable</th><th>Regla</th><th>Aporte</th></tr></thead>
+      <tbody>
+        <tr><td>20 observaciones del turno</td><td><code>shift_ips</code></td><td>Lista con duplicados (<code>20</code>)</td><td>Total registrado</td></tr>
+        <tr><td>Ficha del turno (3 campos)</td><td><code>shift_record</code></td><td>Tupla inmutable, solo lectura</td><td>Identidad del parte</td></tr>
+        <tr><td>Únicas del turno</td><td><code>shift_unique</code></td><td>Set + <code>sorted()</code> (<code>10</code>)</td><td>Lista ordenada</td></tr>
+        <tr><td>Presencia del turno</td><td><code>shift_seen</code></td><td><code>in</code> sobre texto, sin red</td><td>Verificación</td></tr>
+      </tbody>
+    </table>
+    <h3 class="subsection-title">Las 20 observaciones del turno (escríbelas tal cual):</h3>
+    <div class="student-code-box">shift_ips = [
+    "127.0.0.1", "127.0.0.10", "127.0.0.1", "192.0.2.50", "127.0.0.10",
+    "::1", "127.0.0.11", "192.0.2.51", "127.0.0.1", "127.0.0.11",
+    "192.0.2.50", "::1", "127.0.0.12", "192.0.2.52", "127.0.0.12",
+    "127.0.0.1", "192.0.2.51", "::1", "127.0.0.13", "192.0.2.53",
+]
+shift_record = ("Alex Mendez", "DEF-2026-09", 20)</div>
+    <h3 class="subsection-title">Antes de programar, analiza (sin ejecutar código):</h3>
+    <ul style="font-size: 8.5pt; margin-left: 18px; margin-bottom: 10px;">
+      <li>Qué valor da <code>len(shift_ips)</code> frente a <code>len(set(shift_ips))</code> (espera <code>20</code> frente a <code>10</code>) y cuántas repeticiones se retiran.</li>
+      <li>Qué campo protege <code>shift_record</code> y por qué asignar a <code>shift_record[0]</code> se interrumpe.</li>
+      <li>Qué devuelve <code>"127.0.0.1" in shift_unique</code> frente a <code>"10.9.9.9" in shift_unique</code> y por qué ninguno toca la red.</li>
+    </ul>
+    <h3 class="subsection-title">Los 3 pasos (en este orden):</h3>
+    <ol style="font-size: 8.5pt; margin-left: 18px; margin-bottom: 10px;">
+      <li><strong>Evidencia:</strong> asigna las 20 del turno más la tupla e imprime el total (<code>20</code>).</li>
+      <li><strong>Agrupación:</strong> deduplica, ordena y verifica presencia con <code>in</code>.</li>
+      <li><strong>Comunicación:</strong> parte ordenado para quien recibe el turno.</li>
+    </ol>
+    <h3 class="subsection-title">Comprueba con el ejemplo único:</h3>
+    <div class="student-output-box">Observaciones del turno: 20
+Direcciones únicas del turno: 10
+Bucle local visto: True
+Desconocida vista: False
+--- Parte del turno ---
+Nombre: Alex Mendez
+Total de observaciones: 20
+Únicas: 10
+Lista ordenada: 10 direcciones</div>
+    <div class="callout callout-warning" style="margin: 6px 0 10px 0;">
+      <div class="callout-title">⚠️ Propósito y límites</div>
+      <p style="font-size: 8pt; margin-bottom: 0;">El parte organiza direcciones locales para la revisión: <strong>no</strong> abre puertos, <strong>no</strong> toca disco/red salvo lectura local indicada y <strong>no</strong> confirma un incidente.</p>
+    </div>
+    <h3 class="subsection-title">Entrega y respaldo</h3>
+    <p style="font-size: 8.5pt;">Crea manualmente <code>shift_groups.py</code> en tu proyecto personal. <strong>Entrega:</strong> explica en voz alta la cadena lista → tupla → set → pertenencia → parte para el turno. El repositorio contiene <code>homework_starter.py</code> y <code>homework_solution.py</code> solo como respaldo: úsalos <strong>después</strong> de intentar la tarea por tu cuenta.</p>
+  </section>
+
+</div>
+</body>
+</html>
