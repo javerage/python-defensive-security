@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Workbook — Session 14 | Python for Defensive Security</title>
+  <style>
+    :root {
+      --primary: #1e3a8a;
+      --primary-dark: #0f172a;
+      --primary-light: #eff6ff;
+      --secondary: #0284c7;
+      --accent-red: #b91c1c;
+      --accent-red-light: #fef2f2;
+      --accent-amber: #b45309;
+      --accent-amber-light: #fffbeb;
+      --accent-green: #15803d;
+      --accent-green-light: #f0fdf4;
+      --accent-purple: #6b21a8;
+      --accent-purple-light: #faf5ff;
+      --text-main: #1f2937;
+      --text-muted: #4b5563;
+      --border-color: #d1d5db;
+      --border-light: #e5e7eb;
+      --bg-card: #f9fafb;
+      --bg-terminal: #0f172a;
+      --term-text: #f8fafc;
+      --term-prompt: #38bdf8;
+      --term-accent: #4ade80;
+      --term-warn: #fbbf24;
+      --term-err: #f87171;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-size: 9.5pt; line-height: 1.55; color: var(--text-main);
+      background-color: #ffffff; padding: 0; margin: 0;
+    }
+    .page-container { max-width: 920px; margin: 0 auto; padding: 24px 32px; }
+    .header-institution { border-bottom: 2px solid var(--primary); padding-bottom: 12px; margin-bottom: 16px; }
+    .header-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+    .inst-titles h1 { font-size: 14.5pt; color: var(--primary); font-weight: 700; line-height: 1.25; letter-spacing: -0.2px; }
+    .inst-titles h2 { font-size: 11pt; color: var(--text-muted); font-weight: 600; margin-top: 3px; }
+    .badge-container { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+    .badge { display: inline-block; font-size: 7.5pt; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; padding: 3px 8px; border-radius: 4px; border: 1px solid transparent; }
+    .badge-primary { background-color: var(--primary-light); color: var(--primary); border-color: #bfdbfe; }
+    .badge-neutral { background-color: #f3f4f6; color: #374151; border-color: #e5e7eb; }
+    .badge-alert { background-color: var(--accent-red-light); color: var(--accent-red); border-color: #fecaca; }
+    .badge-purple { background-color: var(--accent-purple-light); color: var(--accent-purple); border-color: #e9d5ff; }
+    .student-data-card { background-color: var(--bg-card); border: 1px solid var(--border-color); border-radius: 6px; padding: 12px 14px; margin-bottom: 18px; }
+    .data-grid { display: grid; grid-template-columns: 2fr 1fr 1.2fr 1fr; gap: 10px 16px; align-items: end; }
+    .data-field { display: flex; flex-direction: column; }
+    .data-label { font-size: 7.5pt; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 3px; }
+    .data-line { border-bottom: 1px dashed #6b7280; min-height: 20px; font-size: 9pt; color: var(--text-main); padding: 0 4px; }
+    h2.section-title { font-size: 11.5pt; color: var(--primary-dark); border-bottom: 1.5px solid var(--border-color); padding-bottom: 4px; margin-top: 22px; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+    h3.subsection-title { font-size: 10pt; color: var(--primary); margin-top: 14px; margin-bottom: 6px; font-weight: 700; }
+    h4.subsubsection-title { font-size: 9pt; color: #334155; margin-top: 10px; margin-bottom: 4px; font-weight: 700; }
+    p { margin-bottom: 10px; text-align: justify; }
+    ul, ol { margin-left: 20px; margin-bottom: 10px; }
+    li { margin-bottom: 4px; }
+    .callout { border-left: 4px solid var(--primary); background-color: var(--primary-light); padding: 10px 14px; border-radius: 0 6px 6px 0; margin: 12px 0; font-size: 9pt; }
+    .callout-title { font-weight: 700; font-size: 9.5pt; margin-bottom: 5px; display: flex; align-items: center; gap: 6px; }
+    .callout-info { border-left-color: var(--secondary); background-color: #f0f9ff; }
+    .callout-info .callout-title { color: #0369a1; }
+    .callout-critical { border-left-color: var(--accent-red); background-color: var(--accent-red-light); border: 1px solid #fecaca; border-left-width: 5px; }
+    .callout-critical .callout-title { color: var(--accent-red); }
+    .callout-warning { border-left-color: var(--accent-amber); background-color: var(--accent-amber-light); }
+    .callout-warning .callout-title { color: var(--accent-amber); }
+    .callout-tip { border-left-color: var(--accent-green); background-color: var(--accent-green-light); }
+    .callout-tip .callout-title { color: var(--accent-green); }
+    .callout-purple { border-left-color: var(--accent-purple); background-color: var(--accent-purple-light); }
+    .callout-purple .callout-title { color: var(--accent-purple); }
+    .terminal-container { background-color: var(--bg-terminal); color: var(--term-text); border-radius: 6px; padding: 13px 15px; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size: 8.5pt; line-height: 1.55; margin: 12px 0 16px 0; overflow-x: auto; border: 1px solid #334155; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    .terminal-header { color: #94a3b8; font-size: 7.5pt; border-bottom: 1px solid #334155; padding-bottom: 4px; margin-bottom: 10px; display: flex; justify-content: space-between; text-transform: uppercase; letter-spacing: 0.5px; }
+    .prompt-win { color: var(--term-prompt); font-weight: 600; }
+    .prompt-nix { color: var(--term-accent); font-weight: 600; }
+    .cmd { color: #ffffff; font-weight: 600; }
+    .output { color: #cbd5e1; }
+    .comment { color: #64748b; font-style: italic; }
+    .err-highlight { color: var(--term-err); font-weight: bold; }
+    .caret-highlight { color: var(--term-warn); font-weight: bold; }
+    .os-tabs { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin: 10px 0 14px 0; }
+    .os-card { background: #f8fafc; border: 1px solid var(--border-color); border-radius: 6px; padding: 10px 12px; }
+    .os-title { font-size: 8pt; font-weight: 700; color: var(--primary-dark); text-transform: uppercase; border-bottom: 1px solid var(--border-light); padding-bottom: 4px; margin-bottom: 8px; }
+    .os-code { font-family: ui-monospace, Menlo, Monaco, Consolas, "Liberation Mono", monospace; font-size: 8pt; background: #ffffff; padding: 8px 10px; border-radius: 4px; border: 1px solid #cbd5e1; white-space: pre-wrap; word-break: break-word; color: #0f172a; line-height: 1.6; }
+    table.data-table { width: 100%; border-collapse: collapse; margin: 10px 0 14px 0; font-size: 8.5pt; }
+    table.data-table th, table.data-table td { border: 1px solid var(--border-color); padding: 6px 8px; text-align: left; vertical-align: top; }
+    table.data-table th { background-color: #f1f5f9; color: var(--primary-dark); font-weight: 700; font-size: 8pt; text-transform: uppercase; }
+    table.data-table tr:nth-child(even) { background-color: #f8fafc; }
+    .check-box-cell { text-align: center; width: 45px; vertical-align: middle; }
+    .check-square { display: inline-block; width: 14px; height: 14px; border: 1.5px solid #4b5563; border-radius: 3px; vertical-align: middle; background-color: #ffffff; }
+    .trouble-card { border: 1px solid var(--border-color); border-left: 4px solid var(--accent-amber); background-color: #ffffff; border-radius: 4px; padding: 10px 12px; margin-bottom: 12px; font-size: 8.5pt; }
+    .trouble-card.trouble-critical { border-left-color: var(--accent-red); }
+    .trouble-card.trouble-info { border-left-color: var(--secondary); }
+    .trouble-title { font-weight: 700; font-size: 9pt; color: var(--primary-dark); margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
+    .trouble-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 8px; margin-top: 6px; background: #f8fafc; padding: 6px 8px; border-radius: 4px; border: 1px solid var(--border-light); }
+    .student-code-box { border: 1px dashed #64748b; background-color: #fbfcfe; border-radius: 6px; padding: 10px 12px; margin: 8px 0 12px 0; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 8pt; line-height: 1.5; min-height: 180px; color: #334155; white-space: pre-wrap; }
+    .student-output-box { border: 1px dashed #0284c7; background-color: #f0f9ff; border-radius: 6px; padding: 10px 12px; margin: 8px 0 12px 0; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 8pt; line-height: 1.45; min-height: 80px; color: #0369a1; white-space: pre-wrap; }
+    .concept-figure { margin: 12px 0; border: 1px solid var(--border-color); border-radius: 6px; padding: 10px 12px; background: #ffffff; width: 100%; break-inside: avoid; page-break-inside: avoid; }
+    .concept-figure svg { width: 100%; height: auto; display: block; }
+    .concept-figure figcaption { font-size: 8pt; color: var(--text-muted); margin-top: 6px; text-align: center; }
+    .signature-box { border: 1px solid var(--border-color); background-color: var(--bg-card); border-radius: 6px; padding: 12px 14px; margin-top: 16px; }
+    .signature-grid { display: grid; grid-template-columns: 2fr 1.5fr; gap: 20px; margin-top: 24px; align-items: end; }
+    .sig-line { border-top: 1px solid #4b5563; padding-top: 4px; text-align: center; font-size: 8pt; color: var(--text-muted); font-weight: 600; }
+    @media print {
+      @page { size: A4 portrait; margin: 12mm 15mm 15mm 15mm; }
+      body { font-size: 8.5pt; line-height: 1.36; color: #000000; background: #ffffff; }
+      .page-container { max-width: 100%; padding: 0; margin: 0; }
+      h2.section-title { font-size: 10.5pt; margin-top: 14px; margin-bottom: 6px; page-break-after: avoid; break-after: avoid; }
+      h3.subsection-title { font-size: 9.5pt; page-break-after: avoid; break-after: avoid; }
+      h4.subsubsection-title { font-size: 8.5pt; page-break-after: avoid; break-after: avoid; }
+      .callout, .terminal-container, .student-data-card, .os-card, table.data-table, .signature-box, .trouble-card, .student-code-box, .student-output-box, .concept-figure { page-break-inside: avoid; break-inside: avoid; }
+      .terminal-container { background-color: #0f172a !important; color: #f8fafc !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .badge-primary, .badge-neutral, .badge-alert, .badge-purple { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .page-break { page-break-before: always; break-before: page; }
+      .check-square { border-color: #000000; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="page-container">
+
+  <header class="header-institution">
+    <div class="header-top">
+      <div class="inst-titles">
+        <h1>Python for Defensive Security</h1>
+        <h2>Python for Defensive Security: Fundamentals and Local Lab Tooling — M8. Módulos y entornos</h2>
+      </div>
+      <div class="badge-container">
+        <span class="badge badge-primary">Sesión 14 | 60 minutos</span>
+        <span class="badge badge-neutral">Nivel: Con base S11–S13</span>
+        <span class="badge badge-alert">Pi prohibido (S01–S18)</span>
+      </div>
+    </div>
+    <div style="font-size: 8.5pt; color: var(--text-muted); display: flex; justify-content: space-between;">
+      <span><strong>Documento:</strong> Cuaderno de trabajo del estudiante | <strong>GitHub:</strong> python-defensive-security</span>
+      <span><strong>Versión Base Oficial:</strong> Python 3.13 (Entorno Local reproducible)</span>
+    </div>
+  </header>
+
+  <section class="student-data-card">
+    <div class="data-grid">
+      <div class="data-field">
+        <span class="data-label">Nombre Completo del Estudiante:</span>
+        <div class="data-line"></div>
+      </div>
+      <div class="data-field">
+        <span class="data-label">Matrícula / ID:</span>
+        <div class="data-line"></div>
+      </div>
+      <div class="data-field">
+        <span class="data-label">Sistema Operativo Anfitrión:</span>
+        <div class="data-line">[ ] Windows &nbsp; [ ] macOS &nbsp; [ ] Linux</div>
+      </div>
+      <div class="data-field">
+        <span class="data-label">Fecha de Realización:</span>
+        <div class="data-line"></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">1. Objetivos de Aprendizaje y Marco Ético</h2>
+    <p>Al concluir satisfactoriamente esta sesión formativa, el estudiante será capaz de:</p>
+    <ul style="font-size: 9pt;">
+      <li><strong>Empaquetado defensivo:</strong> Organizar el conteo (S11) y el filtrado (S12) heredados en un paquete <code>kit/</code> de dos módulos con <code>__init__.py</code>, ejecutado desde la raíz del proyecto.</li>
+      <li><strong>Importaciones verificadas:</strong> Alcanzar la misma lógica con las 3 formas de importar (<code>import kit.count_kit</code>, <code>from kit.count_kit import count_events</code>, <code>from kit import filter_kit</code>) y distinguir ejecución directa de importación con la guardia <code>__name__ == "__main__"</code>.</li>
+      <li><strong>Entorno reproducible:</strong> Instalar <code>pydantic&gt;=2.0,&lt;3</code> en su <code>venv</code> desde <code>requirements.txt</code>, probar la serie 2.x con <code>pip freeze</code> y la versión impresa, y anunciar <code>BaseModel</code> sin modelar todavía.</li>
+    </ul>
+    <div class="callout callout-critical">
+      <div class="callout-title">&#x26A0;&#xFE0F; Compromiso Ético y Reglas del Laboratorio Defensivo Local</div>
+      <p style="margin-bottom: 4px;">Este curso está orientado de manera estricta al <strong>análisis, inspección y defensa de sistemas locales</strong>. Toda práctica se desarrollará exclusivamente en la carpeta asignada (<code>curso-python-defensivo/</code>) y sobre destinos en bucle local (<code>localhost</code>, <code>127.0.0.1</code>, <code>::1</code>) o fixtures provistas por el docente.</p>
+      <p style="margin-bottom: 0;"><strong>Prohibiciones absolutas:</strong> Queda estrictamente vetado el escaneo o conexión hacia direcciones IP externas, la instalación o prueba de código orientado a malware o persistencia, el uso de credenciales reales ajenas y la desactivación intencional de controles de seguridad. La transgresión de estos límites activa el umbral eliminatorio de no aprobación inmediata del curso.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">2. Fundamentos Conceptuales de la Sesión</h2>
+
+    <h3 class="subsection-title">2.1 Módulo, paquete y la portada <code>__init__.py</code></h3>
+    <p>Un <strong>módulo</strong> es un archivo <code>.py</code> con funciones reutilizables (<code>count_kit.py</code>, <code>filter_kit.py</code>). Un <strong>paquete</strong> es una carpeta que agrupa módulos y que Python solo reconoce como tal si contiene el archivo portada <code>__init__.py</code>: sin esa portada, el <code>import kit</code> falla aunque la carpeta exista. El controlador (<code>pack_review.py</code>) vive fuera del paquete y siempre se ejecuta desde la <strong>raíz del proyecto</strong>, porque los imports se resuelven desde el directorio de trabajo.</p>
+
+    <figure class="concept-figure" role="img" aria-labelledby="fig14-anatomy-title fig14-anatomy-desc">
+      <svg viewBox="0 0 640 250" xmlns="http://www.w3.org/2000/svg" font-family="monospace" aria-hidden="true">
+        <title id="fig14-anatomy-title">Anatomía del paquete kit y su controlador</title>
+        <desc id="fig14-anatomy-desc">La carpeta kit contiene tres archivos: __init__.py como portada, count_kit.py como módulo 1 y filter_kit.py como módulo 2. Fuera de la carpeta están pack_review.py como controlador y requirements.txt con el pin de Pydantic.</desc>
+        <rect x="20" y="20" width="300" height="200" rx="8" fill="#ffffff" stroke="#1e3a8a" stroke-width="2"/>
+        <text x="35" y="45" font-size="13" font-weight="bold" fill="#1e3a8a">1 · Carpeta kit/ (paquete)</text>
+        <rect x="35" y="58" width="270" height="42" rx="5" fill="#eff6ff" stroke="#1e3a8a" stroke-width="1.5"/>
+        <text x="48" y="75" font-size="11" font-weight="bold" fill="#0f172a">__init__.py — portada</text>
+        <text x="48" y="91" font-size="10" fill="#475569">sin ella NO hay paquete</text>
+        <rect x="35" y="108" width="270" height="42" rx="5" fill="#f0fdf4" stroke="#15803d" stroke-width="1.5"/>
+        <text x="48" y="125" font-size="11" font-weight="bold" fill="#0f172a">count_kit.py — módulo 1</text>
+        <text x="48" y="141" font-size="10" fill="#475569">count_events (reúso S11)</text>
+        <rect x="35" y="158" width="270" height="42" rx="5" fill="#faf5ff" stroke="#6b21a8" stroke-width="1.5"/>
+        <text x="48" y="175" font-size="11" font-weight="bold" fill="#0f172a">filter_kit.py — módulo 2</text>
+        <text x="48" y="191" font-size="10" fill="#475569">filter_events (reúso S12)</text>
+        <rect x="345" y="20" width="275" height="90" rx="8" fill="#ffffff" stroke="#0284c7" stroke-width="2"/>
+        <text x="360" y="45" font-size="13" font-weight="bold" fill="#0369a1">2 · pack_review.py</text>
+        <text x="360" y="66" font-size="10" fill="#475569">controlador: 3 importaciones</text>
+        <text x="360" y="82" font-size="10" fill="#475569">+ guardia __main__</text>
+        <text x="360" y="98" font-size="10" fill="#475569">se corre desde la raíz</text>
+        <rect x="345" y="125" width="275" height="95" rx="8" fill="#ffffff" stroke="#b45309" stroke-width="2"/>
+        <text x="360" y="150" font-size="13" font-weight="bold" fill="#b45309">3 · requirements.txt</text>
+        <text x="360" y="171" font-size="10" fill="#475569">una línea fijada:</text>
+        <text x="360" y="188" font-size="11" font-weight="bold" fill="#0f172a">pydantic&gt;=2.0,&lt;3</text>
+        <text x="360" y="205" font-size="10" fill="#475569">pip freeze lo congela</text>
+      </svg>
+      <figcaption>Figura 14.1 — Anatomía del paquete <code>kit/</code>: portada, dos módulos heredados, controlador y pin fijado. Misma distribución que la pizarra del docente.</figcaption>
+    </figure>
+
+    <h3 class="subsection-title">2.2 Las 3 formas de importar y la guardia <code>__main__</code></h3>
+    <p>Las tres formas alcanzan la misma lógica con distinto alcance: <code>import kit.count_kit</code> trae el módulo completo y exige la ruta larga (<code>kit.count_kit.count_events(...)</code>); <code>from kit.count_kit import count_events</code> trae la función directa y es la más corta; <code>from kit import filter_kit</code> trae el módulo desde la portada del paquete. La guardia <code>if __name__ == "__main__":</code> garantiza que <code>main()</code> solo corre en ejecución directa: si otro archivo importara el controlador, sus funciones llegarían sin disparar el reporte.</p>
+
+    <h3 class="subsection-title">2.3 venv, pip freeze y Pydantic anunciado</h3>
+    <p>El <code>venv</code> solo aísla dependencias Python: <strong>no es sandbox ni aislamiento de seguridad</strong>. La reproducibilidad se prueba en dos pasos: <code>requirements.txt</code> declara el pin compatible (<code>pydantic&gt;=2.0,&lt;3</code>), y <code>pip freeze</code> congela lo realmente instalado (serie 2.x). Pydantic queda hoy <strong>instalado y anunciado</strong> (<code>import pydantic</code> más versión impresa): ningún modelo se define hasta la Sesión 16, donde llegará <code>BaseModel</code>.</p>
+
+    <div class="callout callout-info" style="margin: 12px 0;">
+      <div class="callout-title">&#x1F4A1; Analogía de Seguridad Defensiva: El maletín del técnico de turno</div>
+      <p style="margin-bottom: 0;">El técnico guarda cada herramienta en su estuche etiquetado (módulo), los estuches viajan en un maletín con inventario en la tapa (<code>__init__.py</code>), y la lista de repuestos homologados (<code>requirements.txt</code>) garantiza que cualquier compañero reconstruya el mismo maletín. Pedir una herramienta fuera del maletín abierto en la mesa (ejecutar fuera de la raíz) es como pedirla a otra habitación: nadie responde (<code>ModuleNotFoundError</code>).</p>
+    </div>
+
+    <div class="callout callout-tip" style="margin: 10px 0;">
+      <div class="callout-title">&#x1F4CD; Principio Pedagógico y Estándar PEP 8 en Inglés</div>
+      <p style="margin-bottom: 4px; font-size: 8.5pt;"><strong>Identificadores 100% en inglés:</strong> Conforme al estándar global de la industria y la guía oficial PEP 8, todos los identificadores de variables, constantes, módulos, funciones y comentarios dentro del código fuente se escriben en <strong>inglés idiomático</strong> (ej. <code>event_log</code>, <code>count_events</code>, <code>filter_kit</code>). La prosa explicativa y el razonamiento analítico se expresan en español.</p>
+      <p style="margin-bottom: 0; font-size: 8.5pt;"><strong>Límite de Sintaxis Vigente:</strong> NUEVO HOY SOLO: módulos, paquetes, <code>__name__ == "__main__"</code>, flujo pip/venv, requirements fijado e import de Pydantic con versión. PROHIBIDO: <code>pathlib</code> (S15), modelar con <code>BaseModel</code> (S16), clases de dominio (S18), <code>argparse</code> (S22), <code>socket</code> (S30) y <code>subprocess</code> (S32).</p>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">3. Guía de Práctica de Laboratorio Paso a Paso</h2>
+    <p>Siga detalladamente las instrucciones de verificación y ejecución en su estación de trabajo antes de iniciar el reto autónomo.</p>
+
+    <div class="callout callout-purple" style="margin: 8px 0 12px 0;">
+      <div class="callout-title">&#x1F4BB; Higiene Operativa de Terminal ("Mirar antes de saltar")</div>
+      <p style="font-size: 8.5pt; margin-bottom: 0;">Antes de invocar <code>python script.py</code>, ejecute siempre <code>dir</code> (Windows) o <code>ls</code> (Unix) para verificar que el archivo existe físicamente en el directorio actual. Emplee la tecla <strong><code>Tab</code></strong> para autocompletar el nombre y evitar <code>FileNotFoundError</code>, y la tecla <strong><code>↑</code></strong> para re-ejecutar comandos sin fatiga. Verifique además que el prompt muestre <code>(.venv)</code> antes de cualquier <code>pip install</code>.</p>
+    </div>
+
+    <div class="os-tabs">
+      <div class="os-card">
+        <div class="os-title">Windows (PowerShell)</div>
+        <div class="os-code">cd curso-python-defensivo
+dir
+.\.venv\Scripts\Activate.ps1
+mkdir kit
+pip install -r requirements.txt
+python pack_review.py
+pip freeze</div>
+      </div>
+      <div class="os-card">
+        <div class="os-title">macOS (Zsh)</div>
+        <div class="os-code">cd ~/curso-python-defensivo
+ls -la
+source .venv/bin/activate
+mkdir -p kit
+pip install -r requirements.txt
+python3 pack_review.py
+pip freeze</div>
+      </div>
+      <div class="os-card">
+        <div class="os-title">Linux (Bash)</div>
+        <div class="os-code">cd ~/curso-python-defensivo
+ls -la
+source .venv/bin/activate
+mkdir -p kit
+pip install -r requirements.txt
+python3 pack_review.py
+pip freeze</div>
+      </div>
+    </div>
+
+    <h3 class="subsection-title">Archivos que usted crea a mano (ninguno se descarga)</h3>
+    <ol style="font-size: 9pt;">
+      <li><code>kit/__init__.py</code>: portada con <code>KIT_VERSION = "1.0.0"</code> y re-exportaciones.</li>
+      <li><code>kit/count_kit.py</code>: umbral <code>REVIEW_THRESHOLD = 5</code> y <code>count_events</code> (reúso S11).</li>
+      <li><code>kit/filter_kit.py</code>: <code>filter_events</code> con ciclo explícito (reúso S12).</li>
+      <li><code>requirements.txt</code>: una línea, <code>pydantic&gt;=2.0,&lt;3</code>.</li>
+      <li><code>pack_review.py</code>: controlador con las 3 importaciones, pares desempaquetados y guardia <code>__main__</code>.</li>
+    </ol>
+  </section>
+
+  <section class="page-break">
+    <h2 class="section-title">4. Reto Práctico Autónomo Individual (20 minutos)</h2>
+
+    <div class="callout callout-info" style="margin-bottom: 12px;">
+      <div class="callout-title">&#x1F3AF; Escenario Defensivo: pack_review.py — la revisión que viaja en maletín</div>
+      <p style="margin-bottom: 8px;">El turno de día deja 20 eventos sin empaquetar y su jefatura exige entregarlos como paquete reproducible: si otro analista no puede reconstruir su entorno con <code>pip freeze</code>, la entrega se devuelve.</p>
+      <ul style="font-size: 8.5pt; margin-bottom: 0;">
+        <li><strong>Rol:</strong> Analista defensivo de turno que empaqueta la revisión del día en el laboratorio local.</li>
+        <li><strong>Evidencia:</strong> 20 eventos sintéticos locales (6 ERROR, 5 WARNING), umbral 5 y pin <code>pydantic&gt;=2.0,&lt;3</code>.</li>
+        <li><strong>Problema:</strong> Mudar conteo y filtrado a <code>kit/</code>, alcanzarlos con 3 importaciones y fijar Pydantic 2.x en el <code>venv</code>.</li>
+        <li><strong>Consecuencia:</strong> Sin paquete ni freeze, la revisión no es reproducible y el cambio de turno queda incompleto.</li>
+        <li><strong>Decisiones:</strong> Qué lógica vive en cada módulo, qué forma de importar usa cada llamada y cómo prueba el pin instalado.</li>
+        <li><strong>Entrega a:</strong> Responsable de turno mediante reporte en consola más salida de <code>pip freeze</code>.</li>
+        <li><strong>Resultado verificable:</strong> Reporte con 2 pares, filtro de 6/20, paquete, versión Pydantic 2.x y contexto <code>__main__</code>.</li>
+      </ul>
+    </div>
+
+    <figure class="concept-figure" role="img" aria-labelledby="fig14-flow-title fig14-flow-desc">
+      <svg viewBox="0 0 640 150" xmlns="http://www.w3.org/2000/svg" font-family="monospace" aria-hidden="true">
+        <title id="fig14-flow-title">Flujo del reto empaquetado en cinco estaciones</title>
+        <desc id="fig14-flow-desc">Cinco estaciones en orden: evidencia con 20 eventos, módulos kit con conteo y filtro, tres importaciones, venv con freeze de Pydantic 2.x, y reporte con pares más pruebas de entorno.</desc>
+        <rect x="10" y="35" width="112" height="80" rx="6" fill="#eff6ff" stroke="#1e3a8a" stroke-width="1.5"/>
+        <text x="22" y="58" font-size="10" font-weight="bold" fill="#0f172a">1 · EVIDENCIA</text>
+        <text x="22" y="74" font-size="9" fill="#475569">20 eventos</text>
+        <text x="22" y="89" font-size="9" fill="#475569">umbral 5</text>
+        <text x="22" y="104" font-size="9" fill="#475569">identidad</text>
+        <rect x="138" y="35" width="112" height="80" rx="6" fill="#f0fdf4" stroke="#15803d" stroke-width="1.5"/>
+        <text x="150" y="58" font-size="10" font-weight="bold" fill="#0f172a">2 · MÓDULOS</text>
+        <text x="150" y="74" font-size="9" fill="#475569">count_kit</text>
+        <text x="150" y="89" font-size="9" fill="#475569">filter_kit</text>
+        <text x="150" y="104" font-size="9" fill="#475569">__init__.py</text>
+        <rect x="266" y="35" width="112" height="80" rx="6" fill="#faf5ff" stroke="#6b21a8" stroke-width="1.5"/>
+        <text x="278" y="58" font-size="10" font-weight="bold" fill="#0f172a">3 · IMPORTS</text>
+        <text x="278" y="74" font-size="9" fill="#475569">import kit</text>
+        <text x="278" y="89" font-size="9" fill="#475569">from kit ...</text>
+        <text x="278" y="104" font-size="9" fill="#475569">import ×3</text>
+        <rect x="394" y="35" width="112" height="80" rx="6" fill="#fffbeb" stroke="#b45309" stroke-width="1.5"/>
+        <text x="406" y="58" font-size="10" font-weight="bold" fill="#0f172a">4 · VENV</text>
+        <text x="406" y="74" font-size="9" fill="#475569">(.venv)</text>
+        <text x="406" y="89" font-size="9" fill="#475569">pip install</text>
+        <text x="406" y="104" font-size="9" fill="#475569">pip freeze</text>
+        <rect x="522" y="35" width="108" height="80" rx="6" fill="#fef2f2" stroke="#b91c1c" stroke-width="1.5"/>
+        <text x="534" y="58" font-size="10" font-weight="bold" fill="#0f172a">5 · REPORTE</text>
+        <text x="534" y="74" font-size="9" fill="#475569">2 pares</text>
+        <text x="534" y="89" font-size="9" fill="#475569">filtro 6/20</text>
+        <text x="534" y="104" font-size="9" fill="#475569">__main__</text>
+        <text x="122" y="80" font-size="14" font-weight="bold" fill="#64748b">→</text>
+        <text x="250" y="80" font-size="14" font-weight="bold" fill="#64748b">→</text>
+        <text x="378" y="80" font-size="14" font-weight="bold" fill="#64748b">→</text>
+        <text x="506" y="80" font-size="14" font-weight="bold" fill="#64748b">→</text>
+      </svg>
+      <figcaption>Figura 14.2 — Flujo del reto: evidencia → módulos → importaciones → venv/freeze → reporte. Siga las estaciones en orden.</figcaption>
+    </figure>
+
+    <h3 class="subsection-title">Estructura del Reto en 4 Pasos Obligatorios:</h3>
+    <ol style="font-size: 9pt; margin-left: 20px; margin-bottom: 12px;">
+      <li><strong>STEP 1 (Identidad y Contexto):</strong> Umbral, 20 eventos e identidad del operador; imprima el total registrado.</li>
+      <li><strong>STEP 2 (Procesamiento y Telemetría):</strong> Conteo empaquetado por nivel y filtro de coincidencias mediante las 3 importaciones.</li>
+      <li><strong>STEP 3 (Validación Lógica y Seguridad):</strong> Veredictos contra el umbral de solo lectura y prueba del pin con la versión instalada.</li>
+      <li><strong>STEP 4 (Reporte Estructurado en Consola):</strong> Encabezado empaquetado con pares, paquete, Pydantic, contexto y entorno <code>venv</code>.</li>
+    </ol>
+
+    <h3 class="subsection-title">Plantilla de Código Base del Estudiante (<code>pack_review.py</code>):</h3>
+    <p style="font-size: 8.5pt;"><strong>Antes de completar y ejecutar:</strong> Escriba en papel su predicción (valor esperado y motivo) antes de completar cada TODO; ejecute y compare lo obtenido con su predicción y con la salida esperada (predecir → ejecutar → comparar). Los TODO nunca traen respuestas.</p>
+    <div class="student-code-box">import pydantic
+
+REVIEW_THRESHOLD = 5
+event_log = [ ... 20 textos: 6 ERROR, 5 WARNING ... ]
+
+student_name = "Alex Mendez"
+student_id = "DEF-2026-09"
+
+# TODO 2.1: definir count_events(events, level="ERROR") -&gt; total, veredicto
+# TODO 2.2: definir filter_events(events, level="ERROR") -&gt; lista filtrada
+# TODO 2.3: definir main() con pares desempaquetados y pruebas de entorno
+
+# TODO 2.4: desempaquetar ERROR -&gt; error_total, error_verdict e imprimir
+# TODO 2.5: desempaquetar WARNING -&gt; warn_total, warn_verdict e imprimir
+# TODO 2.6: filtrar ERROR -&gt; error_matches e imprimir conteo
+
+print("Paquete: kit (count_kit + filter_kit, 3 importaciones)")
+print(f"Pydantic: {pydantic.VERSION} (pin pydantic&gt;=2.0,&lt;3)")
+print(f"Contexto: {__name__} (ejecucion directa)")
+
+print("--- Revisión empaquetada ---")
+# ... reporte con nombre, identificador, umbral, entorno y anuncio S16 ...
+
+if __name__ == "__main__":
+    main()</div>
+
+    <h3 class="subsection-title">Salida Esperada en Consola (Verificación en Terminal):</h3>
+    <p style="font-size: 8.5pt;"><strong>Después de ejecutar, compare:</strong> su resultado obtenido con su predicción y con la salida esperada.</p>
+    <div class="student-output-box">Eventos registrados: 20
+Errores: 6 - Revisión prioritaria
+Avisos: 5 - Revisión prioritaria
+Filtrados ERROR: 6 de 20
+Paquete: kit (count_kit + filter_kit, 3 importaciones)
+Pydantic: 2.13.4 (pin pydantic&gt;=2.0,&lt;3)
+Contexto: __main__ (ejecucion directa)
+--- Revisión empaquetada ---
+Nombre: Alex Mendez
+Identificador: DEF-2026-09
+Umbral: 5 (solo lectura)
+Entorno: venv (.venv) con requirements fijados
+Modelos: BaseModel llega en S16 (hoy solo instalacion)</div>
+    <p style="font-size: 8pt; color: var(--text-muted);">Nota: su parche de Pydantic puede variar dentro de la serie 2.x; lo obligatorio es que empiece con <code>2.</code> y que <code>pip freeze</code> lo congele.</p>
+  </section>
+
+  <section>
+    <h2 class="section-title">5. Clínica de Errores y Diagnóstico de Tracebacks</h2>
+    <p style="font-size: 8.5pt;">En Python 3.13, las trazas de error (<em>Tracebacks</em>) proporcionan indicadores precisos señalando la línea y columna exacta de la falla con caracteres <code>^^^^^</code>. Analice y resuelva los 2 errores típicos sembrados de esta sesión:</p>
+
+    <div class="trouble-card trouble-critical">
+      <div class="trouble-title">&#x1F6A8; Error Sembrado 1: ModuleNotFoundError por ruta (paquete fuera de alcance)</div>
+      <div class="terminal-container" style="margin: 6px 0; padding: 8px 10px; font-size: 8pt;">
+        <div class="terminal-header"><span>Terminal — traceback Python 3.13</span><span>pack_review.py</span></div>
+<span class="output">Traceback (most recent call last):</span>
+<span class="output">  File "/home/alumno/curso-python-defensivo/pack_review.py", line 14, in &lt;module&gt;</span>
+<span class="output">    from kit.count_kit import count_events</span>
+<span class="caret-highlight">         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
+<span class="err-highlight">ModuleNotFoundError: No module named 'kit'</span>
+      </div>
+      <div class="trouble-grid">
+        <div>
+          <strong>Causa Raíz Técnica:</strong>
+          <p style="font-size: 8pt; margin-top: 2px;">Python resuelve imports desde el directorio de trabajo: ejecutó desde una subcarpeta (o <code>kit/</code> no tiene <code>__init__.py</code>), así que el nombre <code>kit</code> no existe en la ruta y el intérprete señala la línea de importación con <code>^^^^</code>.</p>
+        </div>
+        <div>
+          <strong>Protocolo de Corrección:</strong>
+          <p style="font-size: 8pt; margin-top: 2px;">1. Mire antes de saltar: <code>dir</code> o <code>ls</code> y confirme <code>kit/__init__.py</code>. 2. Vuelva a la raíz con <code>cd curso-python-defensivo</code>. 3. Re-ejecute con <code>↑</code> + <code>Enter</code>.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="trouble-card">
+      <div class="trouble-title">&#x26A0;&#xFE0F; Error Sembrado 2: pip freeze sin venv (Pydantic invisible)</div>
+      <div class="terminal-container" style="margin: 6px 0; padding: 8px 10px; font-size: 8pt;">
+        <div class="terminal-header"><span>Terminal — traceback Python 3.13</span><span>intérprete sin venv</span></div>
+<span class="prompt-win">PS C:\lab&gt;</span> <span class="cmd">pip freeze</span>
+<span class="output">(sin rastro de pydantic en la lista...)</span>
+<span class="prompt-win">PS C:\lab&gt;</span> <span class="cmd">python -c "import pydantic"</span>
+<span class="output">Traceback (most recent call last):</span>
+<span class="output">  File "&lt;string&gt;", line 1, in &lt;module&gt;</span>
+<span class="output">    import pydantic</span>
+<span class="caret-highlight">    ^^^^^^^^^^^^^^^</span>
+<span class="err-highlight">ModuleNotFoundError: No module named 'pydantic'</span>
+      </div>
+      <div class="trouble-grid">
+        <div>
+          <strong>Causa Raíz Técnica:</strong>
+          <p style="font-size: 8pt; margin-top: 2px;">Congeló e importó en el Python global: olvidó activar <code>(.venv)</code> o instaló sin el pin. El <code>freeze</code> muestra otro entorno y el <code>import</code> señala con <code>^^^^</code> el paquete ausente.</p>
+        </div>
+        <div>
+          <strong>Protocolo de Corrección:</strong>
+          <p style="font-size: 8pt; margin-top: 2px;">1. Active el entorno (el prompt debe mostrar <code>(.venv)</code>). 2. Ejecute <code>pip install -r requirements.txt</code> con el pin <code>pydantic&gt;=2.0,&lt;3</code>. 3. Repita <code>pip freeze</code> hasta ver la serie 2.x.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">6. Desafío de Extensión para Avance Rápido (Opcional)</h2>
+    <div class="callout callout-tip">
+      <div class="callout-title">&#x1F680; Reto de Tolerancia / Caso Borde: El tercer nivel y la habitación equivocada</div>
+      <p style="font-size: 8.5pt; margin-bottom: 0;">Sin sintaxis nueva: cuente el tercer nivel con <code>count_events(event_log, "INFO")</code> y prediga el par en papel antes de ejecutar con <code>↑</code> (hay 9 <code>INFO</code>). Después ejecute <code>python pack_review.py</code> desde una subcarpeta y prediga qué <code>ModuleNotFoundError</code> obtendrá y por qué. Solo práctica extra: no cambia su calificación.</p>
+    </div>
+
+    <h3 class="subsection-title">Tarea domiciliaria (caso causal):</h3>
+    <div class="callout callout-info" style="margin-bottom: 12px;">
+      <div class="callout-title">&#x1F3AF; Caso de tarea</div>
+      <ul style="font-size: 8.5pt; margin-bottom: 8px;">
+        <li><strong>Rol:</strong> Analista defensivo que deja lista la revisión empaquetada del turno nocturno.</li>
+        <li><strong>Evidencia:</strong> 20 eventos nuevos del turno (7 WARNING, 4 ERROR) y el mismo <code>kit/</code> de clase.</li>
+        <li><strong>Problema:</strong> Reutilizar el paquete con umbral propio en <code>pack_shift.py</code> sin tocar el pin fijado.</li>
+        <li><strong>Consecuencia:</strong> Sin empaquetado del turno, la entrega nocturna no es reproducible.</li>
+        <li><strong>Decisiones:</strong> Qué nivel revisa cada llamada, qué veredicto toca bajo el umbral y qué filtro cuenta las coincidencias.</li>
+        <li><strong>Entrega a:</strong> Docente mediante reporte ejecutado en la próxima sesión.</li>
+        <li><strong>Resultado verificable:</strong> Pares 7/4, filtro 7/20 y mismas tres pruebas de entorno en consola.</li>
+      </ul>
+      <p style="font-size: 8.5pt; margin-bottom: 0;"><strong>Antes de completar y ejecutar:</strong> Escriba en papel su predicción (valor esperado y motivo) antes de completar cada TODO; ejecute y compare lo obtenido con su predicción y con la salida esperada (predecir → ejecutar → comparar).</p>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">7. Lista de Verificación y Firma de Conformidad</h2>
+    <p style="font-size: 8.5pt;">Marque cada casilla tras comprobar visualmente el resultado en su pantalla:</p>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th class="check-box-cell">OK</th>
+          <th>Criterio Observable de Evaluación</th>
+          <th>Evidencia Específica en Pantalla</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="check-box-cell"><span class="check-square"></span></td>
+          <td><strong>Paquete y pares:</strong> Reporte empaquetado con conteos correctos</td>
+          <td>Líneas <code>Errores: 6</code>, <code>Avisos: 5</code> y <code>Filtrados ERROR: 6 de 20</code> visibles</td>
+        </tr>
+        <tr>
+          <td class="check-box-cell"><span class="check-square"></span></td>
+          <td><strong>Entorno fijado:</strong> Pydantic 2.x instalado en <code>venv</code></td>
+          <td>Línea <code>Pydantic: 2.…</code> y <code>pip freeze</code> con serie 2.x; prompt <code>(.venv)</code></td>
+        </tr>
+        <tr>
+          <td class="check-box-cell"><span class="check-square"></span></td>
+          <td><strong>PEP 8 y confinamiento:</strong> Inglés técnico y alcance local</td>
+          <td>Identificadores en inglés (<code>count_events</code>, <code>filter_kit</code>); reporte declara <code>venv</code> local sin red</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="signature-box">
+      <p style="font-size: 8pt; color: var(--text-muted); margin-bottom: 8px;">
+        <strong>Declaración del Estudiante:</strong> Certifico que el código presentado fue escrito por mí de forma autónoma sin asistentes de IA generativa, que operó exclusivamente en localhost (127.0.0.1) y sobre fixtures sintéticos locales, y que comprendo el propósito de cada variable e instrucción ejecutada.
+      </p>
+      <div class="signature-grid">
+        <div>
+          <div class="sig-line">Firma del Estudiante</div>
+        </div>
+        <div>
+          <div class="sig-line">Sello / Validación Docente (&lt; 15 seg)</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+</body>
+</html>
