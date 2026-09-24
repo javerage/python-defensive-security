@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Workbook — Session 20 | Python for Defensive Security</title>
+  <style>
+    :root {
+      --primary: #1e3a8a;
+      --primary-dark: #0f172a;
+      --primary-light: #eff6ff;
+      --secondary: #0284c7;
+      --accent-red: #b91c1c;
+      --accent-red-light: #fef2f2;
+      --accent-amber: #b45309;
+      --accent-amber-light: #fffbeb;
+      --accent-green: #15803d;
+      --accent-green-light: #f0fdf4;
+      --accent-purple: #6b21a8;
+      --accent-purple-light: #faf5ff;
+      --text-main: #1f2937;
+      --text-muted: #4b5563;
+      --border-color: #d1d5db;
+      --border-light: #e5e7eb;
+      --bg-card: #f9fafb;
+      --bg-terminal: #0f172a;
+      --term-text: #f8fafc;
+      --term-prompt: #38bdf8;
+      --term-accent: #4ade80;
+      --term-warn: #fbbf24;
+      --term-err: #f87171;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-size: 9.5pt; line-height: 1.55; color: var(--text-main);
+      background-color: #ffffff; padding: 0; margin: 0;
+    }
+    .page-container { max-width: 920px; margin: 0 auto; padding: 24px 32px; }
+    .header-institution { border-bottom: 2px solid var(--primary); padding-bottom: 12px; margin-bottom: 16px; }
+    .header-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+    .inst-titles h1 { font-size: 14.5pt; color: var(--primary); font-weight: 700; line-height: 1.25; letter-spacing: -0.2px; }
+    .inst-titles h2 { font-size: 11pt; color: var(--text-muted); font-weight: 600; margin-top: 3px; }
+    .badge-container { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+    .badge { display: inline-block; font-size: 7.5pt; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; padding: 3px 8px; border-radius: 4px; border: 1px solid transparent; }
+    .badge-primary { background-color: var(--primary-light); color: var(--primary); border-color: #bfdbfe; }
+    .badge-neutral { background-color: #f3f4f6; color: #374151; border-color: #e5e7eb; }
+    .badge-alert { background-color: var(--accent-red-light); color: var(--accent-red); border-color: #fecaca; }
+    .badge-purple { background-color: var(--accent-purple-light); color: var(--accent-purple); border-color: #e9d5ff; }
+    .student-data-card { background-color: var(--bg-card); border: 1px solid var(--border-color); border-radius: 6px; padding: 12px 14px; margin-bottom: 18px; }
+    .data-grid { display: grid; grid-template-columns: 2fr 1fr 1.2fr 1fr; gap: 10px 16px; align-items: end; }
+    .data-field { display: flex; flex-direction: column; }
+    .data-label { font-size: 7.5pt; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 3px; }
+    .data-line { border-bottom: 1px dashed #6b7280; min-height: 20px; font-size: 9pt; color: var(--text-main); padding: 0 4px; }
+    h2.section-title { font-size: 11.5pt; color: var(--primary-dark); border-bottom: 1.5px solid var(--border-color); padding-bottom: 4px; margin-top: 22px; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+    h3.subsection-title { font-size: 10pt; color: var(--primary); margin-top: 14px; margin-bottom: 6px; font-weight: 700; }
+    h4.subsubsection-title { font-size: 9pt; color: #334155; margin-top: 10px; margin-bottom: 4px; font-weight: 700; }
+    p { margin-bottom: 10px; text-align: justify; }
+    ul, ol { margin-left: 20px; margin-bottom: 10px; }
+    li { margin-bottom: 4px; }
+    .callout { border-left: 4px solid var(--primary); background-color: var(--primary-light); padding: 10px 14px; border-radius: 0 6px 6px 0; margin: 12px 0; font-size: 9pt; }
+    .callout-title { font-weight: 700; font-size: 9.5pt; margin-bottom: 5px; display: flex; align-items: center; gap: 6px; }
+    .callout-info { border-left-color: var(--secondary); background-color: #f0f9ff; }
+    .callout-info .callout-title { color: #0369a1; }
+    .callout-critical { border-left-color: var(--accent-red); background-color: var(--accent-red-light); border: 1px solid #fecaca; border-left-width: 5px; }
+    .callout-critical .callout-title { color: var(--accent-red); }
+    .callout-warning { border-left-color: var(--accent-amber); background-color: var(--accent-amber-light); }
+    .callout-warning .callout-title { color: var(--accent-amber); }
+    .callout-tip { border-left-color: var(--accent-green); background-color: var(--accent-green-light); }
+    .callout-tip .callout-title { color: var(--accent-green); }
+    .callout-purple { border-left-color: var(--accent-purple); background-color: var(--accent-purple-light); }
+    .callout-purple .callout-title { color: var(--accent-purple); }
+    .terminal-container { background-color: var(--bg-terminal); color: var(--term-text); border-radius: 6px; padding: 13px 15px; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size: 8.5pt; line-height: 1.55; margin: 12px 0 16px 0; overflow-x: auto; border: 1px solid #334155; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    .terminal-header { color: #94a3b8; font-size: 7.5pt; border-bottom: 1px solid #334155; padding-bottom: 4px; margin-bottom: 10px; display: flex; justify-content: space-between; text-transform: uppercase; letter-spacing: 0.5px; }
+    .prompt-win { color: var(--term-prompt); font-weight: 600; }
+    .prompt-nix { color: var(--term-accent); font-weight: 600; }
+    .cmd { color: #ffffff; font-weight: 600; }
+    .output { color: #cbd5e1; }
+    .comment { color: #64748b; font-style: italic; }
+    .err-highlight { color: var(--term-err); font-weight: bold; }
+    .caret-highlight { color: var(--term-warn); font-weight: bold; }
+    .term-spacer { height: 10px; }
+    .os-tabs { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin: 10px 0 14px 0; }
+    .os-card { background: #f8fafc; border: 1px solid var(--border-color); border-radius: 6px; padding: 10px 12px; }
+    .os-title { font-size: 8pt; font-weight: 700; color: var(--primary-dark); text-transform: uppercase; border-bottom: 1px solid var(--border-light); padding-bottom: 4px; margin-bottom: 8px; }
+    .os-code { font-family: ui-monospace, Menlo, Monaco, Consolas, "Liberation Mono", monospace; font-size: 8pt; background: #ffffff; padding: 8px 10px; border-radius: 4px; border: 1px solid #cbd5e1; white-space: pre-wrap; word-break: break-word; color: #0f172a; line-height: 1.6; }
+    table.data-table { width: 100%; border-collapse: collapse; margin: 10px 0 14px 0; font-size: 8.5pt; }
+    table.data-table th, table.data-table td { border: 1px solid var(--border-color); padding: 6px 8px; text-align: left; vertical-align: top; }
+    table.data-table th { background-color: #f1f5f9; color: var(--primary-dark); font-weight: 700; font-size: 8pt; text-transform: uppercase; }
+    table.data-table tr:nth-child(even) { background-color: #f8fafc; }
+    .check-box-cell { text-align: center; width: 45px; vertical-align: middle; }
+    .check-square { display: inline-block; width: 14px; height: 14px; border: 1.5px solid #4b5563; border-radius: 3px; vertical-align: middle; background-color: #ffffff; }
+    .trouble-card { border: 1px solid var(--border-color); border-left: 4px solid var(--accent-amber); background-color: #ffffff; border-radius: 4px; padding: 10px 12px; margin-bottom: 12px; font-size: 8.5pt; }
+    .trouble-card.trouble-critical { border-left-color: var(--accent-red); }
+    .trouble-card.trouble-info { border-left-color: var(--secondary); }
+    .trouble-title { font-weight: 700; font-size: 9pt; color: var(--primary-dark); margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
+    .trouble-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 8px; margin-top: 6px; background: #f8fafc; padding: 6px 8px; border-radius: 4px; border: 1px solid var(--border-light); }
+    .student-code-box { border: 1px dashed #64748b; background-color: #fbfcfe; border-radius: 6px; padding: 10px 12px; margin: 8px 0 12px 0; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 8pt; line-height: 1.5; min-height: 180px; color: #334155; white-space: pre-wrap; }
+    .student-output-box { border: 1px dashed #0284c7; background-color: #f0f9ff; border-radius: 6px; padding: 10px 12px; margin: 8px 0 12px 0; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 8pt; line-height: 1.45; min-height: 80px; color: #0369a1; white-space: pre-wrap; }
+    .concept-figure { margin: 12px 0; border: 1px solid var(--border-color); border-radius: 6px; padding: 10px 12px; background: #ffffff; width: 100%; break-inside: avoid; page-break-inside: avoid; }
+    .concept-figure svg { width: 100%; height: auto; display: block; }
+    .concept-figure figcaption { font-size: 8pt; color: var(--text-muted); margin-top: 6px; text-align: center; }
+    .signature-box { border: 1px solid var(--border-color); background-color: var(--bg-card); border-radius: 6px; padding: 12px 14px; margin-top: 16px; }
+    .signature-grid { display: grid; grid-template-columns: 2fr 1.5fr; gap: 20px; margin-top: 24px; align-items: end; }
+    .sig-line { border-top: 1px solid #4b5563; padding-top: 4px; text-align: center; font-size: 8pt; color: var(--text-muted); font-weight: 600; }
+    @media print {
+      @page { size: A4 portrait; margin: 12mm 15mm 15mm 15mm; }
+      body { font-size: 8.5pt; line-height: 1.36; color: #000000; background: #ffffff; }
+      .page-container { max-width: 100%; padding: 0; margin: 0; }
+      h2.section-title { font-size: 10.5pt; margin-top: 14px; margin-bottom: 6px; page-break-after: avoid; break-after: avoid; }
+      h3.subsection-title { font-size: 9.5pt; page-break-after: avoid; break-after: avoid; }
+      h4.subsubsection-title { font-size: 8.5pt; page-break-after: avoid; break-after: avoid; }
+      .callout, .terminal-container, .student-data-card, .os-card, table.data-table, .signature-box, .trouble-card, .student-code-box, .student-output-box, .concept-figure { page-break-inside: avoid; break-inside: avoid; }
+      .terminal-container { background-color: #0f172a !important; color: #f8fafc !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .badge-primary, .badge-neutral, .badge-alert, .badge-purple { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .page-break { page-break-before: always; break-before: page; }
+      .check-square { border-color: #000000; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="page-container">
+
+  <header class="header-institution">
+    <div class="header-top">
+      <div class="inst-titles">
+        <h1>Python for Defensive Security</h1>
+        <h2>Python for Defensive Security: Fundamentals and Local Lab Tooling — M11. Checkpoint de fundamentos</h2>
+      </div>
+      <div class="badge-container">
+        <span class="badge badge-primary">Sesión 20 | 60 minutos exactos</span>
+        <span class="badge badge-neutral">Nivel: cierre de Bloque A (20/20)</span>
+        <span class="badge badge-alert">Pi: revisor breve ≤ 10 min</span>
+      </div>
+    </div>
+    <div style="font-size: 8.5pt; color: var(--text-muted); display: flex; justify-content: space-between;">
+      <span><strong>Documento:</strong> Cuaderno de trabajo del estudiante | <strong>GitHub:</strong> python-defensive-security</span>
+      <span><strong>Versión Base Oficial:</strong> Python 3.13 (Entorno Local reproducible)</span>
+    </div>
+  </header>
+
+  <section class="student-data-card">
+    <div class="data-grid">
+      <div class="data-field">
+        <span class="data-label">Nombre Completo del Estudiante:</span>
+        <div class="data-line"></div>
+      </div>
+      <div class="data-field">
+        <span class="data-label">Matrícula / ID:</span>
+        <div class="data-line"></div>
+      </div>
+      <div class="data-field">
+        <span class="data-label">Sistema Operativo Anfitrión:</span>
+        <div class="data-line">[ ] Windows &nbsp; [ ] macOS &nbsp; [ ] Linux</div>
+      </div>
+      <div class="data-field">
+        <span class="data-label">Fecha de Realización:</span>
+        <div class="data-line"></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">1. Objetivos de Aprendizaje y Marco Ético</h2>
+
+    <p>Al concluir satisfactoriamente esta sesión formativa, el estudiante será capaz de:</p>
+    <ul style="font-size: 9pt;">
+      <li><strong>Defensa breve:</strong> Exponer en 3 minutos su analizador de la Sesión 19 (20 eventos, umbral 5) con cifras exactas y alcance declarado.</li>
+      <li><strong>Explicación de decisiones:</strong> Justificar dos decisiones de diseño (frontera primero, rechazo con posición) sin leer código línea por línea.</li>
+      <li><strong>Corrección acotada:</strong> Corregir en vivo el borde asignado (identificador nocturno en texto <code>"31"</code> → entero <code>31</code> con verificación estricta) manteniendo la suite en verde.</li>
+      <li><strong>Cierre formal:</strong> Firmar el acta de defensa breve y cerrar el Checkpoint 1 y el Bloque A (20/20).</li>
+    </ul>
+
+    <div class="callout callout-critical">
+      <div class="callout-title">&#x26A0;&#xFE0F; Compromiso Ético y Reglas del Laboratorio Defensivo Local</div>
+      <p style="margin-bottom: 4px;">Este curso está orientado de manera estricta al <strong>análisis, inspección y defensa de sistemas locales</strong>. Toda práctica se desarrollará exclusivamente en la carpeta asignada (<code>curso-python-defensivo/</code>) y sobre destinos en bucle local (<code>localhost</code>, <code>127.0.0.1</code>, <code>::1</code>) o fixtures provistas por el docente.</p>
+      <p style="margin-bottom: 0;"><strong>Prohibiciones absolutas:</strong> Queda estrictamente vetado el escaneo o conexión hacia direcciones IP externas, la instalación o prueba de código orientado a malware o persistencia, el uso de credenciales reales ajenas y la desactivación intencional de controles de seguridad. La transgresión de estos límites activa el umbral eliminatorio de no aprobación inmediata del curso. En esta defensa, olvidar declarar el alcance equivale a reprobar la defensa en el acto.</p>
+    </div>
+
+    <div class="callout callout-purple">
+      <div class="callout-title">&#x1F916; Regla de Pi en esta sesión: revisor breve (máximo 10 minutos)</div>
+      <p style="font-size: 8.5pt; margin-bottom: 4px;">Puedes pedir a Pi <strong>una sola revisión breve</strong> de tu diff de defensa con el flujo obligatorio: <strong>predecir → revisar el diff sin aplicarlo → explicar si aceptas o no → reflexionar por escrito</strong>. Pi nunca escribe ni ejecuta código por ti. Tiempo máximo: 10 minutos.</p>
+      <p style="font-size: 8.5pt; margin-bottom: 0;"><strong>Ruta sin Pi equivalente:</strong> quien no tenga cuenta usa el ejemplo parcial resuelto y la revisión docente directa con el mismo flujo y el mismo tiempo. Ambas rutas califican idéntico.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">2. Fundamentos Conceptuales de la Sesión</h2>
+
+    <p>Defender no es recitar código: es demostrar que comprendes lo que tu programa garantiza. Tu analizador de la Sesión 19 convierte un turno de <strong>20 eventos crudos</strong> (8 líneas de texto, 6 registros JSON, 6 filas CSV) en <strong>17 hallazgos aceptados + 3 filas rechazadas</strong> con umbral de solo lectura <strong>5</strong>. Los conteos aceptados agrupan <strong>INFO=7, WARNING=4, ERROR=6</strong>, y los 6 errores sobre el umbral dictan <strong>"Revision prioritaria"</strong>. La defensa prueba que sabes decir esas cifras de memoria, explicar por qué el diseño las sostiene y corregir un borde sin romperlas.</p>
+
+    <p>Las dos decisiones que debes explicar son: <strong>(1) frontera primero</strong>, cada dict crudo cruza el modelo <code>Finding</code> de la Sesión 18 antes de llegar a cualquier conteo, de modo que los parsers jamás deciden validez; y <strong>(2) rechazo con posición</strong>, cada fila rota se convierte en un motivo etiquetado con su número de registro, de modo que el reparto 20 → 17 + 3 queda auditable. El borde asignado de hoy es el identificador nocturno que llega como texto <code>"31"</code>: el modo flexible lo convierte en silencio, así que la corrección lo normaliza a entero primero y lo valida con <code>strict=True</code> después.</p>
+
+    <figure class="concept-figure">
+<svg role="img" aria-labelledby="s20-anat-title s20-anat-desc" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 190">
+<title id="s20-anat-title">Anatomía de la defensa de 3 minutos</title>
+<desc id="s20-anat-desc">Tres bloques numerados de un minuto: bloque 1 cifras del turno, bloque 2 dos decisiones, bloque 3 borde corregido y acta.</desc>
+<rect x="8" y="8" width="616" height="174" rx="8" fill="#ffffff" stroke="#1e3a8a" stroke-width="2"/>
+<text x="320" y="32" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="bold" fill="#0f172a">Defensa de 3 minutos: anatomía (1 + 1 + 1)</text>
+<rect x="28" y="48" width="176" height="100" rx="6" fill="#eff6ff" stroke="#1e3a8a" stroke-width="1.5"/>
+<text x="116" y="70" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="bold" fill="#1e3a8a">① Minuto 1</text>
+<text x="116" y="90" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#1f2937">Cifras del turno</text>
+<text x="116" y="106" text-anchor="middle" font-family="monospace" font-size="10" fill="#1f2937">20 → 17 + 3</text>
+<text x="116" y="122" text-anchor="middle" font-family="monospace" font-size="10" fill="#1f2937">7 / 4 / 6 · umbral 5</text>
+<rect x="232" y="48" width="176" height="100" rx="6" fill="#faf5ff" stroke="#6b21a8" stroke-width="1.5"/>
+<text x="320" y="70" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="bold" fill="#6b21a8">② Minuto 2</text>
+<text x="320" y="90" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#1f2937">Dos decisiones</text>
+<text x="320" y="106" text-anchor="middle" font-family="monospace" font-size="10" fill="#1f2937">frontera primero</text>
+<text x="320" y="122" text-anchor="middle" font-family="monospace" font-size="10" fill="#1f2937">rechazo con posición</text>
+<rect x="436" y="48" width="176" height="100" rx="6" fill="#f0fdf4" stroke="#15803d" stroke-width="1.5"/>
+<text x="524" y="70" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="bold" fill="#15803d">③ Minuto 3</text>
+<text x="524" y="90" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#1f2937">Borde + acta</text>
+<text x="524" y="106" text-anchor="middle" font-family="monospace" font-size="10" fill="#1f2937">"31" → 31 strict</text>
+<text x="524" y="122" text-anchor="middle" font-family="monospace" font-size="10" fill="#1f2937">acta APROBADA</text>
+<text x="320" y="168" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#4b5563">Cada minuto abre declarando el alcance: localhost (127.0.0.1), cero red externa.</text>
+</svg>
+      <figcaption>Figura 1. Anatomía de la defensa breve: un minuto de cifras, un minuto de decisiones y un minuto de borde corregido con acta. El alcance se declara primero, siempre.</figcaption>
+    </figure>
+
+    <div class="callout callout-info" style="margin: 12px 0;">
+      <div class="callout-title">&#x1F4A1; Analogía de Seguridad Defensiva: El examen de manejo</div>
+      <p style="margin-bottom: 0;">
+        Nadie aprueba el examen de manejo recitando el manual: el evaluador te pide arrancar, estacionar y frenar mientras explicas cada maniobra. Tu defensa es igual: el analizador es el vehículo que ya construiste en la Sesión 19, las cifras son tu arranque, las dos decisiones son tus maniobras explicadas y el borde corregido es tu estacionada final frente al evaluador. Y como en el examen, olvidar el cinturón (el alcance a localhost) reprueba antes de arrancar.
+      </p>
+    </div>
+
+    <div class="callout callout-tip" style="margin: 10px 0;">
+      <div class="callout-title">&#x1F4CD; Principio Pedagógico y Estándar PEP 8 en Inglés</div>
+      <p style="margin-bottom: 4px; font-size: 8.5pt;">
+        <strong>Identificadores 100% en inglés:</strong> Conforme al estándar global de la industria y la guía oficial PEP 8, todos los identificadores de variables, constantes y comentarios dentro del código fuente se escriben en <strong>inglés idiomático</strong> (ej. <code>student_name</code>, <code>analyze_shift</code>, <code>normalize_edge_record</code>). La prosa explicativa y el razonamiento analítico se expresan en español.
+      </p>
+      <p style="margin-bottom: 0; font-size: 8.5pt;">
+        <strong>Límite de Sintaxis Vigente:</strong> Integración sin sintaxis nueva: solo <code>def</code> + <code>return</code>, <code>try/except</code>, listas, dicts, ciclos <code>for</code>, clases y <code>BaseModel</code>, <code>unittest</code>, <code>json</code> + <code>csv</code>. Prohibido <code>argparse</code>, sockets, <code>subprocess</code>, shell y red.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">3. Guía de Práctica de Laboratorio Paso a Paso</h2>
+
+    <p>Siga detalladamente las instrucciones de verificación y ejecución en su estación de trabajo antes de iniciar la defensa.</p>
+
+    <div class="callout callout-purple" style="margin: 8px 0 12px 0;">
+      <div class="callout-title">&#x1F4BB; Higiene Operativa de Terminal ("Mirar antes de saltar")</div>
+      <p style="font-size: 8.5pt; margin-bottom: 0;">
+        Antes de invocar <code>python defensa.py</code>, ejecute siempre <code>dir</code> (Windows) o <code>ls</code> (Unix) para verificar que el archivo existe físicamente en el directorio actual. Emplee la tecla <strong><code>Tab</code></strong> para autocompletar el nombre y evitar <code>FileNotFoundError</code>, y la tecla <strong><code>↑</code></strong> para re-ejecutar comandos sin fatiga. Si un proceso queda esperando entrada, interrumpa con <strong><code>Ctrl + C</code></strong> (<code>^C</code>).
+      </p>
+    </div>
+
+    <div class="os-tabs">
+      <div class="os-card">
+        <div class="os-title">Windows (PowerShell)</div>
+        <div class="os-code"><span class="comment"># 1. Navegar y verificar archivos</span>
+cd curso-python-defensivo
+dir
+
+<span class="comment"># 2. Activar venv</span>
+.\.venv\Scripts\Activate.ps1
+
+<span class="comment"># 3. Re-ejecutar la defensa</span>
+python defensa.py
+python -m unittest test_defensa.py -v</div>
+      </div>
+      <div class="os-card">
+        <div class="os-title">macOS (Zsh)</div>
+        <div class="os-code"><span class="comment"># 1. Navegar y verificar archivos</span>
+cd ~/curso-python-defensivo
+ls -la
+
+<span class="comment"># 2. Activar venv</span>
+source .venv/bin/activate
+
+<span class="comment"># 3. Re-ejecutar la defensa</span>
+python3 defensa.py
+python3 -m unittest test_defensa.py -v</div>
+      </div>
+      <div class="os-card">
+        <div class="os-title">Linux (Bash)</div>
+        <div class="os-code"><span class="comment"># 1. Navegar y verificar archivos</span>
+cd ~/curso-python-defensivo
+ls -la
+
+<span class="comment"># 2. Activar venv</span>
+source .venv/bin/activate
+
+<span class="comment"># 3. Re-ejecutar la defensa</span>
+python3 defensa.py
+python3 -m unittest test_defensa.py -v</div>
+      </div>
+    </div>
+
+    <p style="font-size: 8.5pt;">Verifique además el intérprete (<code>python --version</code> debe responder <code>Python 3.13.x</code>) y Pydantic v2 (<code>python -c "import pydantic; print(pydantic.VERSION)"</code> debe responder <code>2.x</code>). En el respaldo del repositorio los archivos se llaman <code>solution.py</code> (defensa de referencia) y <code>starter.py</code> (plantilla); en su proyecto guarde su trabajo como <code>defensa.py</code> junto a <code>test_defensa.py</code>.</p>
+  </section>
+
+  <section class="page-break">
+    <h2 class="section-title">4. Reto Práctico Autónomo Individual (25 minutos)</h2>
+
+    <div class="callout callout-info" style="margin-bottom: 12px;">
+      <div class="callout-title">&#x1F3AF; Escenario Defensivo: defensa_breve.py</div>
+      <p style="margin-bottom: 8px;">
+        El turno nocturno ya fue analizado en la Sesión 19 y la suite del docente está en verde. Hoy el jurado (su docente) le concede 3 minutos para demostrar que ese resultado es suyo: re-ejecute el analizador, explique sus dos decisiones y corrija en vivo el borde asignado sin romper la suite. Si la defensa convence, el acta se firma y el Bloque A queda cerrado.
+      </p>
+      <ul style="font-size: 8.5pt; margin-bottom: 0;">
+        <li><strong>Rol:</strong> Analista defensivo de turno que defiende ante jurado el reporte que firmó en la Sesión 19.</li>
+        <li><strong>Evidencia:</strong> Su analizador <code>analizar.py</code> de la Sesión 19 (20 eventos, umbral 5) más la suite <code>test_defensa.py</code> provista por el docente.</li>
+        <li><strong>Problema:</strong> Demostrar en 3 minutos que el reparto 20 → 17 + 3 es correcto y corregir el borde asignado (texto <code>"31"</code>) bajo presión de tiempo.</li>
+        <li><strong>Consecuencia:</strong> Sin defensa aprobada el Checkpoint 1 queda sin calificar y el Bloque A permanece abierto: no hay avance al Bloque B.</li>
+        <li><strong>Decisiones:</strong> Qué dos decisiones explicar y en qué orden, cómo normalizar el borde antes del chequeo estricto, y cuándo pedir (o no) la revisión breve de Pi.</li>
+        <li><strong>Entrega a:</strong> Docente evaluador mediante defensa oral en vivo más acta de defensa firmada.</li>
+        <li><strong>Resultado verificable:</strong> Suite <code>test_defensa.py</code> con 6 pruebas en verde y acta con veredicto APROBADA visible en consola.</li>
+      </ul>
+    </div>
+
+    <figure class="concept-figure">
+<svg role="img" aria-labelledby="s20-flow-title s20-flow-desc" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 150">
+<title id="s20-flow-title">Flujo de la defensa: evidencia, validación, conteo, veredicto y acta</title>
+<desc id="s20-flow-desc">Cinco etapas en orden: evidencia local, frontera Finding, conteo de aceptados, veredicto contra el umbral y acta firmada.</desc>
+<rect x="8" y="8" width="616" height="134" rx="8" fill="#ffffff" stroke="#1e3a8a" stroke-width="2"/>
+<rect x="24" y="40" width="104" height="56" rx="6" fill="#eff6ff" stroke="#1e3a8a" stroke-width="1.5"/>
+<text x="76" y="62" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#1e3a8a">1. Evidencia</text>
+<text x="76" y="78" text-anchor="middle" font-family="monospace" font-size="9" fill="#1f2937">20 eventos</text>
+<text x="200" y="70" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="bold" fill="#0f172a">→</text>
+<rect x="224" y="40" width="104" height="56" rx="6" fill="#faf5ff" stroke="#6b21a8" stroke-width="1.5"/>
+<text x="276" y="62" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#6b21a8">2. Frontera</text>
+<text x="276" y="78" text-anchor="middle" font-family="monospace" font-size="9" fill="#1f2937">17 + 3</text>
+<text x="352" y="70" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="bold" fill="#0f172a">→</text>
+<rect x="376" y="40" width="80" height="56" rx="6" fill="#f8fafc" stroke="#475569" stroke-width="1.5"/>
+<text x="416" y="62" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#0f172a">3. Conteo</text>
+<text x="416" y="78" text-anchor="middle" font-family="monospace" font-size="9" fill="#1f2937">7/4/6</text>
+<text x="472" y="70" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="bold" fill="#0f172a">→</text>
+<rect x="488" y="40" width="60" height="56" rx="6" fill="#fffbeb" stroke="#b45309" stroke-width="1.5"/>
+<text x="518" y="62" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#b45309">4. Fallo</text>
+<text x="518" y="78" text-anchor="middle" font-family="monospace" font-size="9" fill="#1f2937">6≥5</text>
+<text x="564" y="70" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="bold" fill="#0f172a">→</text>
+<rect x="416" y="104" width="132" height="26" rx="6" fill="#f0fdf4" stroke="#15803d" stroke-width="1.5"/>
+<text x="482" y="121" text-anchor="middle" font-family="sans-serif" font-size="10" font-weight="bold" fill="#15803d">5. Acta APROBADA</text>
+<text x="320" y="30" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#0f172a">Tubería de la defensa (solo aceptados llegan al conteo)</text>
+</svg>
+      <figcaption>Figura 2. Flujo de la defensa: la evidencia entra, la frontera separa, solo los aceptados se cuentan, el veredicto se empareja con el umbral y el acta cierra el Bloque A.</figcaption>
+    </figure>
+
+    <h3 class="subsection-title">Estructura del Reto en 4 Pasos Obligatorios:</h3>
+    <ol style="font-size: 9pt; margin-left: 20px; margin-bottom: 12px;">
+      <li><strong>STEP 1 (Identidad y Contexto):</strong> Declare operador, turno defendido (20 eventos, umbral 5, tres formatos locales) y alcance a localhost.</li>
+      <li><strong>STEP 2 (Procesamiento y Telemetría):</strong> Re-ejecute los tres parsers y la validación compartida hasta reproducir 20 crudos → 17 aceptados + 3 rechazados.</li>
+      <li><strong>STEP 3 (Validación Lógica y Seguridad):</strong> Corrija en vivo el borde asignado: normalice el texto <code>"31"</code> a entero y apruebe la verificación estricta sin contaminar los conteos.</li>
+      <li><strong>STEP 4 (Reporte Estructurado en Consola):</strong> Imprima las líneas de defensa, el par de errores contra el umbral y el reporte de ancho fijo con acta APROBADA.</li>
+    </ol>
+
+    <h3 class="subsection-title">Plantilla de Código Base del Estudiante (<code>defensa.py</code>):</h3>
+    <p style="font-size: 8.5pt;"><strong>Antes de completar y ejecutar:</strong> Escriba en papel su predicción para cada TODO (valor esperado y motivo: ¿cuántos aceptados? ¿qué entero corrige el borde? ¿qué veredicto toca?). Complete el código, ejecútelo y compare lo obtenido con su predicción y con la salida esperada (predecir → ejecutar → comparar). Los TODO nunca traen respuestas.</p>
+    <div class="student-code-box">student_name = "Alex Mendez"  # Replace with your full name
+student_id = "DEF-2026-09"    # Replace with your student ID
+
+# TODO: Step 1.1 - State the defended evidence in your own words.
+DEFENSE_STATUS = "PENDING"
+
+# TODO: Step 2.1 - Re-run the defended analyzer figures.
+PENDING_FIGURES = "PENDING"
+
+# TODO: Step 3.1 - Correct the assigned edge live.
+PENDING_EDGE = "PENDING"
+
+# TODO: Step 4.1 - Print the structured findings using aligned f-strings
+print(f"| Defense Status          : {DEFENSE_STATUS:&lt;49} |")
+print(f"| Shift Figures           : {PENDING_FIGURES:&lt;49} |")
+print(f"| Assigned Edge           : {PENDING_EDGE:&lt;49} |")</div>
+
+    <h3 class="subsection-title">Salida Esperada en Consola (Verificación en Terminal):</h3>
+    <p style="font-size: 8.5pt;"><strong>Después de ejecutar, compare:</strong> su resultado obtenido con su predicción y con la salida esperada. Use sus propios nombre e identificador; los demás valores deben coincidir exactamente.</p>
+    <div class="student-output-box">Defensa Checkpoint 1 — Bloque A (20/20)
+Operador: Alex Mendez (DEF-2026-09)
+Decision 1: frontera primero (todo dict cruza Finding antes de contar)
+Decision 2: rechazo con posicion (cada fila rota viaja con su motivo)
+Conteo por nivel: INFO=7 WARNING=4 ERROR=6
+Eventos: 20 crudos -&gt; 17 aceptados + 3 rechazados
+Errores (aceptados): 6 - Revision prioritaria
+Borde asignado: texto "31" -&gt; 31 (strict en verde)
+Acta de defensa: APROBADA — Checkpoint 1 cerrado, Bloque A 20/20
+--- Reporte del checkpoint ---
++-----------------------------------------------------------------------------+
+| DEFENSIVE AUDIT REPORT — SESSION 19                                         |
++-----------------------------------------------------------------------------+
+| Operator Name           : Alex Mendez                                       |
+| Operator ID             : DEF-2026-09                                       |
+| Audit Stamp             : 2026-09-24 10:00:00                               |
+| Target Scope            : 127.0.0.1 (localhost loopback)                    |
++-----------------------------------------------------------------------------+
+| Raw Events              : 20                                                |
+| Accepted Findings       : 17                                                |
+| Rejected Rows           : 3                                                 |
+| Count INFO              : 7                                                 |
+| Count WARNING           : 4                                                 |
+| Count ERROR             : 6                                                 |
+| Threshold (ERROR)       : 5                                                 |
+| Verdict                 : Revision prioritaria                              |
++-----------------------------------------------------------------------------+
+| STATEMENT: Operation confined to localhost (127.0.0.1). Zero external net.  |
++-----------------------------------------------------------------------------+</div>
+  </section>
+
+  <section>
+    <h2 class="section-title">5. Clínica de Errores y Diagnóstico de Tracebacks</h2>
+    <p style="font-size: 8.5pt;">
+      En Python 3.13, las trazas de error (<em>Tracebacks</em>) proporcionan indicadores precisos señalando la línea y columna exacta de la falla con caracteres <code>^^^^^</code>. Los dos errores de hoy son clásicos de nervios en defensa: analice y resuelva ambos antes de pasar al jurado.
+    </p>
+
+    <div class="trouble-card trouble-critical">
+      <div class="trouble-title">&#x1F6A8; Error Sembrado 1: Nervios que olvidan el alcance (AssertionError por conteo contaminado)</div>
+      <div class="terminal-container" style="margin: 6px 0; padding: 8px 10px; font-size: 8pt;">
+<div class="terminal-header"><span>Python 3.13 — terminal del defensor</span><span>traceback</span></div>
+<span class="prompt-win">(.venv) PS C:\lab\curso-python-defensivo&gt;</span> <span class="cmd">python defensa.py</span><br>
+<span class="output">Traceback (most recent call last):</span><br>
+<span class="output">&nbsp;&nbsp;File "C:\lab\curso-python-defensivo\defensa.py", line 212, in &lt;module&gt;</span><br>
+<span class="output">&nbsp;&nbsp;&nbsp;&nbsp;main()</span><br>
+<span class="output">&nbsp;&nbsp;File "C:\lab\curso-python-defensivo\defensa.py", line 196, in main</span><br>
+<span class="output">&nbsp;&nbsp;&nbsp;&nbsp;assert figures["accepted_total"] == 17, "La defensa debia aceptar 17 hallazgos"</span><br>
+<span class="err-highlight">AssertionError: La defensa debia aceptar 17 hallazgos</span>
+      </div>
+      <div class="trouble-grid">
+        <div>
+          <strong>Causa Raíz Técnica:</strong>
+          <p style="font-size: 8pt; margin-top: 2px;">Por los nervios, el defensor sumó los 20 eventos crudos como aceptados (o declaró que su programa "revisa la red del laboratorio" y perdió el hilo del alcance). El assert compara 20 contra 17 y la defensa se cae en la primera cifra. Olvidar el alcance contamina el conteo y activa el umbral eliminatorio.</p>
+        </div>
+        <div>
+          <strong>Protocolo de Corrección:</strong>
+          <p style="font-size: 8pt; margin-top: 2px;">1. Respire y declare el alcance en voz alta: solo localhost y fixtures. 2. Recuerde la regla de oro: solo cuenta lo que cruzó <code>Finding.model_validate</code>; los 3 rechazados viajan aparte con motivo. 3. Re-ejecute con <code>↑</code> + <code>Enter</code> hasta ver <code>17 aceptados + 3 rechazados</code>.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="trouble-card">
+      <div class="trouble-title">&#x26A0;&#xFE0F; Error Sembrado 2: Leer el traceback al revés (NameError por nombre mal tipeado)</div>
+      <div class="terminal-container" style="margin: 6px 0; padding: 8px 10px; font-size: 8pt;">
+<div class="terminal-header"><span>Python 3.13 — terminal del defensor</span><span>traceback</span></div>
+<span class="prompt-win">(.venv) PS C:\lab\curso-python-defensivo&gt;</span> <span class="cmd">python defensa.py</span><br>
+<span class="output">Traceback (most recent call last):</span><br>
+<span class="output">&nbsp;&nbsp;File "C:\lab\curso-python-defensivo\defensa.py", line 208, in &lt;module&gt;</span><br>
+<span class="output">&nbsp;&nbsp;&nbsp;&nbsp;figures, report = analyze_shfit()</span><br>
+<span class="output">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="caret-highlight">^^^^^^^^^^^^^</span></span><br>
+<span class="err-highlight">NameError: name 'analyze_shfit' is not defined. Did you mean: 'analyze_shift'?</span>
+      </div>
+      <div class="trouble-grid">
+        <div>
+          <strong>Causa Raíz Técnica:</strong>
+          <p style="font-size: 8pt; margin-top: 2px;">El defensor, nervioso, empezó a leer la traza desde arriba (<code>File ... line 208</code>) y concluyó que "el archivo está mal". En Python 3.13 la verdad está abajo: la última línea nombra el tipo (<code>NameError</code>) y los carets <code>^^^^^</code> marcan la columna exacta del nombre mal tipeado (<code>analyze_shfit</code> en vez de <code>analyze_shift</code>).</p>
+        </div>
+        <div>
+          <strong>Protocolo de Corrección:</strong>
+          <p style="font-size: 8pt; margin-top: 2px;">1. Lea toda traza de abajo hacia arriba: última línea primero (tipo de error), luego carets (columna), al final archivo y línea. 2. Corrija el nombre con <code>Tab</code> para autocompletar (<code>analyze_shift</code>). 3. Re-ejecute con <code>↑</code> y confirme el reporte limpio.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">6. Desafío de Extensión para Avance Rápido (Opcional)</h2>
+    <div class="callout callout-tip">
+      <div class="callout-title">&#x1F680; Reto de Tolerancia / Caso Borde: Contador de rechazos por motivo</div>
+      <p style="font-size: 8.5pt; margin-bottom: 0;">
+        Sin sintaxis nueva y sin tocar la defensa: agregue un contador de rechazados por motivo (<code>formato</code> frente a <code>frontera</code>) usando solo dicts y <code>.get()</code>, y prediga en papel el valor (<code>formato=1</code>, <code>frontera=2</code>) antes de ejecutar con <code>↑</code>. Después valide un dict con <code>message</code> de exactamente 140 caracteres (debe aceptarse) y otro de 141 (debe rechazarse con <code>ValidationError</code> que nombra <code>message</code>). Es práctica extra: no cambia su calificación ni su acta.
+      </p>
+    </div>
+
+    <h3 class="subsection-title">Tarea domiciliaria (caso causal): alistamiento para la Sesión 21</h3>
+    <div class="callout callout-info" style="margin-bottom: 12px;">
+      <div class="callout-title">&#x1F3AF; Caso de tarea</div>
+      <ul style="font-size: 8.5pt; margin-bottom: 8px;">
+        <li><strong>Rol:</strong> Analista defensivo en revisión domiciliaria previa al Bloque B.</li>
+        <li><strong>Evidencia:</strong> El compromiso ético de la Sesión 21 y su carpeta <code>curso-python-defensivo/</code> con <code>.venv</code>.</li>
+        <li><strong>Problema:</strong> Llegar a la Sesión 21 con el compromiso leído y el laboratorio verificado (intérprete, entorno virtual y puertos mock reservados sin emitir tráfico).</li>
+        <li><strong>Consecuencia:</strong> Sin compromiso leído ni laboratorio verificado, la Sesión 21 no puede firmarse y el Bloque B arranca con retraso.</li>
+        <li><strong>Decisiones:</strong> Qué fecha registrar para la lectura, cómo evidenciar el <code>.venv</code> activo y cómo declarar los puertos mock (reservados, sin enlazar, sin tráfico).</li>
+        <li><strong>Entrega a:</strong> Docente mediante reporte de <code>homework_solution.py</code> ejecutado en la próxima sesión.</li>
+        <li><strong>Resultado verificable:</strong> Salida de consola comparable con la salida esperada del chequeo de alistamiento.</li>
+      </ul>
+      <p style="font-size: 8.5pt; margin-bottom: 0;"><strong>Antes de completar y ejecutar:</strong> Escriba en papel su predicción para cada TODO (valor esperado y motivo), complete el código, ejecútelo y compare lo obtenido con su predicción y con la salida esperada. Los TODO nunca traen respuestas.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">7. Lista de Verificación y Firma de Conformidad</h2>
+    <p style="font-size: 8.5pt;">El docente verifica su defensa en menos de 15 segundos con estos tres puntos visuales. Marque cada casilla tras comprobar el resultado en su pantalla:</p>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th class="check-box-cell">OK</th>
+          <th>Criterio Observable de Evaluación</th>
+          <th>Evidencia Específica en Pantalla</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="check-box-cell"><span class="check-square"></span></td>
+          <td><strong>Defensa y acta:</strong> Líneas de defensa con acta APROBADA y cierre de Bloque A</td>
+          <td>Consola muestra <code>Defensa Checkpoint 1 — Bloque A (20/20)</code> y <code>Acta de defensa: APROBADA</code></td>
+        </tr>
+        <tr>
+          <td class="check-box-cell"><span class="check-square"></span></td>
+          <td><strong>Cifras del turno:</strong> Reparto y conteos exactos del checkpoint</td>
+          <td>Líneas <code>20 crudos -&gt; 17 aceptados + 3 rechazados</code> y <code>INFO=7 WARNING=4 ERROR=6</code> con veredicto <code>Revision prioritaria</code></td>
+        </tr>
+        <tr>
+          <td class="check-box-cell"><span class="check-square"></span></td>
+          <td><strong>Borde y alcance:</strong> Borde corregido en estricto y confinamiento visible</td>
+          <td>Línea <code>"31" -&gt; 31 (strict en verde)</code>, suite 6/6 en verde y reporte con <code>127.0.0.1</code></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="signature-box">
+      <p style="font-size: 8pt; color: var(--text-muted); margin-bottom: 8px;">
+        <strong>Acta de defensa breve — Checkpoint 1 (Bloque A 20/20):</strong> El estudiante defendió en 3 minutos su analizador, explicó dos decisiones y corrigió el borde asignado en vivo. Veredicto del jurado: [ ] APROBADA &nbsp; [ ] APLAZADA. Suite <code>test_defensa.py</code>: ______ / 6 en verde. Observaciones: ___________________________________________
+      </p>
+      <p style="font-size: 8pt; color: var(--text-muted); margin-bottom: 8px;">
+        <strong>Declaración del Estudiante:</strong> Certifico que el código presentado fue escrito por mí de forma autónoma con máximo una revisión breve de Pi (o revisión docente equivalente), que operó exclusivamente en localhost (127.0.0.1) y sobre fixtures sintéticos locales, y que comprendo el propósito de cada variable e instrucción ejecutada.
+      </p>
+      <div class="signature-grid">
+        <div>
+          <div class="sig-line">Firma del Estudiante</div>
+        </div>
+        <div>
+          <div class="sig-line">Sello / Validación Docente (&lt; 15 seg)</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+</body>
+</html>
