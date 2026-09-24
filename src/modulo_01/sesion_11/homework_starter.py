@@ -23,13 +23,13 @@ STUDENT INSTRUCTIONS:
         - Tab autocompletes file names. Up arrow recalls commands.
         - Ctrl + C cancels a waiting process safely.
 
-BEFORE CODING, ANALYZE (count by hand first, without running):
-    - How many WARNING entries are there by hand (expect 7), and what
-      does count_warnings(shift_events) return?
-    - What verdict does decide_shift(7) return under threshold 5,
-      and why is the class rule unchanged?
-    - What exact line does format_shift return, and where does the
-      single print block go?
+BEFORE CODING, PREDICT ON PAPER (without running):
+    - Count the WARNING entries by hand and write what value you
+      predict count_warnings(shift_events) returns, and why.
+    - Write what verdict you predict decide_shift returns for that
+      total, and why the class rule is unchanged.
+    - Write the exact line you predict format_shift returns, and
+      where the single print block goes; then run and compare.
 
 DELIVERY: explain aloud the chain list -> count -> decide -> format
 for the shift. Local practice data only. The program organizes data
@@ -64,18 +64,21 @@ print(f"Eventos del turno: {len(shift_events)}")
 # STEP 2: Split (TODO). Three pure helpers with one-line docstrings;
 # definitions above, chained calls below. No prints inside.
 # ==============================================================================
-# TODO 2.1: Define count_warnings(events) with a docstring stating what
-# it receives and returns; return events.count("WARNING") (expect 7).
+# TODO 2.1: Define count_warnings(events) with a one-line docstring
+# stating what it receives and returns; return the WARNING count.
+# Predict the value by hand before running, then compare.
 # def count_warnings(events):
 #     """Return how many WARNING entries the list holds."""
 
-# TODO 2.2: Define decide_shift(total) with a docstring; return
-# "Revisión prioritaria" for 5 or more, else "Rutina local".
+# TODO 2.2: Define decide_shift(total) with a one-line docstring;
+# apply the session threshold rule (prioritaria / rutina).
+# Predict the verdict before running, then compare.
 # def decide_shift(total):
 #     """Return the shift verdict for the given total."""
 
-# TODO 2.3: Define format_shift(total, verdict) with a docstring;
-# return the exact line "Avisos: 7 - Revisión prioritaria".
+# TODO 2.3: Define format_shift(total, verdict) with a one-line
+# docstring; return the shift line in the session format.
+# Predict the exact line before running, then compare.
 # def format_shift(total, verdict):
 #     """Return the shift line for the given total and verdict."""
 

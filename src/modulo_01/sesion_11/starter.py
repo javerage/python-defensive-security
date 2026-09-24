@@ -23,8 +23,8 @@ STUDENT INSTRUCTIONS:
         - Ctrl + C cancels a waiting process safely.
 
     Read the mapping table in your student material first: it holds
-    the 20 events, the threshold (5), and the expected line
-    ("Errores: 6 - Revisión prioritaria").
+    the 20 events, the threshold rule, and the expected output
+    block used only to compare after running.
 
 DEFINITIONS UP, CALLS DOWN: define the 3 functions first, call them
     in order below, and keep every print at the end. No function
@@ -57,18 +57,21 @@ print(f"Eventos registrados: {len(event_log)}")
 # STEP 2: Split (TODO). Three pure helpers with one-line docstrings;
 # definitions above, chained calls below. No prints inside.
 # ==============================================================================
-# TODO 2.1: Define count_errors(events) with a docstring stating what
-# it receives and returns; return events.count("ERROR") (expect 6).
+# TODO 2.1: Define count_errors(events) with a one-line docstring
+# stating what it receives and returns; return the ERROR count.
+# Predict the value by hand before running, then compare.
 # def count_errors(events):
 #     """Return how many ERROR entries the list holds."""
 
-# TODO 2.2: Define decide_status(total) with a docstring; return
-# "Revisión prioritaria" for 5 or more, else "Rutina local".
+# TODO 2.2: Define decide_status(total) with a one-line docstring;
+# apply the session threshold rule (prioritaria / rutina).
+# Predict the verdict before running, then compare.
 # def decide_status(total):
 #     """Return the verdict for the given total."""
 
-# TODO 2.3: Define format_report(total, verdict) with a docstring;
-# return the exact line "Errores: 6 - Revisión prioritaria".
+# TODO 2.3: Define format_report(total, verdict) with a one-line
+# docstring; return the final line in the session format.
+# Predict the exact line before running, then compare.
 # def format_report(total, verdict):
 #     """Return the final line for the given total and verdict."""
 
