@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Workbook — Session 19 | Python for Defensive Security</title>
+  <style>
+    :root {
+      --primary: #1e3a8a;
+      --primary-dark: #0f172a;
+      --primary-light: #eff6ff;
+      --secondary: #0284c7;
+      --accent-red: #b91c1c;
+      --accent-red-light: #fef2f2;
+      --accent-amber: #b45309;
+      --accent-amber-light: #fffbeb;
+      --accent-green: #15803d;
+      --accent-green-light: #f0fdf4;
+      --accent-purple: #6b21a8;
+      --accent-purple-light: #faf5ff;
+      --text-main: #1f2937;
+      --text-muted: #4b5563;
+      --border-color: #d1d5db;
+      --border-light: #e5e7eb;
+      --bg-card: #f9fafb;
+      --bg-terminal: #0f172a;
+      --term-text: #f8fafc;
+      --term-prompt: #38bdf8;
+      --term-accent: #4ade80;
+      --term-warn: #fbbf24;
+      --term-err: #f87171;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-size: 9.5pt; line-height: 1.55; color: var(--text-main);
+      background-color: #ffffff; padding: 0; margin: 0;
+    }
+    .page-container { max-width: 920px; margin: 0 auto; padding: 24px 32px; }
+    .header-institution { border-bottom: 2px solid var(--primary); padding-bottom: 12px; margin-bottom: 16px; }
+    .header-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+    .inst-titles h1 { font-size: 14.5pt; color: var(--primary); font-weight: 700; line-height: 1.25; letter-spacing: -0.2px; }
+    .inst-titles h2 { font-size: 11pt; color: var(--text-muted); font-weight: 600; margin-top: 3px; }
+    .badge-container { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+    .badge { display: inline-block; font-size: 7.5pt; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; padding: 3px 8px; border-radius: 4px; border: 1px solid transparent; }
+    .badge-primary { background-color: var(--primary-light); color: var(--primary); border-color: #bfdbfe; }
+    .badge-neutral { background-color: #f3f4f6; color: #374151; border-color: #e5e7eb; }
+    .badge-alert { background-color: var(--accent-red-light); color: var(--accent-red); border-color: #fecaca; }
+    .badge-purple { background-color: var(--accent-purple-light); color: var(--accent-purple); border-color: #e9d5ff; }
+    .student-data-card { background-color: var(--bg-card); border: 1px solid var(--border-color); border-radius: 6px; padding: 12px 14px; margin-bottom: 18px; }
+    .data-grid { display: grid; grid-template-columns: 2fr 1fr 1.2fr 1fr; gap: 10px 16px; align-items: end; }
+    .data-field { display: flex; flex-direction: column; }
+    .data-label { font-size: 7.5pt; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 3px; }
+    .data-line { border-bottom: 1px dashed #6b7280; min-height: 20px; font-size: 9pt; color: var(--text-main); padding: 0 4px; }
+    h2.section-title { font-size: 11.5pt; color: var(--primary-dark); border-bottom: 1.5px solid var(--border-color); padding-bottom: 4px; margin-top: 22px; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+    h3.subsection-title { font-size: 10pt; color: var(--primary); margin-top: 14px; margin-bottom: 6px; font-weight: 700; }
+    h4.subsubsection-title { font-size: 9pt; color: #334155; margin-top: 10px; margin-bottom: 4px; font-weight: 700; }
+    p { margin-bottom: 10px; text-align: justify; }
+    ul, ol { margin-left: 20px; margin-bottom: 10px; }
+    li { margin-bottom: 4px; }
+    .callout { border-left: 4px solid var(--primary); background-color: var(--primary-light); padding: 10px 14px; border-radius: 0 6px 6px 0; margin: 12px 0; font-size: 9pt; }
+    .callout-title { font-weight: 700; font-size: 9.5pt; margin-bottom: 5px; display: flex; align-items: center; gap: 6px; }
+    .callout-info { border-left-color: var(--secondary); background-color: #f0f9ff; }
+    .callout-info .callout-title { color: #0369a1; }
+    .callout-critical { border-left-color: var(--accent-red); background-color: var(--accent-red-light); border: 1px solid #fecaca; border-left-width: 5px; }
+    .callout-critical .callout-title { color: var(--accent-red); }
+    .callout-warning { border-left-color: var(--accent-amber); background-color: var(--accent-amber-light); }
+    .callout-warning .callout-title { color: var(--accent-amber); }
+    .callout-tip { border-left-color: var(--accent-green); background-color: var(--accent-green-light); }
+    .callout-tip .callout-title { color: var(--accent-green); }
+    .callout-purple { border-left-color: var(--accent-purple); background-color: var(--accent-purple-light); }
+    .callout-purple .callout-title { color: var(--accent-purple); }
+    .terminal-container { background-color: var(--bg-terminal); color: var(--term-text); border-radius: 6px; padding: 13px 15px; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size: 8.5pt; line-height: 1.55; margin: 12px 0 16px 0; overflow-x: auto; border: 1px solid #334155; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    .terminal-header { color: #94a3b8; font-size: 7.5pt; border-bottom: 1px solid #334155; padding-bottom: 4px; margin-bottom: 10px; display: flex; justify-content: space-between; text-transform: uppercase; letter-spacing: 0.5px; }
+    .prompt-win { color: var(--term-prompt); font-weight: 600; }
+    .prompt-nix { color: var(--term-accent); font-weight: 600; }
+    .cmd { color: #ffffff; font-weight: 600; }
+    .output { color: #cbd5e1; }
+    .comment { color: #64748b; font-style: italic; }
+    .err-highlight { color: var(--term-err); font-weight: bold; }
+    .caret-highlight { color: var(--term-warn); font-weight: bold; }
+    .os-tabs { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin: 10px 0 14px 0; }
+    .os-card { background: #f8fafc; border: 1px solid var(--border-color); border-radius: 6px; padding: 10px 12px; }
+    .os-title { font-size: 8pt; font-weight: 700; color: var(--primary-dark); text-transform: uppercase; border-bottom: 1px solid var(--border-light); padding-bottom: 4px; margin-bottom: 8px; }
+    .os-code { font-family: ui-monospace, Menlo, Monaco, Consolas, "Liberation Mono", monospace; font-size: 8pt; background: #ffffff; padding: 8px 10px; border-radius: 4px; border: 1px solid #cbd5e1; white-space: pre-wrap; word-break: break-word; color: #0f172a; line-height: 1.6; }
+    table.data-table { width: 100%; border-collapse: collapse; margin: 10px 0 14px 0; font-size: 8.5pt; }
+    table.data-table th, table.data-table td { border: 1px solid var(--border-color); padding: 6px 8px; text-align: left; vertical-align: top; }
+    table.data-table th { background-color: #f1f5f9; color: var(--primary-dark); font-weight: 700; font-size: 8pt; text-transform: uppercase; }
+    table.data-table tr:nth-child(even) { background-color: #f8fafc; }
+    .check-box-cell { text-align: center; width: 45px; vertical-align: middle; }
+    .check-square { display: inline-block; width: 14px; height: 14px; border: 1.5px solid #4b5563; border-radius: 3px; vertical-align: middle; background-color: #ffffff; }
+    .trouble-card { border: 1px solid var(--border-color); border-left: 4px solid var(--accent-amber); background-color: #ffffff; border-radius: 4px; padding: 10px 12px; margin-bottom: 12px; font-size: 8.5pt; }
+    .trouble-card.trouble-critical { border-left-color: var(--accent-red); }
+    .trouble-card.trouble-info { border-left-color: var(--secondary); }
+    .trouble-title { font-weight: 700; font-size: 9pt; color: var(--primary-dark); margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
+    .trouble-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 8px; margin-top: 6px; background: #f8fafc; padding: 6px 8px; border-radius: 4px; border: 1px solid var(--border-light); }
+    .student-code-box { border: 1px dashed #64748b; background-color: #fbfcfe; border-radius: 6px; padding: 10px 12px; margin: 8px 0 12px 0; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 8pt; line-height: 1.5; min-height: 180px; color: #334155; white-space: pre-wrap; }
+    .student-output-box { border: 1px dashed #0284c7; background-color: #f0f9ff; border-radius: 6px; padding: 10px 12px; margin: 8px 0 12px 0; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 8pt; line-height: 1.45; min-height: 80px; color: #0369a1; white-space: pre-wrap; }
+    .concept-figure { margin: 12px 0; border: 1px solid var(--border-color); border-radius: 6px; padding: 10px 12px; background: #ffffff; width: 100%; break-inside: avoid; page-break-inside: avoid; }
+    .concept-figure svg { width: 100%; height: auto; display: block; }
+    .concept-figure figcaption { font-size: 8pt; color: var(--text-muted); margin-top: 6px; text-align: center; }
+    .signature-box { border: 1px solid var(--border-color); background-color: var(--bg-card); border-radius: 6px; padding: 12px 14px; margin-top: 16px; }
+    .signature-grid { display: grid; grid-template-columns: 2fr 1.5fr; gap: 20px; margin-top: 24px; align-items: end; }
+    .sig-line { border-top: 1px solid #4b5563; padding-top: 4px; text-align: center; font-size: 8pt; color: var(--text-muted); font-weight: 600; }
+    @media print {
+      @page { size: A4 portrait; margin: 12mm 15mm 15mm 15mm; }
+      body { font-size: 8.5pt; line-height: 1.36; color: #000000; background: #ffffff; }
+      .page-container { max-width: 100%; padding: 0; margin: 0; }
+      h2.section-title { font-size: 10.5pt; margin-top: 14px; margin-bottom: 6px; page-break-after: avoid; break-after: avoid; }
+      h3.subsection-title { font-size: 9.5pt; page-break-after: avoid; break-after: avoid; }
+      h4.subsubsection-title { font-size: 8.5pt; page-break-after: avoid; break-after: avoid; }
+      .callout, .terminal-container, .student-data-card, .os-card, table.data-table, .signature-box, .trouble-card, .student-code-box, .student-output-box, .concept-figure { page-break-inside: avoid; break-inside: avoid; }
+      .terminal-container { background-color: #0f172a !important; color: #f8fafc !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .badge-primary, .badge-neutral, .badge-alert, .badge-purple { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .page-break { page-break-before: always; break-before: page; }
+      .check-square { border-color: #000000; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="page-container">
+
+  <header class="header-institution">
+    <div class="header-top">
+      <div class="inst-titles">
+        <h1>Python for Defensive Security</h1>
+        <h2>Python for Defensive Security: Fundamentals and Local Lab Tooling — M11. Checkpoint de fundamentos</h2>
+      </div>
+      <div class="badge-container">
+        <span class="badge badge-primary">Sesión 19 | 60 min (10+12+33+5)</span>
+        <span class="badge badge-neutral">Nivel: Integración M1–M10</span>
+        <span class="badge badge-alert">Pi: SOLO observador (no escribe, no ejecuta)</span>
+      </div>
+    </div>
+    <div style="font-size: 8.5pt; color: var(--text-muted); display: flex; justify-content: space-between;">
+      <span><strong>Documento:</strong> Cuaderno de trabajo del estudiante | <strong>GitHub:</strong> python-defensive-security</span>
+      <span><strong>Versión Base Oficial:</strong> Python 3.13 (Entorno Local reproducible)</span>
+    </div>
+  </header>
+
+  <section class="student-data-card">
+    <div class="data-grid">
+      <div class="data-field">
+        <span class="data-label">Nombre Completo del Estudiante:</span>
+        <div class="data-line"></div>
+      </div>
+      <div class="data-field">
+        <span class="data-label">Matrícula / ID:</span>
+        <div class="data-line"></div>
+      </div>
+      <div class="data-field">
+        <span class="data-label">Sistema Operativo Anfitrión:</span>
+        <div class="data-line">[ ] Windows &nbsp; [ ] macOS &nbsp; [ ] Linux</div>
+      </div>
+      <div class="data-field">
+        <span class="data-label">Fecha de Realización:</span>
+        <div class="data-line"></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">1. Objetivos de Aprendizaje y Marco Ético</h2>
+    <p>Al concluir satisfactoriamente esta sesión formativa (Checkpoint 1, parte del 30%), el estudiante será capaz de:</p>
+    <ul style="font-size: 9pt;">
+      <li><strong>Integración de formatos:</strong> Convertir 20 eventos locales (texto, JSON y CSV) en dicts crudos con un parser por formato, sin perder filas ni inventar rutas.</li>
+      <li><strong>Frontera validada:</strong> Validar cada dict con el modelo <code>Finding</code> de la Sesión 18, aceptando 17 hallazgos y etiquetando 3 rechazos con motivo por posición.</li>
+      <li><strong>Conteo y veredicto:</strong> Contar solo filas aceptadas (<code>INFO=7, WARNING=4, ERROR=6</code>) y parear los 6 errores contra el umbral 5 en solo lectura (<code>Revision prioritaria</code>).</li>
+      <li><strong>Flujo con Pi observador:</strong> Predecir la salida, revisar un diff sin aplicarlo, explicar cada línea y reflexionar qué aceptar o rechazar, con ruta sin Pi equivalente.</li>
+    </ul>
+    <div class="callout callout-critical">
+      <div class="callout-title">&#x26A0;&#xFE0F; Compromiso Ético y Reglas del Laboratorio Defensivo Local</div>
+      <p style="margin-bottom: 4px;">Este curso está orientado de manera estricta al <strong>análisis, inspección y defensa de sistemas locales</strong>. Toda práctica se desarrollará exclusivamente en la carpeta asignada (<code>curso-python-defensivo/</code>) y sobre destinos en bucle local (<code>localhost</code>, <code>127.0.0.1</code>, <code>::1</code>) o fixtures provistas por el docente.</p>
+      <p style="margin-bottom: 0;"><strong>Prohibiciones absolutas:</strong> Queda estrictamente vetado el escaneo o conexión hacia direcciones IP externas, la instalación o prueba de código orientado a malware o persistencia, el uso de credenciales reales ajenas y la desactivación intencional de controles de seguridad. La transgresión de estos límites activa el umbral eliminatorio de no aprobación inmediata del curso.</p>
+    </div>
+    <div class="callout callout-warning">
+      <div class="callout-title">&#x23F1;&#xFE0F; Distribución Explícita del Checkpoint (10+12+33+5 = 60)</div>
+      <p style="margin-bottom: 0; font-size: 8.5pt;">Esta sesión de evaluación ajusta los tiempos: <strong>10 min</strong> integración M1–M10 y lectura de especificación · <strong>12 min</strong> demostración en vivo con Pi observador · <strong>33 min</strong> desarrollo individual del analizador · <strong>5 min</strong> registro de evidencia y cierre. Total exacto: <strong>10 + 12 + 33 + 5 = 60 minutos</strong>.</p>
+    </div>
+    <div class="callout callout-purple">
+      <div class="callout-title">&#x1F440; Pi SOLO Observador: predecir → revisar diff → explicar → reflexionar</div>
+      <p style="margin-bottom: 0; font-size: 8.5pt;">Pi puede <strong>mostrar</strong> un diff y <strong>explicar</strong> una línea, pero <strong>nunca escribe ni ejecuta código</strong> en esta sesión. El flujo es obligatorio: (1) <strong>predice</strong> la salida en papel, (2) <strong>revisa</strong> el diff propuesto sin aplicarlo, (3) <strong>explica</strong> cada línea con tus palabras, (4) <strong>reflexiona</strong> qué aceptas o rechazas y por qué. Quien no tenga cuenta sigue la <strong>ruta sin Pi</strong> con el ejemplo parcial de texto y la revisión docente equivalente.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">2. Fundamentos Conceptuales de la Sesión</h2>
+    <p>Las Sesiones 01–18 te dieron piezas sueltas: tipos y cadenas (M2), condicionales (M3), colecciones (M4), ciclos (M5), funciones (M6), errores (M7), módulos y Pydantic (M8), archivos JSON/CSV (M9) y pruebas más el modelo <code>Finding</code> (M10). El checkpoint no enseña sintaxis nueva: <strong>integra</strong>. Tres ideas sostienen la integración:</p>
+    <ul style="font-size: 9pt;">
+      <li><strong>Crudo ≠ aceptado:</strong> crudo es todo lo que entró (20 eventos); aceptado es lo que cruzó la frontera <code>Finding</code> (17); rechazado es lo que murió con motivo (3). El conteo por nivel solo suma aceptados.</li>
+      <li><strong>Parser ≠ frontera:</strong> el parser entiende <em>formatos</em> (texto con <code>|</code>, JSON con llaves, CSV con comas); la frontera entiende <em>validez</em> (nivel permitido, mensaje no vacío, longitud ≤ 140). Una fila bien formateada con nivel <code>DEBUG</code> pasa el parser y muere en la frontera: dos muertes distintas, dos motivos distintos.</li>
+      <li><strong>Pruebas antes de codificar:</strong> la suite docente de 8 pruebas es la especificación ejecutable. Léela primero, predice cada par esperado y programa hasta ponerla en verde.</li>
+    </ul>
+
+    <figure class="concept-figure" role="img" aria-labelledby="fig-anat-title-19" id="fig-anatomy-19">
+      <svg viewBox="0 0 640 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="fig-anat-title-19 fig-anat-desc-19">
+        <title id="fig-anat-title-19">Anatomía de la frontera Finding del checkpoint</title>
+        <desc id="fig-anat-desc-19">Tres dicts crudos entran a la frontera Finding; dos salen aceptados al reporte y uno sale rechazado con motivo.</desc>
+        <rect x="10" y="30" width="170" height="130" rx="8" fill="#ffffff" stroke="#1e3a8a" stroke-width="2"/>
+        <text x="95" y="52" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e3a8a">Dicts crudos (20)</text>
+        <text x="95" y="74" text-anchor="middle" font-size="10" fill="#1f2937">texto 7 + 1 &#x2717;</text>
+        <text x="95" y="92" text-anchor="middle" font-size="10" fill="#1f2937">JSON 6 (DEBUG &#x2717;)</text>
+        <text x="95" y="110" text-anchor="middle" font-size="10" fill="#1f2937">CSV 6 (vacío &#x2717;)</text>
+        <text x="95" y="132" text-anchor="middle" font-size="10" fill="#4b5563">parsers: formato</text>
+        <rect x="235" y="30" width="170" height="130" rx="8" fill="#faf5ff" stroke="#6b21a8" stroke-width="2" stroke-dasharray="6 3"/>
+        <text x="320" y="52" text-anchor="middle" font-size="12" font-weight="bold" fill="#6b21a8">Frontera Finding</text>
+        <text x="320" y="74" text-anchor="middle" font-size="10" fill="#1f2937">Literal + Field</text>
+        <text x="320" y="92" text-anchor="middle" font-size="10" fill="#1f2937">1..140, strict</text>
+        <text x="320" y="110" text-anchor="middle" font-size="10" fill="#1f2937">S18 sin cambios</text>
+        <text x="320" y="132" text-anchor="middle" font-size="10" fill="#4b5563">validez, no formato</text>
+        <rect x="460" y="18" width="170" height="70" rx="8" fill="#f0fdf4" stroke="#15803d" stroke-width="2"/>
+        <text x="545" y="40" text-anchor="middle" font-size="12" font-weight="bold" fill="#15803d">Aceptados (17)</text>
+        <text x="545" y="60" text-anchor="middle" font-size="10" fill="#1f2937">7 + 4 + 6 → conteo</text>
+        <rect x="460" y="100" width="170" height="70" rx="8" fill="#fef2f2" stroke="#b91c1c" stroke-width="2"/>
+        <text x="545" y="122" text-anchor="middle" font-size="12" font-weight="bold" fill="#b91c1c">Rechazados (3)</text>
+        <text x="545" y="142" text-anchor="middle" font-size="10" fill="#1f2937">motivo + posición</text>
+        <line x1="180" y1="80" x2="235" y2="80" stroke="#1e3a8a" stroke-width="2"/>
+        <polygon points="235,74 235,86 247,80" fill="#1e3a8a"/>
+        <line x1="405" y1="60" x2="460" y2="53" stroke="#15803d" stroke-width="2"/>
+        <polygon points="460,47 460,59 472,53" fill="#15803d"/>
+        <line x1="405" y1="110" x2="460" y2="135" stroke="#b91c1c" stroke-width="2"/>
+        <polygon points="460,129 460,141 472,135" fill="#b91c1c"/>
+      </svg>
+      <figcaption id="fig-anat-caption-19">Figura 1. Anatomía de la frontera: los parsers entienden formatos; <code>Finding</code> decide validez. 20 crudos → 17 aceptados + 3 rechazados con motivo.</figcaption>
+    </figure>
+
+    <div class="callout callout-info" style="margin: 12px 0;">
+      <div class="callout-title">&#x1F4A1; Analogía de Seguridad Defensiva: La mesa de triaje del turno</div>
+      <p style="margin-bottom: 0;">En urgencias, los pacientes llegan en camilla, en silla o caminando (tres <em>formatos</em>), pero la enfermera de triaje aplica el <em>mismo protocolo</em> a todos: mide signos, asigna prioridad y solo los estables suben a piso. Tu analizador es esa mesa: los parsers reciben cada formato, la frontera <code>Finding</code> aplica el mismo protocolo a cada dict, y solo los aceptados suben al conteo. El rechazado no se pierde: queda registrado con motivo, igual que el paciente derivado.</p>
+    </div>
+
+    <div class="callout callout-tip" style="margin: 10px 0;">
+      <div class="callout-title">&#x1F4CD; Principio Pedagógico y Estándar PEP 8 en Inglés</div>
+      <p style="margin-bottom: 4px; font-size: 8.5pt;">
+        <strong>Identificadores 100% en inglés:</strong> Conforme al estándar global de la industria y la guía oficial PEP 8, todos los identificadores de variables, constantes y comentarios dentro del código fuente se escriben en <strong>inglés idiomático</strong> (ej. <code>parse_text_log</code>, <code>validate_records</code>, <code>FINDING_THRESHOLD</code>). La prosa explicativa y el razonamiento analítico se expresan en español.
+      </p>
+      <p style="margin-bottom: 0; font-size: 8.5pt;">
+        <strong>Límite de Sintaxis Vigente:</strong> INTEGRACIÓN SIN SINTAXIS NUEVA. Reutiliza <code>def</code>, <code>try/except</code>, colecciones, ciclos, clases y <code>BaseModel</code> (S06–S18). Prohibido <code>argparse</code>, sockets, <code>subprocess</code> y red.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">3. Guía de Práctica de Laboratorio Paso a Paso</h2>
+    <p>Siga detalladamente las instrucciones de verificación y ejecución en su estación de trabajo antes de iniciar el reto autónomo.</p>
+
+    <div class="callout callout-purple" style="margin: 8px 0 12px 0;">
+      <div class="callout-title">&#x1F4BB; Higiene Operativa de Terminal ("Mirar antes de saltar")</div>
+      <p style="font-size: 8.5pt; margin-bottom: 0;">
+        Antes de invocar <code>python script.py</code>, ejecute siempre <code>dir</code> (Windows) o <code>ls</code> (Unix) para verificar que el archivo existe físicamente en el directorio actual. Emplee la tecla <strong><code>Tab</code></strong> para autocompletar el nombre y evitar <code>FileNotFoundError</code>, y la tecla <strong><code>↑</code></strong> para re-ejecutar comandos sin fatiga. Para abortar un proceso colgado use <strong><code>Ctrl + C</code></strong> (<code>^C</code>).
+      </p>
+    </div>
+
+    <div class="os-tabs">
+      <div class="os-card">
+        <div class="os-title">Windows (PowerShell)</div>
+        <div class="os-code"><span class="comment"># 1. Navegar y verificar archivos</span>
+cd curso-python-defensivo
+dir
+
+<span class="comment"># 2. Activar venv</span>
+.\.venv\Scripts\Activate.ps1
+
+<span class="comment"># 3. Verificar base del checkpoint</span>
+python --version
+python analizar.py</div>
+      </div>
+      <div class="os-card">
+        <div class="os-title">macOS (Zsh)</div>
+        <div class="os-code"><span class="comment"># 1. Navegar y verificar archivos</span>
+cd ~/curso-python-defensivo
+ls -la
+
+<span class="comment"># 2. Activar venv</span>
+source .venv/bin/activate
+
+<span class="comment"># 3. Verificar base del checkpoint</span>
+python3 --version
+python3 analizar.py</div>
+      </div>
+      <div class="os-card">
+        <div class="os-title">Linux (Bash)</div>
+        <div class="os-code"><span class="comment"># 1. Navegar y verificar archivos</span>
+cd ~/curso-python-defensivo
+ls -la
+
+<span class="comment"># 2. Activar venv</span>
+source .venv/bin/activate
+
+<span class="comment"># 3. Verificar base del checkpoint</span>
+python3 --version
+python3 analizar.py</div>
+      </div>
+    </div>
+
+    <h3 class="subsection-title">Verificación previa (2 min, antes del reto)</h3>
+    <ol style="font-size: 9pt;">
+      <li>Confirme que <code>finding_model.py</code> de la Sesión 18 sigue intacto en su proyecto (no lo modifique: es el hilo del checkpoint).</li>
+      <li>Ejecute la plantilla parcial <code>starter.py</code>: debe mostrar el reporte <strong>PARCIAL</strong> de texto (8 crudos → 7 aceptados + 1 rechazado, <code>Rutina local</code>).</li>
+      <li>Lea la suite <code>test_analizar.py</code> y escriba en papel su predicción de cada par esperado antes de programar.</li>
+    </ol>
+  </section>
+
+  <section class="page-break">
+    <h2 class="section-title">4. Reto Práctico Autónomo Individual (33 minutos)</h2>
+
+    <div class="callout callout-info" style="margin-bottom: 12px;">
+      <div class="callout-title">&#x1F3AF; Escenario Defensivo: analizar.py — el turno completo en un reporte</div>
+      <p style="margin-bottom: 8px;">
+        El turno diurno dejó 20 eventos dispersos en tres formatos locales y el tablero necesita un reporte firmable antes del cambio de guardia. Integre los tres payloads en un solo analizador que valide, cuente y dictamine.
+      </p>
+      <ul style="font-size: 8.5pt; margin-bottom: 0;">
+        <li><strong>Rol:</strong> Analista defensivo de turno en laboratorio local, responsable de cerrar el turno con un reporte firmable.</li>
+        <li><strong>Evidencia:</strong> Tres payloads sintéticos locales en memoria (8 líneas de texto, 6 registros JSON, 6 filas CSV) más el modelo <code>Finding</code> heredado de la Sesión 18.</li>
+        <li><strong>Problema:</strong> Ningún parser cubre los tres formatos y ningún conteo distingue aceptados de rechazados: el tablero no puede firmarse.</li>
+        <li><strong>Consecuencia:</strong> Si no se resuelve, el turno queda sin reporte auditable, los 3 rechazos viajan sin motivo y el veredicto contra el umbral 5 queda sin dictaminar.</li>
+        <li><strong>Decisiones:</strong> Qué parser escribe para cada formato, en qué posición valida cada lote, cómo etiqueta cada rechazo y cómo prueba que el veredicto es <code>Revision prioritaria</code>.</li>
+        <li><strong>Entrega a:</strong> Responsable del siguiente turno mediante el reporte impreso en consola más la suite docente 8/8 en verde.</li>
+        <li><strong>Resultado verificable:</strong> Reporte de ancho fijo con <code>20 → 17 + 3</code>, conteos <code>7/4/6</code> y veredicto <code>Revision prioritaria</code>, ejecutado desde la raíz del proyecto.</li>
+      </ul>
+    </div>
+
+    <figure class="concept-figure" role="img" aria-labelledby="fig-flow-title-19" id="fig-flow-19">
+      <svg viewBox="0 0 640 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="fig-flow-title-19 fig-flow-desc-19">
+        <title id="fig-flow-title-19">Flujo del analizador del checkpoint</title>
+        <desc id="fig-flow-desc-19">Cuatro pasos en orden: parsear cada formato, validar en la frontera, contar aceptados y reportar contra el umbral.</desc>
+        <rect x="8" y="25" width="140" height="70" rx="8" fill="#ffffff" stroke="#1e3a8a" stroke-width="2"/>
+        <text x="78" y="48" text-anchor="middle" font-size="11" font-weight="bold" fill="#1e3a8a">1. PARSEAR</text>
+        <text x="78" y="66" text-anchor="middle" font-size="9" fill="#1f2937">texto · JSON · CSV</text>
+        <text x="78" y="80" text-anchor="middle" font-size="9" fill="#4b5563">→ dicts crudos</text>
+        <rect x="168" y="25" width="140" height="70" rx="8" fill="#faf5ff" stroke="#6b21a8" stroke-width="2"/>
+        <text x="238" y="48" text-anchor="middle" font-size="11" font-weight="bold" fill="#6b21a8">2. VALIDAR</text>
+        <text x="238" y="66" text-anchor="middle" font-size="9" fill="#1f2937">Finding por lote</text>
+        <text x="238" y="80" text-anchor="middle" font-size="9" fill="#4b5563">17 ✓ · 3 con motivo</text>
+        <rect x="328" y="25" width="140" height="70" rx="8" fill="#f0fdf4" stroke="#15803d" stroke-width="2"/>
+        <text x="398" y="48" text-anchor="middle" font-size="11" font-weight="bold" fill="#15803d">3. CONTAR</text>
+        <text x="398" y="66" text-anchor="middle" font-size="9" fill="#1f2937">solo aceptados</text>
+        <text x="398" y="80" text-anchor="middle" font-size="9" fill="#4b5563">7 · 4 · 6</text>
+        <rect x="488" y="25" width="144" height="70" rx="8" fill="#fffbeb" stroke="#b45309" stroke-width="2"/>
+        <text x="560" y="48" text-anchor="middle" font-size="11" font-weight="bold" fill="#b45309">4. REPORTAR</text>
+        <text x="560" y="66" text-anchor="middle" font-size="9" fill="#1f2937">6 vs umbral 5</text>
+        <text x="560" y="80" text-anchor="middle" font-size="9" fill="#4b5563">prioritaria ✓</text>
+        <line x1="148" y1="60" x2="168" y2="60" stroke="#1e3a8a" stroke-width="2"/>
+        <polygon points="168,54 168,66 180,60" fill="#1e3a8a"/>
+        <line x1="308" y1="60" x2="328" y2="60" stroke="#6b21a8" stroke-width="2"/>
+        <polygon points="328,54 328,66 340,60" fill="#6b21a8"/>
+        <line x1="468" y1="60" x2="488" y2="60" stroke="#15803d" stroke-width="2"/>
+        <polygon points="488,54 488,66 500,60" fill="#15803d"/>
+      </svg>
+      <figcaption id="fig-flow-caption-19">Figura 2. Flujo obligatorio del reto: parsear → validar → contar → reportar. Nunca contar antes de validar.</figcaption>
+    </figure>
+
+    <h3 class="subsection-title">Estructura del Reto en 4 Pasos Obligatorios:</h3>
+    <ol style="font-size: 9pt; margin-left: 20px; margin-bottom: 12px;">
+      <li><strong>STEP 1 (Identidad y Contexto):</strong> Registre operador, identificador, sello de auditoría fijo y alcance local; declare el umbral 5 en solo lectura.</li>
+      <li><strong>STEP 2 (Procesamiento y Telemetría):</strong> Parsee texto, JSON y CSV en dicts crudos y valide cada lote en la frontera <code>Finding</code> con su posición inicial.</li>
+      <li><strong>STEP 3 (Validación Lógica y Seguridad):</strong> Cuente solo aceptados por nivel y paree los errores contra el umbral sin red ni rutas externas.</li>
+      <li><strong>STEP 4 (Reporte Estructurado en Consola):</strong> Imprima el reporte de ancho fijo con operador, totales, conteos, veredicto y declaración de confinamiento.</li>
+    </ol>
+
+    <h3 class="subsection-title">Plantilla de Código Base del Estudiante (<code>analizar.py</code>):</h3>
+    <p style="font-size: 8.5pt;"><strong>Antes de completar y ejecutar:</strong> Escriba en papel su predicción (valor esperado y motivo) antes de completar cada TODO; ejecute el script y compare el resultado obtenido con su predicción y con la salida esperada (predecir → ejecutar → comparar). Los TODO nunca contienen respuestas.</p>
+    <div class="student-code-box">FINDING_THRESHOLD = 5  # dado, solo lectura
+TEXT_LOG = ...         # dado: 8 lineas locales
+JSON_PAYLOAD = ...     # dado: 6 registros locales
+CSV_PAYLOAD = ...      # dado: 6 filas locales
+
+class Finding(BaseModel):  # dado, hilo de la S18: no modificar
+    ...
+
+# Ejemplo parcial dado (ruta sin Pi): parse_text_log ya funciona.
+def parse_text_log(raw_text):
+    ...  # dado: divide por "|" y etiqueta la linea malformada
+
+# TODO 2.1: parse_json_payload — predice cuantos crudos produce.
+# TODO 2.2: parse_csv_payload — predice que fila muere y por que.
+# TODO 2.3: validate_records — predice aceptados y rechazados por lote.
+# TODO 2.4: analyze_shift — predice 20, 17, 3 y el veredicto final.</div>
+
+    <h3 class="subsection-title">Salida Esperada en Consola (Verificación en Terminal):</h3>
+    <p style="font-size: 8.5pt;"><strong>Después de ejecutar, compare:</strong> su resultado obtenido con su predicción y con la salida esperada.</p>
+    <div class="student-output-box">Pruebas del docente: 8/8 en verde (unittest)
+Conteo por nivel: INFO=7 WARNING=4 ERROR=6
+Eventos: 20 crudos -> 17 aceptados + 3 rechazados
+Errores (aceptados): 6 - Revision prioritaria
+--- Reporte del checkpoint ---
++-----------------------------------------------------------------------------+
+| DEFENSIVE AUDIT REPORT — SESSION 19                                         |
++-----------------------------------------------------------------------------+
+| Operator Name           : Alex Mendez                                       |
+| Operator ID             : DEF-2026-09                                       |
+| Audit Stamp             : 2026-09-24 10:00:00                               |
+| Target Scope            : 127.0.0.1 (localhost loopback)                    |
++-----------------------------------------------------------------------------+
+| Raw Events              : 20                                                |
+| Accepted Findings       : 17                                                |
+| Rejected Rows           : 3                                                 |
+| Count INFO              : 7                                                 |
+| Count WARNING           : 4                                                 |
+| Count ERROR             : 6                                                 |
+| Threshold (ERROR)       : 5                                                 |
+| Verdict                 : Revision prioritaria                              |
++-----------------------------------------------------------------------------+
+| STATEMENT: Operation confined to localhost (127.0.0.1). Zero external net.  |
++-----------------------------------------------------------------------------+</div>
+  </section>
+
+  <section>
+    <h2 class="section-title">5. Clínica de Errores y Diagnóstico de Tracebacks</h2>
+    <p style="font-size: 8.5pt;">
+      En Python 3.13, las trazas de error (<em>Tracebacks</em>) proporcionan indicadores precisos señalando la línea y columna exacta de la falla con caracteres <code>^^^^^</code>. Analice y resuelva los 2 errores típicos sembrados de esta sesión (integración: ruta + conteo):
+    </p>
+
+    <div class="trouble-card trouble-critical">
+      <div class="trouble-title">&#x1F6A8; Error Sembrado 1: FileNotFoundError por ruta inventada (integración)</div>
+      <div class="terminal-container" style="margin: 6px 0; padding: 8px 10px; font-size: 8pt;">
+<div class="terminal-header"><span>Terminal — Python 3.13 (Windows PowerShell)</span><span>Traceback</span></div>
+<span class="output">Traceback (most recent call last):</span><br>
+<span class="output">&nbsp;&nbsp;File "C:\lab\curso-python-defensivo\analizar.py", line 87, in &lt;module&gt;</span><br>
+<span class="output">&nbsp;&nbsp;&nbsp;&nbsp;raw_text = open("datos/eventos.json", encoding="utf-8").read()</span><br>
+<span class="caret-highlight">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span><br>
+<span class="err-highlight">FileNotFoundError: [Errno 2] No such file or directory: 'datos/eventos.json'</span>
+      </div>
+      <div class="trouble-grid">
+        <div>
+          <strong>Causa Raíz Técnica:</strong>
+          <p style="font-size: 8pt; margin-top: 2px;">El turno vive en cadenas dentro del script (<code>TEXT_LOG</code>, <code>JSON_PAYLOAD</code>, <code>CSV_PAYLOAD</code>), no en archivos. Inventar una ruta crea un error de integración, no un turno roto: Python buscó el archivo, no lo encontró y se detuvo antes de parsear.</p>
+        </div>
+        <div>
+          <strong>Protocolo de Corrección:</strong>
+          <p style="font-size: 8pt; margin-top: 2px;">1. Mire antes de saltar: <code>dir</code> o <code>ls</code> para confirmar que no existe tal archivo. 2. Elimine el <code>open(...)</code> y lea los payloads en memoria. 3. Re-ejecute con <code>↑</code> y verifique <code>20 crudos</code> en pantalla.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="trouble-card">
+      <div class="trouble-title">&#x26A0;&#xFE0F; Error Sembrado 2: AssertionError por contar rechazados (conteo)</div>
+      <div class="terminal-container" style="margin: 6px 0; padding: 8px 10px; font-size: 8pt;">
+<div class="terminal-header"><span>Terminal — Python 3.13 (Linux Bash)</span><span>Traceback</span></div>
+<span class="output">Traceback (most recent call last):</span><br>
+<span class="output">&nbsp;&nbsp;File "/home/analista/curso-python-defensivo/analizar.py", line 142, in &lt;module&gt;</span><br>
+<span class="output">&nbsp;&nbsp;&nbsp;&nbsp;assert accepted_total == 17, "El turno debia aceptar 17 hallazgos"</span><br>
+<span class="caret-highlight">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;^^^^^^^^^^^^^^^^^^</span><br>
+<span class="err-highlight">AssertionError: El turno debia aceptar 17 hallazgos</span>
+      </div>
+      <div class="trouble-grid">
+        <div>
+          <strong>Causa Raíz Técnica:</strong>
+          <p style="font-size: 8pt; margin-top: 2px;">Se sumaron los 20 crudos al reporte en vez de los 17 aceptados: los 3 rechazados (DEBUG, mensaje vacío, línea malformada) entraron al conteo y el veredicto mintió. Es un error de conteo, no un parser roto.</p>
+        </div>
+        <div>
+          <strong>Protocolo de Corrección:</strong>
+          <p style="font-size: 8pt; margin-top: 2px;">1. Cuente solo lo que cruzó <code>Finding.model_validate</code>; mantenga <code>rejected</code> fuera del reporte. 2. Verifique <code>17 aceptados + 3 rechazados</code>. 3. Re-ejecute con <code>↑</code> hasta ver el veredicto <code>Revision prioritaria</code>.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">6. Desafío de Extensión para Avance Rápido (Opcional)</h2>
+    <div class="callout callout-tip">
+      <div class="callout-title">&#x1F680; Reto de Tolerancia / Caso Borde: Contador de rechazos por motivo</div>
+      <p style="font-size: 8.5pt; margin-bottom: 0;">
+        Sin sintaxis nueva (solo dicts y <code>.get()</code>): agregue un contador de rechazados por motivo (<code>formato=1</code>, <code>frontera=2</code>) y prediga en papel cada valor antes de ejecutar con <code>↑</code>. Después valide el dict con <code>message</code> de exactamente 140 caracteres (debe aceptarse) y con 141 (debe rechazarse con <code>ValidationError</code> que nombra <code>message</code>).
+      </p>
+    </div>
+
+    <h3 class="subsection-title">Tarea domiciliaria (caso causal):</h3>
+    <div class="callout callout-info" style="margin-bottom: 12px;">
+      <div class="callout-title">&#x1F3AF; Caso de tarea</div>
+      <ul style="font-size: 8.5pt; margin-bottom: 8px;">
+        <li><strong>Rol:</strong> Analista defensivo en revisión domiciliaria local, responsable de dejar analizado el turno nocturno.</li>
+        <li><strong>Evidencia:</strong> Fixture sintético local de 8 dicts del turno nocturno con casos borde (140/141 caracteres, id texto <code>"31"</code>, origen vacío, nivel <code>DEBUG</code>).</li>
+        <li><strong>Problema:</strong> Las filas hostiles del turno nocturno aún no distinguen qué acepta la frontera, qué rechaza y con qué motivo.</li>
+        <li><strong>Consecuencia:</strong> Si la tarea no se resuelve, el caso borde queda sin cobertura documentada y el tablero nocturno no puede firmarse.</li>
+        <li><strong>Decisiones:</strong> Qué caso borde cubrir primero, cómo evidenciar cada rechazo con motivo y cómo probar la frontera <code>strict</code>.</li>
+        <li><strong>Entrega a:</strong> Docente mediante el reporte del turno ejecutado en la próxima sesión (<code>analizar_borde.py</code>: 8 leídos → 5 + 3, <code>Rutina local</code>).</li>
+        <li><strong>Resultado verificable:</strong> Salida de consola comparable con la salida esperada del turno (5 aceptados con <code>3, 1, 1</code>; 1 error bajo el umbral 3).</li>
+      </ul>
+      <p style="font-size: 8.5pt; margin-bottom: 0;"><strong>Antes de completar y ejecutar:</strong> Escriba su predicción (valor esperado y motivo) antes de completar cada TODO; ejecute el script y compare el resultado obtenido con su predicción y con la salida esperada (predecir → ejecutar → comparar).</p>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">7. Lista de Verificación y Firma de Conformidad</h2>
+    <p style="font-size: 8.5pt;">Marque cada casilla tras comprobar visualmente el resultado en su pantalla:</p>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th class="check-box-cell">OK</th>
+          <th>Criterio Observable de Evaluación</th>
+          <th>Evidencia Específica en Pantalla</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="check-box-cell"><span class="check-square"></span></td>
+          <td><strong>Reporte del checkpoint:</strong> Totales y veredicto del turno visibles</td>
+          <td>Líneas <code>20 → 17 + 3</code>, <code>INFO=7 WARNING=4 ERROR=6</code> y <code>Revision prioritaria</code> en el reporte de ancho fijo</td>
+        </tr>
+        <tr>
+          <td class="check-box-cell"><span class="check-square"></span></td>
+          <td><strong>Suite docente:</strong> 8 pruebas en verde en ambos corredores</td>
+          <td><code>Ran 8 tests ... OK</code> con <code>unittest</code> (y <code>8 passed</code> con <code>pytest</code> si está instalado)</td>
+        </tr>
+        <tr>
+          <td class="check-box-cell"><span class="check-square"></span></td>
+          <td><strong>PEP 8 en inglés + confinamiento:</strong> Identificadores y alcance verificables</td>
+          <td>Funciones <code>parse_*</code>/<code>validate_records</code> en inglés y pie <code>localhost (127.0.0.1). Zero external network</code></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="signature-box">
+      <p style="font-size: 8pt; color: var(--text-muted); margin-bottom: 8px;">
+        <strong>Declaración del Estudiante:</strong> Certifico que el código presentado fue escrito por mí de forma autónoma con Pi solo como observador (sin escritura ni ejecución de su parte), que operó exclusivamente en localhost (127.0.0.1) y sobre fixtures sintéticos locales, y que comprendo el propósito de cada variable e instrucción ejecutada.
+      </p>
+      <div class="signature-grid">
+        <div>
+          <div class="sig-line">Firma del Estudiante</div>
+        </div>
+        <div>
+          <div class="sig-line">Sello / Validación Docente (&lt; 15 seg)</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+</body>
+</html>
