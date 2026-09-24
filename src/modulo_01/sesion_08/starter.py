@@ -61,11 +61,14 @@ print(f"Observaciones registradas: {len(event_ips)}")
 # ==============================================================================
 # STEP 2: Grouping (TODO). One set conversion, one ordering, explicit
 # membership checks. No loops, no set comprehensions.
+# PREDICT FIRST: before completing each TODO, write your prediction
+# (which value you expect and why); run the script; then compare
+# with the expected output in the student material.
 # ==============================================================================
-# TODO 2.1: Deduplicate with set(event_ips) (expect 11 unique).
+# TODO 2.1: Deduplicate with set(event_ips).
 unique_ips = set()  # TODO: build it with set(event_ips)
 
-# TODO 2.2: print how many unique addresses the set holds (expect 11).
+# TODO 2.2: print how many unique addresses the set holds.
 print("PENDING")  # TODO: print f"Direcciones únicas: {len(unique_ips)}"
 
 # TODO 2.3: Order the unique addresses with sorted(unique_ips)
@@ -73,24 +76,24 @@ print("PENDING")  # TODO: print f"Direcciones únicas: {len(unique_ips)}"
 ordered_ips = []  # TODO: build it with sorted(unique_ips)
 
 # TODO 2.4: Check loopback presence with "127.0.0.1" in unique_ips
-# (expect True) and print it.
+# and print it.
 loopback_seen = False  # TODO: build it with "127.0.0.1" in unique_ips
 print("PENDING")  # TODO: print f"Bucle local visto: {loopback_seen}"
 
 # TODO 2.5: Check an absent address with "10.9.9.9" in unique_ips
-# (expect False) and print it.
+# and print it.
 missing_seen = False  # TODO: build it with "10.9.9.9" in unique_ips
 print("PENDING")  # TODO: print f"Desconocida vista: {missing_seen}"
 
-# TODO 2.6: Count the 7 loopback addresses with explicit membership
+# TODO 2.6: Count the loopback addresses with explicit membership
 # checks (127.0.0.1, 127.0.0.2, 127.0.0.53, ::1, 127.0.0.3,
-# 127.0.0.4, 127.0.0.5) and print the total (expect 7).
+# 127.0.0.4, 127.0.0.5) and print the total.
 local_count = 0  # TODO: add one int(... in unique_ips) per address
 print("PENDING")  # TODO: print f"Locales: {local_count}"
 
-# TODO 2.7: Count the 4 documentation addresses with explicit
+# TODO 2.7: Count the documentation addresses with explicit
 # membership checks (192.0.2.10, 192.0.2.20, 192.0.2.30,
-# 192.0.2.40) and print the total (expect 4).
+# 192.0.2.40) and print the total.
 doc_count = 0  # TODO: add one int(... in unique_ips) per address
 print("PENDING")  # TODO: print f"Documentales: {doc_count}"
 

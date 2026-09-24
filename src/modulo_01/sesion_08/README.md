@@ -174,10 +174,12 @@ Crea `event_groups.py` con código lineal (sin funciones, sin `try/except`, sin 
 | Paso | Qué hace | Variables |
 |------|----------|-----------|
 | 1. Evidencia | Asigna las 20 observaciones y la tupla sellada más tu identidad | `event_ips` (20 textos), `analyst_record` (3 campos), `student_name`, `student_id`; imprime el total (`20`) |
-| 2. Agrupación | Deduplica con `set()`, ordena con `sorted()`, verifica presencia con `in` y clasifica con conteos explícitos | `unique_ips` (11 únicas), `ordered_ips`, `loopback_seen = True`, `missing_seen = False`, `local_count = 7`, `doc_count = 4` |
+| 2. Agrupación | Deduplica con `set()`, ordena con `sorted()`, verifica presencia con `in` y clasifica con conteos explícitos | `unique_ips` (deduplicadas con `set`), `ordered_ips` (ordenadas con `sorted`), `loopback_seen`, `missing_seen` (verificación con `in`), `local_count`, `doc_count` (conteos con `int(... in ...)`) |
 | 3. Comunicación | Imprime el encabezado y las líneas del parte con conteos y los valores de la lista ordenada | Encabezado más líneas de datos legibles |
 
 La solución de referencia está en `solution.py` y la plantilla guiada en `starter.py`.
+
+Antes de completar cada paso, predice el valor que esperas y por qué; ejecuta tu archivo y compara con la salida esperada solo después de ejecutar.
 
 ## Entrada sintética y tablas de agrupación (léelas antes de programar)
 
@@ -263,7 +265,7 @@ Crea manualmente `shift_groups.py` en tu proyecto personal, con código lineal y
 | Paso | Qué hace | Variables |
 |------|----------|-----------|
 | 1. Evidencia | Asigna las 20 del turno más la tupla e imprime el total (`20`) | `shift_ips` (20 textos), `shift_record` (3 campos), `student_name`, `student_id` |
-| 2. Agrupación | Deduplica, ordena y verifica presencia con `in` | `shift_unique` (10 únicas), `shift_ordered`, `shift_seen = True`, `shift_missing = False` |
+| 2. Agrupación | Deduplica, ordena y verifica presencia con `in` | `shift_unique` (deduplicadas con `set`), `shift_ordered` (ordenadas con `sorted`), `shift_seen`, `shift_missing` (verificación con `in`) |
 | 3. Comunicación | Parte ordenado para quien recibe el turno | `print()` línea por línea |
 
 Las 20 observaciones del turno (escríbelas tal cual):
@@ -294,7 +296,7 @@ Lista ordenada: ['127.0.0.1', '127.0.0.10', '127.0.0.11', '127.0.0.12', '127.0.0
 
 Con tus propios datos el nombre cambia, pero la forma de la salida es siempre la misma.
 
-**Antes de programar, analiza:** qué valor da `len(shift_ips)` frente a `len(set(shift_ips))` (espera `20` frente a `10`) y cuántas repeticiones se retiran; qué campo protege `shift_record` y por qué asignar a `shift_record[0]` se interrumpe; qué devuelve `"127.0.0.1" in shift_unique` frente a `"10.9.9.9" in shift_unique` y por qué ninguno toca la red.
+**Antes de programar, predice:** qué valor da `len(shift_ips)` frente a `len(set(shift_ips))` y cuántas repeticiones se retiran (verifica después de ejecutar); qué campo protege `shift_record` y por qué asignar a `shift_record[0]` se interrumpe; qué devuelve `"127.0.0.1" in shift_unique` frente a `"10.9.9.9" in shift_unique` y por qué ninguno toca la red.
 
 **Propósito real:** el parte organiza direcciones locales para la revisión: no abre puertos, no toca disco/red y no confirma un incidente.
 

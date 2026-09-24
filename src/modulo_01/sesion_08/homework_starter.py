@@ -23,9 +23,9 @@ STUDENT INSTRUCTIONS:
         - Tab autocompletes file names. Up arrow recalls commands.
         - Ctrl + C cancels a waiting process safely.
 
-BEFORE CODING, ANALYZE (read the shift tables first, without running):
-    - What does len(shift_ips) give versus len(set(shift_ips)), and
-      how many repetitions are removed (expect 20 versus 10)?
+BEFORE CODING, PREDICT (read the shift tables first, without running):
+    - Predict what len(shift_ips) gives versus len(set(shift_ips)),
+      and how many repetitions are removed; verify after running.
     - Which field does shift_record protect, and why does assigning
       to shift_record[0] interrupt the program?
     - What does "127.0.0.1" in shift_unique return versus
@@ -69,11 +69,10 @@ print(f"Observaciones del turno: {len(shift_ips)}")
 # STEP 2: Grouping (TODO). One set conversion, one ordering, explicit
 # membership checks. No loops, no set comprehensions.
 # ==============================================================================
-# TODO 2.1: Deduplicate with set(shift_ips) (expect 10 unique).
+# TODO 2.1: Deduplicate with set(shift_ips).
 shift_unique = set()  # TODO: build it with set(shift_ips)
 
-# TODO 2.2: print how many unique addresses the shift holds
-# (expect 10).
+# TODO 2.2: print how many unique addresses the shift holds.
 print("PENDING")  # TODO: print f"Direcciones únicas del turno: {len(shift_unique)}"
 
 # TODO 2.3: Order the unique addresses with sorted(shift_unique)
@@ -81,12 +80,12 @@ print("PENDING")  # TODO: print f"Direcciones únicas del turno: {len(shift_uniq
 shift_ordered = []  # TODO: build it with sorted(shift_unique)
 
 # TODO 2.4: Check loopback presence with "127.0.0.1" in shift_unique
-# (expect True) and print it.
+# and print it.
 shift_seen = False  # TODO: build it with "127.0.0.1" in shift_unique
 print("PENDING")  # TODO: print f"Bucle local visto: {shift_seen}"
 
 # TODO 2.5: Check an absent address with "10.9.9.9" in shift_unique
-# (expect False) and print it.
+# and print it.
 shift_missing = False  # TODO: build it with "10.9.9.9" in shift_unique
 print("PENDING")  # TODO: print f"Desconocida vista: {shift_missing}"
 
