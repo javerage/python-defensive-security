@@ -274,7 +274,7 @@ python3 harden_review.py</div>
       <ul style="font-size: 8.5pt; margin-bottom: 0;">
         <li><strong>Rol:</strong> Analista defensivo de turno en laboratorio local.</li>
         <li><strong>Evidencia:</strong> Lista sintética de 20 eventos, umbral 5 y bitácora <code>defense.log</code> en tu carpeta.</li>
-        <li><strong>Problema:</strong> Una de las 3 fuentes puede faltar y un nivel puede ser desconocido.</li>
+        <li><strong>Problema:</strong> Una de las 3 revisiones heredadas de la Sesión 12 puede traer fuente faltante y un nivel puede ser desconocido.</li>
         <li><strong>Consecuencia:</strong> Si el reporte se interrumpe con traza cruda, el siguiente turno recibe la auditoría incompleta.</li>
         <li><strong>Decisiones:</strong> Qué captura cada <code>except</code>, qué celebra <code>else</code> y qué registra siempre <code>finally</code>.</li>
         <li><strong>Entrega a:</strong> Responsable del siguiente turno mediante reporte en consola más bitácora.</li>
@@ -433,6 +433,7 @@ ReviewLevelError: unknown review level: 'CRITICAL'</div>
         <li><strong>Resultado verificable:</strong> Salida de consola comparable con la salida esperada más <code>shift.log</code> con la captura.</li>
       </ul>
       <p style="font-size: 8.5pt; margin-bottom: 0;"><strong>Antes de completar y ejecutar:</strong> escribe en papel el valor que esperas de cada TODO y el motivo; ejecuta y compara lo obtenido con tu predicción y con la salida esperada.</p>
+      <p style="font-size: 8.5pt; margin-bottom: 0;"><strong>Puente a la Sesión 14:</strong> hoy el entorno es tu carpeta con <code>.venv</code>; en la Sesión 14 ese conteo y filtrado se mudan a un paquete <code>kit/</code> reproducible con Pydantic fijado (solo anuncio, sin modelar todavía).</p>
     </div>
     <h3 class="subsection-title">Mapeo dominio → código de la tarea (léelo antes de programar):</h3>
     <table class="data-table">
@@ -468,7 +469,13 @@ shift_events = [
     <h3 class="subsection-title">Comprueba con el ejemplo único:</h3>
     <div class="student-output-box">Eventos del turno: 20
 Avisos: 7 - Revisión prioritaria
-Errores: 4 - Rutina local</div>
+Errores: 4 - Rutina local
+Fuente no válida: missing_source - Rutina local
+--- Revisión endurecida del turno ---
+Nombre: Alex Mendez
+Identificador: DEF-2026-09
+Umbral: 5 (solo lectura)
+Registro: shift.log (3 tareas, 1 error capturado)</div>
     <h3 class="subsection-title">Catálogo personal de 5 errores (complétalo a mano):</h3>
     <p style="font-size: 8.5pt;">Registra cada error con su causa raíz y su corrección. Usa solo errores vistos en el laboratorio con la sintaxis de la sesión:</p>
     <table class="data-table">
@@ -476,8 +483,8 @@ Errores: 4 - Rutina local</div>
       <tbody>
         <tr><td>1</td><td><code>FileNotFoundError</code> (fuente <code>daily.log</code>)</td><td></td><td></td></tr>
         <tr><td>2</td><td><code>ReviewLevelError</code> (nivel <code>CRITICAL</code>)</td><td></td><td></td></tr>
-        <tr><td>3</td><td><code>ValueError</code> al convertir el umbral leído como texto</td><td></td><td></td></tr>
-        <tr><td>4</td><td><code>NameError</code> por leer el total fuera de la guardia</td><td></td><td></td></tr>
+        <tr><td>3</td><td><code>ReviewLevelError</code> (nivel <code>DEBUG</code> sobre la fuente conocida)</td><td></td><td></td></tr>
+        <tr><td>4</td><td><code>shift.log</code> vacío por configurar <code>logging</code> después del primer registro</td><td></td><td></td></tr>
         <tr><td>5</td><td>Captura silenciosa con <code>except</code> desnudo</td><td></td><td></td></tr>
       </tbody>
     </table>
