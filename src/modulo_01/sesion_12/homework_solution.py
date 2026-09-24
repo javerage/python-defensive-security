@@ -34,12 +34,8 @@ and contacts nothing.
 # ==============================================================================
 SHIFT_THRESHOLD = 5
 
-# Fixture fidelity note: the last row keeps 7 WARNING and 4 ERROR so
-# the code reproduces the expected pairs (7 plus prioritaria, 4 plus
-# rutina). The student guide table lists the same 20 positions with
-# one ERROR more; that extra ERROR was written here as INFO to honor
-# the expected-output box, which is the contract the reference must
-# satisfy.
+# Fixture note: these 20 positions match the student guide table
+# (7 WARNING and 4 ERROR) and reproduce the expected pairs.
 shift_events = [
     "WARNING", "INFO", "ERROR", "WARNING", "INFO",
     "WARNING", "INFO", "ERROR", "WARNING", "INFO",

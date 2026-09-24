@@ -180,6 +180,31 @@
       </tbody>
     </table>
 
+    <figure role="img" aria-labelledby="fig-s12-anat-title fig-s12-anat-desc" style="border: 1px solid #d1d5db; border-radius: 6px; padding: 10px 12px; margin: 10px 0; break-inside: avoid; page-break-inside: avoid;">
+      <figcaption id="fig-s12-anat-title" style="font-weight: 700; font-size: 9pt; margin-bottom: 6px;">Figura 1 — Anatomía de ámbitos y defecto (dónde vive cada pieza)</figcaption>
+      <svg viewBox="0 0 560 150" style="width: 100%; height: auto; display: block;" aria-hidden="true">
+        <title>Anatomía: global arriba, definición con defecto en medio, desempaquetado al final</title>
+        <desc id="fig-s12-anat-desc">Tres bloques numerados: 1 Global REVIEW_THRESHOLD igual a 5 solo lectura arriba; 2 Definición review_events con defecto level ERROR en medio donde total y verdict son locales; 3 Desempaquetado en dos variables al final.</desc>
+        <rect x="10" y="10" width="170" height="120" rx="6" fill="#ffffff" stroke="#111827" stroke-width="2" stroke-dasharray="7 4"/>
+        <text x="22" y="32" font-family="monospace" font-size="13" font-weight="bold" fill="#111827">1 · GLOBAL</text>
+        <text x="22" y="54" font-family="monospace" font-size="12" fill="#111827">REVIEW_THRESHOLD=5</text>
+        <text x="22" y="72" font-family="sans-serif" font-size="11" fill="#111827">arriba · solo lectura</text>
+        <text x="22" y="90" font-family="sans-serif" font-size="11" fill="#111827">sin global · sin reasignar</text>
+        <rect x="195" y="10" width="190" height="120" rx="6" fill="#f3f4f6" stroke="#111827" stroke-width="2"/>
+        <text x="207" y="32" font-family="monospace" font-size="13" font-weight="bold" fill="#111827">2 · DEFINICIÓN</text>
+        <text x="207" y="54" font-family="monospace" font-size="11" fill="#111827">level="ERROR" (defecto)</text>
+        <text x="207" y="72" font-family="monospace" font-size="11" fill="#111827">total · verdict (local)</text>
+        <text x="207" y="90" font-family="sans-serif" font-size="11" fill="#111827">nacen y mueren dentro</text>
+        <text x="207" y="108" font-family="monospace" font-size="11" fill="#111827">return total, verdict</text>
+        <rect x="400" y="10" width="150" height="120" rx="6" fill="#ffffff" stroke="#111827" stroke-width="2"/>
+        <text x="412" y="32" font-family="monospace" font-size="13" font-weight="bold" fill="#111827">3 · USO</text>
+        <text x="412" y="54" font-family="monospace" font-size="11" fill="#111827">a, b = llamada()</text>
+        <text x="412" y="72" font-family="sans-serif" font-size="11" fill="#111827">2 valores → 2 variables</text>
+        <text x="412" y="90" font-family="sans-serif" font-size="11" fill="#111827">1 variable = tupla junta</text>
+      </svg>
+      <p style="font-size: 8pt; color: #4b5563; margin-top: 6px; margin-bottom: 0;">Lee así: la global se mira arriba, la función propone el defecto en medio y cada llamada se recoge en dos variables al final. Lo local no se lee fuera.</p>
+    </figure>
+
     <div class="callout callout-info" style="margin: 10px 0;">
       <div class="callout-title">💡 El mostrador con dos sellos</div>
       <p style="margin-bottom: 4px;">Piensa en un mostrador que entrega número y letrero juntos: pides la revisión y recibes el conteo con su veredicto en la misma bandeja. El nivel por defecto es el pedido habitual: si no dices otro, preparan <code>ERROR</code>.</p>
@@ -240,8 +265,41 @@ python3 scope_review.py</div>
     <h2 class="section-title">4. Reto Práctico: Devolver dos valores con defecto (25 minutos)</h2>
     <div class="callout callout-info" style="margin-bottom: 12px;">
       <div class="callout-title">🎯 Escenario Defensivo: la revisión que entrega número y letrero</div>
-      <p style="margin-bottom: 0;">Recibes 20 eventos y un umbral global de 5: implementa <code>review_events</code> con defecto <code>"ERROR"</code>, devuelve conteo y veredicto juntos y desempaqueta ambas llamadas (defecto y explícita).</p>
+      <p style="margin-bottom: 6px;">Formas parte del equipo que entrega número y letrero juntos. En la Sesión 11 cada función devolvía un solo valor; hoy una función devuelve dos y el umbral viaja como global de solo lectura.</p>
+      <ul style="font-size: 8.5pt; margin-left: 18px; margin-bottom: 6px;">
+        <li><strong>Rol:</strong> persona analista que entrega conteo y veredicto juntos.</li>
+        <li><strong>Evidencia:</strong> 20 eventos sintéticos locales (6 <code>ERROR</code>, 5 <code>WARNING</code>) más umbral global de 5.</li>
+        <li><strong>Problema:</strong> dos viajes separados esconden que número y letrero van juntos.</li>
+        <li><strong>Consecuencia si no se resuelve:</strong> el siguiente revisor recibe cada dato por su lado y la entrega queda incompleta.</li>
+        <li><strong>Decisiones que tomas tú:</strong> definir <code>review_events</code> con defecto <code>"ERROR"</code>, retorno doble y lectura global sin <code>global</code>; desempaquetar ambas llamadas.</li>
+        <li><strong>Destinatario:</strong> el siguiente revisor, mediante el resumen impreso.</li>
+        <li><strong>Resultado verificable:</strong> un par por defecto y un par explícito, ambos impresos más el resumen con el umbral declarado.</li>
+      </ul>
+      <p style="margin-bottom: 0; font-size: 8.5pt;"><strong>Puente a la Sesión 13:</strong> hoy todo fallo se previene con <code>if/else</code>; en la Sesión 13 llegará <code>try/except</code> para los errores que hoy no tocamos.</p>
     </div>
+    <figure role="img" aria-labelledby="fig-s12-flow-title fig-s12-flow-desc" style="border: 1px solid #d1d5db; border-radius: 6px; padding: 10px 12px; margin: 10px 0; break-inside: avoid; page-break-inside: avoid;">
+      <figcaption id="fig-s12-flow-title" style="font-weight: 700; font-size: 9pt; margin-bottom: 6px;">Figura 2 — Flujo llamada → conteo → par → desempaquetado</figcaption>
+      <svg viewBox="0 0 560 110" style="width: 100%; height: auto; display: block;" aria-hidden="true">
+        <title>Flujo: llamada con nivel, conteo contra umbral, retorno del par, desempaquetado en dos variables</title>
+        <desc id="fig-s12-flow-desc">Cuatro pasos numerados con flechas: 1 Llamada con nivel por defecto o explícito; 2 Conteo del nivel y comparación con el umbral 5; 3 Retorno del par conteo más veredicto; 4 Desempaquetado en dos variables.</desc>
+        <rect x="8" y="20" width="125" height="70" rx="6" fill="#ffffff" stroke="#111827" stroke-width="2"/>
+        <text x="18" y="44" font-family="monospace" font-size="12" font-weight="bold" fill="#111827">1 · LLAMADA</text>
+        <text x="18" y="62" font-family="sans-serif" font-size="11" fill="#111827">defecto o explícita</text>
+        <text x="50" y="80" font-family="monospace" font-size="14" font-weight="bold" fill="#111827">→</text>
+        <rect x="148" y="20" width="125" height="70" rx="6" fill="#f3f4f6" stroke="#111827" stroke-width="2"/>
+        <text x="158" y="44" font-family="monospace" font-size="12" font-weight="bold" fill="#111827">2 · CONTEO</text>
+        <text x="158" y="62" font-family="sans-serif" font-size="11" fill="#111827">cuenta y compara ≥ 5</text>
+        <text x="190" y="80" font-family="monospace" font-size="14" font-weight="bold" fill="#111827">→</text>
+        <rect x="288" y="20" width="125" height="70" rx="6" fill="#ffffff" stroke="#111827" stroke-width="2" stroke-dasharray="7 4"/>
+        <text x="298" y="44" font-family="monospace" font-size="12" font-weight="bold" fill="#111827">3 · PAR</text>
+        <text x="298" y="62" font-family="sans-serif" font-size="11" fill="#111827">total + veredicto</text>
+        <text x="330" y="80" font-family="monospace" font-size="14" font-weight="bold" fill="#111827">→</text>
+        <rect x="428" y="20" width="124" height="70" rx="6" fill="#f3f4f6" stroke="#111827" stroke-width="2"/>
+        <text x="438" y="44" font-family="monospace" font-size="12" font-weight="bold" fill="#111827">4 · SEPARA</text>
+        <text x="438" y="62" font-family="sans-serif" font-size="11" fill="#111827">a, b = par</text>
+      </svg>
+      <p style="font-size: 8pt; color: #4b5563; margin-top: 6px; margin-bottom: 0;">Lee así: pides con un nivel, Python cuenta y decide con el umbral, devuelve el par junto y tú lo separas en dos variables.</p>
+    </figure>
     <h3 class="subsection-title">Mapeo dominio → código (léelo antes de programar):</h3>
     <table class="data-table">
       <thead><tr><th>Dato del caso</th><th>Variable / llamada</th><th>Regla</th><th>Aporte al resumen</th></tr></thead>
@@ -258,7 +316,7 @@ event_log = [
     "INFO", "ERROR", "WARNING", "INFO", "ERROR",
     "WARNING", "ERROR", "INFO", "WARNING", "ERROR",
     "INFO", "WARNING", "INFO", "ERROR", "WARNING",
-    "INFO", "ERROR", "INFO", "WARNING", "INFO",
+    "INFO", "ERROR", "INFO", "INFO", "INFO",
 ]</div>
     <p style="font-size: 8.5pt;">Totales esperados: defecto <code>6</code> con <code>"Revisión prioritaria"</code>; explícito <code>5</code> con <code>"Revisión prioritaria"</code>. Con 4 o menos el veredicto sería <code>"Rutina local"</code>.</p>
     <h3 class="subsection-title">Los 3 pasos (en este orden):</h3>
@@ -268,15 +326,17 @@ event_log = [
       <li><strong>Comunicación:</strong> imprime el encabezado con los dos pares.</li>
     </ol>
     <h3 class="subsection-title">Tu archivo <code>scope_review.py</code> (complétalo):</h3>
+    <p style="font-size: 8.5pt;">Flujo obligatorio <strong>predecir → ejecutar → comparar</strong>: antes de completar cada TODO escribe en papel el valor que esperas y el motivo, ejecuta con <code>↑</code> y compara con la salida esperada de abajo.</p>
     <div class="student-code-box"># STEP 1 (given): REVIEW_THRESHOLD (5), event_log (20),
-# student_name, student_id, print "Eventos registrados: 20"
+# student_name, student_id, print total line
 
-# TODO 2.1: def review_events(events, level="ERROR") with docstring,
-#   read REVIEW_THRESHOLD, return total, verdict (expect 6 + prioritaria)
-# TODO 2.2: error_total, error_verdict = review_events(event_log),
-#   print "Errores: 6 - Revisión prioritaria" (expect 6)
-# TODO 2.3: warn_total, warn_verdict = review_events(event_log, "WARNING"),
-#   print "Avisos: 5 - Revisión prioritaria" (expect 5)
+# TODO 2.1: define review_events(events, level="ERROR") with docstring;
+#   count the given level, decide against REVIEW_THRESHOLD,
+#   return total, verdict together.
+# TODO 2.2: unpack the default call review_events(event_log) into
+#   error_total plus error_verdict and print the Errores line.
+# TODO 2.3: unpack the explicit call with "WARNING" into warn_total
+#   plus warn_verdict and print the Avisos line.
 
 # STEP 3 (given): print "--- Revisión con ámbitos ---" + data lines</div>
     <h3 class="subsection-title">Salida esperada (verifica con tu ejecución):</h3>
@@ -289,7 +349,7 @@ Identificador: DEF-2026-09
 Umbral global: 5 (solo lectura)</div>
     <div class="callout callout-warning" style="margin: 6px 0 10px 0;">
       <div class="callout-title">⚠️ Casos de borde para explorar (cambia el valor y re-ejecuta con ↑)</div>
-      <p style="font-size: 8pt; margin-bottom: 0;">Llama con <code>"INFO"</code> → cae a rutina · sube el umbral a <code>7</code> → ambos caen a rutina. Di en voz alta qué par cambia y por qué.</p>
+      <p style="font-size: 8pt; margin-bottom: 0;">Llama con <code>"DEBUG"</code> (nivel ausente → <code>0</code>) → cae a rutina · sube el umbral a <code>7</code> → ambos caen a rutina. Di en voz alta qué par cambia y por qué.</p>
     </div>
   </section>
 
@@ -362,13 +422,13 @@ shift_events = [
     "WARNING", "INFO", "ERROR", "WARNING", "INFO",
     "WARNING", "INFO", "ERROR", "WARNING", "INFO",
     "WARNING", "ERROR", "INFO", "WARNING", "INFO",
-    "ERROR", "WARNING", "INFO", "ERROR", "INFO",
+    "INFO", "WARNING", "INFO", "ERROR", "INFO",
 ]</div>
     <h3 class="subsection-title">Antes de programar, analiza (sin ejecutar código):</h3>
     <ul style="font-size: 8.5pt; margin-left: 18px; margin-bottom: 10px;">
-      <li>Qué par devuelve la llamada por defecto (espera <code>7</code> + prioritaria) y por qué el defecto es <code>"WARNING"</code>.</li>
-      <li>Qué par devuelve la llamada con <code>"ERROR"</code> (espera <code>4</code> + rutina) y qué veredicto le toca.</li>
-      <li>Dónde vive cada <code>total</code> y por qué no se lee fuera de <code>review_shift</code>.</li>
+      <li>Escribe qué par predices que devuelve la llamada por defecto y por qué el defecto es <code>"WARNING"</code>; luego ejecuta y compara.</li>
+      <li>Escribe qué par predices que devuelve la llamada con <code>"ERROR"</code> y qué veredicto le toca; luego ejecuta y compara.</li>
+      <li>Escribe dónde predices que vive cada <code>total</code> y por qué no se lee fuera de <code>review_shift</code>.</li>
     </ul>
     <h3 class="subsection-title">Los 3 pasos (en este orden):</h3>
     <ol style="font-size: 8.5pt; margin-left: 18px; margin-bottom: 10px;">
@@ -379,10 +439,14 @@ shift_events = [
     <h3 class="subsection-title">Comprueba con el ejemplo único:</h3>
     <div class="student-output-box">Eventos del turno: 20
 Avisos: 7 - Revisión prioritaria
-Errores: 4 - Rutina local</div>
+Errores: 4 - Rutina local
+--- Revisión del turno ---
+Nombre: Alex Mendez
+Identificador: DEF-2026-09
+Umbral global: 5 (solo lectura)</div>
     <div class="callout callout-warning" style="margin: 6px 0 10px 0;">
       <div class="callout-title">⚠️ Propósito y límites</div>
-      <p style="font-size: 8pt; margin-bottom: 0;">La revisión organiza el conteo local para el cambio de turno: <strong>no</strong> abre puertos, <strong>no</strong> toca disco/red salvo lectura local indicada y <strong>no</strong> confirma un incidente.</p>
+      <p style="font-size: 8pt; margin-bottom: 0;">La revisión organiza el conteo local para el cambio de turno: <strong>no</strong> abre puertos, <strong>no</strong> toca disco ni red y <strong>no</strong> confirma un incidente.</p>
     </div>
     <h3 class="subsection-title">Entrega y respaldo</h3>
     <p style="font-size: 8.5pt;">Crea manualmente <code>shift_scope.py</code> en tu proyecto personal. <strong>Entrega:</strong> explica en voz alta la cadena defecto → retorno doble → desempaquetado → local frente a global. El repositorio contiene <code>homework_starter.py</code> y <code>homework_solution.py</code> solo como respaldo: úsalos <strong>después</strong> de intentar la tarea por tu cuenta.</p>

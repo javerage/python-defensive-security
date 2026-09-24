@@ -34,11 +34,8 @@ One trip delivers the tray with both seats: count plus verdict.
 # ==============================================================================
 REVIEW_THRESHOLD = 5
 
-# Fixture fidelity note: the last row keeps 6 ERROR and 5 WARNING so
-# the code reproduces the expected pairs (6 plus 5). The student guide
-# table lists the same 20 positions with one WARNING more; that extra
-# WARNING was written here as INFO to honor the expected-output box,
-# which is the contract the reference must satisfy.
+# Fixture note: these 20 positions match the student guide table
+# (6 ERROR and 5 WARNING) and reproduce the expected pairs.
 event_log = [
     "INFO", "ERROR", "WARNING", "INFO", "ERROR",
     "WARNING", "ERROR", "INFO", "WARNING", "ERROR",

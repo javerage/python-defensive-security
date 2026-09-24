@@ -23,8 +23,9 @@ STUDENT INSTRUCTIONS:
         - Ctrl + C cancels a waiting process safely.
 
     Read the mapping table in your student material first: it holds
-    the 20 events, the global threshold (5), and the expected pairs
-    (6 plus prioritaria by default, 5 plus prioritaria explicit).
+    the 20 events, the global threshold (5), and the expected pairs.
+    Predict each pair on paper before completing the TODOs below;
+    then run and compare with the expected output.
 
 ORDER: read-only global above, definition with default in the middle,
     unpacking plus print at the end. Never reassign the global and
@@ -67,16 +68,14 @@ print(f"Eventos registrados: {len(event_log)}")
 #     """Return count and verdict for the given level."""
 
 # TODO 2.2: Unpack the default call review_events(event_log) into
-# error_total plus error_verdict (expect 6 plus prioritaria) and
-# print "Errores: 6 - Revisión prioritaria".
+# error_total plus error_verdict and print the Errores line.
 error_total = 0  # TODO: unpack it with error_total, error_verdict = review_events(event_log)
 error_verdict = "PENDING"  # TODO: same unpacking as above
 print("PENDING")  # TODO: print f"Errores: {error_total} - {error_verdict}"
 
 # TODO 2.3: Unpack the explicit call
 # review_events(event_log, "WARNING") into warn_total plus
-# warn_verdict (expect 5 plus prioritaria) and print
-# "Avisos: 5 - Revisión prioritaria".
+# warn_verdict and print the Avisos line.
 warn_total = 0  # TODO: unpack it with warn_total, warn_verdict = review_events(event_log, "WARNING")
 warn_verdict = "PENDING"  # TODO: same unpacking as above
 print("PENDING")  # TODO: print f"Avisos: {warn_total} - {warn_verdict}"

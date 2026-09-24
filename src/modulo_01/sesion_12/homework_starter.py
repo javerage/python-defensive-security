@@ -22,13 +22,14 @@ STUDENT INSTRUCTIONS:
         - Tab autocompletes file names. Up arrow recalls commands.
         - Ctrl + C cancels a waiting process safely.
 
-BEFORE CODING, ANALYZE (without running any code):
-    - Which pair does the default call return (expect 7 plus
-      prioritaria), and why is the default "WARNING"?
-    - Which pair does the call with "ERROR" return (expect 4 plus
-      rutina), and which verdict fits it?
-    - Where does each total live, and why is it never read outside
-      review_shift?
+BEFORE CODING, PREDICT ON PAPER (without running):
+    - Count the WARNING entries by hand and write what pair you
+      predict the default call returns, and why the default is
+      "WARNING"; then run and compare.
+    - Write what pair you predict the call with "ERROR" returns
+      and which verdict fits it; then run and compare.
+    - Write where you predict each total lives, and why it is
+      never read outside review_shift.
 
 DELIVERY: explain aloud the chain default -> double return ->
 unpacking -> local versus global. Local practice data only. The
@@ -74,16 +75,14 @@ print(f"Eventos del turno: {len(shift_events)}")
 #     """Return count and verdict for the given shift level."""
 
 # TODO 2.2: Unpack the default call review_shift(shift_events) into
-# warn_total plus warn_verdict (expect 7 plus prioritaria) and print
-# "Avisos: 7 - Revisión prioritaria".
+# warn_total plus warn_verdict and print the Avisos line.
 warn_total = 0  # TODO: unpack it with warn_total, warn_verdict = review_shift(shift_events)
 warn_verdict = "PENDING"  # TODO: same unpacking as above
 print("PENDING")  # TODO: print f"Avisos: {warn_total} - {warn_verdict}"
 
 # TODO 2.3: Unpack the explicit call
 # review_shift(shift_events, "ERROR") into error_total plus
-# error_verdict (expect 4 plus rutina) and print
-# "Errores: 4 - Rutina local".
+# error_verdict and print the Errores line.
 error_total = 0  # TODO: unpack it with error_total, error_verdict = review_shift(shift_events, "ERROR")
 error_verdict = "PENDING"  # TODO: same unpacking as above
 print("PENDING")  # TODO: print f"Errores: {error_total} - {error_verdict}"

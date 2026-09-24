@@ -195,8 +195,6 @@ event_log = [
 
 Totales esperados: defecto `6` con `"Revisión prioritaria"`; explícito `5` con `"Revisión prioritaria"`. Con 4 o menos el veredicto sería `"Rutina local"`.
 
-> Nota de fidelidad del respaldo: la tabla de la guía del estudiante lista estas mismas 20 posiciones con un `WARNING` más en la última fila (6 `WARNING` en total). Ese elemento se escribe aquí como `INFO` para que el código reproduzca la salida esperada oficial (`Avisos: 5 - Revisión prioritaria`), que es el contrato que la referencia debe cumplir. La misma corrección de un elemento aplica a la tarea del turno (un `ERROR` extra escrito como `INFO` para sostener `Errores: 4 - Rutina local`). Si la guía se corrige, el respaldo debe sincronizarse con ella.
-
 ## Salida esperada
 
 Ejecuta tu archivo y compara con este ejemplo (usa tus propios nombre e identificador; los demás valores deben coincidir):
@@ -282,7 +280,7 @@ Identificador: DEF-2026-09
 Umbral global: 5 (solo lectura)
 ```
 
-> Notas de respaldo: la guía del estudiante muestra explícitamente las tres primeras líneas del ejemplo; el bloque de resumen replica la estructura del ejercicio de clase para el turno. La tabla de la guía lista estas 20 posiciones con un `ERROR` más en la última fila (5 `ERROR` en total); ese elemento se escribe aquí como `INFO` para sostener la salida esperada oficial (`Errores: 4 - Rutina local`). Con tus propios datos el nombre y el identificador cambian, pero los pares deben coincidir.
+Con tus propios datos el nombre y el identificador cambian, pero los pares deben coincidir.
 
 **Antes de programar, analiza:** qué par devuelve la llamada por defecto (espera `7` + prioritaria) y por qué el defecto es `"WARNING"`; qué par devuelve la llamada con `"ERROR"` (espera `4` + rutina) y qué veredicto le toca; dónde vive cada `total` y por qué no se lee fuera de `review_shift`.
 
