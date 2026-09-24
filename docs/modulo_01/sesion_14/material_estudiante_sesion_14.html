@@ -345,6 +345,11 @@ pip freeze</div>
     <h3 class="subsection-title">Plantilla de Código Base del Estudiante (<code>pack_review.py</code>):</h3>
     <p style="font-size: 8.5pt;"><strong>Antes de completar y ejecutar:</strong> Escriba en papel su predicción (valor esperado y motivo) antes de completar cada TODO; ejecute y compare lo obtenido con su predicción y con la salida esperada (predecir → ejecutar → comparar). Los TODO nunca traen respuestas.</p>
     <div class="student-code-box">import pydantic
+# En su proyecto estas 3 formas llegan desde kit/ (creado a mano);
+# aqui quedan como contexto una vez exista el paquete:
+# import kit.count_kit
+# from kit.count_kit import count_events
+# from kit import filter_kit
 
 REVIEW_THRESHOLD = 5
 event_log = [ ... 20 textos: 6 ERROR, 5 WARNING ... ]
@@ -352,8 +357,10 @@ event_log = [ ... 20 textos: 6 ERROR, 5 WARNING ... ]
 student_name = "Alex Mendez"
 student_id = "DEF-2026-09"
 
-# TODO 2.1: definir count_events(events, level="ERROR") -&gt; total, veredicto
-# TODO 2.2: definir filter_events(events, level="ERROR") -&gt; lista filtrada
+# TODO 2.1: en kit/count_kit.py definir count_events(events, level="ERROR") -&gt; total, veredicto
+#   (respaldo autocontenido: aqui se define en este mismo archivo)
+# TODO 2.2: en kit/filter_kit.py definir filter_events(events, level="ERROR") -&gt; lista filtrada
+#   (respaldo autocontenido: aqui se define en este mismo archivo)
 # TODO 2.3: definir main() con pares desempaquetados y pruebas de entorno
 
 # TODO 2.4: desempaquetar ERROR -&gt; error_total, error_verdict e imprimir
@@ -390,7 +397,7 @@ Modelos: BaseModel llega en S16 (hoy solo instalacion)</div>
 
   <section>
     <h2 class="section-title">5. Clínica de Errores y Diagnóstico de Tracebacks</h2>
-    <p style="font-size: 8.5pt;">En Python 3.13, las trazas de error (<em>Tracebacks</em>) proporcionan indicadores precisos señalando la línea y columna exacta de la falla con caracteres <code>^^^^^</code>. Analice y resuelva los 2 errores típicos sembrados de esta sesión:</p>
+    <p style="font-size: 8.5pt;">En Python 3.13, las trazas de error (<em>Tracebacks</em>) proporcionan indicadores precisos señalando la línea y columna exacta de la falla con caracteres <code>^^^^^</code>. Use la lectura de trazas de la Sesión 13 para analizar y resolver los 2 errores típicos sembrados de esta sesión:</p>
 
     <div class="trouble-card trouble-critical">
       <div class="trouble-title">&#x1F6A8; Error Sembrado 1: ModuleNotFoundError por ruta (paquete fuera de alcance)</div>
@@ -493,6 +500,8 @@ Modelos: BaseModel llega en S16 (hoy solo instalacion)</div>
         </tr>
       </tbody>
     </table>
+
+    <p style="font-size: 8.5pt;"><strong>Puente a la Sesión 15:</strong> hoy el reporte vive solo en consola; en la próxima sesión leerá estos mismos reportes desde archivos (sin adelantar sintaxis de rutas).</p>
 
     <div class="signature-box">
       <p style="font-size: 8pt; color: var(--text-muted); margin-bottom: 8px;">

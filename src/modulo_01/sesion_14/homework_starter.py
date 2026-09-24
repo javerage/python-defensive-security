@@ -48,15 +48,20 @@ the class exercise packs the day review.
 import pydantic
 
 # ==============================================================================
-# KIT LAYOUT (reused from class, created manually in the project):
-#   kit/__init__.py    -> KIT_VERSION plus re-exports
-#   kit/count_kit.py   -> SHIFT_THRESHOLD plus review_shift logic
-#   kit/filter_kit.py  -> filter_shift logic
-#   pack_shift.py      -> this driver, always run from the project root
+# KIT LAYOUT (tecnica de clase reutilizada; respaldo autocontenido aqui):
+#   kit/__init__.py    -> KIT_VERSION plus re-exports (clase: REVIEW_THRESHOLD,
+#                         count_events y filter_events sin cambios)
+#   kit/count_kit.py   -> REVIEW_THRESHOLD plus count_events (S11 reuse)
+#   kit/filter_kit.py  -> filter_events (S12 reuse)
+#   pack_shift.py      -> this driver con SHIFT_THRESHOLD propio y variantes
+#                         shift autocontenidas (count_shift, filter_shift),
+#                         siempre corrido desde la raiz del proyecto
 #   requirements.txt   -> one pinned line: pydantic>=2.0,<3
-# THREE IMPORT FORMS (typed in pack_shift.py once kit/ exists):
+# THREE IMPORT FORMS (typed in pack_shift.py once kit/ exists;
+# technique reuse: same kit/ names as class, shift variants live
+# autocontenidas in this driver backup):
 #   import kit.count_kit
-#   from kit.count_kit import count_shift
+#   from kit.count_kit import count_events
 #   from kit import filter_kit
 # ==============================================================================
 
