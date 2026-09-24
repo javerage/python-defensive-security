@@ -53,24 +53,27 @@ print(f"Eventos registrados: {len(event_log)}")
 # ==============================================================================
 # STEP 2: Counts (TODO). One single-level loop per version; the while
 # advances its index on every turn so it always terminates.
+# PREDICT FIRST: before completing each TODO, write your prediction
+# (which value you expect and why); run the script; then compare
+# with the expected output in the student material.
 # ==============================================================================
-# TODO 2.1: Count with for (expect 6). Start for_count at 0, visit
+# TODO 2.1: Count with for. Start for_count at 0, visit
 # each event with for event in event_log, add 1 when event == "ERROR".
 for_count = 0  # TODO: build it with the for loop described above
 
-# TODO 2.2: print the for count (expect 6).
+# TODO 2.2: print the for count.
 print("PENDING")  # TODO: print f"Conteo con for: {for_count}"
 
-# TODO 2.3: Count with while (expect 6). Start while_count at 0 and
+# TODO 2.3: Count with while. Start while_count at 0 and
 # index at 0; repeat while index < len(event_log), add 1 on ERROR,
 # and advance index = index + 1 every turn.
 while_count = 0  # TODO: build it with the while loop described above
-index = 0  # TODO: the while loop must leave index at 20
+index = 0  # TODO: the while loop must advance index every turn
 
-# TODO 2.4: print the while count (expect 6).
+# TODO 2.4: print the while count.
 print("PENDING")  # TODO: print f"Conteo con while: {while_count}"
 
-# TODO 2.5: Compare both counts (expect True) and print the result.
+# TODO 2.5: Compare both counts and print the result.
 both_match = False  # TODO: build it with for_count == while_count
 print("PENDING")  # TODO: print f"Conteos iguales: {both_match}"
 

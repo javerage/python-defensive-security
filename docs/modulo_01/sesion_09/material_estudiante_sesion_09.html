@@ -77,6 +77,9 @@
     .trouble-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 8px; margin-top: 6px; background: #f8fafc; padding: 6px 8px; border-radius: 4px; border: 1px solid var(--border-light); }
     .student-code-box { border: 1px dashed #64748b; background-color: #fbfcfe; border-radius: 6px; padding: 10px 12px; margin: 8px 0 12px 0; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 8pt; line-height: 1.5; color: #334155; white-space: pre-wrap; }
     .student-output-box { border: 1px dashed #0284c7; background-color: #f0f9ff; border-radius: 6px; padding: 10px 12px; margin: 8px 0 12px 0; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 8pt; line-height: 1.45; color: #0369a1; white-space: pre-wrap; }
+    .concept-figure { border: 1px solid var(--border-color); background-color: var(--bg-card); border-radius: 6px; padding: 12px 14px; margin: 10px 0 12px 0; break-inside: avoid; page-break-inside: avoid; }
+    .concept-figure svg { display: block; width: 100%; height: auto; background-color: #ffffff; border: 1px solid var(--border-light); border-radius: 4px; }
+    .concept-figure figcaption { font-size: 8pt; color: var(--text-muted); margin-top: 8px; text-align: left; }
     .signature-box { border: 1px solid var(--border-color); background-color: var(--bg-card); border-radius: 6px; padding: 12px 14px; margin-top: 16px; }
     .signature-grid { display: grid; grid-template-columns: 2fr 1.5fr; gap: 20px; margin-top: 24px; align-items: end; }
     .sig-line { border-top: 1px solid #4b5563; padding-top: 4px; text-align: center; font-size: 8pt; color: var(--text-muted); font-weight: 600; }
@@ -86,7 +89,7 @@
       .page-container { max-width: 100%; padding: 0; margin: 0; }
       h2.section-title { font-size: 10.5pt; margin-top: 14px; margin-bottom: 6px; page-break-after: avoid; break-after: avoid; }
       h3.subsection-title { font-size: 9.5pt; page-break-after: avoid; break-after: avoid; }
-      .callout, .terminal-container, .student-data-card, table.data-table, .signature-box, .trouble-card, .student-code-box, .student-output-box { page-break-inside: avoid; break-inside: avoid; }
+      .callout, .terminal-container, .student-data-card, table.data-table, .signature-box, .trouble-card, .student-code-box, .student-output-box, .concept-figure { page-break-inside: avoid; break-inside: avoid; }
       .terminal-container { background-color: #0f172a !important; color: #f8fafc !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
       .badge-primary, .badge-neutral, .badge-alert { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
       .page-break { page-break-before: always; break-before: page; }
@@ -146,7 +149,7 @@
   <!-- 2. FUNDAMENTOS -->
   <section>
     <h2 class="section-title">2. Fundamentos Conceptuales de la Sesión</h2>
-    <p>Un <strong>ciclo</strong> repite una acción sobre cada dato sin copiar la línea 20 veces. El <strong>for</strong> visita cada evento de la lista y termina solo cuando se acaban los datos. El <strong>while</strong> repite mientras una condición sea verdadera y necesita avanzar su contador en cada vuelta. En la Sesión 08 agrupaste con sets sin bucles; hoy cuentas los mismos 20 eventos dos veces, una con cada ciclo, y ambos deben dar 6.</p>
+    <p>Un <strong>ciclo</strong> repite una acción sobre cada dato sin copiar la línea 20 veces. El <strong>for</strong> visita cada evento de la lista y termina solo cuando se acaban los datos. El <strong>while</strong> repite mientras una condición sea verdadera y necesita avanzar su contador en cada vuelta. En la Sesión 08 agrupaste 20 direcciones con sets sin bucles; hoy recorres 20 eventos de registro con dos ciclos, una vez con cada uno, y ambos conteos deben dar 6.</p>
 
     <h3 class="subsection-title">Cómo recorre Python con for y while (en clase, sin evaluar nada más)</h3>
     <p style="font-size: 8.5pt;">El <code>for</code> visita cada elemento sin índices:</p>
@@ -166,11 +169,38 @@ while index &lt; len(event_log):
     <p style="font-size: 8.5pt;">La coincidencia se verifica con una comparación directa:</p>
     <div class="student-code-box">both_match = for_count == while_count</div>
     <p style="font-size: 8.5pt;"><code>both_match</code> es <code>True</code> porque ambos cuentan <code>6</code>. Esa es la prueba de que las dos versiones recorrieron los mismos 20.</p>
+    <figure class="concept-figure" aria-labelledby="loopFigCaption">
+      <svg viewBox="0 0 760 372" role="img" aria-labelledby="loopFigTitle loopFigDesc" xmlns="http://www.w3.org/2000/svg" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace">
+        <title id="loopFigTitle">Anatomía del for que termina solo frente al while con inicio, condición y avance</title>
+        <desc id="loopFigDesc">Dos paneles. El for visita cada evento sin índices: for event in event_log, suma si es ERROR, hace 20 visitas y termina solo con 6. El while necesita tres líneas: index igual a 0 como inicio, while index menor que len como condición, e index igual a index más 1 como avance cada vuelta; termina con index en 20 y 6. Sin avance, repite la misma posición sin fin y sin traza.</desc>
+        <rect x="8" y="8" width="744" height="356" rx="6" fill="#ffffff" stroke="#d1d5db" stroke-width="1.5"/>
+        <text x="24" y="40" font-size="12" font-weight="700" fill="#1e3a8a">1 · for: visita y termina solo</text>
+        <text x="396" y="40" font-size="12" font-weight="700" fill="#0f172a">2 · while: inicio + condición + avance</text>
+        <rect x="24" y="52" width="348" height="150" rx="4" fill="#eff6ff" stroke="#1e3a8a" stroke-width="1.5"/>
+        <text x="36" y="80" font-size="12" fill="#0f172a">for_count = 0</text>
+        <text x="36" y="104" font-size="12" font-weight="700" fill="#0f172a">for event in event_log:</text>
+        <text x="52" y="128" font-size="12" fill="#0f172a">if event == "ERROR":</text>
+        <text x="68" y="152" font-size="12" fill="#0f172a">for_count = for_count + 1</text>
+        <text x="36" y="180" font-size="12" fill="#4b5563">sin índices · 20 visitas → 6</text>
+        <rect x="396" y="52" width="340" height="150" rx="4" fill="#ffffff" stroke="#0f172a" stroke-width="1.5"/>
+        <text x="408" y="80" font-size="12" font-weight="700" fill="#0f172a">[1] index = 0  ← inicio</text>
+        <text x="408" y="104" font-size="12" font-weight="700" fill="#0f172a">[2] while index &lt; len …  ← condición</text>
+        <text x="424" y="128" font-size="12" fill="#0f172a">if … : while_count + 1</text>
+        <text x="408" y="152" font-size="12" font-weight="700" fill="#0f172a">[3] index = index + 1  ← avance</text>
+        <text x="408" y="180" font-size="12" fill="#4b5563">termina con index en 20 → 6</text>
+        <line x1="372" y1="60" x2="372" y2="194" stroke="#9ca3af" stroke-width="1.5" stroke-dasharray="5 4"/>
+        <rect x="24" y="214" width="712" height="46" rx="4" fill="#ffffff" stroke="#0f172a" stroke-width="2"/>
+        <text x="40" y="242" font-size="13" font-weight="700" fill="#0f172a">✓ CON avance: cada vuelta suma 1 · el while termina · SÍ</text>
+        <rect x="24" y="268" width="712" height="46" rx="4" fill="#ffffff" stroke="#0f172a" stroke-width="2" stroke-dasharray="6 3"/>
+        <text x="40" y="296" font-size="13" font-weight="700" fill="#0f172a">✗ SIN avance: repite la posición 0 sin fin y sin traza · NO (Ctrl + C)</text>
+      </svg>
+      <figcaption id="loopFigCaption">Figura: anatomía de los dos ciclos. El <code>for</code> visita cada evento sin índices (<code>20</code> visitas) y termina solo con <code>6</code>. El <code>while</code> necesita tres líneas numeradas: <code>[1]</code> inicio, <code>[2]</code> condición con <code>len()</code> y <code>[3]</code> avance de uno por vuelta; termina con <code>index</code> en <code>20</code> y <code>6</code>. Sin avance, repite la misma posición sin fin.</figcaption>
+    </figure>
 
     <div class="callout callout-tip" style="margin: 8px 0;">
       <div class="callout-title">📌 Tres precisiones y nada más</div>
       <p style="margin-bottom: 3px; font-size: 8pt;"><strong>for frente a while:</strong> <code>for</code> termina solo al agotar la lista (<code>20</code> visitas); <code>while</code> termina cuando <code>index &lt; 20</code> deja de cumplirse. Si el avance falta, el <code>while</code> repite la misma posición sin fin (verás este caso en la sección 5).</p>
-      <p style="margin-bottom: 3px; font-size: 8pt;"><strong>Ciclos de hoy, nada más:</strong> <code>for</code> sobre lista, <code>while</code> con contador, <code>len()</code>, <code>range()</code> solo como lectura y comparación de totales. Los ciclos anidados <strong>llegan en la Sesión 10</strong>; hoy un solo nivel.</p>
+      <p style="margin-bottom: 3px; font-size: 8pt;"><strong>Ciclos de hoy, nada más:</strong> <code>for</code> sobre lista, <code>while</code> con contador, <code>len()</code>, <code>range()</code> solo como lectura y comparación de totales. Los ciclos anidados <strong>llegan en la Sesión 10</strong> (día → eventos); hoy un solo nivel.</p>
       <p style="margin-bottom: 0; font-size: 8pt;"><strong>Alcance de hoy:</strong> 20 datos sintéticos del laboratorio con 6 <code>ERROR</code>. Las etiquetas son didácticas del laboratorio, no estándares universales. Sin funciones, sin archivos, sin red.</p>
     </div>
 
@@ -244,8 +274,64 @@ python3 event_loop.py</div>
     <h2 class="section-title">4. Reto Práctico: Contar ERROR dos veces (25 minutos)</h2>
     <div class="callout callout-info" style="margin-bottom: 12px;">
       <div class="callout-title">🎯 Escenario Defensivo: el conteo doble del registro</div>
-      <p style="margin-bottom: 0;">Recibes un registro local de 20 eventos: cuenta los <code>ERROR</code> con <code>for</code> y repite el conteo con <code>while</code> con avance garantizado. Si ambos dan 6, el conteo queda verificado; si difieren, hay un error de recorrido.</p>
+      <p style="margin-bottom: 4px;">Actúas como la persona analista que verifica el registro local antes de entregarlo al siguiente revisor.</p>
+      <p style="margin-bottom: 4px;"><strong>Evidencia y fuente:</strong> 20 eventos sintéticos del registro local transcritos en el cuaderno; en esta sesión no se usa la red.</p>
+      <p style="margin-bottom: 4px;"><strong>Problema:</strong> un solo conteo puede esconder un error de recorrido y la entrega aún no tiene verificación.</p>
+      <p style="margin-bottom: 4px;"><strong>Si no se resuelve,</strong> el revisor recibe un total sin verificar y no distingue un conteo correcto de un recorrido incompleto.</p>
+      <p style="margin-bottom: 4px;"><strong>Decisiones que tomarás:</strong> contar con <code>for</code>, repetir con <code>while</code> con avance garantizado, comparar ambos totales y resumir para el revisor.</p>
+      <p style="margin-bottom: 0;"><strong>Entrega:</strong> un resumen verificado para el siguiente revisor con 20 eventos, 6 <code>ERROR</code> con <code>for</code>, 6 con <code>while</code> y coincidencia <code>True</code>, sin abrir puertos ni tocar la red.</p>
     </div>
+    <figure class="concept-figure" aria-labelledby="flowFigCaption">
+      <svg viewBox="0 0 760 300" role="img" aria-labelledby="flowFigTitle flowFigDesc" xmlns="http://www.w3.org/2000/svg" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace">
+        <title id="flowFigTitle">Flujo del conteo doble: lista de 20 eventos, conteo for con 6, conteo while con 6, comparación True y resumen</title>
+        <desc id="flowFigDesc">Cinco etapas en orden: event_log es una lista con 20 eventos; el for cuenta 6 ERROR y termina solo; el while cuenta 6 ERROR con inicio, condición y avance y deja index en 20; both_match compara 6 igual a 6 y da True; el resumen imprime el encabezado con ambos conteos y la verificación.</desc>
+        <rect x="8" y="8" width="744" height="284" rx="6" fill="#ffffff" stroke="#d1d5db" stroke-width="1.5"/>
+        <text x="24" y="40" font-size="12" font-weight="700" fill="#1e3a8a">1 · event_log: lista</text>
+        <text x="178" y="40" font-size="12" font-weight="700" fill="#0f172a">2 · for → 6</text>
+        <text x="322" y="40" font-size="12" font-weight="700" fill="#0f172a">3 · while → 6</text>
+        <text x="472" y="40" font-size="12" font-weight="700" fill="#0f172a">4 · both_match</text>
+        <text x="606" y="40" font-size="12" font-weight="700" fill="#15803d">5 · resumen</text>
+        <rect x="24" y="52" width="130" height="150" rx="4" fill="#ffffff" stroke="#0f172a" stroke-width="1.5"/>
+        <text x="36" y="80" font-size="12" fill="#0f172a">[ INFO</text>
+        <text x="36" y="104" font-size="12" font-weight="700" fill="#0f172a">  ERROR</text>
+        <text x="36" y="128" font-size="12" fill="#0f172a">  WARNING</text>
+        <text x="36" y="152" font-size="12" fill="#4b5563">  … 20 ]</text>
+        <text x="36" y="180" font-size="12" fill="#4b5563">6 ERROR</text>
+        <rect x="178" y="52" width="120" height="150" rx="4" fill="#eff6ff" stroke="#1e3a8a" stroke-width="1.5"/>
+        <text x="190" y="80" font-size="12" fill="#0f172a">for … :</text>
+        <text x="190" y="104" font-size="12" fill="#0f172a">+1 si ERROR</text>
+        <text x="190" y="128" font-size="12" font-weight="700" fill="#0f172a">→ 6</text>
+        <text x="190" y="152" font-size="12" fill="#4b5563">termina</text>
+        <text x="190" y="176" font-size="12" fill="#4b5563">solo</text>
+        <rect x="322" y="52" width="126" height="150" rx="4" fill="#ffffff" stroke="#0f172a" stroke-width="1.5"/>
+        <text x="334" y="80" font-size="12" fill="#0f172a">[1] inicio</text>
+        <text x="334" y="104" font-size="12" fill="#0f172a">[2] condición</text>
+        <text x="334" y="128" font-size="12" fill="#0f172a">[3] avance</text>
+        <text x="334" y="152" font-size="12" font-weight="700" fill="#0f172a">→ 6</text>
+        <text x="334" y="176" font-size="12" fill="#4b5563">index → 20</text>
+        <rect x="472" y="52" width="110" height="150" rx="4" fill="#ffffff" stroke="#0f172a" stroke-width="1.5" stroke-dasharray="6 3"/>
+        <text x="484" y="80" font-size="12" fill="#0f172a">6 == 6</text>
+        <text x="484" y="104" font-size="12" font-weight="700" fill="#0f172a">→ True</text>
+        <text x="484" y="128" font-size="12" fill="#4b5563">misma</text>
+        <text x="484" y="152" font-size="12" fill="#4b5563">recorrida</text>
+        <rect x="606" y="52" width="130" height="150" rx="4" fill="#ffffff" stroke="#0f172a" stroke-width="1.5"/>
+        <text x="618" y="80" font-size="12" fill="#0f172a">--- registro</text>
+        <text x="618" y="104" font-size="12" fill="#0f172a">for: 6</text>
+        <text x="618" y="128" font-size="12" fill="#0f172a">while: 6</text>
+        <text x="618" y="152" font-size="12" font-weight="700" fill="#0f172a">iguales</text>
+        <line x1="154" y1="127" x2="174" y2="127" stroke="#0f172a" stroke-width="2"/>
+        <polygon points="174,127 162,121 162,133" fill="#0f172a"/>
+        <line x1="298" y1="127" x2="318" y2="127" stroke="#0f172a" stroke-width="2"/>
+        <polygon points="318,127 306,121 306,133" fill="#0f172a"/>
+        <line x1="448" y1="127" x2="468" y2="127" stroke="#0f172a" stroke-width="2"/>
+        <polygon points="468,127 456,121 456,133" fill="#0f172a"/>
+        <line x1="582" y1="127" x2="602" y2="127" stroke="#0f172a" stroke-width="2"/>
+        <polygon points="602,127 590,121 590,133" fill="#0f172a"/>
+        <text x="24" y="232" font-size="12" font-weight="700" fill="#0f172a">orden fijo: evidencia → for → while con avance → comparación → comunicación</text>
+        <text x="24" y="258" font-size="12" fill="#4b5563">un solo nivel: cada versión visita la lista plana una vez (lo anidado llega en S10)</text>
+      </svg>
+      <figcaption id="flowFigCaption">Figura: flujo del reto en cinco etapas. <code>event_log</code> trae <code>20</code> eventos con <code>6 ERROR</code>; el <code>for</code> cuenta <code>6</code> y termina solo; el <code>while</code> cuenta <code>6</code> con inicio, condición y avance (<code>index</code> termina en <code>20</code>); <code>both_match</code> da <code>True</code>; el resumen imprime ambos conteos y la verificación.</figcaption>
+    </figure>
     <h3 class="subsection-title">Mapeo dominio → código (léelo antes de programar):</h3>
     <table class="data-table">
       <thead><tr><th>Dato del caso</th><th>Variable</th><th>Regla</th><th>Aporte al resumen</th></tr></thead>
@@ -270,19 +356,23 @@ python3 event_loop.py</div>
       <li><strong>Conteos:</strong> cuenta con <code>for</code> y repite con <code>while</code> con avance en cada vuelta.</li>
       <li><strong>Comunicación:</strong> imprime el encabezado, ambos conteos y la coincidencia.</li>
     </ol>
-    <h3 class="subsection-title">Tu archivo <code>event_loop.py</code> (complétalo):</h3>
-    <div class="student-code-box"># STEP 1 (given): event_log (20), student_name, student_id,
-# print "Eventos registrados: 20"
+    <h3 class="subsection-title">Tu archivo <code>event_loop.py</code> (predice antes de completar):</h3>
+    <div class="callout callout-tip" style="margin: 6px 0 10px 0;">
+      <div class="callout-title">📝 Predice → ejecuta → compara</div>
+      <p style="font-size: 8pt; margin-bottom: 0;">Antes de completar cada TODO, escribe tu predicción (qué valor esperas y por qué). Ejecuta tu archivo y compara con la salida esperada de abajo solo después de ejecutar.</p>
+    </div>
+    <div class="student-code-box"># STEP 1 (given): event_log (20 events), student_name, student_id,
+# print the total with len(event_log)
 
-# TODO 2.1: for_count starting at 0, for event in event_log,
-#   add 1 when event == "ERROR" (expect 6)
-# TODO 2.2: print "Conteo con for: 6" (expect 6)
-# TODO 2.3: while_count starting at 0, index starting at 0,
-#   while index &lt; len(event_log), add 1 when ERROR,
-#   advance index = index + 1 each turn (expect 6)
-# TODO 2.4: print "Conteo con while: 6" (expect 6)
-# TODO 2.5: both_match with for_count == while_count,
-#   print "Conteos iguales: True" (expect True)
+# TODO 2.1: build for_count starting at 0 with for event in event_log,
+#   adding 1 when event == "ERROR"
+# TODO 2.2: print the for count with its message
+# TODO 2.3: build while_count starting at 0 and index starting at 0,
+#   with while index &lt; len(event_log), adding 1 on ERROR and
+#   advancing index = index + 1 each turn
+# TODO 2.4: print the while count with its message
+# TODO 2.5: build both_match with for_count == while_count
+#   and print whether both counts match
 
 # STEP 3 (given): print "--- Verificación del registro ---" + data lines</div>
     <h3 class="subsection-title">Salida esperada (verifica con tu ejecución):</h3>
@@ -358,7 +448,7 @@ while index &lt; len(event_log):
   <!-- 8. TAREA -->
   <section>
     <h2 class="section-title">8. Tarea Posterior a la Clase (fuera de los 60 minutos)</h2>
-    <p style="font-size: 8.5pt;">Dejas listo el <strong>conteo del turno de noche</strong> antes de entregarlo, distinto del registro del día de clase. Partes de 20 eventos nuevos del turno, aplicas la misma técnica de <code>for</code> más <code>while</code>, cuentas los <code>WARNING</code> en ambas versiones y verificas la coincidencia. La tarea aplica la misma técnica sobre datos nuevos y otro nivel, mientras el ejercicio de clase cuenta <code>ERROR</code>.</p>
+    <p style="font-size: 8.5pt;">Actúas como la persona analista que deja listo el <strong>conteo del turno de noche</strong> antes de entregarlo, distinto del registro del día de clase. <strong>Evidencia y fuente:</strong> 20 eventos nuevos del turno transcritos abajo, en tu máquina y sin red. <strong>Problema:</strong> el turno necesita el mismo doble conteo con otro nivel (<code>WARNING</code>). <strong>Si no se resuelve,</strong> quien recibe el turno no sabrá si el total está verificado. <strong>Decisiones que tomarás:</strong> contar con <code>for</code>, repetir con <code>while</code> con avance garantizado, comparar y resumir. <strong>Entrega:</strong> un resumen del turno para quien lo recibe con 20 eventos, 7 <code>WARNING</code> con <code>for</code>, 7 con <code>while</code> y coincidencia <code>True</code>. La tarea aplica la misma técnica sobre datos nuevos y otro nivel, mientras el ejercicio de clase cuenta <code>ERROR</code>.</p>
     <h3 class="subsection-title">Mapeo dominio → código de la tarea (léelo antes de programar):</h3>
     <table class="data-table">
       <thead><tr><th>Dato del caso</th><th>Variable</th><th>Regla</th><th>Aporte</th></tr></thead>
@@ -376,11 +466,11 @@ while index &lt; len(event_log):
     "WARNING", "ERROR", "INFO", "WARNING", "INFO",
     "ERROR", "WARNING", "INFO", "ERROR", "INFO",
 ]</div>
-    <h3 class="subsection-title">Antes de programar, analiza (sin ejecutar código):</h3>
+    <h3 class="subsection-title">Antes de programar, predice (sin ejecutar código):</h3>
     <ul style="font-size: 8.5pt; margin-left: 18px; margin-bottom: 10px;">
-      <li>Cuántos <code>WARNING</code> hay a mano (espera <code>7</code>) y en qué posiciones están los dos primeros.</li>
+      <li>Predice cuántos <code>WARNING</code> hay a mano y en qué posiciones están los dos primeros; verifica después de ejecutar.</li>
       <li>Qué tres líneas garantizan que el <code>while</code> termina (inicio, condición con <code>len()</code>, avance de uno).</li>
-      <li>Qué vale <code>shift_match</code> si ambos cuentan <code>7</code> y qué significa para quien recibe el turno.</li>
+      <li>Qué valdrá <code>shift_match</code> cuando ambas versiones coincidan y qué significa para quien recibe el turno.</li>
     </ul>
     <h3 class="subsection-title">Los 3 pasos (en este orden):</h3>
     <ol style="font-size: 8.5pt; margin-left: 18px; margin-bottom: 10px;">

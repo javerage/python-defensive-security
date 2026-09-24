@@ -19,7 +19,7 @@ Al terminar la sesión podrás **recorrer 20 eventos sintéticos con `for` y con
 
 ## Historia del ejercicio
 
-Formas parte del equipo que verifica el registro local antes de entregarlo. Recibes un registro de **20 eventos**: cuenta los `ERROR` con `for` y repite el conteo con `while` con avance garantizado. Si ambos dan **6**, el conteo queda verificado; si difieren, hay un error de recorrido. En la Sesión 08 agrupaste con sets sin bucles; hoy cuentas los mismos 20 eventos dos veces, una con cada ciclo, y ambos deben dar 6.
+Formas parte del equipo que verifica el registro local antes de entregarlo. Recibes un registro de **20 eventos**: cuenta los `ERROR` con `for` y repite el conteo con `while` con avance garantizado. Si ambos dan **6**, el conteo queda verificado; si difieren, hay un error de recorrido. En la Sesión 08 agrupaste 20 direcciones con sets sin bucles; hoy recorres 20 eventos de registro con dos ciclos, una vez con cada uno, y ambos deben dar 6.
 
 ## Secuencia conceptual
 

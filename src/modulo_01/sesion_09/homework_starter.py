@@ -22,13 +22,13 @@ STUDENT INSTRUCTIONS:
         - Tab autocompletes file names. Up arrow recalls commands.
         - Ctrl + C cancels a waiting while that never ends.
 
-BEFORE CODING, ANALYZE (count by hand first, without running):
-    - How many WARNING entries are there by hand (expect 7), and in
-      which positions are the first two?
+BEFORE CODING, PREDICT (count by hand first, without running):
+    - How many WARNING entries are there by hand, and in
+      which positions are the first two? Write your count first.
     - Which three lines guarantee the while terminates (start,
       condition with len(), progress of one)?
-    - What does shift_match hold when both count 7, and what does
-      that mean for whoever receives the shift?
+    - What will shift_match hold when both versions agree, and what
+      does that mean for whoever receives the shift?
 
 DELIVERY: explain aloud the chain list -> for -> while with progress
 -> comparison for the shift. Local practice data only. The program
@@ -62,24 +62,27 @@ print(f"Eventos del turno: {len(shift_log)}")
 # ==============================================================================
 # STEP 2: Counts (TODO). One single-level loop per version; the while
 # advances its index on every turn so it always terminates.
+# PREDICT FIRST: before completing each TODO, write your prediction
+# (which value you expect and why); run the script; then compare
+# with the expected output in the student material.
 # ==============================================================================
-# TODO 2.1: Count with for (expect 7). Start shift_for at 0, visit
+# TODO 2.1: Count with for. Start shift_for at 0, visit
 # each event with for event in shift_log, add 1 when WARNING.
 shift_for = 0  # TODO: build it with the for loop described above
 
-# TODO 2.2: print the for count (expect 7).
+# TODO 2.2: print the for count.
 print("PENDING")  # TODO: print f"Conteo con for: {shift_for}"
 
-# TODO 2.3: Count with while (expect 7). Start shift_while at 0 and
+# TODO 2.3: Count with while. Start shift_while at 0 and
 # shift_index at 0; repeat while shift_index < len(shift_log), add 1
 # on WARNING, and advance shift_index = shift_index + 1 every turn.
 shift_while = 0  # TODO: build it with the while loop described above
-shift_index = 0  # TODO: the while loop must leave shift_index at 20
+shift_index = 0  # TODO: the while loop must advance shift_index every turn
 
-# TODO 2.4: print the while count (expect 7).
+# TODO 2.4: print the while count.
 print("PENDING")  # TODO: print f"Conteo con while: {shift_while}"
 
-# TODO 2.5: Compare both counts (expect True) and print the result.
+# TODO 2.5: Compare both counts and print the result.
 shift_match = False  # TODO: build it with shift_for == shift_while
 print("PENDING")  # TODO: print f"Conteos iguales: {shift_match}"
 
