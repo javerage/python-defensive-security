@@ -1,0 +1,6 @@
+INFO: Inicio de lote: 20 registros crudos (umbral 5, modo lax)
+INFO: Fixture JSON escrito: datos/eventos.json (20 registros, UTF-8)
+INFO: Validacion Pydantic: 15 aceptados, 5 rechazados
+INFO: Demo strict: registro "15" rechazado con strict=True (lax lo convierte a 15)
+INFO: CSV publicado: salida/eventos.csv (15 filas, encabezados event_id,level,message,source)
+INFO: Prueba CSV->dict: fila 1 aceptada (lax convierte "1" a 1); errores aceptados: 3 - Rutina local

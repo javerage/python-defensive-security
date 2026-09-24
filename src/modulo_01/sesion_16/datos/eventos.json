@@ -1,0 +1,120 @@
+[
+  {
+    "event_id": 1,
+    "level": "INFO",
+    "message": "servicio iniciado en localhost",
+    "source": "sensor-a"
+  },
+  {
+    "event_id": 2,
+    "level": "WARNING",
+    "message": "reintento de conexion local",
+    "source": "sensor-a"
+  },
+  {
+    "event_id": 3,
+    "level": "ERROR",
+    "message": "disco lleno en localhost",
+    "source": "sensor-b"
+  },
+  {
+    "event_id": 4,
+    "level": "INFO",
+    "message": "revision de turno completada",
+    "source": "sensor-a"
+  },
+  {
+    "event_id": 5,
+    "level": "ERROR",
+    "message": "puerto local sin respuesta",
+    "source": "sensor-b"
+  },
+  {
+    "event_id": 6,
+    "level": "WARNING",
+    "message": "latencia alta en loopback",
+    "source": "sensor-a"
+  },
+  {
+    "event_id": 7,
+    "level": "INFO",
+    "message": "copia de respaldo verificada",
+    "source": "sensor-b"
+  },
+  {
+    "event_id": 8,
+    "level": "WARNING",
+    "message": "umbral cercano al limite",
+    "source": "sensor-a"
+  },
+  {
+    "event_id": 9,
+    "level": "ERROR",
+    "message": "registro incompleto detectado",
+    "source": "sensor-b"
+  },
+  {
+    "event_id": 10,
+    "level": "INFO",
+    "message": "sesion local iniciada",
+    "source": "sensor-a"
+  },
+  {
+    "event_id": 11,
+    "level": "WARNING",
+    "message": "cola de eventos llena",
+    "source": "sensor-b"
+  },
+  {
+    "event_id": 12,
+    "level": "INFO",
+    "message": "limpieza de salida completada",
+    "source": "sensor-a"
+  },
+  {
+    "event_id": 13,
+    "level": "INFO",
+    "message": "verificacion final aprobada",
+    "source": "sensor-b"
+  },
+  {
+    "event_id": 14,
+    "level": "WARNING",
+    "message": "reintento de lectura local",
+    "source": "sensor-a"
+  },
+  {
+    "event_id": "15",
+    "level": "INFO",
+    "message": "inventario local actualizado",
+    "source": "sensor-b"
+  },
+  {
+    "event_id": 16,
+    "message": "linea sin nivel",
+    "source": "sensor-a"
+  },
+  {
+    "event_id": "sin-numero",
+    "level": "ERROR",
+    "message": "tipo invalido",
+    "source": "sensor-b"
+  },
+  {
+    "event_id": 18,
+    "level": "DEBUG",
+    "message": "nivel inventado",
+    "source": "sensor-a"
+  },
+  {
+    "level": "INFO",
+    "message": "falta identificador",
+    "source": "sensor-b"
+  },
+  {
+    "event_id": 20,
+    "level": "INFO",
+    "message": "",
+    "source": "sensor-a"
+  }
+]

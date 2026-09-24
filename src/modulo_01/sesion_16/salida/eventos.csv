@@ -1,0 +1,16 @@
+event_id,level,message,source
+1,INFO,servicio iniciado en localhost,sensor-a
+2,WARNING,reintento de conexion local,sensor-a
+3,ERROR,disco lleno en localhost,sensor-b
+4,INFO,revision de turno completada,sensor-a
+5,ERROR,puerto local sin respuesta,sensor-b
+6,WARNING,latencia alta en loopback,sensor-a
+7,INFO,copia de respaldo verificada,sensor-b
+8,WARNING,umbral cercano al limite,sensor-a
+9,ERROR,registro incompleto detectado,sensor-b
+10,INFO,sesion local iniciada,sensor-a
+11,WARNING,cola de eventos llena,sensor-b
+12,INFO,limpieza de salida completada,sensor-a
+13,INFO,verificacion final aprobada,sensor-b
+14,WARNING,reintento de lectura local,sensor-a
+15,INFO,inventario local actualizado,sensor-b
