@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Workbook — Session 17 | Python for Defensive Security</title>
+  <style>
+    :root {
+      --primary: #1e3a8a;
+      --primary-dark: #0f172a;
+      --primary-light: #eff6ff;
+      --secondary: #0284c7;
+      --accent-red: #b91c1c;
+      --accent-red-light: #fef2f2;
+      --accent-amber: #b45309;
+      --accent-amber-light: #fffbeb;
+      --accent-green: #15803d;
+      --accent-green-light: #f0fdf4;
+      --accent-purple: #6b21a8;
+      --accent-purple-light: #faf5ff;
+      --text-main: #1f2937;
+      --text-muted: #4b5563;
+      --border-color: #d1d5db;
+      --border-light: #e5e7eb;
+      --bg-card: #f9fafb;
+      --bg-terminal: #0f172a;
+      --term-text: #f8fafc;
+      --term-prompt: #38bdf8;
+      --term-accent: #4ade80;
+      --term-warn: #fbbf24;
+      --term-err: #f87171;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-size: 9.5pt; line-height: 1.55; color: var(--text-main);
+      background-color: #ffffff; padding: 0; margin: 0;
+    }
+    .page-container { max-width: 920px; margin: 0 auto; padding: 24px 32px; }
+    .header-institution { border-bottom: 2px solid var(--primary); padding-bottom: 12px; margin-bottom: 16px; }
+    .header-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+    .inst-titles h1 { font-size: 14.5pt; color: var(--primary); font-weight: 700; line-height: 1.25; letter-spacing: -0.2px; }
+    .inst-titles h2 { font-size: 11pt; color: var(--text-muted); font-weight: 600; margin-top: 3px; }
+    .badge-container { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+    .badge { display: inline-block; font-size: 7.5pt; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; padding: 3px 8px; border-radius: 4px; border: 1px solid transparent; }
+    .badge-primary { background-color: var(--primary-light); color: var(--primary); border-color: #bfdbfe; }
+    .badge-neutral { background-color: #f3f4f6; color: #374151; border-color: #e5e7eb; }
+    .badge-alert { background-color: var(--accent-red-light); color: var(--accent-red); border-color: #fecaca; }
+    .badge-purple { background-color: var(--accent-purple-light); color: var(--accent-purple); border-color: #e9d5ff; }
+    .student-data-card { background-color: var(--bg-card); border: 1px solid var(--border-color); border-radius: 6px; padding: 12px 14px; margin-bottom: 18px; }
+    .data-grid { display: grid; grid-template-columns: 2fr 1fr 1.2fr 1fr; gap: 10px 16px; align-items: end; }
+    .data-field { display: flex; flex-direction: column; }
+    .data-label { font-size: 7.5pt; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 3px; }
+    .data-line { border-bottom: 1px dashed #6b7280; min-height: 20px; font-size: 9pt; color: var(--text-main); padding: 0 4px; }
+    h2.section-title { font-size: 11.5pt; color: var(--primary-dark); border-bottom: 1.5px solid var(--border-color); padding-bottom: 4px; margin-top: 22px; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+    h3.subsection-title { font-size: 10pt; color: var(--primary); margin-top: 14px; margin-bottom: 6px; font-weight: 700; }
+    h4.subsubsection-title { font-size: 9pt; color: #334155; margin-top: 10px; margin-bottom: 4px; font-weight: 700; }
+    p { margin-bottom: 10px; text-align: justify; }
+    ul, ol { margin-left: 20px; margin-bottom: 10px; }
+    li { margin-bottom: 4px; }
+    .callout { border-left: 4px solid var(--primary); background-color: var(--primary-light); padding: 10px 14px; border-radius: 0 6px 6px 0; margin: 12px 0; font-size: 9pt; }
+    .callout-title { font-weight: 700; font-size: 9.5pt; margin-bottom: 5px; display: flex; align-items: center; gap: 6px; }
+    .callout-info { border-left-color: var(--secondary); background-color: #f0f9ff; }
+    .callout-info .callout-title { color: #0369a1; }
+    .callout-critical { border-left-color: var(--accent-red); background-color: var(--accent-red-light); border: 1px solid #fecaca; border-left-width: 5px; }
+    .callout-critical .callout-title { color: var(--accent-red); }
+    .callout-warning { border-left-color: var(--accent-amber); background-color: var(--accent-amber-light); }
+    .callout-warning .callout-title { color: var(--accent-amber); }
+    .callout-tip { border-left-color: var(--accent-green); background-color: var(--accent-green-light); }
+    .callout-tip .callout-title { color: var(--accent-green); }
+    .callout-purple { border-left-color: var(--accent-purple); background-color: var(--accent-purple-light); }
+    .callout-purple .callout-title { color: var(--accent-purple); }
+    .terminal-container { background-color: var(--bg-terminal); color: var(--term-text); border-radius: 6px; padding: 13px 15px; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size: 8.5pt; line-height: 1.55; margin: 12px 0 16px 0; overflow-x: auto; border: 1px solid #334155; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    .terminal-header { color: #94a3b8; font-size: 7.5pt; border-bottom: 1px solid #334155; padding-bottom: 4px; margin-bottom: 10px; display: flex; justify-content: space-between; text-transform: uppercase; letter-spacing: 0.5px; }
+    .prompt-win { color: var(--term-prompt); font-weight: 600; }
+    .prompt-nix { color: var(--term-accent); font-weight: 600; }
+    .cmd { color: #ffffff; font-weight: 600; }
+    .output { color: #cbd5e1; }
+    .comment { color: #64748b; font-style: italic; }
+    .err-highlight { color: var(--term-err); font-weight: bold; }
+    .caret-highlight { color: var(--term-warn); font-weight: bold; }
+    .term-spacer { height: 10px; }
+    .os-tabs { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin: 10px 0 14px 0; }
+    .os-card { background: #f8fafc; border: 1px solid var(--border-color); border-radius: 6px; padding: 10px 12px; }
+    .os-title { font-size: 8pt; font-weight: 700; color: var(--primary-dark); text-transform: uppercase; border-bottom: 1px solid var(--border-light); padding-bottom: 4px; margin-bottom: 8px; }
+    .os-code { font-family: ui-monospace, Menlo, Monaco, Consolas, "Liberation Mono", monospace; font-size: 8pt; background: #ffffff; padding: 8px 10px; border-radius: 4px; border: 1px solid #cbd5e1; white-space: pre-wrap; word-break: break-word; color: #0f172a; line-height: 1.6; }
+    table.data-table { width: 100%; border-collapse: collapse; margin: 10px 0 14px 0; font-size: 8.5pt; }
+    table.data-table th, table.data-table td { border: 1px solid var(--border-color); padding: 6px 8px; text-align: left; vertical-align: top; }
+    table.data-table th { background-color: #f1f5f9; color: var(--primary-dark); font-weight: 700; font-size: 8pt; text-transform: uppercase; }
+    table.data-table tr:nth-child(even) { background-color: #f8fafc; }
+    .check-box-cell { text-align: center; width: 45px; vertical-align: middle; }
+    .check-square { display: inline-block; width: 14px; height: 14px; border: 1.5px solid #4b5563; border-radius: 3px; vertical-align: middle; background-color: #ffffff; }
+    .trouble-card { border: 1px solid var(--border-color); border-left: 4px solid var(--accent-amber); background-color: #ffffff; border-radius: 4px; padding: 10px 12px; margin-bottom: 12px; font-size: 8.5pt; }
+    .trouble-card.trouble-critical { border-left-color: var(--accent-red); }
+    .trouble-card.trouble-info { border-left-color: var(--secondary); }
+    .trouble-title { font-weight: 700; font-size: 9pt; color: var(--primary-dark); margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
+    .trouble-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 8px; margin-top: 6px; background: #f8fafc; padding: 6px 8px; border-radius: 4px; border: 1px solid var(--border-light); }
+    .student-code-box { border: 1px dashed #64748b; background-color: #fbfcfe; border-radius: 6px; padding: 10px 12px; margin: 8px 0 12px 0; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 8pt; line-height: 1.5; min-height: 180px; color: #334155; white-space: pre-wrap; }
+    .student-output-box { border: 1px dashed #0284c7; background-color: #f0f9ff; border-radius: 6px; padding: 10px 12px; margin: 8px 0 12px 0; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 8pt; line-height: 1.45; min-height: 80px; color: #0369a1; white-space: pre-wrap; }
+    .concept-figure { margin: 12px 0; border: 1px solid var(--border-color); border-radius: 6px; padding: 10px 12px; background: #ffffff; width: 100%; break-inside: avoid; page-break-inside: avoid; }
+    .concept-figure svg { width: 100%; height: auto; display: block; }
+    .concept-figure figcaption { font-size: 8pt; color: var(--text-muted); margin-top: 6px; text-align: center; }
+    .signature-box { border: 1px solid var(--border-color); background-color: var(--bg-card); border-radius: 6px; padding: 12px 14px; margin-top: 16px; }
+    .signature-grid { display: grid; grid-template-columns: 2fr 1.5fr; gap: 20px; margin-top: 24px; align-items: end; }
+    .sig-line { border-top: 1px solid #4b5563; padding-top: 4px; text-align: center; font-size: 8pt; color: var(--text-muted); font-weight: 600; }
+    @media print {
+      @page { size: A4 portrait; margin: 12mm 15mm 15mm 15mm; }
+      body { font-size: 8.5pt; line-height: 1.36; color: #000000; background: #ffffff; }
+      .page-container { max-width: 100%; padding: 0; margin: 0; }
+      h2.section-title { font-size: 10.5pt; margin-top: 14px; margin-bottom: 6px; page-break-after: avoid; break-after: avoid; }
+      h3.subsection-title { font-size: 9.5pt; page-break-after: avoid; break-after: avoid; }
+      h4.subsubsection-title { font-size: 8.5pt; page-break-after: avoid; break-after: avoid; }
+      .callout, .terminal-container, .student-data-card, .os-card, table.data-table, .signature-box, .trouble-card, .student-code-box, .student-output-box, .concept-figure { page-break-inside: avoid; break-inside: avoid; }
+      .terminal-container { background-color: #0f172a !important; color: #f8fafc !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .badge-primary, .badge-neutral, .badge-alert, .badge-purple { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .page-break { page-break-before: always; break-before: page; }
+      .check-square { border-color: #000000; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="page-container">
+
+  <header class="header-institution">
+    <div class="header-top">
+      <div class="inst-titles">
+        <h1>Python for Defensive Security</h1>
+        <h2>Python for Defensive Security: Fundamentals and Local Lab Tooling — M10. Testing y POO mínima + Pydantic</h2>
+      </div>
+      <div class="badge-container">
+        <span class="badge badge-primary">Sesión 17 | 60 minutos</span>
+        <span class="badge badge-neutral">Nivel: con base de S16 (Evento + ValidationError + lax/strict)</span>
+        <span class="badge badge-alert">Sin asistente de IA</span>
+      </div>
+    </div>
+    <div style="font-size: 8.5pt; color: var(--text-muted); display: flex; justify-content: space-between;">
+      <span><strong>Documento:</strong> Cuaderno de trabajo del estudiante | <strong>GitHub:</strong> python-defensive-security</span>
+      <span><strong>Versión Base Oficial:</strong> Python 3.13 (Entorno Local reproducible)</span>
+    </div>
+  </header>
+
+  <section class="student-data-card">
+    <div class="data-grid">
+      <div class="data-field">
+        <span class="data-label">Nombre Completo del Estudiante:</span>
+        <div class="data-line"></div>
+      </div>
+      <div class="data-field">
+        <span class="data-label">Matrícula / ID:</span>
+        <div class="data-line"></div>
+      </div>
+      <div class="data-field">
+        <span class="data-label">Sistema Operativo Anfitrión:</span>
+        <div class="data-line">[ ] Windows &nbsp; [ ] macOS &nbsp; [ ] Linux</div>
+      </div>
+      <div class="data-field">
+        <span class="data-label">Fecha de Realización:</span>
+        <div class="data-line"></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">1. Objetivos de Aprendizaje y Marco Ético</h2>
+    <p>Al concluir satisfactoriamente esta sesión formativa, el estudiante será capaz de:</p>
+    <ul style="font-size: 9pt;">
+      <li><strong>Orden arrange-act-assert:</strong> Escribir cada prueba en tres tiempos (preparar datos, ejecutar una acción, comprobar un veredicto) sobre el lote local de 10 dicts con umbral 5.</li>
+      <li><strong>Suite unittest en verde:</strong> Encerrar <code>contar_por_nivel</code> y <code>validar_config</code> en 6 pruebas (normales, bordes, errores) que pasan con <code>python -m unittest test_review.py</code>, y re-ejecutarlas con <code>pytest</code> cuando está instalado.</li>
+      <li><strong>Frontera Pydantic probada:</strong> Aceptar el registro <code>"15"</code> en modo lax con <code>assertEqual</code> y rechazarlo con <code>strict=True</code> usando <code>assertRaises(ValidationError)</code>, más el rechazo del dict sin <code>level</code>.</li>
+      <li><strong>Ciclo rojo-verde-refactor:</strong> Ver una prueba fallar antes de corregir (rojo), corregir hasta verla pasar (verde) y limpiar sin romper el verde (refactor).</li>
+    </ul>
+    <div class="callout callout-critical">
+      <div class="callout-title">&#x26A0;&#xFE0F; Compromiso Ético y Reglas del Laboratorio Defensivo Local</div>
+      <p style="margin-bottom: 4px;">Este curso está orientado de manera estricta al <strong>análisis, inspección y defensa de sistemas locales</strong>. Toda práctica se desarrollará exclusivamente en la carpeta asignada (<code>curso-python-defensivo/</code>) y sobre destinos en bucle local (<code>localhost</code>, <code>127.0.0.1</code>, <code>::1</code>) o fixtures provistas por el docente.</p>
+      <p style="margin-bottom: 0;"><strong>Prohibiciones absolutas:</strong> Queda estrictamente vetado el escaneo o conexión hacia direcciones IP externas, la instalación o prueba de código orientado a malware o persistencia, el uso de credenciales reales ajenas y la desactivación intencional de controles de seguridad. La transgresión de estos límites activa el umbral eliminatorio de no aprobación inmediata del curso.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">2. Fundamentos Conceptuales de la Sesión</h2>
+    <h3 class="subsection-title">2.1 Por qué probar: la cifra sin testigo no existe</h3>
+    <p>La Sesión 16 entregó 15 aceptados y 5 rechazados, pero nada impide que la próxima edición rompa el conteo en silencio. Una prueba es un testigo automático: fija una cifra hoy (<code>INFO=4, WARNING=3, ERROR=3</code>) y grita mañana si alguien la mueve. Probar no es desconfiar del código; es dejar constancia firmada de lo que el tablero puede citar.</p>
+    <h3 class="subsection-title">2.2 unittest: la base garantizada (siempre funciona)</h3>
+    <p>El módulo <code>unittest</code> viene en la biblioteca estándar: cada suite es una clase <code>TestReviewBatch(unittest.TestCase)</code> con métodos <code>test_*</code>, y cada método compara con <code>assertEqual</code>, <code>assertTrue</code>, <code>assertFalse</code>, <code>assertIn</code> o espera una excepción con <code>assertRaises</code>. Se ejecuta con <code>python -m unittest test_review.py -v</code> y su veredicto (<code>OK</code> o <code>FAILED</code>) vale el 100% de la nota.</p>
+    <h3 class="subsection-title">2.3 pytest: el lector legible (opcional, mismo archivo)</h3>
+    <p><code>pytest</code> no pide reescribir nada: ejecuta el mismo <code>test_review.py</code> con <code>pytest test_review.py -v</code> y muestra cada prueba en verde con más contexto por fallo. Es una dependencia opcional (<code>pip install pytest</code>); si no está instalada, el bloque <code>unittest</code> en verde cubre la calificación completa. Regla innegociable de hoy: <strong>todo assert lleva mensaje</strong>; un <code>AssertionError</code> mudo no dice qué se esperaba.</p>
+    <h3 class="subsection-title">2.4 Arrange-act-assert y rojo-verde-refactor</h3>
+    <p>Cada prueba tiene tres tiempos: <strong>arrange</strong> (prepara los dicts), <strong>act</strong> (ejecuta una sola llamada) y <strong>assert</strong> (comprueba un solo veredicto con mensaje). Y cada corrección tiene tres colores: <strong>rojo</strong> (la prueba nueva falla contra el código roto), <strong>verde</strong> (el código corregido la pasa) y <strong>refactor</strong> (se limpia sin perder el verde). La frontera Pydantic se prueba igual: <code>assertEqual(event.event_id, 15)</code> para la aceptación lax, <code>assertRaises(ValidationError)</code> para el rechazo y para <code>strict=True</code>.</p>
+
+    <figure class="concept-figure">
+<svg role="img" aria-labelledby="fig-anatomy-title fig-anatomy-desc" viewBox="0 0 640 250" xmlns="http://www.w3.org/2000/svg">
+<title id="fig-anatomy-title">Anatomia de la suite probada de la Sesion 17</title>
+<desc id="fig-anatomy-desc">Diagrama de tres bloques: a la izquierda la evidencia con 10 dicts locales y umbral 5; en el centro la clase TestReviewBatch con 6 pruebas ordenadas arrange-act-assert; a la derecha los dos corredores, unittest como base garantizada y pytest como lector legible opcional.</desc>
+<rect x="8" y="8" width="624" height="234" rx="8" fill="#ffffff" stroke="#1e3a8a" stroke-width="2"/>
+<text x="320" y="32" text-anchor="middle" font-family="sans-serif" font-size="13" font-weight="bold" fill="#0f172a">[1] review_batch.py — lote bajo prueba</text>
+<rect x="20" y="48" width="180" height="120" rx="6" fill="#f0f9ff" stroke="#0284c7" stroke-width="1.5"/>
+<text x="110" y="70" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#0f172a">[2] EVIDENCIA</text>
+<text x="110" y="88" text-anchor="middle" font-family="monospace" font-size="10" fill="#0f172a">10 dicts locales</text>
+<text x="110" y="104" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#0f172a">umbral 5</text>
+<text x="110" y="120" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#0f172a">Evento (S16)</text>
+<text x="110" y="136" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#0f172a">4 / 3 / 3</text>
+<text x="110" y="152" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#0f172a">identidad</text>
+<rect x="230" y="48" width="180" height="120" rx="6" fill="#eff6ff" stroke="#1e3a8a" stroke-width="1.5"/>
+<text x="320" y="70" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#0f172a">[3] 6 PRUEBAS</text>
+<text x="320" y="88" text-anchor="middle" font-family="monospace" font-size="10" fill="#0f172a">TestReviewBatch</text>
+<text x="320" y="104" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#0f172a">arrange-act-assert</text>
+<text x="320" y="120" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#0f172a">4 conteo/config</text>
+<text x="320" y="136" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#0f172a">2 Pydantic</text>
+<text x="320" y="152" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#0f172a">assert con mensaje</text>
+<rect x="440" y="48" width="180" height="120" rx="6" fill="#f0fdf4" stroke="#15803d" stroke-width="1.5"/>
+<text x="530" y="70" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#0f172a">[4] CORREDORES</text>
+<text x="530" y="88" text-anchor="middle" font-family="monospace" font-size="10" fill="#0f172a">unittest: base</text>
+<text x="530" y="104" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#0f172a">6/6 en verde</text>
+<text x="530" y="120" text-anchor="middle" font-family="monospace" font-size="10" fill="#0f172a">pytest: legible</text>
+<text x="530" y="136" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#0f172a">mismo archivo</text>
+<text x="530" y="152" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#0f172a">6 passed</text>
+<line x1="200" y1="108" x2="230" y2="108" stroke="#1e3a8a" stroke-width="2"/>
+<polygon points="230,103 230,113 238,108" fill="#1e3a8a"/>
+<line x1="410" y1="108" x2="440" y2="108" stroke="#1e3a8a" stroke-width="2"/>
+<polygon points="440,103 440,113 448,108" fill="#1e3a8a"/>
+<text x="320" y="196" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#4b5563">6/6 verde siempre: cada cifra del reporte tiene una prueba que la encierra.</text>
+<text x="320" y="214" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#4b5563">Las pruebas encierran el lote de hoy; no certifican cambios futuros.</text>
+</svg>
+<figcaption>Figura 1. Anatomía de la suite: la evidencia aporta dicts locales, las 6 pruebas encierran cada cifra y los dos corredores repiten el mismo veredicto.</figcaption>
+    </figure>
+
+    <div class="callout callout-info" style="margin: 12px 0;">
+      <div class="callout-title">&#x1F4A1; Analogía de Seguridad Defensiva: El auditor que revisa a la aduana</div>
+      <p style="margin-bottom: 0;">En la Sesión 16 la aduana revisó pasajeros; hoy llega el auditor a revisar a la aduana. No vuelve a sellar pasaportes: toma la lista de admitidos y verifica que sume 4/3/3, pide el libro y confirma 6 entradas equivalentes, y repite el caso difícil (<code>"15"</code> en lax y en strict) para comprobar que el lector sigue calibrado. Sus 6 actas son las 6 pruebas: si mañana el lector se descalibra, la primera acta en rojo dice exactamente dónde.</p>
+    </div>
+
+    <div class="callout callout-tip" style="margin: 10px 0;">
+      <div class="callout-title">&#x1F4CD; Principio Pedagógico y Estándar PEP 8 en Inglés</div>
+      <p style="margin-bottom: 4px; font-size: 8.5pt;"><strong>Identificadores 100% en inglés:</strong> Conforme al estándar global de la industria y la guía oficial PEP 8, todos los identificadores nuevos de variables, constantes y comentarios dentro del código fuente se escriben en <strong>inglés idiomático</strong> (ej. <code>sample_events</code>, <code>TestReviewBatch</code>, <code>test_count_mixed_levels</code>). Se conservan por contrato del hilo la entidad <code>Evento</code> y las funciones <code>contar_por_nivel</code> y <code>validar_config</code>, que esta sesión prueba sin renombrar. La prosa explicativa y los mensajes de cada assert se expresan en español.</p>
+      <p style="margin-bottom: 0; font-size: 8.5pt;"><strong>Límite de Sintaxis Vigente:</strong> NUEVO HOY SOLO unittest (<code>TestCase</code>, <code>assertEqual</code>, <code>assertTrue</code>, <code>assertFalse</code>, <code>assertIn</code>, <code>assertRaises</code>), <code>pytest</code> como corredor opcional, orden arrange-act-assert y ciclo rojo-verde-refactor. REUTILIZADO: def/return (S11), try/except (S13), listas, dicts y ciclos (S06–S10), <code>Evento</code> con <code>model_validate</code>, <code>ValidationError</code> y lax contra <code>strict=True</code> (S16). PROHIBIDO: clases de dominio nuevas, argparse, red y shell.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">3. Guía de Práctica de Laboratorio Paso a Paso</h2>
+    <p>Siga detalladamente las instrucciones de verificación y ejecución en su estación de trabajo antes de iniciar el reto autónomo.</p>
+    <div class="callout callout-purple" style="margin: 8px 0 12px 0;">
+      <div class="callout-title">&#x1F4BB; Higiene Operativa de Terminal ("Mirar antes de saltar")</div>
+      <p style="font-size: 8.5pt; margin-bottom: 0;">Antes de invocar <code>python script.py</code>, ejecute siempre <code>dir</code> (Windows) o <code>ls</code> (Unix) para verificar que el archivo existe físicamente en el directorio actual. Emplee la tecla <strong><code>Tab</code></strong> para autocompletar el nombre y evitar <code>FileNotFoundError</code>, y la tecla <strong><code>↑</code></strong> para re-ejecutar comandos sin fatiga. Si un proceso espera sin responder, interrumpa con <strong><code>Ctrl + C</code></strong>.</p>
+    </div>
+    <div class="os-tabs">
+      <div class="os-card">
+        <div class="os-title">Windows (PowerShell)</div>
+        <div class="os-code"><span class="comment"># 1. Navegar y verificar archivos</span>
+cd curso-python-defensivo
+dir
+
+<span class="comment"># 2. Activar venv</span>
+.\.venv\Scripts\Activate.ps1
+
+<span class="comment"># 3. Reporte probado + suite base</span>
+python review_batch.py
+python -m unittest test_review.py -v</div>
+      </div>
+      <div class="os-card">
+        <div class="os-title">macOS (Zsh)</div>
+        <div class="os-code"><span class="comment"># 1. Navegar y verificar archivos</span>
+cd ~/curso-python-defensivo
+ls -la
+
+<span class="comment"># 2. Activar venv</span>
+source .venv/bin/activate
+
+<span class="comment"># 3. Reporte probado + suite base</span>
+python3 review_batch.py
+python3 -m unittest test_review.py -v</div>
+      </div>
+      <div class="os-card">
+        <div class="os-title">Linux (Bash)</div>
+        <div class="os-code"><span class="comment"># 1. Navegar y verificar archivos</span>
+cd ~/curso-python-defensivo
+ls -la
+
+<span class="comment"># 2. Activar venv</span>
+source .venv/bin/activate
+
+<span class="comment"># 3. Reporte probado + suite base</span>
+python3 review_batch.py
+python3 -m unittest test_review.py -v</div>
+      </div>
+    </div>
+    <p style="font-size: 8.5pt;"><strong>Paso 4 (todas las plataformas):</strong> Re-ejecute la suite con el lector legible solo si está instalado: <code>pytest test_review.py -v</code> (debe responder <code>6 passed</code>). Si responde comando no reconocido, su nota queda completa con <code>unittest</code> en verde. Confirme Pydantic 2.x con <code>python -c "import pydantic; print(pydantic.VERSION)"</code>. Si PowerShell bloquea la activación, ejecute primero <code>Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass</code>.</p>
+  </section>
+
+  <section class="page-break">
+    <h2 class="section-title">4. Reto Práctico Autónomo Individual (20 minutos)</h2>
+    <div class="callout callout-info" style="margin-bottom: 12px;">
+      <div class="callout-title">&#x1F3AF; Escenario Defensivo: review_batch.py — el lote del día queda bajo prueba</div>
+      <p style="margin-bottom: 8px;">El tablero del turno acepta cifras pero exige testigos: el conteo 4/3/3, la config del laboratorio y la frontera lax/strict deben llegar con 6 pruebas en verde antes de que el siguiente turno las cite. Como analista de turno, debe encerrar cada cifra en su prueba con mensaje y repetir el veredicto en ambos corredores.</p>
+      <ul style="font-size: 8.5pt; margin-bottom: 0;">
+        <li><strong>Rol:</strong> Analista defensivo de turno en laboratorio local, responsable de entregar el lote del día con pruebas que lo respalden al tablero del siguiente turno.</li>
+        <li><strong>Evidencia:</strong> Lote sintético local de 10 dicts (4 INFO, 3 WARNING, 3 ERROR), umbral 5 y frontera <code>Evento</code> heredada de la Sesión 16.</li>
+        <li><strong>Problema:</strong> Probar <code>contar_por_nivel</code> y <code>validar_config</code> con 6 pruebas (normales, bordes, errores) y repetir la aceptación/rechazo Pydantic con <code>assertRaises(ValidationError)</code> y lax contra <code>strict=True</code>.</li>
+        <li><strong>Consecuencia:</strong> Si no se resuelve, el tablero cita cifras sin testigo, un cambio futuro rompe el conteo en silencio y la Sesión 18 hereda un lote sin red de pruebas.</li>
+        <li><strong>Decisiones:</strong> Qué tipo toca a cada prueba; cuándo basta <code>assertEqual</code> y cuándo se exige <code>assertRaises</code>; qué mensaje deja cada assert para el lector del fallo.</li>
+        <li><strong>Entrega a:</strong> Responsable del siguiente turno mediante <code>review_batch.py</code> ejecutado y <code>test_review.py</code> en verde en ambos corredores.</li>
+        <li><strong>Resultado verificable:</strong> Reporte con 4/3/3, par 3 rutina, config válida y pruebas lax/strict, más suite con 6/6 en verde y <code>OK</code> en consola.</li>
+      </ul>
+    </div>
+
+    <figure class="concept-figure">
+<svg role="img" aria-labelledby="fig-flow-title fig-flow-desc" viewBox="0 0 640 190" xmlns="http://www.w3.org/2000/svg">
+<title id="fig-flow-title">Flujo del reto review-batch en cinco pasos</title>
+<desc id="fig-flow-desc">Flujo horizontal de cinco pasos numerados: 1 Evidencia con umbral y 10 dicts; 2 Contar por nivel con 4 3 3 mas config; 3 Probar con 6 pruebas arrange-act-assert; 4 Correr con unittest mas pytest; 5 Reportar conteos, par y alcance con nota de corredores.</desc>
+<rect x="8" y="8" width="624" height="174" rx="8" fill="#ffffff" stroke="#1e3a8a" stroke-width="2"/>
+<g font-family="sans-serif" font-size="10" fill="#0f172a">
+<rect x="22" y="60" width="106" height="80" rx="6" fill="#eff6ff" stroke="#1e3a8a" stroke-width="1.5"/>
+<text x="75" y="80" text-anchor="middle" font-weight="bold">[1] EVIDENCIA</text>
+<text x="75" y="96" text-anchor="middle">Umbral 5</text>
+<text x="75" y="110" text-anchor="middle">10 dicts</text>
+<text x="75" y="124" text-anchor="middle">identidad</text>
+<rect x="142" y="60" width="106" height="80" rx="6" fill="#f0f9ff" stroke="#0284c7" stroke-width="1.5"/>
+<text x="195" y="80" text-anchor="middle" font-weight="bold">[2] CONTAR</text>
+<text x="195" y="96" text-anchor="middle">4 / 3 / 3</text>
+<text x="195" y="110" text-anchor="middle">config local</text>
+<text x="195" y="124" text-anchor="middle">lax/strict</text>
+<rect x="262" y="60" width="106" height="80" rx="6" fill="#fffbeb" stroke="#b45309" stroke-width="1.5"/>
+<text x="315" y="80" text-anchor="middle" font-weight="bold">[3] PROBAR</text>
+<text x="315" y="96" text-anchor="middle">6 pruebas</text>
+<text x="315" y="110" text-anchor="middle">AAA + mensaje</text>
+<text x="315" y="124" text-anchor="middle">2 Pydantic</text>
+<rect x="382" y="60" width="106" height="80" rx="6" fill="#f0fdf4" stroke="#15803d" stroke-width="1.5"/>
+<text x="435" y="80" text-anchor="middle" font-weight="bold">[4] CORRER</text>
+<text x="435" y="96" text-anchor="middle">unittest 6/6</text>
+<text x="435" y="110" text-anchor="middle">pytest 6 passed</text>
+<text x="435" y="124" text-anchor="middle">mismo archivo</text>
+<rect x="502" y="60" width="106" height="80" rx="6" fill="#faf5ff" stroke="#6b21a8" stroke-width="1.5"/>
+<text x="555" y="80" text-anchor="middle" font-weight="bold">[5] REPORTAR</text>
+<text x="555" y="96" text-anchor="middle">conteos</text>
+<text x="555" y="110" text-anchor="middle">par 3/5</text>
+<text x="555" y="124" text-anchor="middle">alcance</text>
+</g>
+<g stroke="#1e3a8a" stroke-width="2" fill="none">
+<line x1="128" y1="100" x2="142" y2="100"/><polygon points="142,95 142,105 150,100" fill="#1e3a8a"/>
+<line x1="248" y1="100" x2="262" y2="100"/><polygon points="262,95 262,105 270,100" fill="#1e3a8a"/>
+<line x1="368" y1="100" x2="382" y2="100"/><polygon points="382,95 382,105 390,100" fill="#1e3a8a"/>
+<line x1="488" y1="100" x2="502" y2="100"/><polygon points="502,95 502,105 510,100" fill="#1e3a8a"/>
+</g>
+<text x="320" y="36" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#0f172a">Flujo del reto: evidencia -&gt; contar -&gt; probar -&gt; correr -&gt; reportar</text>
+<text x="320" y="162" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#4b5563">6/6 verde siempre: cada cifra del reporte tiene una prueba que la encierra.</text>
+</svg>
+<figcaption>Figura 2. Flujo del reto en cinco pasos: ninguna cifra se reporta sin su prueba, y ningún corredor contradice al otro.</figcaption>
+    </figure>
+
+    <h3 class="subsection-title">Estructura del Reto en 4 Pasos Obligatorios:</h3>
+    <ol style="font-size: 9pt; margin-left: 20px; margin-bottom: 12px;">
+      <li><strong>STEP 1 (Identidad y Contexto):</strong> Registre umbral 5, los 10 dicts del lote, identidad del operador y el contrato local (niveles permitidos).</li>
+      <li><strong>STEP 2 (Procesamiento y Telemetría):</strong> Cuente por nivel con <code>contar_por_nivel</code>, revise la config con <code>validar_config</code> y repita la frontera con <code>model_validate</code> en lax y con <code>strict=True</code>.</li>
+      <li><strong>STEP 3 (Validación Lógica y Seguridad):</strong> Encierre cada cifra en su prueba con mensaje: mixto, vacío, niveles ignorados, config, aceptación lax y rechazo con <code>assertRaises</code>.</li>
+      <li><strong>STEP 4 (Reporte Estructurado en Consola):</strong> Imprima las 6 líneas probadas, el par de errores contra el umbral 5, la nota de corredores y el alcance local.</li>
+    </ol>
+
+    <h3 class="subsection-title">Plantilla de Código Base del Estudiante (<code>test_review.py</code>):</h3>
+    <p style="font-size: 8.5pt;"><strong>Antes de completar y ejecutar:</strong> Escriba en papel su predicción para cada TODO (¿pasará en verde o en rojo, y por qué?). Complete el código, ejecútelo y compare lo obtenido con su predicción y con la salida esperada (predecir → ejecutar → comparar). Los TODO nunca traen respuestas.</p>
+    <div class="student-code-box">import unittest
+from review_batch import Evento, contar_por_nivel, sample_events, validar_config
+from pydantic import ValidationError
+
+class TestReviewBatch(unittest.TestCase):
+
+    # TODO 1: test_count_mixed_levels (normal) ...
+    # TODO 2: test_count_empty_batch (borde) ...
+    # TODO 3: test_count_ignores_unknown_level (borde) ...
+    # TODO 4: test_config_allows_local_review (normal + bordes) ...
+    # TODO 5: test_evento_accepts_lax_numeric_string (aceptacion) ...
+    # TODO 6: test_evento_rejects_missing_level (rechazo) ...
+
+    # Cada prueba sigue arrange-act-assert y cada assert lleva mensaje.
+
+if __name__ == "__main__":
+    unittest.main()</div>
+
+    <h3 class="subsection-title">Salida Esperada en Consola (Verificación en Terminal):</h3>
+    <p style="font-size: 8.5pt;"><strong>Después de ejecutar, compare:</strong> su resultado obtenido con su predicción y con la salida esperada (el tiempo exacto varía por equipo; lo que debe coincidir es <code>6 tests</code> y <code>OK</code>).</p>
+    <div class="student-output-box">Pruebas del lote: 6/6 en verde (unittest)
+Conteo por nivel: INFO=4 WARNING=3 ERROR=3
+Errores (aceptados): 3 - Rutina local
+Config valida (18080, INFO): True
+Evento aceptado (lax "15" -&gt; 15): True
+Evento rechazado (strict=True): True
+--- Revision probada ---
+Nombre: Alex Mendez
+Identificador: DEF-2026-09
+Umbral: 5 (solo lectura)
+Corredores: unittest (base) + pytest (legible, opcional)
+Alcance: localhost (127.0.0.1) y fixtures locales
+
+......
+----------------------------------------------------------------------
+Ran 6 tests in 0.001s
+
+OK</div>
+
+    <h3 class="subsection-title">Tabla de pruebas (contrato de la suite):</h3>
+    <table class="data-table">
+      <thead><tr><th>#</th><th>Prueba</th><th>Tipo</th><th>Qué encierra</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td><code>test_count_mixed_levels</code></td><td>normal</td><td>Conteo mixto exacto: 4 INFO, 3 WARNING, 3 ERROR</td></tr>
+        <tr><td>2</td><td><code>test_count_empty_batch</code></td><td>borde</td><td>Lote vacío: 0, 0, 0 sin claves faltantes</td></tr>
+        <tr><td>3</td><td><code>test_count_ignores_unknown_level</code></td><td>borde</td><td><code>DEBUG</code> y fila sin nivel no cuentan</td></tr>
+        <tr><td>4</td><td><code>test_config_allows_local_review</code></td><td>normal + bordes</td><td><code>(18080, INFO)</code> sí; puerto 0 y <code>DEBUG</code> no</td></tr>
+        <tr><td>5</td><td><code>test_evento_accepts_lax_numeric_string</code></td><td>aceptación</td><td>Lax convierte <code>"15"</code> a <code>15</code>; <code>strict=True</code> lanza</td></tr>
+        <tr><td>6</td><td><code>test_evento_rejects_missing_level</code></td><td>rechazo</td><td>Dict sin <code>level</code> lanza <code>ValidationError</code> que nombra <code>level</code></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2 class="section-title">5. Clínica de Errores y Diagnóstico de Tracebacks</h2>
+    <p style="font-size: 8.5pt;">En Python 3.13, las trazas de error (<em>Tracebacks</em>) proporcionan indicadores precisos señalando la línea y columna exacta de la falla con caracteres <code>^^^^^</code>. Analice y resuelva los 2 errores típicos sembrados de esta sesión:</p>
+
+    <div class="trouble-card trouble-critical">
+      <div class="trouble-title">&#x1F6A8; Error Sembrado 1: Assert sin mensaje (el fallo no dice qué se esperaba)</div>
+      <div class="terminal-container" style="margin: 6px 0; padding: 8px 10px; font-size: 8pt;"><span class="prompt-win">(.venv) PS C:\lab\curso-python-defensivo&gt;</span> <span class="cmd">python -m unittest test_review.py</span>
+<span class="err-highlight">FAIL: test_count_mixed_levels (test_review.TestReviewBatch)</span>
+<span class="err-highlight">Traceback (most recent call last):</span>
+<span class="output">  File "test_review.py", line 24, in test_count_mixed_levels</span>
+<span class="output">    self.assertEqual(counts, {"INFO": 4, "WARNING": 3, "ERROR": 3})</span>
+<span class="output">    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
+<span class="err-highlight">AssertionError: {'INFO': 3, 'WARNING': 3, 'ERROR': 3} != {'INFO': 4, 'WARNING': 3, 'ERROR': 3}</span></div>
+      <div class="trouble-grid">
+        <div><strong>Causa Raíz Técnica:</strong><p style="font-size: 8pt; margin-top: 2px;">El assert compara sin el tercer argumento (mensaje), así que el fallo solo muestra el diff de dicts sin decir qué cifra esperaba el turno. Los <code>^^^^^</code> señalan el <code>assertEqual</code> exacto que mintió por omisión: el código perdió un INFO y el testigo no sabe explicarlo.</p></div>
+        <div><strong>Protocolo de Corrección:</strong><p style="font-size: 8pt; margin-top: 2px;">1. Agregue el mensaje: <code>"Se esperaban 4 INFO, 3 WARNING y 3 ERROR en el lote de 10"</code>. 2. Re-ejecute con <code>↑</code> y lea primero el mensaje, después el diff. 3. Confirme 6/6 en verde solo cuando el conteo vuelve a 4/3/3.</p></div>
+      </div>
+    </div>
+
+    <div class="trouble-card">
+      <div class="trouble-title">&#x26A0;&#xFE0F; Error Sembrado 2: Test que pasa por coincidencia (verde falso)</div>
+      <div class="terminal-container" style="margin: 6px 0; padding: 8px 10px; font-size: 8pt;"><span class="prompt-win">(.venv) PS C:\lab\curso-python-defensivo&gt;</span> <span class="cmd">python -m unittest test_review.py</span>
+<span class="output">......</span>
+<span class="output">----------------------------------------------------------------------</span>
+<span class="output">Ran 6 tests in 0.001s</span>
+<span class="output">OK  &lt;-- verde falso: el conteo real es 3/3/3, no 4/3/3</span>
+<span class="output">Prueba debil: self.assertIn("INFO", str(counts))  # solo mira la palabra</span></div>
+      <div class="trouble-grid">
+        <div><strong>Causa Raíz Técnica:</strong><p style="font-size: 8pt; margin-top: 2px;">La prueba débil busca la palabra <code>"INFO"</code> dentro del texto del dict en vez de comparar cifras: pasa con 3, con 4 o con 99. El verde no prueba nada; es coincidencia de texto, no verificación de conteo. Un testigo que todo lo aprueba no es testigo.</p></div>
+        <div><strong>Protocolo de Corrección:</strong><p style="font-size: 8pt; margin-top: 2px;">1. Reemplace por <code>self.assertEqual(counts, {"INFO": 4, "WARNING": 3, "ERROR": 3}, ...)</code>. 2. Rompa el conteo a propósito y confirme el rojo (ciclo rojo). 3. Repare y confirme el verde real con <code>↑</code>.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">6. Desafío de Extensión para Avance Rápido (Opcional)</h2>
+    <div class="callout callout-tip">
+      <div class="callout-title">&#x1F680; Reto de Tolerancia / Caso Borde: La séptima acta</div>
+      <p style="font-size: 8.5pt; margin-bottom: 0;">Sin sintaxis nueva: agregue una séptima prueba que cuente el lote completo de la Sesión 16 (15 aceptados: 7 INFO, 5 WARNING, 3 ERROR) con <code>contar_por_nivel</code> y prediga en papel el dict exacto antes de ejecutar con <code>↑</code>. Después agregue una prueba que confirme <code>validar_config(65535, "ERROR")</code> como borde superior permitido y <code>validar_config(65536, "ERROR")</code> como primer puerto rechazado. No cambia su calificación.</p>
+    </div>
+    <h3 class="subsection-title">Tarea domiciliaria (caso causal):</h3>
+    <div class="callout callout-info" style="margin-bottom: 12px;">
+      <div class="callout-title">&#x1F3AF; Caso de tarea: review_shift.py — el turno nocturno también entrega probado</div>
+      <ul style="font-size: 8.5pt; margin-bottom: 8px;">
+        <li><strong>Rol:</strong> Analista defensivo en revisión domiciliaria local, responsable del lote probado del turno nocturno.</li>
+        <li><strong>Evidencia:</strong> Lote sintético local de 10 dicts del turno (7 exactos, 1 texto numérico <code>"28"</code> y 2 inválidos).</li>
+        <li><strong>Problema:</strong> Reproducir la técnica probada con umbral propio y seis chequeos con mensaje antes del reporte del turno.</li>
+        <li><strong>Consecuencia:</strong> Si no se resuelve, el turno nocturno queda sin cifras citables y el relevo consume dicts sin testigo.</li>
+        <li><strong>Decisiones:</strong> Qué chequeo toca a cada cifra; cuándo la conversión lax es aceptable y cuándo exigir <code>strict=True</code>; qué viaja al reporte del turno.</li>
+        <li><strong>Entrega a:</strong> Docente mediante reporte ejecutado con chequeos en verde en la próxima sesión.</li>
+        <li><strong>Resultado verificable:</strong> 10 leídos, 8 aceptados, 2 rechazados, <code>Errores (aceptados): 2 - Rutina local</code> y <code>Chequeos del turno: 6/6 en verde</code>.</li>
+      </ul>
+      <p style="font-size: 8.5pt; margin-bottom: 0;"><strong>Antes de completar y ejecutar:</strong> Escriba en papel su predicción para cada TODO (valor esperado y motivo), complete el código, ejecútelo y compare lo obtenido con su predicción y con la salida esperada (predecir → ejecutar → comparar).</p>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">7. Lista de Verificación y Firma de Conformidad</h2>
+    <p style="font-size: 8.5pt;">Marque cada casilla tras comprobar visualmente el resultado en su pantalla:</p>
+    <table class="data-table">
+      <thead><tr><th class="check-box-cell">OK</th><th>Criterio Observable de Evaluación</th><th>Evidencia Específica en Pantalla</th></tr></thead>
+      <tbody>
+        <tr><td class="check-box-cell"><span class="check-square"></span></td><td><strong>Reporte probado exacto:</strong> 4/3/3, par 3 rutina, config válida y pruebas lax/strict</td><td>Seis líneas de reporte con los valores 4 / 3 / 3, <code>Rutina local</code> y <code>True</code> en ese orden</td></tr>
+        <tr><td class="check-box-cell"><span class="check-square"></span></td><td><strong>Suite en verde:</strong> 6 pruebas, 0 fallos y veredicto visible</td><td>Bloque con <code>Ran 6 tests</code> y <code>OK</code> (más <code>6 passed</code> si usó <code>pytest</code>)</td></tr>
+        <tr><td class="check-box-cell"><span class="check-square"></span></td><td><strong>Asserts con mensaje y alcance:</strong> testigos que explican y código local</td><td>Cada <code>assert*</code> con mensaje en español y pie <code>localhost (127.0.0.1) y fixtures locales</code></td></tr>
+        <tr><td class="check-box-cell"><span class="check-square"></span></td><td><strong>PEP 8 y corredores:</strong> identificadores en inglés y nota de corredores</td><td>Nombres como <code>TestReviewBatch</code> y línea <code>unittest (base) + pytest (legible, opcional)</code></td></tr>
+      </tbody>
+    </table>
+    <div class="signature-box">
+      <p style="font-size: 8pt; color: var(--text-muted); margin-bottom: 8px;"><strong>Declaración del Estudiante:</strong> Certifico que el código presentado fue escrito por mí de forma autónoma sin asistentes de IA generativa, que operó exclusivamente en localhost (127.0.0.1) y sobre fixtures sintéticos locales, y que comprendo el propósito de cada prueba e instrucción ejecutada.</p>
+      <div class="signature-grid">
+        <div><div class="sig-line">Firma del Estudiante</div></div>
+        <div><div class="sig-line">Sello / Validación Docente (&lt; 15 seg)</div></div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+</body>
+</html>
