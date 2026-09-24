@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Workbook — Session 15 | Python for Defensive Security</title>
+  <style>
+    :root {
+      --primary: #1e3a8a;
+      --primary-dark: #0f172a;
+      --primary-light: #eff6ff;
+      --secondary: #0284c7;
+      --accent-red: #b91c1c;
+      --accent-red-light: #fef2f2;
+      --accent-amber: #b45309;
+      --accent-amber-light: #fffbeb;
+      --accent-green: #15803d;
+      --accent-green-light: #f0fdf4;
+      --accent-purple: #6b21a8;
+      --accent-purple-light: #faf5ff;
+      --text-main: #1f2937;
+      --text-muted: #4b5563;
+      --border-color: #d1d5db;
+      --border-light: #e5e7eb;
+      --bg-card: #f9fafb;
+      --bg-terminal: #0f172a;
+      --term-text: #f8fafc;
+      --term-prompt: #38bdf8;
+      --term-accent: #4ade80;
+      --term-warn: #fbbf24;
+      --term-err: #f87171;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-size: 9.5pt; line-height: 1.55; color: var(--text-main);
+      background-color: #ffffff; padding: 0; margin: 0;
+    }
+    .page-container { max-width: 920px; margin: 0 auto; padding: 24px 32px; }
+    .header-institution { border-bottom: 2px solid var(--primary); padding-bottom: 12px; margin-bottom: 16px; }
+    .header-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+    .inst-titles h1 { font-size: 14.5pt; color: var(--primary); font-weight: 700; line-height: 1.25; letter-spacing: -0.2px; }
+    .inst-titles h2 { font-size: 11pt; color: var(--text-muted); font-weight: 600; margin-top: 3px; }
+    .badge-container { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+    .badge { display: inline-block; font-size: 7.5pt; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; padding: 3px 8px; border-radius: 4px; border: 1px solid transparent; }
+    .badge-primary { background-color: var(--primary-light); color: var(--primary); border-color: #bfdbfe; }
+    .badge-neutral { background-color: #f3f4f6; color: #374151; border-color: #e5e7eb; }
+    .badge-alert { background-color: var(--accent-red-light); color: var(--accent-red); border-color: #fecaca; }
+    .badge-purple { background-color: var(--accent-purple-light); color: var(--accent-purple); border-color: #e9d5ff; }
+    .student-data-card { background-color: var(--bg-card); border: 1px solid var(--border-color); border-radius: 6px; padding: 12px 14px; margin-bottom: 18px; }
+    .data-grid { display: grid; grid-template-columns: 2fr 1fr 1.2fr 1fr; gap: 10px 16px; align-items: end; }
+    .data-field { display: flex; flex-direction: column; }
+    .data-label { font-size: 7.5pt; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 3px; }
+    .data-line { border-bottom: 1px dashed #6b7280; min-height: 20px; font-size: 9pt; color: var(--text-main); padding: 0 4px; }
+    h2.section-title { font-size: 11.5pt; color: var(--primary-dark); border-bottom: 1.5px solid var(--border-color); padding-bottom: 4px; margin-top: 22px; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+    h3.subsection-title { font-size: 10pt; color: var(--primary); margin-top: 14px; margin-bottom: 6px; font-weight: 700; }
+    h4.subsubsection-title { font-size: 9pt; color: #334155; margin-top: 10px; margin-bottom: 4px; font-weight: 700; }
+    p { margin-bottom: 10px; text-align: justify; }
+    ul, ol { margin-left: 20px; margin-bottom: 10px; }
+    li { margin-bottom: 4px; }
+    .callout { border-left: 4px solid var(--primary); background-color: var(--primary-light); padding: 10px 14px; border-radius: 0 6px 6px 0; margin: 12px 0; font-size: 9pt; }
+    .callout-title { font-weight: 700; font-size: 9.5pt; margin-bottom: 5px; display: flex; align-items: center; gap: 6px; }
+    .callout-info { border-left-color: var(--secondary); background-color: #f0f9ff; }
+    .callout-info .callout-title { color: #0369a1; }
+    .callout-critical { border-left-color: var(--accent-red); background-color: var(--accent-red-light); border: 1px solid #fecaca; border-left-width: 5px; }
+    .callout-critical .callout-title { color: var(--accent-red); }
+    .callout-warning { border-left-color: var(--accent-amber); background-color: var(--accent-amber-light); }
+    .callout-warning .callout-title { color: var(--accent-amber); }
+    .callout-tip { border-left-color: var(--accent-green); background-color: var(--accent-green-light); }
+    .callout-tip .callout-title { color: var(--accent-green); }
+    .callout-purple { border-left-color: var(--accent-purple); background-color: var(--accent-purple-light); }
+    .callout-purple .callout-title { color: var(--accent-purple); }
+    .terminal-container { background-color: var(--bg-terminal); color: var(--term-text); border-radius: 6px; padding: 13px 15px; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; font-size: 8.5pt; line-height: 1.55; margin: 12px 0 16px 0; overflow-x: auto; border: 1px solid #334155; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    .terminal-header { color: #94a3b8; font-size: 7.5pt; border-bottom: 1px solid #334155; padding-bottom: 4px; margin-bottom: 10px; display: flex; justify-content: space-between; text-transform: uppercase; letter-spacing: 0.5px; }
+    .prompt-win { color: var(--term-prompt); font-weight: 600; }
+    .prompt-nix { color: var(--term-accent); font-weight: 600; }
+    .cmd { color: #ffffff; font-weight: 600; }
+    .output { color: #cbd5e1; }
+    .comment { color: #64748b; font-style: italic; }
+    .err-highlight { color: var(--term-err); font-weight: bold; }
+    .caret-highlight { color: var(--term-warn); font-weight: bold; }
+    .term-spacer { height: 10px; }
+    .os-tabs { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin: 10px 0 14px 0; }
+    .os-card { background: #f8fafc; border: 1px solid var(--border-color); border-radius: 6px; padding: 10px 12px; }
+    .os-title { font-size: 8pt; font-weight: 700; color: var(--primary-dark); text-transform: uppercase; border-bottom: 1px solid var(--border-light); padding-bottom: 4px; margin-bottom: 8px; }
+    .os-code { font-family: ui-monospace, Menlo, Monaco, Consolas, "Liberation Mono", monospace; font-size: 8pt; background: #ffffff; padding: 8px 10px; border-radius: 4px; border: 1px solid #cbd5e1; white-space: pre-wrap; word-break: break-word; color: #0f172a; line-height: 1.6; }
+    table.data-table { width: 100%; border-collapse: collapse; margin: 10px 0 14px 0; font-size: 8.5pt; }
+    table.data-table th, table.data-table td { border: 1px solid var(--border-color); padding: 6px 8px; text-align: left; vertical-align: top; }
+    table.data-table th { background-color: #f1f5f9; color: var(--primary-dark); font-weight: 700; font-size: 8pt; text-transform: uppercase; }
+    table.data-table tr:nth-child(even) { background-color: #f8fafc; }
+    .check-box-cell { text-align: center; width: 45px; vertical-align: middle; }
+    .check-square { display: inline-block; width: 14px; height: 14px; border: 1.5px solid #4b5563; border-radius: 3px; vertical-align: middle; background-color: #ffffff; }
+    .trouble-card { border: 1px solid var(--border-color); border-left: 4px solid var(--accent-amber); background-color: #ffffff; border-radius: 4px; padding: 10px 12px; margin-bottom: 12px; font-size: 8.5pt; }
+    .trouble-card.trouble-critical { border-left-color: var(--accent-red); }
+    .trouble-card.trouble-info { border-left-color: var(--secondary); }
+    .trouble-title { font-weight: 700; font-size: 9pt; color: var(--primary-dark); margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
+    .trouble-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 8px; margin-top: 6px; background: #f8fafc; padding: 6px 8px; border-radius: 4px; border: 1px solid var(--border-light); }
+    .student-code-box { border: 1px dashed #64748b; background-color: #fbfcfe; border-radius: 6px; padding: 10px 12px; margin: 8px 0 12px 0; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 8pt; line-height: 1.5; min-height: 180px; color: #334155; white-space: pre-wrap; }
+    .student-output-box { border: 1px dashed #0284c7; background-color: #f0f9ff; border-radius: 6px; padding: 10px 12px; margin: 8px 0 12px 0; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 8pt; line-height: 1.45; min-height: 80px; color: #0369a1; white-space: pre-wrap; }
+    .concept-figure { margin: 12px 0; border: 1px solid var(--border-color); border-radius: 6px; padding: 10px 12px; background: #ffffff; width: 100%; break-inside: avoid; page-break-inside: avoid; }
+    .concept-figure svg { width: 100%; height: auto; display: block; }
+    .concept-figure figcaption { font-size: 8pt; color: var(--text-muted); margin-top: 6px; text-align: center; }
+    .signature-box { border: 1px solid var(--border-color); background-color: var(--bg-card); border-radius: 6px; padding: 12px 14px; margin-top: 16px; }
+    .signature-grid { display: grid; grid-template-columns: 2fr 1.5fr; gap: 20px; margin-top: 24px; align-items: end; }
+    .sig-line { border-top: 1px solid #4b5563; padding-top: 4px; text-align: center; font-size: 8pt; color: var(--text-muted); font-weight: 600; }
+    @media print {
+      @page { size: A4 portrait; margin: 12mm 15mm 15mm 15mm; }
+      body { font-size: 8.5pt; line-height: 1.36; color: #000000; background: #ffffff; }
+      .page-container { max-width: 100%; padding: 0; margin: 0; }
+      h2.section-title { font-size: 10.5pt; margin-top: 14px; margin-bottom: 6px; page-break-after: avoid; break-after: avoid; }
+      h3.subsection-title { font-size: 9.5pt; page-break-after: avoid; break-after: avoid; }
+      h4.subsubsection-title { font-size: 8.5pt; page-break-after: avoid; break-after: avoid; }
+      .callout, .terminal-container, .student-data-card, .os-card, table.data-table, .signature-box, .trouble-card, .student-code-box, .student-output-box, .concept-figure { page-break-inside: avoid; break-inside: avoid; }
+      .terminal-container { background-color: #0f172a !important; color: #f8fafc !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .badge-primary, .badge-neutral, .badge-alert, .badge-purple { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .page-break { page-break-before: always; break-before: page; }
+      .check-square { border-color: #000000; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="page-container">
+
+  <header class="header-institution">
+    <div class="header-top">
+      <div class="inst-titles">
+        <h1>Python for Defensive Security</h1>
+        <h2>Python for Defensive Security: Fundamentals and Local Lab Tooling — M9. Archivos y datos locales</h2>
+      </div>
+      <div class="badge-container">
+        <span class="badge badge-primary">Sesión 15 | 60 minutos</span>
+        <span class="badge badge-neutral">Nivel: con base de S14 (paquete kit/ + venv)</span>
+        <span class="badge badge-alert">Sin asistente de IA</span>
+      </div>
+    </div>
+    <div style="font-size: 8.5pt; color: var(--text-muted); display: flex; justify-content: space-between;">
+      <span><strong>Documento:</strong> Cuaderno de trabajo del estudiante | <strong>GitHub:</strong> python-defensive-security</span>
+      <span><strong>Versión Base Oficial:</strong> Python 3.13 (Entorno Local reproducible)</span>
+    </div>
+  </header>
+
+  <section class="student-data-card">
+    <div class="data-grid">
+      <div class="data-field">
+        <span class="data-label">Nombre Completo del Estudiante:</span>
+        <div class="data-line"></div>
+      </div>
+      <div class="data-field">
+        <span class="data-label">Matrícula / ID:</span>
+        <div class="data-line"></div>
+      </div>
+      <div class="data-field">
+        <span class="data-label">Sistema Operativo Anfitrión:</span>
+        <div class="data-line">[ ] Windows &nbsp; [ ] macOS &nbsp; [ ] Linux</div>
+      </div>
+      <div class="data-field">
+        <span class="data-label">Fecha de Realización:</span>
+        <div class="data-line"></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">1. Objetivos de Aprendizaje y Marco Ético</h2>
+    <p>Al concluir satisfactoriamente esta sesión formativa, el estudiante será capaz de:</p>
+    <ul style="font-size: 9pt;">
+      <li><strong>Lectura anclada con pathlib:</strong> Resolver rutas de entrada con <code>Path(__file__).resolve().parent</code> para que el script encuentre <code>datos/app.log</code> sin depender del directorio de la consola.</li>
+      <li><strong>Normalización con UTF-8 explícito:</strong> Leer y escribir texto declarando <code>encoding="utf-8"</code> y convertir 20 líneas crudas en 18 líneas con forma única <code>NIVEL: mensaje</code> más 2 omitidas con motivo.</li>
+      <li><strong>Manejo defensivo de archivos:</strong> Capturar <code>FileNotFoundError</code> con <code>try/except</code> (reutilización de S13) y registrar omitidas con <code>logging</code> sin exponer trazas crudas al usuario.</li>
+      <li><strong>Publicación atómica:</strong> Escribir el resultado en un archivo temporal y renombrarlo sobre <code>salida/normalizado.txt</code> para que ningún lector vea jamás un archivo a medio escribir.</li>
+    </ul>
+    <div class="callout callout-critical">
+      <div class="callout-title">&#x26A0;&#xFE0F; Compromiso Ético y Reglas del Laboratorio Defensivo Local</div>
+      <p style="margin-bottom: 4px;">Este curso está orientado de manera estricta al <strong>análisis, inspección y defensa de sistemas locales</strong>. Toda práctica se desarrollará exclusivamente en la carpeta asignada (<code>curso-python-defensivo/</code>) y sobre destinos en bucle local (<code>localhost</code>, <code>127.0.0.1</code>, <code>::1</code>) o fixtures provistas por el docente.</p>
+      <p style="margin-bottom: 0;"><strong>Prohibiciones absolutas:</strong> Queda estrictamente vetado el escaneo o conexión hacia direcciones IP externas, la instalación o prueba de código orientado a malware o persistencia, el uso de credenciales reales ajenas y la desactivación intencional de controles de seguridad. La transgresión de estos límites activa el umbral eliminatorio de no aprobación inmediata del curso.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">2. Fundamentos Conceptuales de la Sesión</h2>
+    <h3 class="subsection-title">2.1 El objeto Path: direcciones que se razonan, no texto que se concatena</h3>
+    <p>Un <code>Path</code> de <code>pathlib</code> representa una ruta del sistema de archivos como objeto, no como cadena suelta. El operador <code>/</code> une carpetas de forma multiplataforma (<code>PROJECT_ROOT / "datos" / "app.log"</code>), <code>read_text(encoding="utf-8")</code> lee el archivo completo y <code>write_text(datos, encoding="utf-8")</code> lo escribe. La carpeta de destino se garantiza con <code>output_path.parent.mkdir(parents=True, exist_ok=True)</code> antes de escribir.</p>
+    <h3 class="subsection-title">2.2 Rutas ancladas: el archivo manda, la consola no</h3>
+    <p>Una ruta relativa suelta como <code>"datos/app.log"</code> se resuelve contra el <strong>directorio de trabajo de la consola</strong>, que cambia con cada <code>cd</code>. La ruta anclada <code>Path(__file__).resolve().parent</code> se resuelve contra <strong>la ubicación del propio script</strong>, que no cambia. Por eso el programa de hoy funciona ejecutado desde la raíz aunque la consola haya visitado otras carpetas.</p>
+    <h3 class="subsection-title">2.3 UTF-8 explícito y errores de archivo con try/except</h3>
+    <p>Declarar <code>encoding="utf-8"</code> en cada lectura y escritura evita que Windows y Linux interpreten distinto los mismos bytes. Cuando el fixture falta, <code>read_text</code> lanza <code>FileNotFoundError</code>; el bloque <code>try/except</code> heredado de la Sesión 13 lo captura e imprime un mensaje útil en vez de una traza cruda. Las líneas malformadas (vacías o sin dos puntos) no son errores del programa: se omiten, se cuentan y su motivo viaja al registro con <code>logging</code>.</p>
+    <h3 class="subsection-title">2.4 Escritura atómica: temporal más renombrar</h3>
+    <p>Escribir directo sobre el archivo final expone mitades si el programa se interrumpe. La escritura atómica escribe primero <code>normalizado.tmp</code> y luego lo renombra sobre <code>normalizado.txt</code> con <code>temp_path.replace(output_path)</code>: el renombrar sustituye el archivo de una vez, así que el lector del siguiente turno (el <code>kit/</code> de la Sesión 14) solo ve archivos terminados.</p>
+
+    <figure class="concept-figure">
+<svg role="img" aria-labelledby="fig-anatomy-title fig-anatomy-desc" viewBox="0 0 640 250" xmlns="http://www.w3.org/2000/svg">
+<title id="fig-anatomy-title">Anatomia de la normalizacion anclada de la Sesion 15</title>
+<desc id="fig-anatomy-desc">Diagrama de tres bloques: el script normalize-logs.py define el ancla PROJECT-ROOT desde su propio archivo; del ancla salen dos rutas, datos/app.log con 20 lineas de entrada y salida/normalizado.txt publicado por via atomica temporal mas renombrar.</desc>
+<rect x="8" y="8" width="624" height="234" rx="8" fill="#ffffff" stroke="#1e3a8a" stroke-width="2"/>
+<text x="320" y="32" text-anchor="middle" font-family="sans-serif" font-size="14" font-weight="bold" fill="#0f172a">[1] normalize_logs.py (este archivo)</text>
+<rect x="170" y="48" width="300" height="44" rx="6" fill="#eff6ff" stroke="#1e3a8a" stroke-width="1.5"/>
+<text x="320" y="66" text-anchor="middle" font-family="monospace" font-size="11" font-weight="bold" fill="#0f172a">PROJECT_ROOT = Path(__file__)</text>
+<text x="320" y="82" text-anchor="middle" font-family="monospace" font-size="11" font-weight="bold" fill="#0f172a">.resolve().parent  [2] ANCLA</text>
+<line x1="320" y1="92" x2="320" y2="116" stroke="#1e3a8a" stroke-width="2"/>
+<line x1="120" y1="116" x2="520" y2="116" stroke="#1e3a8a" stroke-width="2"/>
+<line x1="120" y1="116" x2="120" y2="136" stroke="#1e3a8a" stroke-width="2"/>
+<line x1="520" y1="116" x2="520" y2="136" stroke="#1e3a8a" stroke-width="2"/>
+<rect x="20" y="136" width="200" height="88" rx="6" fill="#f0f9ff" stroke="#0284c7" stroke-width="1.5"/>
+<text x="120" y="156" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#0f172a">[3] ENTRADA</text>
+<text x="120" y="173" text-anchor="middle" font-family="monospace" font-size="10" fill="#0f172a">datos/app.log</text>
+<text x="120" y="189" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#0f172a">20 lineas crudas</text>
+<text x="120" y="204" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#0f172a">UTF-8 + try/except</text>
+<rect x="420" y="136" width="200" height="88" rx="6" fill="#f0fdf4" stroke="#15803d" stroke-width="1.5"/>
+<text x="520" y="156" text-anchor="middle" font-family="sans-serif" font-size="11" font-weight="bold" fill="#0f172a">[4] PUBLICACION</text>
+<text x="520" y="173" text-anchor="middle" font-family="monospace" font-size="10" fill="#0f172a">salida/normalizado.txt</text>
+<text x="520" y="189" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#0f172a">18 lineas (via .tmp</text>
+<text x="520" y="204" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#0f172a">+ renombrar)</text>
+</svg>
+<figcaption>Figura 1. Anatomía de la normalización anclada: el ancla nace del archivo, la entrada se lee con UTF-8 y la publicación viaja por temporal más renombrar.</figcaption>
+    </figure>
+
+    <div class="callout callout-info" style="margin: 12px 0;">
+      <div class="callout-title">&#x1F4A1; Analogía de Seguridad Defensiva: El cambio de turno con carpeta sellada</div>
+      <p style="margin-bottom: 0;">En un centro de operaciones nadie entrega papeles sueltos a medias: el analista saliente mete el reporte terminado en una carpeta, la sella y la deja en la bandeja; el entrante solo toca carpetas selladas. La escritura atómica es esa carpeta sellada: el temporal es la mesa de trabajo y el renombrar es el sello. La ruta anclada es la dirección fija de la bandeja, que no cambia aunque el mensajero venga de otra oficina.</p>
+    </div>
+
+    <div class="callout callout-tip" style="margin: 10px 0;">
+      <div class="callout-title">&#x1F4CD; Principio Pedagógico y Estándar PEP 8 en Inglés</div>
+      <p style="margin-bottom: 4px; font-size: 8.5pt;"><strong>Identificadores 100% en inglés:</strong> Conforme al estándar global de la industria y la guía oficial PEP 8, todos los identificadores de variables, constantes y comentarios dentro del código fuente se escriben en <strong>inglés idiomático</strong> (ej. <code>fixture_lines</code>, <code>normalize_line</code>, <code>write_atomic</code>). La prosa explicativa y el razonamiento analítico se expresan en español.</p>
+      <p style="margin-bottom: 0; font-size: 8.5pt;"><strong>Límite de Sintaxis Vigente:</strong> NUEVO HOY SOLO pathlib (Path, rutas ancladas, UTF-8 explícito, escritura atómica temporal más renombrar). REUTILIZADO: def/return (S11), try/except y logging (S13), listas y ciclos (S06–S10), módulos y venv (S14). PROHIBIDO: modelado con Pydantic (llega en S16), clases, argparse, red y shell.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">3. Guía de Práctica de Laboratorio Paso a Paso</h2>
+    <p>Siga detalladamente las instrucciones de verificación y ejecución en su estación de trabajo antes de iniciar el reto autónomo.</p>
+    <div class="callout callout-purple" style="margin: 8px 0 12px 0;">
+      <div class="callout-title">&#x1F4BB; Higiene Operativa de Terminal ("Mirar antes de saltar")</div>
+      <p style="font-size: 8.5pt; margin-bottom: 0;">Antes de invocar <code>python script.py</code>, ejecute siempre <code>dir</code> (Windows) o <code>ls</code> (Unix) para verificar que el archivo existe físicamente en el directorio actual. Emplee la tecla <strong><code>Tab</code></strong> para autocompletar el nombre y evitar <code>FileNotFoundError</code>, y la tecla <strong><code>↑</code></strong> para re-ejecutar comandos sin fatiga. Si un proceso espera sin responder, interrumpa con <strong><code>Ctrl + C</code></strong>.</p>
+    </div>
+    <div class="os-tabs">
+      <div class="os-card">
+        <div class="os-title">Windows (PowerShell)</div>
+        <div class="os-code"><span class="comment"># 1. Navegar y verificar archivos</span>
+cd curso-python-defensivo
+dir
+
+<span class="comment"># 2. Activar venv</span>
+.\.venv\Scripts\Activate.ps1
+
+<span class="comment"># 3. Ejecutar la normalizacion anclada</span>
+python normalize_logs.py</div>
+      </div>
+      <div class="os-card">
+        <div class="os-title">macOS (Zsh)</div>
+        <div class="os-code"><span class="comment"># 1. Navegar y verificar archivos</span>
+cd ~/curso-python-defensivo
+ls -la
+
+<span class="comment"># 2. Activar venv</span>
+source .venv/bin/activate
+
+<span class="comment"># 3. Ejecutar la normalizacion anclada</span>
+python3 normalize_logs.py</div>
+      </div>
+      <div class="os-card">
+        <div class="os-title">Linux (Bash)</div>
+        <div class="os-code"><span class="comment"># 1. Navegar y verificar archivos</span>
+cd ~/curso-python-defensivo
+ls -la
+
+<span class="comment"># 2. Activar venv</span>
+source .venv/bin/activate
+
+<span class="comment"># 3. Ejecutar la normalizacion anclada</span>
+python3 normalize_logs.py</div>
+      </div>
+    </div>
+    <p style="font-size: 8.5pt;"><strong>Paso 4 (todas las plataformas):</strong> Verifique el archivo publicado con el lector heredado: confirme que <code>salida/normalizado.txt</code> contiene 18 líneas con forma <code>NIVEL: mensaje</code> y que no queda ningún <code>normalizado.tmp</code> residual. Si PowerShell bloquea la activación, ejecute primero <code>Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass</code>.</p>
+  </section>
+
+  <section class="page-break">
+    <h2 class="section-title">4. Reto Práctico Autónomo Individual (20 minutos)</h2>
+    <div class="callout callout-info" style="margin-bottom: 12px;">
+      <div class="callout-title">&#x1F3AF; Escenario Defensivo: normalize_logs.py — registro limpio para el cambio de turno</div>
+      <p style="margin-bottom: 8px;">El lector <code>kit/</code> de la Sesión 14 se atasca con el registro crudo del día: trae líneas con espacios sobrantes, una línea rota sin nivel y una línea vacía. Como analista de turno, debe entregar <code>salida/normalizado.txt</code> con forma única, conteos exactos y publicación atómica antes de que el siguiente turno lea.</p>
+      <ul style="font-size: 8.5pt; margin-bottom: 0;">
+        <li><strong>Rol:</strong> Analista defensivo de turno en laboratorio local, responsable de entregar el registro del día al siguiente turno.</li>
+        <li><strong>Evidencia:</strong> Fixture sintético local <code>datos/app.log</code> con 20 líneas (9 INFO, 4 ERROR, 5 WARNING y 2 malformadas).</li>
+        <li><strong>Problema:</strong> Normalizar cada línea a la forma única <code>NIVEL: mensaje</code> con rutas ancladas y UTF-8, sin perder el conteo de procesadas y omitidas.</li>
+        <li><strong>Consecuencia:</strong> Si no se resuelve, el siguiente turno lee un archivo a medias o con forma impredecible y la auditoría queda incompleta.</li>
+        <li><strong>Decisiones:</strong> Qué líneas se omiten y con qué motivo; dónde viaja la declaración UTF-8; cómo garantizar que la publicación nunca expone mitades.</li>
+        <li><strong>Entrega a:</strong> Responsable del siguiente turno mediante <code>salida/normalizado.txt</code> terminado más reporte en consola.</li>
+        <li><strong>Resultado verificable:</strong> Consola con 20 leídas, 18 normalizadas, 2 omitidas, pares 4/5 contra el umbral y archivo de 18 líneas sin <code>.tmp</code> residual.</li>
+      </ul>
+    </div>
+
+    <figure class="concept-figure">
+<svg role="img" aria-labelledby="fig-flow-title fig-flow-desc" viewBox="0 0 640 190" xmlns="http://www.w3.org/2000/svg">
+<title id="fig-flow-title">Flujo del reto normalize-logs en cinco pasos</title>
+<desc id="fig-flow-desc">Flujo horizontal de cinco pasos numerados: 1 Evidencia con umbral y 20 lineas; 2 Leer con UTF-8 y try-except; 3 Normalizar en 18 limpias mas 2 omitidas; 4 Publicar con temporal mas renombrar; 5 Reportar conteos, pares y alcance.</desc>
+<rect x="8" y="8" width="624" height="174" rx="8" fill="#ffffff" stroke="#1e3a8a" stroke-width="2"/>
+<g font-family="sans-serif" font-size="10" fill="#0f172a">
+<rect x="22" y="60" width="106" height="80" rx="6" fill="#eff6ff" stroke="#1e3a8a" stroke-width="1.5"/>
+<text x="75" y="80" text-anchor="middle" font-weight="bold">[1] EVIDENCIA</text>
+<text x="75" y="96" text-anchor="middle">Umbral 5</text>
+<text x="75" y="110" text-anchor="middle">20 lineas</text>
+<text x="75" y="124" text-anchor="middle">identidad</text>
+<rect x="142" y="60" width="106" height="80" rx="6" fill="#f0f9ff" stroke="#0284c7" stroke-width="1.5"/>
+<text x="195" y="80" text-anchor="middle" font-weight="bold">[2] LEER</text>
+<text x="195" y="96" text-anchor="middle">UTF-8</text>
+<text x="195" y="110" text-anchor="middle">try/except</text>
+<text x="195" y="124" text-anchor="middle">FileNotFound</text>
+<rect x="262" y="60" width="106" height="80" rx="6" fill="#fffbeb" stroke="#b45309" stroke-width="1.5"/>
+<text x="315" y="80" text-anchor="middle" font-weight="bold">[3] NORMALIZAR</text>
+<text x="315" y="96" text-anchor="middle">18 limpias</text>
+<text x="315" y="110" text-anchor="middle">2 omitidas</text>
+<text x="315" y="124" text-anchor="middle">logging</text>
+<rect x="382" y="60" width="106" height="80" rx="6" fill="#f0fdf4" stroke="#15803d" stroke-width="1.5"/>
+<text x="435" y="80" text-anchor="middle" font-weight="bold">[4] PUBLICAR</text>
+<text x="435" y="96" text-anchor="middle">temporal</text>
+<text x="435" y="110" text-anchor="middle">+ renombrar</text>
+<text x="435" y="124" text-anchor="middle">atomica</text>
+<rect x="502" y="60" width="106" height="80" rx="6" fill="#faf5ff" stroke="#6b21a8" stroke-width="1.5"/>
+<text x="555" y="80" text-anchor="middle" font-weight="bold">[5] REPORTAR</text>
+<text x="555" y="96" text-anchor="middle">conteos</text>
+<text x="555" y="110" text-anchor="middle">pares 4/5</text>
+<text x="555" y="124" text-anchor="middle">alcance</text>
+</g>
+<g stroke="#1e3a8a" stroke-width="2" fill="none">
+<line x1="128" y1="100" x2="142" y2="100"/><polygon points="142,95 142,105 150,100" fill="#1e3a8a"/>
+<line x1="248" y1="100" x2="262" y2="100"/><polygon points="262,95 262,105 270,100" fill="#1e3a8a"/>
+<line x1="368" y1="100" x2="382" y2="100"/><polygon points="382,95 382,105 390,100" fill="#1e3a8a"/>
+<line x1="488" y1="100" x2="502" y2="100"/><polygon points="502,95 502,105 510,100" fill="#1e3a8a"/>
+</g>
+<text x="320" y="36" text-anchor="middle" font-family="sans-serif" font-size="12" font-weight="bold" fill="#0f172a">Flujo del reto: evidencia -&gt; leer -&gt; normalizar -&gt; publicar -&gt; reportar</text>
+<text x="320" y="162" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#4b5563">18 + 2 = 20 siempre: cada linea cruda termina limpia u omitida con motivo.</text>
+</svg>
+<figcaption>Figura 2. Flujo del reto en cinco pasos: ninguna línea cruda se pierde, cada una termina normalizada u omitida con motivo.</figcaption>
+    </figure>
+
+    <h3 class="subsection-title">Estructura del Reto en 4 Pasos Obligatorios:</h3>
+    <ol style="font-size: 9pt; margin-left: 20px; margin-bottom: 12px;">
+      <li><strong>STEP 1 (Identidad y Contexto):</strong> Registre umbral, 20 líneas del fixture, identidad del operador y las cuatro rutas ancladas al archivo.</li>
+      <li><strong>STEP 2 (Procesamiento y Telemetría):</strong> Arranque el fixture si falta, lea con <code>try/except</code> y UTF-8, normalice línea por línea contando errores, avisos y omitidas, y publique con el par atómico.</li>
+      <li><strong>STEP 3 (Validación Lógica y Seguridad):</strong> Decida cada veredicto contra el umbral 5 y verifique que 18 + 2 = 20 y que no queda <code>.tmp</code> residual.</li>
+      <li><strong>STEP 4 (Reporte Estructurado en Consola):</strong> Imprima conteos de archivo, pares ERROR/WARNING, ruta publicada y alcance local con f-strings alineadas.</li>
+    </ol>
+
+    <h3 class="subsection-title">Plantilla de Código Base del Estudiante (<code>normalize_logs.py</code>):</h3>
+    <p style="font-size: 8.5pt;"><strong>Antes de completar y ejecutar:</strong> Escriba en papel su predicción para cada TODO (valor esperado y motivo: qué conteo espera y por qué). Complete el código, ejecútelo y compare lo obtenido con su predicción y con la salida esperada (predecir → ejecutar → comparar). Los TODO nunca traen respuestas.</p>
+    <div class="student-code-box">import logging
+from pathlib import Path
+
+PROJECT_ROOT = Path(__file__).resolve().parent
+INPUT_PATH = PROJECT_ROOT / "datos" / "app.log"
+OUTPUT_DIR = PROJECT_ROOT / "salida"
+OUTPUT_PATH = OUTPUT_DIR / "normalizado.txt"
+TEMP_PATH = OUTPUT_DIR / "normalizado.tmp"
+
+REVIEW_THRESHOLD = 5
+ALLOWED_LEVELS = ("INFO", "WARNING", "ERROR")
+fixture_lines = [ ... 20 lineas del fixture ... ]
+student_name = "Alex Mendez"
+student_id = "DEF-2026-09"
+
+# TODO 2.1: Define ensure_fixture(input_path, lines) ...
+# TODO 2.2: Define normalize_line(raw_line) ...
+# TODO 2.3: Define read_input_lines(input_path) ...
+# TODO 2.4: Define write_atomic(output_path, temp_path, clean_lines) ...
+# TODO 2.5: Define main() con arranque, lectura, ciclo,
+#            publicacion atomica y los dos veredictos ...
+
+if __name__ == "__main__":
+    main()</div>
+
+    <h3 class="subsection-title">Salida Esperada en Consola (Verificación en Terminal):</h3>
+    <p style="font-size: 8.5pt;"><strong>Después de ejecutar, compare:</strong> su resultado obtenido con su predicción y con la salida esperada.</p>
+    <div class="student-output-box">Lineas leidas: 20
+Lineas normalizadas: 18
+Lineas omitidas: 2
+Errores: 4 - Rutina local
+Avisos: 5 - Revisión prioritaria
+Salida: salida/normalizado.txt (escritura atomica)
+--- Revision normalizada ---
+Nombre: Alex Mendez
+Identificador: DEF-2026-09
+Umbral: 5 (solo lectura)
+Alcance: localhost (127.0.0.1) y fixtures locales</div>
+  </section>
+
+  <section>
+    <h2 class="section-title">5. Clínica de Errores y Diagnóstico de Tracebacks</h2>
+    <p style="font-size: 8.5pt;">En Python 3.13, las trazas de error (<em>Tracebacks</em>) proporcionan indicadores precisos señalando la línea y columna exacta de la falla con caracteres <code>^^^^^</code>. Analice y resuelva los 2 errores típicos sembrados de esta sesión:</p>
+
+    <div class="trouble-card trouble-critical">
+      <div class="trouble-title">&#x1F6A8; Error Sembrado 1: Ruta relativa mal resuelta (la consola manda, el archivo no)</div>
+      <div class="terminal-container" style="margin: 6px 0; padding: 8px 10px; font-size: 8pt;"><span class="prompt-win">PS C:\lab\curso-python-defensivo\docs&gt;</span> <span class="cmd">python ..\normalize_logs.py</span>
+<span class="err-highlight">Traceback (most recent call last):</span>
+<span class="output">  File "..\normalize_logs.py", line 58, in &lt;module&gt;</span>
+<span class="output">    input_text = Path("datos/app.log").read_text(encoding="utf-8")</span>
+<span class="output">                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
+<span class="err-highlight">FileNotFoundError: [Errno 2] No such file or directory: 'datos/app.log'</span></div>
+      <div class="trouble-grid">
+        <div><strong>Causa Raíz Técnica:</strong><p style="font-size: 8pt; margin-top: 2px;">La ruta suelta <code>"datos/app.log"</code> se resolvió contra el directorio de trabajo de la consola (<code>docs/</code>), no contra la raíz del proyecto. Python buscó <code>docs/datos/app.log</code>, que no existe. Los <code>^^^^^</code> señalan la llamada exacta que intentó abrir el archivo.</p></div>
+        <div><strong>Protocolo de Corrección:</strong><p style="font-size: 8pt; margin-top: 2px;">1. Ancle la ruta: <code>PROJECT_ROOT = Path(__file__).resolve().parent</code> y <code>INPUT_PATH = PROJECT_ROOT / "datos" / "app.log"</code>. 2. Verifique con <code>dir</code> o <code>ls</code>. 3. Vuelva a la raíz con <code>cd</code> y re-ejecute con <code>↑</code>.</p></div>
+      </div>
+    </div>
+
+    <div class="trouble-card">
+      <div class="trouble-title">&#x26A0;&#xFE0F; Error Sembrado 2: FileNotFoundError al publicar (la carpeta salida/ no existe)</div>
+      <div class="terminal-container" style="margin: 6px 0; padding: 8px 10px; font-size: 8pt;"><span class="prompt-win">(.venv) PS C:\lab\curso-python-defensivo&gt;</span> <span class="cmd">python normalize_logs.py</span>
+<span class="err-highlight">Traceback (most recent call last):</span>
+<span class="output">  File "normalize_logs.py", line 74, in main</span>
+<span class="output">    temp_path.write_text(chr(10).join(clean_lines), encoding="utf-8")</span>
+<span class="output">    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
+<span class="err-highlight">FileNotFoundError: [Errno 2] No such file or directory: 'salida/normalizado.tmp'</span></div>
+      <div class="trouble-grid">
+        <div><strong>Causa Raíz Técnica:</strong><p style="font-size: 8pt; margin-top: 2px;">La escritura atómica intentó crear el temporal dentro de <code>salida/</code>, pero esa carpeta aún no existe en un proyecto recién creado. Ni el temporal ni el renombrar pueden crear carpetas por sí solos. Los <code>^^^^^</code> señalan la escritura del temporal.</p></div>
+        <div><strong>Protocolo de Corrección:</strong><p style="font-size: 8pt; margin-top: 2px;">1. Cree la carpeta antes de escribir: <code>output_path.parent.mkdir(parents=True, exist_ok=True)</code> al inicio de <code>write_atomic</code>. 2. Re-ejecute y confirme que solo queda <code>normalizado.txt</code> sin <code>.tmp</code> residual.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">6. Desafío de Extensión para Avance Rápido (Opcional)</h2>
+    <div class="callout callout-tip">
+      <div class="callout-title">&#x1F680; Reto de Tolerancia / Caso Borde: El tercer nivel también vota</div>
+      <p style="font-size: 8.5pt; margin-bottom: 0;">Sin sintaxis nueva: cuente el nivel <code>INFO</code> sobre las líneas ya normalizadas y prediga en papel su par contra el umbral 5 antes de ejecutar con <code>↑</code> (pista: hay 9 INFO, así que también alcanza revisión prioritaria). Después ejecute desde una subcarpeta y prediga qué ruta sigue funcionando gracias al ancla y por qué. No cambia su calificación.</p>
+    </div>
+    <h3 class="subsection-title">Tarea domiciliaria (caso causal):</h3>
+    <div class="callout callout-info" style="margin-bottom: 12px;">
+      <div class="callout-title">&#x1F3AF; Caso de tarea: normalize_shift.py — el turno nocturno también entrega sellado</div>
+      <ul style="font-size: 8.5pt; margin-bottom: 8px;">
+        <li><strong>Rol:</strong> Analista defensivo en revisión domiciliaria local, responsable del reporte del turno nocturno.</li>
+        <li><strong>Evidencia:</strong> Fixture sintético local <code>datos/turno.log</code> con 20 líneas del turno (7 WARNING, 4 ERROR, resto INFO y 2 malformadas).</li>
+        <li><strong>Problema:</strong> Reproducir la normalización anclada con umbral propio y publicar <code>salida/turno_normalizado.txt</code> por vía atómica.</li>
+        <li><strong>Consecuencia:</strong> Si no se resuelve, el turno nocturno queda sin cobertura documentada y el relevo lee datos crudos.</li>
+        <li><strong>Decisiones:</strong> Qué par toca a errores bajo el umbral y cuál a avisos sobre él; dónde viaja el UTF-8; cómo verificar que no queden mitades.</li>
+        <li><strong>Entrega a:</strong> Docente mediante reporte ejecutado y archivo publicado en la próxima sesión.</li>
+        <li><strong>Resultado verificable:</strong> 20 leídas, 18 normalizadas, 2 omitidas, <code>Errores: 4 - Rutina local</code>, <code>Avisos: 7 - Revisión prioritaria</code> y archivo de 18 líneas.</li>
+      </ul>
+      <p style="font-size: 8.5pt; margin-bottom: 0;"><strong>Antes de completar y ejecutar:</strong> Escriba en papel su predicción para cada TODO (valor esperado y motivo), complete el código, ejecútelo y compare lo obtenido con su predicción y con la salida esperada (predecir → ejecutar → comparar).</p>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="section-title">7. Lista de Verificación y Firma de Conformidad</h2>
+    <p style="font-size: 8.5pt;">Marque cada casilla tras comprobar visualmente el resultado en su pantalla:</p>
+    <table class="data-table">
+      <thead><tr><th class="check-box-cell">OK</th><th>Criterio Observable de Evaluación</th><th>Evidencia Específica en Pantalla</th></tr></thead>
+      <tbody>
+        <tr><td class="check-box-cell"><span class="check-square"></span></td><td><strong>Conteos de archivo exactos:</strong> 20 leídas, 18 normalizadas, 2 omitidas</td><td>Primeras tres líneas de consola con los valores 20 / 18 / 2 en ese orden</td></tr>
+        <tr><td class="check-box-cell"><span class="check-square"></span></td><td><strong>Pares contra el umbral:</strong> Errores 4 rutina, Avisos 5 prioritaria</td><td>Líneas <code>Errores: 4 - Rutina local</code> y <code>Avisos: 5 - Revisión prioritaria</code> visibles</td></tr>
+        <tr><td class="check-box-cell"><span class="check-square"></span></td><td><strong>Archivo publicado sin mitades:</strong> 18 líneas y sin <code>.tmp</code></td><td><code>dir salida</code> o <code>ls salida</code> muestra solo <code>normalizado.txt</code> de 18 líneas</td></tr>
+        <tr><td class="check-box-cell"><span class="check-square"></span></td><td><strong>PEP 8 y alcance:</strong> identificadores en inglés y alcance local</td><td>Variables como <code>fixture_lines</code> y pie <code>localhost (127.0.0.1) y fixtures locales</code></td></tr>
+      </tbody>
+    </table>
+    <div class="signature-box">
+      <p style="font-size: 8pt; color: var(--text-muted); margin-bottom: 8px;"><strong>Declaración del Estudiante:</strong> Certifico que el código presentado fue escrito por mí de forma autónoma sin asistentes de IA generativa, que operó exclusivamente en localhost (127.0.0.1) y sobre fixtures sintéticos locales, y que comprendo el propósito de cada variable e instrucción ejecutada.</p>
+      <div class="signature-grid">
+        <div><div class="sig-line">Firma del Estudiante</div></div>
+        <div><div class="sig-line">Sello / Validación Docente (&lt; 15 seg)</div></div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+</body>
+</html>
