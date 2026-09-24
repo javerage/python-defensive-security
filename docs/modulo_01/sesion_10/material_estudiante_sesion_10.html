@@ -77,6 +77,9 @@
     .trouble-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 8px; margin-top: 6px; background: #f8fafc; padding: 6px 8px; border-radius: 4px; border: 1px solid var(--border-light); }
     .student-code-box { border: 1px dashed #64748b; background-color: #fbfcfe; border-radius: 6px; padding: 10px 12px; margin: 8px 0 12px 0; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 8pt; line-height: 1.5; color: #334155; white-space: pre-wrap; }
     .student-output-box { border: 1px dashed #0284c7; background-color: #f0f9ff; border-radius: 6px; padding: 10px 12px; margin: 8px 0 12px 0; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 8pt; line-height: 1.45; color: #0369a1; white-space: pre-wrap; }
+    .concept-figure { border: 1px solid var(--border-color); background-color: var(--bg-card); border-radius: 6px; padding: 12px 14px; margin: 10px 0 12px 0; break-inside: avoid; page-break-inside: avoid; }
+    .concept-figure svg { display: block; width: 100%; height: auto; background-color: #ffffff; border: 1px solid var(--border-light); border-radius: 4px; }
+    .concept-figure figcaption { font-size: 8pt; color: var(--text-muted); margin-top: 8px; text-align: left; }
     .signature-box { border: 1px solid var(--border-color); background-color: var(--bg-card); border-radius: 6px; padding: 12px 14px; margin-top: 16px; }
     .signature-grid { display: grid; grid-template-columns: 2fr 1.5fr; gap: 20px; margin-top: 24px; align-items: end; }
     .sig-line { border-top: 1px solid #4b5563; padding-top: 4px; text-align: center; font-size: 8pt; color: var(--text-muted); font-weight: 600; }
@@ -163,11 +166,39 @@ if event == "STOP":
     break</div>
     <p style="font-size: 8.5pt;">Con las marcas de la práctica, <code>continue</code> salta 2 <code>UNKNOWN</code> (se cuentan como omitidas) y <code>break</code> detiene el tercer día en <code>STOP</code>: lo que viene después de <code>STOP</code> ese día no se cuenta. No hay <code>else</code> en ciclos en esta sesión.</p>
 
+    <figure class="concept-figure" aria-labelledby="nestFigCaption">
+      <svg viewBox="0 0 760 372" role="img" aria-labelledby="nestFigTitle nestFigDesc" xmlns="http://www.w3.org/2000/svg" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace">
+        <title id="nestFigTitle">Anatomía del ciclo anidado: exterior día con 3 vueltas frente a interior evento con 6 visitas por día</title>
+        <desc id="nestFigDesc">Dos paneles. El exterior elige el día con for day in day_logs y da 3 vueltas, una por día. El interior visita cada evento con for event in day, 6 posiciones por día y 18 visitas en total; suma 1 a day_total si el evento es ERROR. Abajo, dos reglas: continue salta UNA línea UNKNOWN, suma 1 a skipped y sigue el día; break abandona EL DÍA completo en STOP y lo posterior ese día no se cuenta.</desc>
+        <rect x="8" y="8" width="744" height="356" rx="6" fill="#ffffff" stroke="#d1d5db" stroke-width="1.5"/>
+        <text x="24" y="40" font-size="12" font-weight="700" fill="#1e3a8a">1 · exterior: elige el día (3 vueltas)</text>
+        <text x="396" y="40" font-size="12" font-weight="700" fill="#0f172a">2 · interior: visita cada evento (6 por día)</text>
+        <rect x="24" y="52" width="348" height="150" rx="4" fill="#eff6ff" stroke="#1e3a8a" stroke-width="1.5"/>
+        <text x="36" y="80" font-size="12" font-weight="700" fill="#0f172a">for day in day_logs:</text>
+        <text x="36" y="104" font-size="12" fill="#0f172a">vuelta 1 → día 1</text>
+        <text x="36" y="128" font-size="12" fill="#0f172a">vuelta 2 → día 2</text>
+        <text x="36" y="152" font-size="12" fill="#0f172a">vuelta 3 → día 3</text>
+        <text x="36" y="180" font-size="12" fill="#4b5563">3 vueltas · un subtotal por día</text>
+        <rect x="396" y="52" width="340" height="150" rx="4" fill="#ffffff" stroke="#0f172a" stroke-width="1.5"/>
+        <text x="408" y="80" font-size="12" font-weight="700" fill="#0f172a">for event in day:</text>
+        <text x="408" y="104" font-size="12" fill="#0f172a">6 posiciones por día</text>
+        <text x="408" y="128" font-size="12" fill="#0f172a">if ERROR: day_total + 1</text>
+        <text x="408" y="152" font-size="12" fill="#0f172a">3 × 6 = 18 visitas</text>
+        <text x="408" y="180" font-size="12" fill="#4b5563">cada día deja su subtotal</text>
+        <line x1="372" y1="60" x2="372" y2="194" stroke="#9ca3af" stroke-width="1.5" stroke-dasharray="5 4"/>
+        <rect x="24" y="214" width="712" height="46" rx="4" fill="#ffffff" stroke="#0f172a" stroke-width="2"/>
+        <text x="40" y="242" font-size="13" font-weight="700" fill="#0f172a">○ continue: salta UNA línea UNKNOWN → skipped + 1 · el día SIGUE</text>
+        <rect x="24" y="268" width="712" height="46" rx="4" fill="#ffffff" stroke="#0f172a" stroke-width="2" stroke-dasharray="6 3"/>
+        <text x="40" y="296" font-size="13" font-weight="700" fill="#0f172a">■ break: abandona EL DÍA en STOP · lo posterior ese día NO se cuenta</text>
+      </svg>
+      <figcaption id="nestFigCaption">Figura: anatomía del ciclo anidado. El exterior (<code>for day in day_logs</code>) da <code>3</code> vueltas, una por día. El interior (<code>for event in day</code>) visita <code>6</code> posiciones por día (<code>18</code> visitas en total) y suma <code>1</code> si el evento es <code>ERROR</code>. El <code>continue</code> (○) salta UNA línea <code>UNKNOWN</code> y sigue el día; el <code>break</code> (■) abandona EL DÍA en <code>STOP</code>.</figcaption>
+    </figure>
+
     <div class="callout callout-tip" style="margin: 8px 0;">
       <div class="callout-title">📌 Tres precisiones y nada más</div>
       <p style="margin-bottom: 3px; font-size: 8pt;"><strong>break frente a continue:</strong> <code>continue</code> salta UNA línea y sigue el día; <code>break</code> abandona EL DÍA completo. Si pones <code>break</code> donde va <code>continue</code>, pierdes eventos válidos sin ningún error (verás este caso en la sección 5).</p>
       <p style="margin-bottom: 3px; font-size: 8pt;"><strong>Control de hoy, nada más:</strong> anidación de dos niveles, un <code>break</code> y un <code>continue</code>, conteo de omitidas. Sin <code>else</code> en ciclos, sin funciones, sin tercer nivel.</p>
-      <p style="margin-bottom: 0; font-size: 8pt;"><strong>Alcance de hoy:</strong> 3 días sintéticos del laboratorio (18 posiciones, 2 omitidas, 16 válidas). Las etiquetas son didácticas del laboratorio, no estándares universales.</p>
+       <p style="margin-bottom: 0; font-size: 8pt;"><strong>Alcance de hoy:</strong> 3 días sintéticos del laboratorio (18 posiciones, 2 omitidas, 16 válidas). Las etiquetas son didácticas del laboratorio, no estándares universales. Las funciones llegan en la Sesión 11 (dividir el analizador en partes); hoy código lineal de arriba a abajo.</p>
     </div>
 
     <table class="data-table">
@@ -240,8 +271,64 @@ python3 matrix_review.py</div>
     <h2 class="section-title">4. Reto Práctico: Resumir 3 días (25 minutos)</h2>
     <div class="callout callout-info" style="margin-bottom: 12px;">
       <div class="callout-title">🎯 Escenario Defensivo: el resumen por día del laboratorio</div>
-      <p style="margin-bottom: 0;">Recibes la matriz local de 3 días con 6 posiciones cada uno: cuenta los <code>ERROR</code> por día con ciclos anidados, salta 2 <code>UNKNOWN</code> con <code>continue</code> y detén el tercer día en <code>STOP</code> con <code>break</code>.</p>
+      <p style="margin-bottom: 0;">Actúas como la persona analista que resume la matriz local antes de entregarla al siguiente revisor.<br>
+        <strong>Evidencia y fuente:</strong> 3 días sintéticos del laboratorio con 6 posiciones cada uno, transcritos en el cuaderno; en esta sesión no se usa la red.<br>
+        <strong>Problema:</strong> hay que separar los días, saltar 2 líneas malformadas y cerrar el tercer día, y la entrega aún no tiene verificación por día.<br>
+        <strong>Si no se resuelve,</strong> el revisor recibe un total sin verificar y no distingue un resumen correcto de un recorrido incompleto.<br>
+        <strong>Decisiones que tomarás:</strong> anidar exterior día e interior evento, saltar <code>UNKNOWN</code> con <code>continue</code> (+1 omitida), detener en <code>STOP</code> con <code>break</code>, acumular por día y resumir para el revisor.<br>
+        <strong>Entrega:</strong> un resumen verificado para el siguiente revisor con 3 días, subtotales <code>2</code>, <code>2</code>, <code>1</code>, <code>2</code> omitidas y total <code>5</code>, sin abrir puertos ni tocar la red.</p>
     </div>
+
+    <figure class="concept-figure" aria-labelledby="flowFigCaption">
+      <svg viewBox="0 0 760 300" role="img" aria-labelledby="flowFigTitle flowFigDesc" xmlns="http://www.w3.org/2000/svg" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace">
+        <title id="flowFigTitle">Flujo del resumen por día: matriz de 3 por 6, recorrido anidado con 18 visitas, omitidas y cierre, subtotales 2 2 1 y total 5</title>
+        <desc id="flowFigDesc">Cinco etapas en orden: day_logs es una matriz de 3 días con 6 posiciones cada uno; el recorrido anidado exterior día e interior evento hace 18 visitas; continue salta 2 UNKNOWN como omitidas y break cierra el día 3 en STOP; los subtotales por día son 2, 2 y 1; el resumen imprime los subtotales, las 2 omitidas y el total 5.</desc>
+        <rect x="8" y="8" width="744" height="284" rx="6" fill="#ffffff" stroke="#d1d5db" stroke-width="1.5"/>
+        <text x="24" y="40" font-size="12" font-weight="700" fill="#1e3a8a">1 · day_logs: 3×6</text>
+        <text x="178" y="40" font-size="12" font-weight="700" fill="#0f172a">2 · anidado: 18</text>
+        <text x="322" y="40" font-size="12" font-weight="700" fill="#0f172a">3 · omitidas+cierre</text>
+        <text x="472" y="40" font-size="12" font-weight="700" fill="#0f172a">4 · subtotales</text>
+        <text x="606" y="40" font-size="12" font-weight="700" fill="#15803d">5 · resumen</text>
+        <rect x="24" y="52" width="130" height="150" rx="4" fill="#ffffff" stroke="#0f172a" stroke-width="1.5"/>
+        <text x="36" y="80" font-size="12" fill="#0f172a">[ día 1</text>
+        <text x="36" y="104" font-size="12" fill="#0f172a">  día 2</text>
+        <text x="36" y="128" font-size="12" fill="#0f172a">  día 3 ]</text>
+        <text x="36" y="152" font-size="12" fill="#4b5563">6 c/u</text>
+        <text x="36" y="176" font-size="12" fill="#4b5563">… 18</text>
+        <rect x="178" y="52" width="120" height="150" rx="4" fill="#eff6ff" stroke="#1e3a8a" stroke-width="1.5"/>
+        <text x="190" y="80" font-size="12" fill="#0f172a">día →</text>
+        <text x="190" y="104" font-size="12" fill="#0f172a">evento</text>
+        <text x="190" y="128" font-size="12" font-weight="700" fill="#0f172a">→ 18</text>
+        <text x="190" y="152" font-size="12" fill="#4b5563">visitas</text>
+        <text x="190" y="176" font-size="12" fill="#4b5563">3 × 6</text>
+        <rect x="322" y="52" width="126" height="150" rx="4" fill="#ffffff" stroke="#0f172a" stroke-width="1.5"/>
+        <text x="334" y="80" font-size="12" fill="#0f172a">○ UNKNOWN</text>
+        <text x="334" y="104" font-size="12" fill="#0f172a">→ 2 fuera</text>
+        <text x="334" y="128" font-size="12" fill="#0f172a">■ STOP</text>
+        <text x="334" y="152" font-size="12" fill="#0f172a">→ cierra</text>
+        <text x="334" y="176" font-size="12" fill="#4b5563">día 3</text>
+        <rect x="472" y="52" width="110" height="150" rx="4" fill="#ffffff" stroke="#0f172a" stroke-width="1.5"/>
+        <text x="484" y="80" font-size="12" fill="#0f172a">día 1: 2</text>
+        <text x="484" y="104" font-size="12" fill="#0f172a">día 2: 2</text>
+        <text x="484" y="128" font-size="12" fill="#0f172a">día 3: 1</text>
+        <text x="484" y="152" font-size="12" font-weight="700" fill="#0f172a">2+2+1</text>
+        <text x="484" y="176" font-size="12" fill="#4b5563">= 5</text>
+        <rect x="606" y="52" width="130" height="150" rx="4" fill="#ffffff" stroke="#15803d" stroke-width="1.5"/>
+        <text x="618" y="80" font-size="12" fill="#0f172a">2 · 2 · 1</text>
+        <text x="618" y="104" font-size="12" fill="#0f172a">omitidas: 2</text>
+        <text x="618" y="128" font-size="12" font-weight="700" fill="#0f172a">total: 5</text>
+        <text x="618" y="152" font-size="12" fill="#4b5563">18 → 16</text>
+        <text x="618" y="176" font-size="12" fill="#4b5563">válidas</text>
+        <line x1="154" y1="127" x2="178" y2="127" stroke="#9ca3af" stroke-width="1.5"/>
+        <line x1="298" y1="127" x2="322" y2="127" stroke="#9ca3af" stroke-width="1.5"/>
+        <line x1="448" y1="127" x2="472" y2="127" stroke="#9ca3af" stroke-width="1.5"/>
+        <line x1="582" y1="127" x2="606" y2="127" stroke="#9ca3af" stroke-width="1.5"/>
+        <text x="24" y="232" font-size="12" fill="#0f172a">○ = continue: salta UNA línea y sigue el día</text>
+        <text x="24" y="256" font-size="12" fill="#0f172a">■ = break: abandona EL DÍA en STOP, lo posterior ese día no se cuenta</text>
+        <text x="24" y="280" font-size="12" fill="#4b5563">18 posiciones − 2 omitidas = 16 válidas · 2 + 2 + 1 = 5</text>
+      </svg>
+      <figcaption id="flowFigCaption">Figura: flujo del reto en cinco etapas. <code>day_logs</code> trae <code>3</code> días con <code>6</code> posiciones; el anidado día → evento hace <code>18</code> visitas; <code>continue</code> (○) deja <code>2</code> omitidas y <code>break</code> (■) cierra el día <code>3</code> en <code>STOP</code>; los subtotales <code>2 + 2 + 1</code> verifican el total <code>5</code>; el resumen imprime subtotales, omitidas y total.</figcaption>
+    </figure>
     <h3 class="subsection-title">Mapeo dominio → código (léelo antes de programar):</h3>
     <table class="data-table">
       <thead><tr><th>Dato del caso</th><th>Variable</th><th>Regla</th><th>Aporte al resumen</th></tr></thead>
@@ -265,18 +352,23 @@ python3 matrix_review.py</div>
       <li><strong>Recorrido:</strong> anida los ciclos, salta <code>UNKNOWN</code> con <code>continue</code> y detén con <code>break</code> en <code>STOP</code>.</li>
       <li><strong>Comunicación:</strong> imprime el encabezado, un subtotal por día y el total con omitidas.</li>
     </ol>
-    <h3 class="subsection-title">Tu archivo <code>matrix_review.py</code> (complétalo):</h3>
+    <h3 class="subsection-title">Tu archivo <code>matrix_review.py</code> (predice antes de completar):</h3>
+    <div class="callout callout-tip" style="margin: 6px 0 8px 0;">
+      <div class="callout-title">📝 Predice → ejecuta → compara</div>
+      <p style="font-size: 8pt; margin-bottom: 0;">Antes de completar cada TODO, escribe tu predicción (qué valor esperas y por qué). Ejecuta tu archivo y compara con la salida esperada de abajo solo después de ejecutar.</p>
+    </div>
     <div class="student-code-box"># STEP 1 (given): day_logs (3 days x 6), student_name, student_id,
-# print "Días registrados: 3"
+# print the registered days with len(day_logs)
 
-# TODO 2.1: grand_total starting at 0, skipped starting at 0
-# TODO 2.2: nested for day in day_logs / for event in day,
-#   continue on "UNKNOWN" adding 1 to skipped (expect 2)
-# TODO 2.3: break on "STOP" (day 3 stops early)
-# TODO 2.4: count "ERROR" per day (expect 2, 2, 1),
-#   print "Día 1: 2" and print "Día 2: 2" and print "Día 3: 1"
-# TODO 2.5: print "Omitidas: 2" (expect 2)
-# TODO 2.6: print "Total de errores: 5" (expect 5)
+# TODO 2.1: start grand_total at 0, skipped at 0, day_totals with
+#   three zeros, and day_index at 0
+# TODO 2.2: walk day by day with nested for day in day_logs /
+#   for event in day: on "UNKNOWN" add 1 to skipped and continue
+# TODO 2.3: on "STOP" break the day (what comes after that day is skipped)
+# TODO 2.4: on "ERROR" add 1 to day_totals[day_index] and to grand_total;
+#   after each day advance day_index = day_index + 1; print each day subtotal
+# TODO 2.5: print the skipped lines with its message
+# TODO 2.6: print the general total with its message
 
 # STEP 3 (given): print "--- Resumen por día ---" + data lines</div>
     <h3 class="subsection-title">Salida esperada (verifica con tu ejecución):</h3>
@@ -348,7 +440,7 @@ IndentationError: expected an indented block after 'for' statement on line 33</d
   <!-- 8. TAREA -->
   <section>
     <h2 class="section-title">8. Tarea Posterior a la Clase (fuera de los 60 minutos)</h2>
-    <p style="font-size: 8.5pt;">Dejas listo el <strong>resumen de 2 noches</strong> antes de entregarlo, distinto de la matriz de 3 días de clase. Partes de 2 noches nuevas con 6 posiciones cada una, aplicas la misma técnica anidada, saltas 1 malformada y muestras el resumen por noche. La tarea aplica la misma técnica sobre datos nuevos más cortos, mientras el ejercicio de clase resume 3 días con cierre.</p>
+    <p style="font-size: 8.5pt;">Actúas como la persona analista que deja listo el <strong>resumen de 2 noches</strong> antes de entregarlo, distinto de la matriz de 3 días de clase. <strong>Evidencia y fuente:</strong> 2 noches nuevas con 6 posiciones cada una, transcritas abajo, en tu máquina y sin red. <strong>Problema:</strong> el turno necesita el mismo recorrido anidado con otra matriz más corta y una malformada. <strong>Si no se resuelve,</strong> quien recibe el turno no sabrá si el total por noche está verificado. <strong>Decisiones que tomarás:</strong> anidar exterior noche e interior evento, saltar la malformada con <code>continue</code>, acumular por noche y resumir. <strong>Entrega:</strong> un resumen por noche para quien lo recibe con subtotales, omitida declarada y total verificado. La tarea aplica la misma técnica sobre datos nuevos más cortos, mientras el ejercicio de clase resume 3 días con cierre.</p>
     <h3 class="subsection-title">Mapeo dominio → código de la tarea (léelo antes de programar):</h3>
     <table class="data-table">
       <thead><tr><th>Dato del caso</th><th>Variable</th><th>Regla</th><th>Aporte</th></tr></thead>
@@ -363,11 +455,11 @@ IndentationError: expected an indented block after 'for' statement on line 33</d
     ["INFO", "WARNING", "ERROR", "INFO", "ERROR", "INFO"],
     ["ERROR", "UNKNOWN", "INFO", "WARNING", "ERROR", "INFO"],
 ]</div>
-    <h3 class="subsection-title">Antes de programar, analiza (sin ejecutar código):</h3>
+    <h3 class="subsection-title">Antes de programar, predice (sin ejecutar código):</h3>
     <ul style="font-size: 8.5pt; margin-left: 18px; margin-bottom: 10px;">
-      <li>Cuántos <code>ERROR</code> hay por noche a mano (espera <code>2</code> y <code>2</code>) y dónde está el único <code>UNKNOWN</code>.</li>
+      <li>Cuántos <code>ERROR</code> hay por noche a mano y en qué posición está el único <code>UNKNOWN</code>; escribe tu conteo primero y verifica después de ejecutar.</li>
       <li>Qué línea suma a <code>night_skipped</code> y por qué esa posición no suma al total.</li>
-      <li>A cuánto suma el total general (espera <code>4</code>) y cómo lo verifica quien recibe el turno.</li>
+      <li>Qué valdrá el total general cuando ambas noches se acumulen y qué significa para quien recibe el turno.</li>
     </ul>
     <h3 class="subsection-title">Los 3 pasos (en este orden):</h3>
     <ol style="font-size: 8.5pt; margin-left: 18px; margin-bottom: 10px;">

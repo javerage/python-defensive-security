@@ -285,7 +285,7 @@ Noches: 2, posiciones: 12, válidas: 11
 
 > Nota de respaldo: la guía del estudiante muestra explícitamente las cinco primeras líneas del ejemplo; el bloque de resumen replica la estructura del ejercicio de clase para las noches. Con tus propios datos el nombre y el identificador cambian, pero los conteos deben coincidir.
 
-**Antes de programar, analiza:** cuántos `ERROR` hay por noche a mano (espera `2` y `2`) y dónde está el único `UNKNOWN`; qué línea suma a `night_skipped` y por qué esa posición no suma al total; a cuánto suma el total general (espera `4`) y cómo lo verifica quien recibe el turno.
+**Antes de programar, predice:** cuántos `ERROR` hay por noche a mano y en qué posición está el único `UNKNOWN` (escribe tu conteo primero y verifica después de ejecutar); qué línea suma a `night_skipped` y por qué esa posición no suma al total; qué valdrá el total general cuando ambas noches se acumulen y qué significa para quien recibe el turno.
 
 **Propósito real:** el resumen organiza la matriz local para la revisión: no abre puertos, no toca disco/red y no confirma un incidente.
 

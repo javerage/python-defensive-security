@@ -22,13 +22,13 @@ STUDENT INSTRUCTIONS:
         - Tab autocompletes file names. Up arrow recalls commands.
         - Ctrl + C cancels a waiting process safely.
 
-BEFORE CODING, ANALYZE (count by hand first, without running):
-    - How many ERROR entries are there per night by hand (expect 2
-      and 2), and where is the single UNKNOWN?
+BEFORE CODING, PREDICT (count by hand first, without running):
+    - How many ERROR entries are there per night by hand, and in
+      which position is the single UNKNOWN? Write your count first.
     - Which line adds to night_skipped, and why does that position
       never add to the total?
-    - What does the general total add up to (expect 4), and how does
-      whoever receives the shift verify it?
+    - What will the general total hold when both nights accumulate,
+      and what does that mean for whoever receives the shift?
 
 DELIVERY: explain aloud the chain matrix -> night -> event ->
 skipped -> subtotal -> total. Local practice data only. The program
@@ -60,6 +60,9 @@ print(f"Noches registradas: {len(night_logs)}")
 # ==============================================================================
 # STEP 2: Nested walk (TODO). Outer night, inner event; continue skips
 # the malformed line. No functions, no third level.
+# PREDICT FIRST: before completing each TODO, write your prediction
+# (which value you expect and why); run the script; then compare
+# with the expected output in the student material.
 # ==============================================================================
 # TODO 2.1: Start night_grand at 0, night_skipped at 0, night_totals
 # with two zeros, and night_index at 0.
@@ -72,16 +75,15 @@ night_index = 0  # TODO: keep it, it points at the current night
 # on "UNKNOWN" add 1 to night_skipped and continue; on "ERROR" add 1
 # to night_totals[night_index] and to night_grand. After each night,
 # advance night_index = night_index + 1.
-# (Expect night totals 2 and 2; skipped 1; grand total 4.)
 
-# TODO 2.3: print each night subtotal (expect 2 and 2).
+# TODO 2.3: print each night subtotal.
 print("PENDING")  # TODO: print f"Noche 1: {night_totals[0]}"
 print("PENDING")  # TODO: print f"Noche 2: {night_totals[1]}"
 
-# TODO 2.4: print the skipped lines (expect 1).
+# TODO 2.4: print the skipped lines.
 print("PENDING")  # TODO: print f"Omitidas: {night_skipped}"
 
-# TODO 2.5: print the general total (expect 4).
+# TODO 2.5: print the general total.
 print("PENDING")  # TODO: print f"Total de errores: {night_grand}"
 
 # Positions of this lab: 2 nights of 6 (given expressions, they stay).

@@ -22,9 +22,10 @@ STUDENT INSTRUCTIONS:
         - Tab autocompletes file names. Up arrow recalls commands.
         - Ctrl + C cancels a waiting process safely.
 
-    Read the 3-day matrix in your student material first: it holds
-    the expected subtotals (2, 2, 1), the 2 skipped lines, and the
-    general total (5). No part of this skeleton shows the final counts.
+    Read the 3-day matrix in your student material first and count
+    the ERROR entries of day 1 by hand before coding: each day must
+    leave its own subtotal and the skipped lines stay declared.
+    No part of this skeleton shows the final counts.
 
 NESTING SHAPE: the outer for chooses the day, the inner for visits
     each event. Indent one level (4 spaces) per cycle, never mixed.
@@ -54,6 +55,9 @@ print(f"Días registrados: {len(day_logs)}")
 # ==============================================================================
 # STEP 2: Nested walk (TODO). Outer day, inner event; continue skips
 # one line, break stops only its own day. No functions, no third level.
+# PREDICT FIRST: before completing each TODO, write your prediction
+# (which value you expect and why); run the script; then compare
+# with the expected output in the student material.
 # ==============================================================================
 # TODO 2.1: Start grand_total at 0, skipped at 0, day_totals with
 # three zeros, and day_index at 0.
@@ -66,17 +70,16 @@ day_index = 0  # TODO: keep it, it points at the current day
 # "UNKNOWN" add 1 to skipped and continue; on "STOP" break the day;
 # on "ERROR" add 1 to day_totals[day_index] and to grand_total.
 # After each day, advance day_index = day_index + 1.
-# (Expect day totals 2, 2, 1; skipped 2; grand total 5.)
 
-# TODO 2.3: print each day subtotal (expect 2, 2, 1).
+# TODO 2.3: print each day subtotal.
 print("PENDING")  # TODO: print f"Día 1: {day_totals[0]}"
 print("PENDING")  # TODO: print f"Día 2: {day_totals[1]}"
 print("PENDING")  # TODO: print f"Día 3: {day_totals[2]}"
 
-# TODO 2.4: print the skipped lines (expect 2).
+# TODO 2.4: print the skipped lines.
 print("PENDING")  # TODO: print f"Omitidas: {skipped}"
 
-# TODO 2.5: print the general total (expect 5).
+# TODO 2.5: print the general total.
 print("PENDING")  # TODO: print f"Total de errores: {grand_total}"
 
 # Positions of this lab: 3 days of 6 (given expressions, they stay).
