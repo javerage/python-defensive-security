@@ -244,7 +244,7 @@ Antes de pedir la firma del docente, comprueba que puedes explicar en voz alta:
 
 - [ ] Qué 20 observaciones trae la lista y por qué conserva repeticiones.
 - [ ] Qué campo protege `analyst_record` y por qué asignar a `analyst_record[0]` se interrumpe.
-- [ ] Qué da `len(shift_ips)` frente a `len(set(shift_ips))` y cuántas repeticiones se retiran (`20` frente a `11`).
+- [ ] Qué da `len(event_ips)` frente a `len(set(event_ips))` y cuántas repeticiones se retiran (`20` frente a `11`).
 - [ ] Qué devuelve `"127.0.0.1" in unique_ips` frente a `"10.9.9.9" in unique_ips` y por qué ninguno toca la red.
 - [ ] Cómo llega cada grupo al parte (qué variable muestra cada línea).
 - [ ] Qué NO hace el programa (no abre puertos, no toca disco/red, no confirma un incidente).
