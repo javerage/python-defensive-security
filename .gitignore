@@ -36,3 +36,4 @@ Thumbs.db
 # 5. Internal Development & Orchestration Agent Files
 .agents/
 .atl/
+odd/

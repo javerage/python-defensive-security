@@ -77,6 +77,9 @@
     .trouble-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 8px; margin-top: 6px; background: #f8fafc; padding: 6px 8px; border-radius: 4px; border: 1px solid var(--border-light); }
     .student-code-box { border: 1px dashed #64748b; background-color: #fbfcfe; border-radius: 6px; padding: 10px 12px; margin: 8px 0 12px 0; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 8pt; line-height: 1.5; color: #334155; white-space: pre-wrap; }
     .student-output-box { border: 1px dashed #0284c7; background-color: #f0f9ff; border-radius: 6px; padding: 10px 12px; margin: 8px 0 12px 0; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 8pt; line-height: 1.45; color: #0369a1; white-space: pre-wrap; }
+    .dict-figure { border: 1px solid var(--border-color); background-color: var(--bg-card); border-radius: 6px; padding: 12px 14px; margin: 10px 0 12px 0; break-inside: avoid; page-break-inside: avoid; }
+    .dict-figure svg { display: block; width: 100%; height: auto; background-color: #ffffff; border: 1px solid var(--border-light); border-radius: 4px; }
+    .dict-figure figcaption { font-size: 8pt; color: var(--text-muted); margin-top: 8px; text-align: left; }
     .signature-box { border: 1px solid var(--border-color); background-color: var(--bg-card); border-radius: 6px; padding: 12px 14px; margin-top: 16px; }
     .signature-grid { display: grid; grid-template-columns: 2fr 1.5fr; gap: 20px; margin-top: 24px; align-items: end; }
     .sig-line { border-top: 1px solid #4b5563; padding-top: 4px; text-align: center; font-size: 8pt; color: var(--text-muted); font-weight: 600; }
@@ -124,17 +127,17 @@
     </div>
   </section>
 
-  <h2 style="font-size: 13pt; color: var(--primary); margin-bottom: 4px;">Cuaderno de Trabajo Práctico — Sesión 07: Diccionarios y conteo por nivel y módulo</h2>
-  <p style="font-size: 8.5pt; color: var(--text-muted);">Al minuto 60 habrás creado <code>level_summary.py</code>: cuenta 20 observaciones por nivel y por módulo con diccionarios, lee con <code>.get()</code>, retira una clave con <code>pop()</code> y muestra un resumen ordenado sin ningún bucle.</p>
+  <h2 style="font-size: 13pt; color: var(--primary); margin-bottom: 4px;">Cuaderno de Trabajo Práctico — Sesión 07: Diccionarios: leer y comunicar resúmenes por nivel y módulo</h2>
+  <p style="font-size: 8.5pt; color: var(--text-muted);">Al minuto 60 habrás creado <code>level_summary.py</code>: leerás un resumen de diccionario ya calculado, consultarás claves conocidas con acceso directo, contarás claves con <code>len()</code>, retirarás una clave con <code>pop()</code>, leerás con <code>.get()</code> y mostrarás un resumen ordenado sin ningún bucle.</p>
 
   <!-- 1. OBJETIVOS -->
   <section>
     <h2 class="section-title">1. Objetivos de Aprendizaje y Marco Ético</h2>
     <p>Al concluir satisfactoriamente esta sesión formativa, el estudiante será capaz de:</p>
     <ul style="font-size: 9pt;">
-      <li><strong>Dominio de diccionarios:</strong> guardar un valor por clave (<code>level_counts["INFO"]</code> es <code>9</code>), agregar por asignación y retirar con <code>pop()</code> sobre conteos sintéticos locales.</li>
+      <li><strong>Dominio de diccionarios:</strong> consultar claves conocidas con acceso directo (<code>level_counts["INFO"]</code> es <code>9</code>), contar claves con <code>len()</code>, agregar por asignación y retirar con <code>pop()</code> sobre un resumen sintético local ya calculado.</li>
       <li><strong>Lectura segura:</strong> leer con <code>.get(clave, 0)</code> en vez del acceso directo, explicando cuándo se interrumpe cada uno.</li>
-      <li><strong>Lista frente a diccionario:</strong> explicar por qué la lista conserva 20 entradas mientras el diccionario conserva un total por clave, y mostrar un resumen ordenado con <code>sorted()</code> sin bucles.</li>
+      <li><strong>Resumen y comunicación:</strong> explicar cuántas etiquetas distintas agrupa cada diccionario (<code>3</code> y <code>4</code>), qué NO mide ese conteo y mostrar un resumen ordenado con <code>sorted()</code> sin bucles.</li>
     </ul>
     <div class="callout callout-critical">
       <div class="callout-title">⚠️ Compromiso Ético y Reglas del Laboratorio Defensivo Local</div>
@@ -146,13 +149,65 @@
   <!-- 2. FUNDAMENTOS -->
   <section>
     <h2 class="section-title">2. Fundamentos Conceptuales de la Sesión</h2>
-    <p>Un <strong>diccionario</strong> guarda pares clave → valor: cada clave existe una sola vez y responde "¿cuántos?" sin recorrer nada. En la Sesión 06 guardaste eventos en orden con listas; hoy resumes <strong>20 observaciones</strong> por valor: cada total se construye con una línea explícita de <code>count()</code> y se guarda bajo su clave. La lista conserva las 20 entradas con su orden y sus duplicados; el diccionario conserva un total por clave.</p>
+    <p>Un <strong>diccionario</strong> guarda pares clave → valor: cada clave existe una sola vez y responde "¿cuántos?" por nombre, sin recorrer nada. Un proceso local previo resumió 20 observaciones sintéticas en un total por etiqueta; esta sesión consume ese resumen. El diccionario no contó automáticamente: solo organiza totales ya calculados bajo cada etiqueta.</p>
 
-    <h3 class="subsection-title">Cómo cuenta Python con diccionarios (en clase, sin evaluar nada más)</h3>
-    <p style="font-size: 8.5pt;">La lista guarda todo; el diccionario resume por clave:</p>
-    <div class="student-code-box">info_count = event_levels.count("INFO")
-level_counts = {"INFO": info_count, "WARNING": warning_count, "ERROR": error_count}</div>
-    <p style="font-size: 8.5pt;">Con las 20 observaciones de la práctica, <code>info_count</code> es <code>9</code> y <code>level_counts["INFO"]</code> responde <code>9</code> sin recorrer la lista. La lista tiene <code>20</code> entradas; el diccionario tiene <code>3</code> claves.</p>
+    <h3 class="subsection-title">¿Qué es un diccionario y cómo está compuesto?</h3>
+    <p style="font-size: 8.5pt;">Un <strong>diccionario</strong> es una colección que asocia cada <strong>clave única</strong> con un <strong>valor</strong>: guardas el valor junto a su clave y luego lo encuentras por esa clave, sin recorrer nada. Lee este ejemplo de la práctica:</p>
+    <div class="student-code-box">level_counts = {"INFO": 9, "WARNING": 6, "ERROR": 5}</div>
+    <p style="font-size: 8.5pt;">Sus piezas, en orden, son: el <strong>nombre de la variable</strong> (<code>level_counts</code>), las <strong>llaves de apertura y cierre</strong> (<code>{ }</code>) que envuelven todo, cada <strong>par completo clave-valor</strong> (por ejemplo <code>"WARNING": 6</code>), formado por una <strong>clave</strong> (<code>"WARNING"</code>), los <strong>dos puntos</strong> (<code>:</code>) que separan la clave de su valor, el <strong>valor</strong> (<code>6</code>) y las <strong>comas</strong> que separan un par del siguiente.</p>
+    <figure class="dict-figure" aria-labelledby="dictFigCaption">
+      <svg viewBox="0 0 760 300" role="img" aria-labelledby="dictFigTitle dictFigDesc" xmlns="http://www.w3.org/2000/svg" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace">
+        <title id="dictFigTitle">Anatomía del diccionario level_counts con tres pares clave-valor</title>
+        <desc id="dictFigDesc">La línea level_counts igual a llaves con INFO 9, WARNING 6 y ERROR 5. Se señalan el nombre de la variable, las llaves de apertura y cierre, una clave, los dos puntos, un valor, las comas que separan pares y un par completo.</desc>
+        <rect x="8" y="8" width="744" height="284" rx="6" fill="#ffffff" stroke="#d1d5db" stroke-width="1.5"/>
+        <text x="30" y="40" font-size="12" font-weight="700" fill="#1e3a8a">nombre de la variable</text>
+        <line x1="75" y1="46" x2="75" y2="86" stroke="#1e3a8a" stroke-width="1.5"/>
+        <text x="300" y="40" font-size="12" font-weight="700" fill="#0f172a">llave de apertura {</text>
+        <line x1="330" y1="46" x2="268" y2="86" stroke="#0f172a" stroke-width="1.5"/>
+        <text x="560" y="40" font-size="12" font-weight="700" fill="#0f172a">llave de cierre }</text>
+        <line x1="620" y1="46" x2="648" y2="86" stroke="#0f172a" stroke-width="1.5"/>
+        <rect x="20" y="92" width="150" height="40" rx="4" fill="#eff6ff" stroke="#1e3a8a" stroke-width="1.5"/>
+        <text x="30" y="118" font-size="17" font-weight="700" fill="#1e3a8a">level_counts</text>
+        <text x="180" y="118" font-size="17" fill="#4b5563">=</text>
+        <text x="205" y="118" font-size="22" font-weight="700" fill="#0f172a">{</text>
+        <text x="226" y="118" font-size="17" font-weight="700" fill="#b45309">"INFO"</text>
+        <text x="300" y="118" font-size="17" font-weight="700" fill="#0f172a">:</text>
+        <text x="316" y="118" font-size="17" font-weight="700" fill="#15803d">9</text>
+        <text x="332" y="118" font-size="17" font-weight="700" fill="#0f172a">,</text>
+        <text x="350" y="118" font-size="17" font-weight="700" fill="#b45309">"WARNING"</text>
+        <text x="462" y="118" font-size="17" font-weight="700" fill="#0f172a">:</text>
+        <text x="478" y="118" font-size="17" font-weight="700" fill="#15803d">6</text>
+        <text x="494" y="118" font-size="17" font-weight="700" fill="#0f172a">,</text>
+        <text x="512" y="118" font-size="17" font-weight="700" fill="#b45309">"ERROR"</text>
+        <text x="600" y="118" font-size="17" font-weight="700" fill="#0f172a">:</text>
+        <text x="616" y="118" font-size="17" font-weight="700" fill="#15803d">5</text>
+        <text x="634" y="118" font-size="22" font-weight="700" fill="#0f172a">}</text>
+        <text x="350" y="160" font-size="12" font-weight="700" fill="#b45309">clave</text>
+        <line x1="392" y1="146" x2="392" y2="134" stroke="#b45309" stroke-width="1.5"/>
+        <text x="455" y="160" font-size="12" font-weight="700" fill="#0f172a">dos puntos :</text>
+        <line x1="482" y1="146" x2="466" y2="134" stroke="#0f172a" stroke-width="1.5"/>
+        <text x="560" y="160" font-size="12" font-weight="700" fill="#15803d">valor</text>
+        <line x1="578" y1="146" x2="622" y2="134" stroke="#15803d" stroke-width="1.5"/>
+        <text x="226" y="160" font-size="12" font-weight="700" fill="#4b5563">coma separa pares</text>
+        <line x1="280" y1="146" x2="336" y2="134" stroke="#4b5563" stroke-width="1.5"/>
+        <rect x="350" y="176" width="144" height="44" rx="4" fill="none" stroke="#6b21a8" stroke-width="2" stroke-dasharray="6 3"/>
+        <line x1="350" y1="206" x2="350" y2="134" stroke="#6b21a8" stroke-width="1.2" stroke-dasharray="4 3"/>
+        <line x1="494" y1="206" x2="494" y2="134" stroke="#6b21a8" stroke-width="1.2" stroke-dasharray="4 3"/>
+        <text x="350" y="240" font-size="12" font-weight="700" fill="#6b21a8">par completo: "WARNING": 6</text>
+        <text x="350" y="258" font-size="11" fill="#4b5563">clave + dos puntos + valor</text>
+      </svg>
+      <figcaption id="dictFigCaption">Figura: anatomía de <code>level_counts</code>. Las llaves <code>{ }</code> envuelven tres pares; cada par une una clave con su valor mediante <code>:</code> y las comas separan los pares.</figcaption>
+    </figure>
+    <p style="font-size: 8.5pt;"><strong>Reconócelo en 10 segundos:</strong> en <code>"WARNING": 6</code>, ¿cuál es la clave, cuál es el valor y cuál es el par completo?</p>
+    <p style="font-size: 8.5pt;"><strong>Respuesta inmediata:</strong> la clave es <code>"WARNING"</code>, el valor es <code>6</code> y el par completo es <code>"WARNING": 6</code>.</p>
+
+    <h3 class="subsection-title">De dónde viene el resumen (léelo antes de programar)</h3>
+    <p style="font-size: 8.5pt;">Un proceso local previo resumió 20 observaciones sintéticas en un total por etiqueta; esta sesión consume ese resumen. Generar resúmenes automáticamente desde observaciones crudas llegará con los bucles (Sesión 09): hoy practicas inspeccionar, consultar, modificar, validar y comunicar el resumen ya calculado. El diccionario no cuenta por ti: cada total ya viene anotado bajo su etiqueta y tu programa lo consulta por nombre.</p>
+
+    <h3 class="subsection-title">Cómo se lee un resumen con diccionarios (en clase, sin evaluar nada más)</h3>
+    <p style="font-size: 8.5pt;">El resumen ya trae cada total bajo su etiqueta; tu programa lo consulta por nombre:</p>
+    <div class="student-code-box">info_count = level_counts["INFO"]</div>
+    <p style="font-size: 8.5pt;">Con el resumen de la práctica, <code>info_count</code> es <code>9</code>: la clave <code>"INFO"</code> responde <code>9</code> directamente. El diccionario tiene <code>3</code> claves y el resumen representa <code>20</code> observaciones.</p>
     <p style="font-size: 8.5pt;">La lectura segura evita la interrupción del acceso directo:</p>
     <div class="student-code-box">debug_lookup = level_counts.get("DEBUG", 0)</div>
     <p style="font-size: 8.5pt;"><code>.get("DEBUG", 0)</code> devuelve <code>0</code> porque esa clave no existe. En cambio <code>level_counts["DEBUG"]</code> se interrumpe con <code>KeyError</code>: esa es la diferencia que practicas hoy.</p>
@@ -163,41 +218,41 @@ removed_debug = level_counts.pop("DEBUG", 0)</div>
 
     <div class="callout callout-tip" style="margin: 8px 0;">
       <div class="callout-title">📌 Tres precisiones y nada más</div>
-      <p style="margin-bottom: 3px; font-size: 8pt;"><strong>Lista frente a diccionario:</strong> la lista conserva orden y duplicados (<code>20</code> entradas); el diccionario conserva un total por clave (<code>3</code> claves). Si lees <code>.get("info", 0)</code> en minúsculas, ves <code>0</code> y escondes los <code>9</code> reales sin ningún error (verás este caso en la sección 5).</p>
-      <p style="margin-bottom: 3px; font-size: 8pt;"><strong>Diccionarios de hoy, nada más:</strong> claves y valores, acceso seguro con <code>.get()</code>, asignación por clave y eliminación con <code>pop()</code>, sobre listas ya dominadas (<code>count</code>, <code>len</code>, <code>sorted</code>, índices). Las tuplas y los sets <strong>quedan fuera: llegan en la Sesión 08</strong>.</p>
-      <p style="margin-bottom: 0; font-size: 8pt;"><strong>Alcance de hoy:</strong> 20 datos con conteo manual razonable: cada valor distinto tiene su línea explícita de <code>count()</code>. Los bucles llegan en la Sesión 09 y comprimirán estas líneas en tres líneas. Las etiquetas son didácticas del laboratorio, no estándares universales.</p>
+      <p style="margin-bottom: 3px; font-size: 8pt;"><strong>Claves frente a observaciones:</strong> el diccionario agrupa por etiqueta (<code>3</code> claves de nivel, <code>4</code> de módulo) y el resumen representa <code>20</code> observaciones. <code>len()</code> cuenta etiquetas, nunca observaciones. Si lees <code>.get("info", 0)</code> en minúsculas, ves <code>0</code> y escondes los <code>9</code> reales sin ningún error (verás este caso en la sección 5).</p>
+      <p style="margin-bottom: 3px; font-size: 8pt;"><strong>Diccionarios de hoy, nada más:</strong> lectura directa de claves conocidas, <code>len()</code> sobre claves, acceso seguro con <code>.get()</code>, asignación por clave y eliminación con <code>pop()</code>, sobre <code>len</code>, <code>sorted</code> e índices ya dominados. Las tuplas y los sets <strong>quedan fuera: llegan en la Sesión 08</strong>.</p>
+      <p style="margin-bottom: 0; font-size: 8pt;"><strong>Alcance de hoy:</strong> un resumen dado con lectura explícita línea por línea. Los bucles llegan en la Sesión 09 y automatizarán la generación de resúmenes como este. Las etiquetas son didácticas del laboratorio, no estándares universales.</p>
     </div>
 
     <table class="data-table">
-      <thead><tr><th style="width: 22%;">Nivel</th><th style="width: 43%;">count()</th><th style="width: 35%;">Total</th></tr></thead>
+      <thead><tr><th style="width: 22%;">Nivel</th><th style="width: 43%;">Total dado</th><th style="width: 35%;">Lectura directa</th></tr></thead>
       <tbody>
-        <tr><td><strong>INFO</strong></td><td><code>event_levels.count("INFO")</code></td><td><code>9</code></td></tr>
-        <tr><td><strong>WARNING</strong></td><td><code>event_levels.count("WARNING")</code></td><td><code>6</code></td></tr>
-        <tr><td><strong>ERROR</strong></td><td><code>event_levels.count("ERROR")</code></td><td><code>5</code></td></tr>
+        <tr><td><strong>INFO</strong></td><td><code>9</code></td><td><code>level_counts["INFO"]</code></td></tr>
+        <tr><td><strong>WARNING</strong></td><td><code>6</code></td><td><code>level_counts["WARNING"]</code></td></tr>
+        <tr><td><strong>ERROR</strong></td><td><code>5</code></td><td><code>level_counts["ERROR"]</code></td></tr>
       </tbody>
     </table>
-    <p style="font-size: 8.5pt;">Los tres suman <code>20</code>, igual que la lista: no se perdió ninguna observación.</p>
+    <p style="font-size: 8.5pt;">Los tres valores suman <code>20</code>, igual que las observaciones que el resumen representa.</p>
     <table class="data-table">
-      <thead><tr><th style="width: 22%;">Módulo</th><th style="width: 43%;">count()</th><th style="width: 35%;">Total</th></tr></thead>
+      <thead><tr><th style="width: 22%;">Módulo</th><th style="width: 43%;">Total dado</th><th style="width: 35%;">Lectura directa</th></tr></thead>
       <tbody>
-        <tr><td><strong>auth</strong></td><td><code>event_modules.count("auth")</code></td><td><code>7</code></td></tr>
-        <tr><td><strong>backup</strong></td><td><code>event_modules.count("backup")</code></td><td><code>6</code></td></tr>
-        <tr><td><strong>disk</strong></td><td><code>event_modules.count("disk")</code></td><td><code>4</code></td></tr>
-        <tr><td><strong>net</strong></td><td><code>event_modules.count("net")</code></td><td><code>3</code></td></tr>
+        <tr><td><strong>auth</strong></td><td><code>7</code></td><td><code>module_counts["auth"]</code></td></tr>
+        <tr><td><strong>backup</strong></td><td><code>6</code></td><td><code>module_counts["backup"]</code></td></tr>
+        <tr><td><strong>disk</strong></td><td><code>4</code></td><td><code>module_counts["disk"]</code></td></tr>
+        <tr><td><strong>net</strong></td><td><code>3</code></td><td><code>module_counts["net"]</code></td></tr>
       </tbody>
     </table>
-    <p style="font-size: 8.5pt;">Los cuatro suman <code>20</code>: cada observación tiene exactamente un módulo.</p>
+    <p style="font-size: 8.5pt;">Los cuatro valores suman <code>20</code>: cada observación del resumen tiene exactamente un módulo.</p>
 
     <div class="callout callout-info" style="margin: 10px 0;">
       <div class="callout-title">💡 El archivador con una gaveta por etiqueta</div>
-      <p style="margin-bottom: 4px;">Piensa en un archivador con una gaveta por etiqueta: cada observación cae en su gaveta y la gaveta guarda solo el total. Para saber cuántos <code>INFO</code> hay, abres la gaveta <code>INFO</code>: no recorres las 20 hojas.</p>
-      <p style="margin-bottom: 0;">Tu diccionario hace lo mismo: cada clave es una gaveta con su total, y <code>.get()</code> abre la gaveta devolviendo <code>0</code> si está vacía en vez de romper el archivador.</p>
+      <p style="margin-bottom: 4px;">Piensa en un archivador con una gaveta por etiqueta: un proceso previo colocó cada observación en su gaveta y anotó el total en la puerta. Para saber cuántos <code>INFO</code> hay, abres la gaveta <code>INFO</code> y lees el número: no revisas las 20 hojas.</p>
+      <p style="margin-bottom: 0;">Tu diccionario hace lo mismo: cada clave es una gaveta con su total ya anotado, y <code>.get()</code> abre la gaveta devolviendo <code>0</code> si está vacía en vez de romper el archivador.</p>
     </div>
 
     <div class="callout callout-tip" style="margin: 8px 0;">
       <div class="callout-title">📍 Código en inglés, mensajes en español</div>
-      <p style="margin-bottom: 3px; font-size: 8pt;"><strong>Código en inglés por consistencia y colaboración:</strong> las variables y comentarios van en inglés (<code>event_levels</code>, <code>event_modules</code>, <code>level_counts</code>, <code>module_counts</code>, <code>debug_lookup</code>, <code>ordered_levels</code>) con estilo PEP 8, para que cualquier equipo pueda leer tu código. Los mensajes que ve el usuario van en español.</p>
-      <p style="margin-bottom: 0; font-size: 8pt;"><strong>Código lineal en esta sesión:</strong> de arriba a abajo, contando con <code>count()</code> y resumiendo con diccionarios, sin ningún bucle. Sin funciones (<code>def</code>), sin <code>try/except</code>, sin tuplas, sin sets, sin <code>imports</code> y sin archivos ni red.</p>
+      <p style="margin-bottom: 3px; font-size: 8pt;"><strong>Código en inglés por consistencia y colaboración:</strong> las variables y comentarios van en inglés (<code>level_counts</code>, <code>module_counts</code>, <code>total_events</code>, <code>debug_lookup</code>, <code>ordered_levels</code>) con estilo PEP 8, para que cualquier equipo pueda leer tu código. Los mensajes que ve el usuario van en español.</p>
+      <p style="margin-bottom: 0; font-size: 8pt;"><strong>Código lineal en esta sesión:</strong> de arriba a abajo, leyendo un resumen dado con diccionarios, sin ningún bucle. Sin funciones (<code>def</code>), sin <code>try/except</code>, sin tuplas, sin sets, sin <code>imports</code> y sin archivos ni red.</p>
     </div>
   </section>
 
@@ -245,49 +300,75 @@ python3 level_summary.py</div>
 
   <!-- 4. RETO -->
   <section class="page-break">
-    <h2 class="section-title">4. Reto Práctico: Contar 20 Observaciones (25 minutos)</h2>
+    <h2 class="section-title">4. Reto Práctico: Leer el Resumen de 20 Observaciones (25 minutos)</h2>
     <div class="callout callout-info" style="margin-bottom: 12px;">
-      <div class="callout-title">🎯 Escenario Defensivo: el resumen de la jornada</div>
-      <p style="margin-bottom: 0;">Resume 20 observaciones con su nivel y su módulo: cuenta cada valor con <code>count()</code>, guarda un total por clave, lee con <code>.get()</code>, retira la clave de prueba con <code>pop()</code> y muestra el resumen ordenado con <code>sorted()</code>.</p>
+      <div class="callout-title">🎯 Escenario Defensivo: el relevo del turno de laboratorio</div>
+      <p style="margin-bottom: 4px;"><strong>Historia:</strong> una analista defensiva termina su turno en el laboratorio local y deja sobre la mesa una hoja de entrega con <strong>el resumen ya calculado de 20 observaciones sintéticas</strong>: los totales por <strong>nivel</strong> (<code>INFO</code>, <code>WARNING</code>, <code>ERROR</code>) y por <strong>módulo</strong> (<code>auth</code>, <code>backup</code>, <code>disk</code>, <code>net</code>). Cada observación quedó agrupada bajo exactamente un nivel y un módulo.</p>
+      <p style="margin-bottom: 4px;"><strong>Primera petición (consulta puntual):</strong> al entrar, el analista solo pregunta cuántas observaciones <code>INFO</code> trae el resumen. Para esa consulta puntual basta una lectura directa por nombre, sin nada más.</p>
+      <p style="margin-bottom: 4px;"><strong>Segunda petición (entrega ampliada):</strong> enseguida pide el <strong>informe de entrega</strong> completo: todos los totales por nivel y por módulo consultados por etiqueta, cuántas etiquetas distintas agrupa cada resumen, manejo seguro del <code>DEBUG</code> ausente, retiro de la clave provisional (que <strong>no debe quedar</strong> en el informe) y un reporte ordenado que se lea en segundos. Esa entrega ampliada es la que justifica leer el resumen como diccionarios reutilizables en vez de variables sueltas.</p>
+      <p style="margin-bottom: 0;"><strong>Límite honesto:</strong> todo es evidencia local sintética para practicar la lectura del resumen. Este informe <strong>no confirma ningún incidente</strong> ni sustituye una investigación.</p>
     </div>
-    <h3 class="subsection-title">Las 20 observaciones (léelas antes de programar):</h3>
-    <div class="student-code-box">event_levels = [
-    "INFO", "ERROR", "WARNING", "INFO", "INFO",
-    "WARNING", "ERROR", "INFO", "WARNING", "INFO",
-    "ERROR", "WARNING", "INFO", "INFO", "WARNING",
-    "ERROR", "INFO", "WARNING", "ERROR", "INFO",
-]
-event_modules = [
-    "auth", "disk", "auth", "backup", "net",
-    "auth", "backup", "disk", "auth", "net",
-    "backup", "auth", "disk", "backup", "net",
-    "auth", "backup", "disk", "auth", "backup",
-]</div>
-    <p style="font-size: 8.5pt;">Mismas posiciones en ambas listas: la posición <code>0</code> de una describe la misma observación que la posición <code>0</code> de la otra. Totales esperados: <code>INFO 9</code>, <code>WARNING 6</code>, <code>ERROR 5</code>; <code>auth 7</code>, <code>backup 6</code>, <code>disk 4</code>, <code>net 3</code>.</p>
-    <h3 class="subsection-title">Los 3 pasos (en este orden):</h3>
+    <h3 class="subsection-title">Tu misión (en palabras del caso, antes del código):</h3>
+    <p style="font-size: 8.5pt;">Primero resuelve la <strong>consulta puntual</strong> con lo más simple; después construye la <strong>entrega ampliada</strong>: consulta <strong>todos los totales por nivel y por módulo</strong>, <strong>cuenta cuántas etiquetas agrupa cada resumen</strong>, <strong>retira la etiqueta provisional</strong> del informe, <strong>consulta su ausencia de forma segura</strong> y entrega un <strong>informe de traspaso ordenado</strong> que el analista entrante lea en segundos. Solo después de decidir <em>qué</em> necesita cada etapa elegirás <em>cómo</em> lo expresa Python: lectura directa, <code>len()</code> sobre claves, <code>.get()</code>, <code>pop()</code> y <code>sorted()</code>.</p>
+    <div class="callout callout-info" style="margin: 8px 0;">
+      <div class="callout-title">💡 De la consulta puntual al informe reutilizable</div>
+      <p style="margin-bottom: 4px; font-size: 8.5pt;">Para una sola pregunta —«¿cuántas <code>INFO</code> trae el resumen?»— lo más simple es leer directo por nombre con <code>level_counts["INFO"]</code>: no necesitas nada más. Regla honesta: el diccionario no cuenta automáticamente, solo organiza totales ya calculados bajo cada etiqueta para consultarlos por nombre.</p>
+      <div class="student-code-box">Resumen dado (etiqueta → total) → lectura directa → conteo de claves → informe de entrega reutilizable</div>
+      <p style="margin-bottom: 0; font-size: 8.5pt;">Los diccionarios (<code>level_counts</code>, <code>module_counts</code>) conservan un total agrupado por etiqueta para consultarlo por nombre, manejar la clave ausente y comunicar el informe en orden.</p>
+    </div>
+    <h3 class="subsection-title">Antes de programar: abstrae el caso (5 minutos)</h3>
+    <p style="font-size: 8.5pt;">Responde en tu cuaderno o en voz alta, sin tocar el teclado todavía:</p>
+    <ul style="font-size: 8.5pt; margin-left: 18px; margin-bottom: 10px;">
+      <li><strong>Consulta puntual:</strong> si el analista solo preguntara cuántas <code>INFO</code> trae el resumen, ¿qué línea responde sin tocar nada más y por qué?</li>
+      <li><strong>Entrega ampliada:</strong> ¿qué pide ahora el relevo (todos los totales por etiqueta, conteo de etiquetas, <code>DEBUG</code> ausente sin detener el reporte, retiro de la clave provisional e informe ordenado) que hace insuficientes las lecturas sueltas y las variables aisladas como modelo del reporte?</li>
+      <li><strong>Representación:</strong> ¿qué te permite el diccionario (etiqueta → total) que las variables sueltas no te permiten?</li>
+      <li><strong>Origen de los totales:</strong> ¿qué proceso generó los números del resumen y qué parte de ese proceso practicas hoy?</li>
+      <li><strong>Revisa las etiquetas de la hoja:</strong> ¿cuáles merecen su propia clave en el diccionario y cuál aparece solo como prueba provisional que no debe quedar en la entrega?</li>
+      <li><strong>Compara las claves de cada resumen:</strong> ¿qué mide <code>len()</code> en cada diccionario (etiquetas distintas) y qué NO mide (observaciones)?</li>
+    </ul>
+    <h3 class="subsection-title">Del caso al código: mapa de decisiones</h3>
+    <p style="font-size: 8.5pt;">Consulta el mapa solo después de responder las seis preguntas: contrasta tus respuestas con cada fila y corrige lo que haga falta antes de programar.</p>
+    <table class="data-table">
+      <thead><tr><th>Pregunta del caso</th><th>Evidencia disponible</th><th>Representación / decisión</th><th>Operación o evidencia resultante</th></tr></thead>
+      <tbody>
+        <tr><td>¿Cuántas <code>INFO</code> trae? (consulta puntual)</td><td><code>level_counts</code> con el total ya anotado</td><td>Lectura directa por nombre, sin nada más: lo simple basta</td><td><code>level_counts["INFO"]</code> responde una vez</td></tr>
+        <tr><td>¿Cuántas hay por nivel? (entrega ampliada)</td><td>Resumen de niveles con 3 etiquetas</td><td>Cada nivel distinto → clave de <code>level_counts</code>; el total dado → valor reutilizable</td><td>Lectura directa por etiqueta; diccionario de 3 claves</td></tr>
+        <tr><td>¿Cuántas hay por módulo?</td><td>Resumen de módulos con 4 etiquetas</td><td>Cada módulo distinto → clave de <code>module_counts</code>; el total dado → valor reutilizable</td><td>Lectura directa por etiqueta; diccionario de 4 claves</td></tr>
+        <tr><td>¿Existe la etiqueta <code>DEBUG</code>?</td><td>Clave ausente del resumen</td><td>Lectura que no interrumpe el reporte</td><td><code>.get("DEBUG", 0)</code> responde <code>0</code></td></tr>
+        <tr><td>¿Quedó la etiqueta de prueba?</td><td>Clave provisional con <code>0</code></td><td>Retirarla del resumen entregado</td><td><code>pop("DEBUG", 0)</code> la retira y devuelve <code>0</code></td></tr>
+        <tr><td>¿Cómo lo lee quien entra?</td><td>Totales más tu identidad</td><td>Resumen ordenado con encabezado</td><td><code>sorted()</code> más once líneas de datos</td></tr>
+      </tbody>
+    </table>
+    <h3 class="subsection-title">El resumen ya calculado de la hoja de entrega (léelo antes de programar):</h3>
+    <p style="font-size: 8.5pt;">Estos diccionarios son el resumen ya calculado de la hoja: un proceso previo agrupó las 20 observaciones para que no gastes los 25 minutos reconstruyendo totales. Son la <strong>entrada</strong>, no la solución: tu trabajo es leerlos y comunicarlos.</p>
+    <div class="student-code-box">level_counts = {"INFO": 9, "WARNING": 6, "ERROR": 5}
+module_counts = {"auth": 7, "backup": 6, "disk": 4, "net": 3}
+total_events = 20</div>
+    <p style="font-size: 8.5pt;">Los tres valores de nivel suman <code>20</code> y los cuatro de módulo suman <code>20</code>: cada observación quedó agrupada bajo exactamente un nivel y un módulo. Comprueba que entiendes qué responde cada clave antes de ejecutar tu programa.</p>
+    <h3 class="subsection-title">El recorrido en 25 minutos (5 + 12 + 8):</h3>
     <ol style="font-size: 8.5pt; margin-left: 18px; margin-bottom: 10px;">
-      <li><strong>Evidencia:</strong> asigna las dos listas de 20 más tu identidad (<code>student_name</code>, <code>student_id</code>) e imprime el total (<code>20</code>).</li>
-      <li><strong>Conteos y diccionarios:</strong> cuenta cada valor con <code>count()</code>, guarda un total por clave, retira <code>DEBUG</code> con <code>pop("DEBUG", 0)</code> y lee con <code>.get("DEBUG", 0)</code>.</li>
-      <li><strong>Comunicación:</strong> imprime el encabezado y las once líneas de datos en orden con <code>sorted()</code>.</li>
+      <li><strong>Comprender y abstraer (5 minutos):</strong> lee la historia, responde las preguntas de abstracción y recorre el mapa de decisiones.</li>
+      <li><strong>Leer y manejar (12 minutos):</strong> asigna el resumen más tu identidad (<code>student_name</code>, <code>student_id</code>, <code>total_events</code>), lee cada clave con acceso directo, cuenta claves con <code>len()</code>, agrega y retira <code>DEBUG</code> con <code>pop("DEBUG", 0)</code> y lee con <code>.get("DEBUG", 0)</code>.</li>
+      <li><strong>Comunicar y verificar (8 minutos):</strong> imprime el encabezado y las once líneas de datos en orden con <code>sorted()</code>; compara con la salida esperada solo después de ejecutar.</li>
     </ol>
     <h3 class="subsection-title">Tu archivo <code>level_summary.py</code> (complétalo):</h3>
-    <div class="student-code-box"># STEP 1 (given): event_levels (20), event_modules (20),
-# student_name, student_id, print "Observaciones registradas: 20"
+    <p style="font-size: 8.5pt;">Cada TODO implementa una decisión que ya tomaste arriba en el mapa: no adivines, traduce la fila correspondiente.</p>
+    <div class="student-code-box"># STEP 1 (given): level_counts (3 claves), module_counts (4 claves),
+# total_events (20), student_name, student_id,
+# print "Observaciones registradas: 20"
 
-# TODO 2.1: info_count, warning_count, error_count with count (9, 6, 5)
-# TODO 2.2: level_counts with one value per key (3 keys)
-# TODO 2.3: print "Niveles distintos: 3"
-# TODO 2.4: auth_count, backup_count, disk_count, net_count (7, 6, 4, 3)
-# TODO 2.5: module_counts with one value per key (4 keys)
-# TODO 2.6: print "Módulos distintos: 4"
-# TODO 2.7: stage DEBUG with 0, retire with pop("DEBUG", 0),
+# TODO 2.1: info_count, warning_count, error_count con acceso directo (uno por clave)
+# TODO 2.2: print "Niveles distintos: 3" con len(level_counts)
+# TODO 2.3: auth_count, backup_count, disk_count, net_count con acceso directo
+# TODO 2.4: print "Módulos distintos: 4" con len(module_counts)
+# TODO 2.5: agrega DEBUG con 0, retira con pop("DEBUG", 0),
 #   print "Clave de prueba retirada: 0"
-# TODO 2.8: debug_lookup with get("DEBUG", 0),
-#   print "Búsqueda segura de DEBUG: 0" (expect 0)
+# TODO 2.6: debug_lookup con get("DEBUG", 0)
+# TODO 2.7: print "Búsqueda segura de DEBUG: 0" (expect 0)
 
 # ordered_levels / ordered_modules with sorted() (given)
 # STEP 3 (given): print "--- Resumen de niveles y módulos ---" + 11 lines</div>
-    <h3 class="subsection-title">Salida esperada (verifica con tu ejecución):</h3>
+    <h3 class="subsection-title">Salida esperada (predice primero, compara después de ejecutar):</h3>
     <div class="student-output-box">Observaciones registradas: 20
 Niveles distintos: 3
 Módulos distintos: 4
@@ -304,7 +385,7 @@ auth: 7
 backup: 6
 disk: 4
 net: 3
-Lista completa: 20 entradas, diccionario: 3 claves</div>
+Resumen: 3 claves de nivel, 4 claves de módulo</div>
   </section>
 
   <!-- 5. ERRORES -->
@@ -313,11 +394,11 @@ Lista completa: 20 entradas, diccionario: 3 claves</div>
     <p style="font-size: 8.5pt;">En Python 3.13, las trazas de error (<em>Tracebacks</em>) señalan la línea y columna exacta de la falla con caracteres <code>^^^^^</code>. Analiza y resuelve los 2 errores típicos de esta sesión:</p>
     <div class="trouble-card trouble-critical">
       <div class="trouble-title">🚨 Error 1: KeyError por leer una clave inexistente</div>
-      <div class="terminal-container" style="margin: 4px 0; padding: 6px 8px; font-size: 7.5pt;"><div class="terminal-header"><span>Traza real de Python 3.13</span><span>level_summary.py</span></div>  File "level_summary.py", line 55, in &lt;module&gt;
+      <div class="terminal-container" style="margin: 4px 0; padding: 6px 8px; font-size: 7.5pt;"><div class="terminal-header"><span>Traza real de Python 3.13</span><span>level_summary.py</span></div>  File "level_summary.py", line 85, in &lt;module&gt;
     debug_count = level_counts["DEBUG"]
                   ~~~~~~~~~~~^^^^^^^^^
 KeyError: 'DEBUG'</div>
-      <div class="trouble-grid"><div><strong>Causa raíz:</strong><p style="font-size: 8pt; margin-top: 2px;">El acceso directo exige que la clave exista: <code>DEBUG</code> nunca se guardó y Python señala los corchetes.</p></div><div><strong>Corrección:</strong><p style="font-size: 8pt; margin-top: 2px;">Lee con valor por defecto: <code>level_counts.get("DEBUG", 0)</code>.</p></div></div>
+      <div class="trouble-grid"><div><strong>Causa raíz:</strong><p style="font-size: 8pt; margin-top: 2px;">El acceso directo exige que la clave exista: <code>DEBUG</code> fue retirada del resumen y Python señala los corchetes.</p></div><div><strong>Corrección:</strong><p style="font-size: 8pt; margin-top: 2px;">Lee con valor por defecto: <code>level_counts.get("DEBUG", 0)</code>.</p></div></div>
     </div>
     <div class="trouble-card">
       <div class="trouble-title">⚠️ Error 2: minúsculas que esconden los datos en silencio (sin traza)</div>
@@ -330,8 +411,9 @@ KeyError: 'DEBUG'</div>
   <section>
     <h2 class="section-title">6. Desafío Opcional para Avance Rápido (no se evalúa)</h2>
     <div class="callout callout-tip">
-      <div class="callout-title">🚀 20 frente a 3: lista contra diccionario</div>
-      <p style="font-size: 8.5pt; margin-bottom: 0;">Agrega un <code>print(len(event_levels))</code> y un <code>print(len(level_counts))</code> temporales al final, ejecuta con <code>↑</code> y di en voz alta por qué el primero muestra <code>20</code> y el segundo <code>3</code>. Esta comparación (lista ordenada y mutable frente a diccionario por clave) prepara la Sesión 08. Es solo práctica extra: no cambia tu calificación y no usa conceptos nuevos.</p>
+      <div class="callout-title">🚀 3 frente a 4: claves de cada resumen</div>
+      <p style="font-size: 8.5pt; margin-bottom: 4px;">Agrega un <code>print(len(level_counts))</code> y un <code>print(len(module_counts))</code> temporales al final, ejecuta con <code>↑</code> y di en voz alta por qué el primero muestra <code>3</code> y el segundo <code>4</code>: cada resumen agrupa un número distinto de etiquetas.</p>
+      <p style="font-size: 8.5pt; margin-bottom: 0;">Después di por qué esa diferencia NO mide observaciones: ambos resúmenes representan las mismas <code>20</code> observaciones y <code>len()</code> solo cuenta etiquetas distintas. Esta comparación prepara la Sesión 08. Es solo práctica extra: no cambia tu calificación y no usa conceptos nuevos.</p>
     </div>
   </section>
 
@@ -342,8 +424,8 @@ KeyError: 'DEBUG'</div>
     <table class="data-table">
       <thead><tr><th class="check-box-cell">OK</th><th>Criterio observable</th><th>Evidencia en pantalla</th></tr></thead>
       <tbody>
-        <tr><td class="check-box-cell"><span class="check-square"></span></td><td><strong>Conteos por valor:</strong> explicas qué devuelve cada <code>count()</code> y a cuánto suman</td><td><code>9</code>, <code>6</code>, <code>5</code> y <code>7</code>, <code>6</code>, <code>4</code>, <code>3</code>; cada grupo suma <code>20</code></td></tr>
-        <tr><td class="check-box-cell"><span class="check-square"></span></td><td><strong>Lista frente a diccionario:</strong> explicas 20 entradas contra 3 claves</td><td>Orden y duplicados frente a un total por clave</td></tr>
+        <tr><td class="check-box-cell"><span class="check-square"></span></td><td><strong>Lecturas directas:</strong> explicas qué responde cada clave y a cuánto suman los valores</td><td><code>9</code>, <code>6</code>, <code>5</code> y <code>7</code>, <code>6</code>, <code>4</code>, <code>3</code>; cada grupo suma <code>20</code></td></tr>
+        <tr><td class="check-box-cell"><span class="check-square"></span></td><td><strong>Conteo de claves:</strong> explicas qué mide <code>len()</code> y qué NO mide</td><td><code>3</code> y <code>4</code> etiquetas; nunca totales de observaciones</td></tr>
         <tr><td class="check-box-cell"><span class="check-square"></span></td><td><strong>Lectura segura:</strong> distingues <code>.get()</code> del acceso directo</td><td><code>0</code> sin interrumpirse frente a <code>KeyError</code></td></tr>
         <tr><td class="check-box-cell"><span class="check-square"></span></td><td><strong>Límites honestos:</strong> dices qué NO hace tu programa</td><td>No lee archivos, no toca la red, no confirma un incidente</td></tr>
         <tr><td class="check-box-cell"><span class="check-square"></span></td><td><strong>Resumen completo:</strong> cada total llega a su línea en orden</td><td>Encabezado más once líneas de datos</td></tr>
@@ -358,30 +440,21 @@ KeyError: 'DEBUG'</div>
   <!-- 8. TAREA -->
   <section>
     <h2 class="section-title">8. Tarea Posterior a la Clase (fuera de los 60 minutos)</h2>
-    <p style="font-size: 8.5pt;">Dejas listo el <strong>resumen del turno de noche</strong> antes de entregarlo, distinto de la lista del día de clase. Partes de 20 observaciones nuevas del turno, aplicas la misma técnica de conteo, modelas tu tarjeta como diccionario y muestras el resumen ordenado. La tarea aplica la misma técnica sobre datos nuevos más la tarjeta del analista, mientras el ejercicio de clase resume la lista del día.</p>
-    <h3 class="subsection-title">Las 20 observaciones del turno (escríbelas tal cual):</h3>
-    <div class="student-code-box">shift_levels = [
-    "INFO", "WARNING", "ERROR", "INFO", "WARNING",
-    "INFO", "ERROR", "WARNING", "INFO", "WARNING",
-    "ERROR", "INFO", "WARNING", "INFO", "ERROR",
-    "WARNING", "INFO", "ERROR", "WARNING", "INFO",
-]
-shift_modules = [
-    "auth", "backup", "disk", "auth", "backup",
-    "backup", "disk", "auth", "backup", "disk",
-    "auth", "backup", "backup", "disk", "auth",
-    "backup", "disk", "auth", "backup", "disk",
-]</div>
+    <p style="font-size: 8.5pt;">Dejas listo el <strong>resumen del turno de noche</strong> antes de entregarlo, distinto del resumen del día de clase. Partes del resumen ya calculado del turno, aplicas la misma técnica de lectura, modelas tu tarjeta como diccionario y muestras el resumen ordenado. La tarea aplica la misma técnica sobre un resumen nuevo más la tarjeta del analista, mientras el ejercicio de clase comunica el resumen del día.</p>
+    <h3 class="subsection-title">El resumen del turno (escríbelo tal cual):</h3>
+    <div class="student-code-box">level_counts = {"INFO": 8, "WARNING": 7, "ERROR": 5}
+module_counts = {"auth": 6, "backup": 8, "disk": 6}
+analyst_card = {"name": student_name, "shift": "noche", "total_events": 20}</div>
     <h3 class="subsection-title">Antes de programar, analiza (sin ejecutar código):</h3>
     <ul style="font-size: 8.5pt; margin-left: 18px; margin-bottom: 10px;">
-      <li>Qué tres líneas de <code>count()</code> alimentan <code>level_counts</code> (espera <code>8</code>, <code>7</code>, <code>5</code>) y a cuánto deben sumar.</li>
+      <li>Qué tres lecturas directas consultan <code>level_counts</code> (espera <code>8</code>, <code>7</code>, <code>5</code>) y a cuánto deben sumar sus valores.</li>
       <li>Qué clave retira <code>.pop("DEBUG", 0)</code> y por qué el valor por defecto mantiene el programa corriendo.</li>
       <li>Qué campo de la tarjeta falta (<code>zone</code>) y qué valor por defecto devuelve <code>.get()</code> para él.</li>
     </ul>
     <h3 class="subsection-title">Los 3 pasos (en este orden):</h3>
     <ol style="font-size: 8.5pt; margin-left: 18px; margin-bottom: 10px;">
-      <li><strong>Evidencia:</strong> asigna las 20 observaciones del turno más tu identidad e imprime el total (<code>20</code>).</li>
-      <li><strong>Conteos y diccionarios:</strong> cuenta cada valor, guarda un total por clave, retira <code>DEBUG</code>, lee con <code>.get()</code> y modela la tarjeta (<code>analyst_card</code> con <code>name</code>, <code>shift</code> y <code>total_events</code>).</li>
+      <li><strong>Resumen dado:</strong> asigna los resúmenes del turno, la tarjeta del analista más tu identidad e imprime el total (<code>20</code>).</li>
+      <li><strong>Lecturas y manejo:</strong> lee cada clave con acceso directo, cuenta claves con <code>len()</code>, agrega y retira <code>DEBUG</code>, lee con <code>.get()</code> y modela la tarjeta (<code>analyst_card</code> con <code>name</code>, <code>shift</code> y <code>total_events</code>).</li>
       <li><strong>Comunicación:</strong> resumen ordenado para quien recibe el turno.</li>
     </ol>
     <h3 class="subsection-title">Comprueba con el ejemplo único:</h3>
@@ -401,13 +474,13 @@ WARNING: 7
 auth: 6
 backup: 8
 disk: 6
-Lista completa: 20 entradas, diccionario: 3 claves</div>
+Resumen: 3 claves de nivel, 3 claves de módulo</div>
     <div class="callout callout-warning" style="margin: 6px 0 10px 0;">
       <div class="callout-title">⚠️ Propósito y límites</div>
       <p style="font-size: 8pt; margin-bottom: 0;">El resumen organiza la evidencia local para el cambio de turno: <strong>no</strong> confirma un incidente y no sustituye la investigación.</p>
     </div>
     <h3 class="subsection-title">Entrega y respaldo</h3>
-    <p style="font-size: 8.5pt;">Crea manualmente <code>shift_summary.py</code> en tu proyecto personal. <strong>Entrega:</strong> explica en voz alta la cadena lista → conteo → diccionario → lectura segura → resumen para niveles y para módulos. El repositorio contiene <code>homework_starter.py</code> y <code>homework_solution.py</code> solo como respaldo: úsalos <strong>después</strong> de intentar la tarea por tu cuenta.</p>
+    <p style="font-size: 8.5pt;">Crea manualmente <code>shift_summary.py</code> en tu proyecto personal. <strong>Entrega:</strong> explica en voz alta la cadena resumen dado → lectura directa → conteo de claves → lectura segura → resumen para niveles y para módulos. El repositorio contiene <code>homework_starter.py</code> y <code>homework_solution.py</code> solo como respaldo: úsalos <strong>después</strong> de intentar la tarea por tu cuenta.</p>
   </section>
 
 </div>

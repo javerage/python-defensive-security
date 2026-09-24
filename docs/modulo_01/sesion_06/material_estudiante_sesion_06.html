@@ -77,6 +77,9 @@
     .trouble-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 8px; margin-top: 6px; background: #f8fafc; padding: 6px 8px; border-radius: 4px; border: 1px solid var(--border-light); }
     .student-code-box { border: 1px dashed #64748b; background-color: #fbfcfe; border-radius: 6px; padding: 10px 12px; margin: 8px 0 12px 0; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 8pt; line-height: 1.5; color: #334155; white-space: pre-wrap; }
     .student-output-box { border: 1px dashed #0284c7; background-color: #f0f9ff; border-radius: 6px; padding: 10px 12px; margin: 8px 0 12px 0; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 8pt; line-height: 1.45; color: #0369a1; white-space: pre-wrap; }
+    .list-figure { border: 1px solid var(--border-color); background-color: var(--bg-card); border-radius: 6px; padding: 12px 14px; margin: 10px 0 12px 0; break-inside: avoid; page-break-inside: avoid; }
+    .list-figure svg { display: block; width: 100%; height: auto; background-color: #ffffff; border: 1px solid var(--border-light); border-radius: 4px; }
+    .list-figure figcaption { font-size: 8pt; color: var(--text-muted); margin-top: 8px; text-align: left; }
     .signature-box { border: 1px solid var(--border-color); background-color: var(--bg-card); border-radius: 6px; padding: 12px 14px; margin-top: 16px; }
     .signature-grid { display: grid; grid-template-columns: 2fr 1.5fr; gap: 20px; margin-top: 24px; align-items: end; }
     .sig-line { border-top: 1px solid #4b5563; padding-top: 4px; text-align: center; font-size: 8pt; color: var(--text-muted); font-weight: 600; }
@@ -86,7 +89,7 @@
       .page-container { max-width: 100%; padding: 0; margin: 0; }
       h2.section-title { font-size: 10.5pt; margin-top: 14px; margin-bottom: 6px; page-break-after: avoid; break-after: avoid; }
       h3.subsection-title { font-size: 9.5pt; page-break-after: avoid; break-after: avoid; }
-      .callout, .terminal-container, .student-data-card, table.data-table, .signature-box, .trouble-card, .student-code-box, .student-output-box { page-break-inside: avoid; break-inside: avoid; }
+      .callout, .terminal-container, .student-data-card, table.data-table, .signature-box, .trouble-card, .student-code-box, .student-output-box, .list-figure { page-break-inside: avoid; break-inside: avoid; }
       .terminal-container { background-color: #0f172a !important; color: #f8fafc !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
       .badge-primary, .badge-neutral, .badge-alert { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
       .page-break { page-break-before: always; break-before: page; }
@@ -147,6 +150,55 @@
   <section>
     <h2 class="section-title">2. Fundamentos Conceptuales de la Sesión</h2>
     <p>Una <strong>lista</strong> guarda varios valores juntos conservando su orden y permitiendo duplicados. En sesiones anteriores trabajaste con un valor a la vez; hoy guardas <strong>cinco eventos</strong> en una sola variable y los procesas con un pipeline: cada operación transforma la lista y una impresión inmediata prueba qué cambió antes de seguir. Nada avanza a ciegas.</p>
+
+    <figure class="list-figure" aria-labelledby="listFigCaption">
+      <svg viewBox="0 0 760 396" role="img" aria-labelledby="listFigTitle listFigDesc" xmlns="http://www.w3.org/2000/svg" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace">
+        <title id="listFigTitle">Anatomía de la lista event_log con tres eventos e índices 0, 1 y 2</title>
+        <desc id="listFigDesc">La línea event_log igual a corchetes con INFO inicio, ERROR disco e INFO inicio repetido, separados por comas. Se señalan el nombre de la variable, los corchetes de apertura y cierre, las comas, los índices 0, 1 y 2 empezando en 0, el orden guardado, los duplicados permitidos y el rebanado 0:3 que incluye el inicio y excluye el tope en una copia sin tocar el original.</desc>
+        <rect x="8" y="8" width="744" height="380" rx="6" fill="#ffffff" stroke="#d1d5db" stroke-width="1.5"/>
+        <text x="30" y="40" font-size="12" font-weight="700" fill="#1e3a8a">nombre de la variable</text>
+        <line x1="95" y1="46" x2="95" y2="86" stroke="#1e3a8a" stroke-width="1.5"/>
+        <text x="300" y="40" font-size="12" font-weight="700" fill="#0f172a">corchete de apertura [</text>
+        <line x1="360" y1="46" x2="212" y2="86" stroke="#0f172a" stroke-width="1.5"/>
+        <text x="560" y="40" font-size="12" font-weight="700" fill="#0f172a">corchete de cierre ]</text>
+        <line x1="620" y1="46" x2="716" y2="86" stroke="#0f172a" stroke-width="1.5"/>
+        <rect x="20" y="92" width="150" height="40" rx="4" fill="#eff6ff" stroke="#1e3a8a" stroke-width="1.5"/>
+        <text x="30" y="118" font-size="17" font-weight="700" fill="#1e3a8a">event_log</text>
+        <text x="180" y="118" font-size="17" fill="#4b5563">=</text>
+        <text x="205" y="118" font-size="22" font-weight="700" fill="#0f172a">[</text>
+        <rect x="226" y="92" width="150" height="40" rx="4" fill="#ffffff" stroke="#0f172a" stroke-width="1.5"/>
+        <text x="236" y="118" font-size="15" font-weight="700" fill="#0f172a">INFO: inicio</text>
+        <text x="382" y="118" font-size="17" font-weight="700" fill="#0f172a">,</text>
+        <rect x="396" y="92" width="150" height="40" rx="4" fill="#ffffff" stroke="#0f172a" stroke-width="1.5"/>
+        <text x="406" y="118" font-size="15" font-weight="700" fill="#0f172a">ERROR: disco</text>
+        <text x="552" y="118" font-size="17" font-weight="700" fill="#0f172a">,</text>
+        <rect x="566" y="92" width="142" height="40" rx="4" fill="#ffffff" stroke="#0f172a" stroke-width="1.5"/>
+        <text x="574" y="118" font-size="15" font-weight="700" fill="#0f172a">INFO: inicio</text>
+        <text x="714" y="118" font-size="22" font-weight="700" fill="#0f172a">]</text>
+        <ellipse cx="301" cy="112" rx="68" ry="17" fill="none" stroke="#6b21a8" stroke-width="2" stroke-dasharray="6 3"/>
+        <ellipse cx="637" cy="112" rx="68" ry="17" fill="none" stroke="#6b21a8" stroke-width="2" stroke-dasharray="6 3"/>
+        <text x="24" y="162" font-size="12" font-weight="700" fill="#4b5563">coma separa elementos</text>
+        <line x1="110" y1="148" x2="382" y2="136" stroke="#4b5563" stroke-width="1.5"/>
+        <text x="268" y="162" font-size="12" font-weight="700" fill="#0f172a">índice 0</text>
+        <line x1="300" y1="148" x2="300" y2="136" stroke="#0f172a" stroke-width="1.5"/>
+        <text x="436" y="162" font-size="12" font-weight="700" fill="#0f172a">índice 1</text>
+        <line x1="471" y1="148" x2="471" y2="136" stroke="#0f172a" stroke-width="1.5"/>
+        <text x="604" y="162" font-size="12" font-weight="700" fill="#0f172a">índice 2</text>
+        <line x1="637" y1="148" x2="637" y2="136" stroke="#0f172a" stroke-width="1.5"/>
+        <text x="24" y="190" font-size="12" font-weight="700" fill="#1e3a8a">los índices empiezan en 0</text>
+        <text x="24" y="214" font-size="12" font-weight="700" fill="#0f172a">orden guardado: 0 → 1 → 2</text>
+        <line x1="230" y1="210" x2="420" y2="210" stroke="#0f172a" stroke-width="2"/>
+        <polygon points="420,210 408,204 408,216" fill="#0f172a"/>
+        <text x="24" y="244" font-size="12" font-weight="700" fill="#6b21a8">duplicados permitidos: las dos casillas con línea punteada valen lo mismo</text>
+        <line x1="226" y1="272" x2="708" y2="272" stroke="#0f172a" stroke-width="2"/>
+        <line x1="226" y1="272" x2="226" y2="260" stroke="#0f172a" stroke-width="2"/>
+        <line x1="708" y1="272" x2="708" y2="260" stroke="#0f172a" stroke-width="2"/>
+        <text x="467" y="300" font-size="13" font-weight="700" fill="#0f172a" text-anchor="middle">event_log[0:3] copia las posiciones 0, 1 y 2</text>
+        <text x="467" y="322" font-size="12" fill="#0f172a" text-anchor="middle">inicio 0 incluye · tope 3 excluye</text>
+        <text x="467" y="344" font-size="12" font-weight="700" fill="#0f172a" text-anchor="middle">copia sin tocar el original</text>
+      </svg>
+      <figcaption id="listFigCaption">Figura: anatomía de <code>event_log</code> con tres eventos simplificados. Diagrama simplificado: el reto en clase usa cinco eventos completos. Los corchetes envuelven los elementos, las comas los separan, los índices <code>0</code>, <code>1</code> y <code>2</code> marcan el orden guardado y <code>event_log[0:3]</code> copia las posiciones <code>0</code>, <code>1</code> y <code>2</code> sin tocar el original.</figcaption>
+    </figure>
 
     <h3 class="subsection-title">Cómo procesa Python una lista (en clase, sin evaluar nada más)</h3>
     <p style="font-size: 8.5pt;">Las posiciones empiezan en <code>0</code>: el primer evento vive en <code>[0]</code>. Cada operación devuelve algo distinto:</p>
