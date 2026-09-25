@@ -32,9 +32,6 @@ DEFENSE FLOW (3 minutes):
 # ==============================================================================
 # In defensive cybersecurity, we prioritize the standard library over external
 # third-party packages to minimize attack surface and supply chain risks.
-import sys
-from datetime import datetime
-
 import csv
 import io
 import json
@@ -46,12 +43,12 @@ from pydantic import BaseModel, Field, ValidationError
 # ==============================================================================
 # --- STEP 1: Operator Identity & Context ---
 # ==============================================================================
-# Record the responsible analyst information and execution timestamp.
+# Record the responsible analyst information and the fixed audit stamp.
 # All operational scripts must document accountability.
 
 student_name = "Alex Mendez"  # Replace with your full name
 student_id = "DEF-2026-09"    # Replace with your student ID
-current_timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+AUDIT_STAMP = "2026-09-24 10:00:00"
 
 # TODO: Step 1.1 - State the defended evidence in your own words.
 # Name the shift size, the shared threshold, and the three local formats
@@ -91,11 +88,11 @@ PENDING_EDGE = "PENDING"
 
 border = "+-----------------------------------------------------------------------------+"
 print(border)
-print(f"| DEFENSIVE AUDIT REPORT — SESSION 20                                    |")
+print(f"| DEFENSIVE AUDIT REPORT — SESSION 19                                         |")
 print(border)
 print(f"| Operator Name           : {student_name:<49} |")
 print(f"| Operator ID             : {student_id:<49} |")
-print(f"| Timestamp               : {current_timestamp:<49} |")
+print(f"| Audit Stamp             : {AUDIT_STAMP:<49} |")
 print(f"| Target Scope            : {'127.0.0.1 (localhost loopback)':<49} |")
 print(border)
 
