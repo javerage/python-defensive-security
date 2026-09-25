@@ -21,7 +21,7 @@ Al terminar la sesión podrás **modelar `Hallazgo` y `Reporte` primero como cla
 
 ## Historia del ejercicio
 
-Formas parte del turno que convierte eventos sueltos en hallazgos firmables. La flota de sensores produjo **20 eventos** crudos; tu trabajo es condensarlos en **6 hallazgos** revisables con umbral de 5: primero los modelas como **clases manuales** (`ManualFinding` con `__init__`, atributos públicos, método `summary()` e `is_critical()`, etiqueta `_label` privada por convención), sin herencia; después los evolucionas al **esquema validado** (`Finding(BaseModel)` con `Field`, `Literal` y `strict=True` donde se exige rechazo). En la Sesión 17 las cifras quedaron probadas con dicts; hoy cada hallazgo es un objeto y cada fila rota se rechaza en la frontera con motivo por campo.
+Formas parte del turno que convierte eventos sueltos en hallazgos firmables. La flota de sensores produjo **20 eventos** crudos; tu trabajo es condensarlos en **6 hallazgos** revisables con umbral de 5: primero los modelas como **clases manuales** (`ManualFinding` con `__init__`, atributos públicos, método `summary()` e `is_critical()`, etiqueta `_label` privada por convención), sin herencia; después los evolucionas al **esquema validado** (`Finding(BaseModel)` con `Field`, `Literal` y `strict=True` donde se exige rechazo). En la Sesión 17 las cifras quedaron probadas con dicts; hoy cada hallazgo es un objeto y cada fila rota se rechaza en la frontera con motivo por campo. Con el modelo probado, la Sesión 19 reutilizará `Finding` sin cambios para integrar los tres formatos del checkpoint.
 
 ## Secuencia conceptual
 

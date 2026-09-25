@@ -591,9 +591,6 @@
 
 <div class="page-container">
 
-  <!-- =======================================================================
-       ENCABEZADO INSTITUCIONAL
-       ======================================================================= -->
   <header class="header-institution">
     <div class="header-top">
       <div class="inst-titles">
@@ -612,9 +609,6 @@
     </div>
   </header>
 
-  <!-- =======================================================================
-       DATOS DEL ESTUDIANTE Y DECLARACIÓN DE IDENTIDAD
-       ======================================================================= -->
   <section class="student-data-card">
     <div class="data-grid">
       <div class="data-field">
@@ -636,21 +630,11 @@
     </div>
   </section>
 
-  <!-- =======================================================================
-       1. OBJETIVOS DE APRENDIZAJE Y MARCO ÉTICO
-       ======================================================================= -->
   <section>
     <h2 class="section-title">1. Objetivos de Aprendizaje y Marco Ético</h2>
     
     <p>Al concluir satisfactoriamente esta sesión formativa, el estudiante será capaz de:</p>
     <ul style="font-size: 9pt;">
-      <!-- <li><strong>Anatomía del objeto:</strong> Construir <code>ManualFinding</code> con <code>__init__</code>, atributos públicos, métodos <code>summary()</code> e <code>is_critical()</code> y etiqueta <code>_label</code> privada por convención, sin herencia.</li>
-<li><strong>Evolución validada:</strong> Migrar el mismo molde a <code>Finding(BaseModel)</code> con restricción <code>Field</code> (longitud 1..140), literal de nivel y <code>strict=True</code> donde se exige rechazo, capturando <code>ValidationError</code>.</li>
-<li><strong>Pruebas en verde:</strong> Mantener 3 pruebas <code>unittest</code> en verde (anatomía manual, aceptación exacta, rechazo con motivo más frontera strict) y explicar la diferencia entre clase manual y esquema validado.</li>
-           Ejemplo:
-           <li><strong>Dominio sintáctico:</strong> Identificar y aplicar variables de tipos primitivos (str, int, float, bool)...</li>
-           <li><strong>Validación defensiva:</strong> Validar tipos de entrada del usuario sin producir TypeErrors no controlados...</li>
-      -->
       <li><strong>Anatomía del objeto:</strong> Construir <code>ManualFinding</code> con <code>__init__</code>, atributos públicos, métodos <code>summary()</code> e <code>is_critical()</code> y etiqueta <code>_label</code> privada por convención, sin herencia.</li>
 <li><strong>Evolución validada:</strong> Migrar el mismo molde a <code>Finding(BaseModel)</code> con restricción <code>Field</code> (longitud 1..140), literal de nivel y <code>strict=True</code> donde se exige rechazo, capturando <code>ValidationError</code>.</li>
 <li><strong>Pruebas en verde:</strong> Mantener 3 pruebas <code>unittest</code> en verde (anatomía manual, aceptación exacta, rechazo con motivo más frontera strict) y explicar la diferencia entre clase manual y esquema validado.</li>
@@ -663,25 +647,10 @@
     </div>
   </section>
 
-  <!-- =======================================================================
-       2. FUNDAMENTOS CONCEPTUALES DE LA SESIÓN
-       ======================================================================= -->
   <section>
     <h2 class="section-title">2. Fundamentos Conceptuales de la Sesión</h2>
 
-    <!-- 
-<h3 class="subsection-title">2.1 La clase es el molde, el objeto es cada hallazgo</h3>
-<p>Una <strong>clase</strong> describe la forma (qué guarda y qué sabe hacer cada hallazgo). Un <strong>objeto</strong> es cada hallazgo construido con datos reales. El <strong>constructor <code>__init__</code></strong> recibe los datos y los guarda en <code>self</code> como <strong>atributos públicos</strong> (<code>finding_id</code>, <code>level</code>, <code>message</code>, <code>source</code>). Los <strong>métodos públicos</strong> (<code>summary()</code>, <code>is_critical()</code>) leen <code>self</code> para resumir o clasificar. La etiqueta <code>_label</code> es <strong>privada por convención</strong> (el guion bajo pide no leerla desde fuera). En esta sesión <strong>no hay herencia</strong>: un solo molde basta para el tablero local.</p>
-<h3 class="subsection-title">2.2 El BaseModel es el mismo molde con esquema que rechaza</h3>
-<p>La clase manual acepta lo que su <code>__init__</code> revisa a mano, y deja pasar el id como texto <code>"7"</code> y el mensaje de 200 caracteres. El modelo <code>Finding(BaseModel)</code> declara el esquema con type hints y <strong>restricciones</strong>: <code>level</code> solo admite el literal <code>INFO/WARNING/ERROR</code>, <code>message</code> exige entre 1 y 140 caracteres (<code>Field</code>), y el modo <strong>strict</strong> rechaza conversiones (<code>"7"</code> no entra con <code>strict=True</code>). Lo inválido se rechaza con <code>ValidationError</code> que nombra el campo. Pydantic valida en la frontera donde lo colocas; no garantiza el resto del programa ni sustituye las pruebas.</p>
-<h4 class="subsubsection-title">Tabla de correspondencia manual → validado</h4>
-<table class="data-table"><thead><tr><th>Pieza manual</th><th>Pieza Pydantic</th><th>Qué cambia</th></tr></thead><tbody>
-<tr><td><code>__init__</code> con <code>ValueError</code></td><td><code>BaseModel</code> con type hints</td><td>El esquema declara; la frontera rechaza con motivo por campo</td></tr>
-<tr><td>Atributos públicos + <code>_label</code></td><td>Mismos campos + validación</td><td>El válido sigue aceptado; el inválido trae <code>ValidationError</code></td></tr>
-<tr><td><code>summary()</code> / <code>is_critical()</code></td><td>Mismos métodos</td><td>Nada cambia: por eso las 3 pruebas siguen en verde</td></tr>
-</tbody></table>
- -->
-    
+
 <h3 class="subsection-title">2.1 La clase es el molde, el objeto es cada hallazgo</h3>
 <p>Una <strong>clase</strong> describe la forma (qué guarda y qué sabe hacer cada hallazgo). Un <strong>objeto</strong> es cada hallazgo construido con datos reales. El <strong>constructor <code>__init__</code></strong> recibe los datos y los guarda en <code>self</code> como <strong>atributos públicos</strong> (<code>finding_id</code>, <code>level</code>, <code>message</code>, <code>source</code>). Los <strong>métodos públicos</strong> (<code>summary()</code>, <code>is_critical()</code>) leen <code>self</code> para resumir o clasificar. La etiqueta <code>_label</code> es <strong>privada por convención</strong> (el guion bajo pide no leerla desde fuera). En esta sesión <strong>no hay herencia</strong>: un solo molde basta para el tablero local.</p>
 <h3 class="subsection-title">2.2 El BaseModel es el mismo molde con esquema que rechaza</h3>
@@ -694,29 +663,6 @@
 </tbody></table>
 
 
-    <!-- FIGURE-SLOT-ANATOMY (Regla 11): Sustituir <svg role="img" aria-labelledby="fig18a-title fig18a-desc" viewBox="0 0 640 210" xmlns="http://www.w3.org/2000/svg">
-<title id="fig18a-title">Anatomia de un objeto Hallazgo: clase, constructor y miembros</title>
-<desc id="fig18a-desc">La clase ManualFinding es el molde; el constructor __init__ guarda cuatro atributos publicos y una etiqueta privada; los metodos resumen e is_critical leen self.</desc>
-<rect x="10" y="10" width="200" height="190" rx="8" fill="#ffffff" stroke="#1e3a8a" stroke-width="2"/>
-<text x="110" y="34" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e3a8a">1. CLASE (molde)</text>
-<text x="110" y="54" text-anchor="middle" font-size="11" fill="#334155">ManualFinding</text>
-<text x="110" y="72" text-anchor="middle" font-size="11" fill="#334155">Finding(BaseModel)</text>
-<rect x="230" y="10" width="200" height="190" rx="8" fill="#ffffff" stroke="#0284c7" stroke-width="2" stroke-dasharray="6 3"/>
-<text x="330" y="34" text-anchor="middle" font-size="13" font-weight="bold" fill="#0369a1">2. __init__ (guarda)</text>
-<text x="330" y="58" text-anchor="middle" font-size="11" fill="#334155">finding_id, level</text>
-<text x="330" y="76" text-anchor="middle" font-size="11" fill="#334155">message, source</text>
-<text x="330" y="100" text-anchor="middle" font-size="11" fill="#334155">publicos: sin guion</text>
-<text x="330" y="118" text-anchor="middle" font-size="11" fill="#334155">_label: privado (1)</text>
-<rect x="450" y="10" width="180" height="190" rx="8" fill="#ffffff" stroke="#15803d" stroke-width="2"/>
-<text x="540" y="34" text-anchor="middle" font-size="13" font-weight="bold" fill="#15803d">3. METODOS (leen)</text>
-<text x="540" y="58" text-anchor="middle" font-size="11" fill="#334155">summary() -&gt; [INFO]...</text>
-<text x="540" y="76" text-anchor="middle" font-size="11" fill="#334155">is_critical() -&gt; True/False</text>
-<text x="540" y="100" text-anchor="middle" font-size="11" fill="#334155">usan self (2)</text>
-<text x="540" y="118" text-anchor="middle" font-size="11" fill="#334155">no crean datos</text>
-<text x="110" y="160" text-anchor="middle" font-size="10" fill="#64748b">(1) convencion: no leer fuera</text>
-<text x="540" y="160" text-anchor="middle" font-size="10" fill="#64748b">(2) self = el hallazgo</text>
-</svg>
-<figcaption>Figura 18-A. Anatomia del objeto: molde, constructor y metodos. Sin herencia en esta sesion.</figcaption> por la figura SVG en línea mínima de anatomía en el punto de primera necesidad. ACCESSIBILITY-REMINDER: SVG autocontenido sin activos externos, fuentes externas, scripts ni red; ancho responsivo; break-inside: avoid; legible en escala de grises con redundancia de forma y texto; role="img" con title único, desc, figcaption y aria-labelledby; sin tuberías o métodos duplicados ni conceptos evaluados nuevos. -->
     <figure class="concept-figure">
 <svg role="img" aria-labelledby="fig18a-title fig18a-desc" viewBox="0 0 640 210" xmlns="http://www.w3.org/2000/svg">
 <title id="fig18a-title">Anatomia de un objeto Hallazgo: clase, constructor y miembros</title>
@@ -743,7 +689,6 @@
 <figcaption>Figura 18-A. Anatomia del objeto: molde, constructor y metodos. Sin herencia en esta sesion.</figcaption>
     </figure>
 
-    <!-- Analogía Didáctica de la Vida Real -->
     <div class="callout callout-info" style="margin: 12px 0;">
       <div class="callout-title">&#x1F4A1; Analogía de Seguridad Defensiva: El expediente del hallazgo: carpeta manual que se vuelve formulario con sello</div>
       <p style="margin-bottom: 0;">
@@ -751,7 +696,6 @@
       </p>
     </div>
 
-    <!-- Recordatorio Pedagógico de Restricciones Sintácticas -->
     <div class="callout callout-tip" style="margin: 10px 0;">
       <div class="callout-title">&#x1F4CD; Principio Pedagógico y Estándar PEP 8 en Inglés</div>
       <p style="margin-bottom: 4px; font-size: 8.5pt;">
@@ -763,15 +707,11 @@
     </div>
   </section>
 
-  <!-- =======================================================================
-       3. GUÍA DE PRÁCTICA DE LABORATORIO PASO A PASO
-       ======================================================================= -->
   <section>
     <h2 class="section-title">3. Guía de Práctica de Laboratorio Paso a Paso</h2>
     
     <p>Siga detalladamente las instrucciones de verificación y ejecución en su estación de trabajo antes de iniciar el reto autónomo.</p>
 
-    <!-- Regla de higiene operativa -->
     <div class="callout callout-purple" style="margin: 8px 0 12px 0;">
       <div class="callout-title">&#x1F4BB; Higiene Operativa de Terminal ("Mirar antes de saltar")</div>
       <p style="font-size: 8.5pt; margin-bottom: 0;">
@@ -779,7 +719,6 @@
       </p>
     </div>
 
-    <!-- Pestañas Multiplataforma de Comandos Base -->
     <div class="os-tabs">
       <div class="os-card">
         <div class="os-title">Windows (PowerShell)</div>
@@ -832,9 +771,6 @@ python3 -m unittest test_modelo.py -v</div></div></div>
 <p style="font-size: 8.5pt;">Recupere cada comando con <strong><code>↑</code></strong> en vez de retipearlo. Si un proceso espera entrada, interrumpa con <strong><code>Ctrl + C</code></strong> (<code>^C</code>).</p>
   </section>
 
-  <!-- =======================================================================
-       4. RETO PRÁCTICO AUTÓNOMO INDIVIDUAL
-       ======================================================================= -->
   <section class="page-break">
     <h2 class="section-title">4. Reto Práctico Autónomo Individual (20 minutos)</h2>
 
@@ -843,7 +779,6 @@ python3 -m unittest test_modelo.py -v</div></div></div>
       <p style="margin-bottom: 8px;">
         La flota produjo 20 eventos crudos; el turno los condensó en 6 hallazgos revisables con umbral 5. Modela cada hallazgo como objeto (manual primero, validado después) y entrega el reporte que el tablero puede citar.
       </p>
-      <!-- CASE-FIELDS-CHALLENGE (Regla 12): Caso causal del reto de aula con los siete elementos obligatorios. -->
       <ul style="font-size: 8.5pt; margin-bottom: 0;">
         <li><strong>Rol:</strong> Analista defensivo de turno en laboratorio local</li>
         <li><strong>Evidencia:</strong> 6 dicts sintéticos locales (3 INFO, 1 WARNING, 2 ERROR) más umbral 5 y lote S17 intacto</li>
@@ -855,30 +790,6 @@ python3 -m unittest test_modelo.py -v</div></div></div>
       </ul>
     </div>
 
-    <!-- FIGURE-SLOT-FLOW (Regla 11): Sustituir <svg role="img" aria-labelledby="fig18b-title fig18b-desc" viewBox="0 0 640 170" xmlns="http://www.w3.org/2000/svg">
-<title id="fig18b-title">Flujo del reto: evidencia, modelo y reporte</title>
-<desc id="fig18b-desc">Seis dicts entran a la frontera; la clase manual los resume; el BaseModel acepta o rechaza con motivo; el reporte compara errores contra el umbral cinco.</desc>
-<rect x="10" y="30" width="140" height="110" rx="8" fill="#ffffff" stroke="#1e3a8a" stroke-width="2"/>
-<text x="80" y="55" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e3a8a">1. EVIDENCIA</text>
-<text x="80" y="78" text-anchor="middle" font-size="11" fill="#334155">6 dicts + umbral 5</text>
-<text x="80" y="96" text-anchor="middle" font-size="11" fill="#334155">20 eventos -&gt; 6</text>
-<rect x="175" y="30" width="140" height="110" rx="8" fill="#ffffff" stroke="#b45309" stroke-width="2"/>
-<text x="245" y="55" text-anchor="middle" font-size="12" font-weight="bold" fill="#b45309">2. MODELO</text>
-<text x="245" y="78" text-anchor="middle" font-size="11" fill="#334155">manual -&gt; BaseModel</text>
-<text x="245" y="96" text-anchor="middle" font-size="11" fill="#334155">acepta / rechaza</text>
-<rect x="340" y="30" width="140" height="110" rx="8" fill="#ffffff" stroke="#15803d" stroke-width="2"/>
-<text x="410" y="55" text-anchor="middle" font-size="12" font-weight="bold" fill="#15803d">3. PRUEBAS</text>
-<text x="410" y="78" text-anchor="middle" font-size="11" fill="#334155">3 pruebas en verde</text>
-<text x="410" y="96" text-anchor="middle" font-size="11" fill="#334155">incluye strict</text>
-<rect x="505" y="30" width="125" height="110" rx="8" fill="#ffffff" stroke="#6b21a8" stroke-width="2"/>
-<text x="567" y="55" text-anchor="middle" font-size="12" font-weight="bold" fill="#6b21a8">4. REPORTE</text>
-<text x="567" y="78" text-anchor="middle" font-size="11" fill="#334155">2 errores: rutina</text>
-<text x="567" y="96" text-anchor="middle" font-size="11" fill="#334155">alcance local</text>
-<text x="150" y="85" font-size="16" fill="#64748b">-&gt;</text>
-<text x="315" y="85" font-size="16" fill="#64748b">-&gt;</text>
-<text x="480" y="85" font-size="16" fill="#64748b">-&gt;</text>
-</svg>
-<figcaption>Figura 18-B. Flujo del reto: evidencia, modelo, pruebas y reporte. El mismo orden aparece en el codigo y en la salida.</figcaption> por la figura SVG en línea mínima del flujo del proceso antes del mapeo del reto. Mismos requisitos de accesibilidad: role="img", title único, desc, figcaption, aria-labelledby, responsivo, break-inside: avoid y lectura en escala de grises. -->
     <figure class="concept-figure">
 <svg role="img" aria-labelledby="fig18b-title fig18b-desc" viewBox="0 0 640 170" xmlns="http://www.w3.org/2000/svg">
 <title id="fig18b-title">Flujo del reto: evidencia, modelo y reporte</title>
@@ -908,14 +819,13 @@ python3 -m unittest test_modelo.py -v</div></div></div>
 
     <h3 class="subsection-title">Estructura del Reto en 4 Pasos Obligatorios:</h3>
     <ol style="font-size: 9pt; margin-left: 20px; margin-bottom: 12px;">
-      <li><strong>STEP 1 (Identidad y Contexto):</strong> Fija la evidencia: umbral 5, 6 dicts, identidad Alex Mendez DEF-2026-09 y contrato local.</li>
-      <li><strong>STEP 2 (Procesamiento y Telemetría):</strong> Modela: ManualFinding/ManualReport y luego Finding(BaseModel) con Field (1..140), Literal y strict; separa 6 aceptados.</li>
-      <li><strong>STEP 3 (Validación Lógica y Seguridad):</strong> Valida: mensaje vacío y nivel inventado se rechazan con ValidationError; el id texto se convierte en lax y se rechaza en strict.</li>
-      <li><strong>STEP 4 (Reporte Estructurado en Consola):</strong> Reporta las 5 líneas modeladas, el par contra el umbral y el alcance localhost.</li>
+      <li><strong>STEP 1 (Identidad y Contexto):</strong> Fije la evidencia: umbral 5, 6 dicts, identidad Alex Mendez DEF-2026-09 y contrato local.</li>
+      <li><strong>STEP 2 (Procesamiento y Telemetría):</strong> Modele: ManualFinding/ManualReport y luego Finding(BaseModel) con Field (1..140), Literal y strict; separe 6 aceptados.</li>
+      <li><strong>STEP 3 (Validación Lógica y Seguridad):</strong> Valide: mensaje vacío y nivel inventado se rechazan con ValidationError; el id texto se convierte en lax y se rechaza en strict.</li>
+      <li><strong>STEP 4 (Reporte Estructurado en Consola):</strong> Reporte las 5 líneas modeladas, el par contra el umbral y el alcance localhost.</li>
     </ol>
 
     <h3 class="subsection-title">Plantilla de Código Base del Estudiante (<code>finding_model.py</code>):</h3>
-    <!-- PREDICT-FIRST-CHALLENGE (Regla 12): Consigna de predicción previa; el estudiante predice antes de completar cada TODO y compara solo después de ejecutar (predecir → ejecutar → comparar). -->
     <p style="font-size: 8.5pt;"><strong>Antes de completar y ejecutar:</strong> Escriba en papel su predicción (valor esperado y motivo) antes de completar cada TODO; ejecute con ↑ y compare lo obtenido con su predicción y con la salida esperada (predecir → ejecutar → comparar). Los TODO nunca traen respuestas.</p>
     <div class="student-code-box">
 FINDING_THRESHOLD = 5  # dado: umbral de revision (solo lectura)
@@ -932,7 +842,6 @@ sample_records = [...]  # dados: 6 dicts locales (3 INFO, 1 WARNING, 2 ERROR)
     </div>
 
     <h3 class="subsection-title">Salida Esperada en Consola (Verificación en Terminal):</h3>
-    <!-- PREDICT-FIRST-OUTPUT (Regla 12): La salida esperada sirve únicamente para la comparación posterior a la ejecución, sin respuestas anticipadas en los TODO. -->
     <p style="font-size: 8.5pt;"><strong>Después de ejecutar, compare:</strong> su resultado obtenido con su predicción y con la salida esperada.</p>
     <div class="student-output-box">
 Pruebas del modelo: 3/3 en verde (unittest)
@@ -949,16 +858,12 @@ Alcance: localhost (127.0.0.1) y fixtures locales
     </div>
   </section>
 
-  <!-- =======================================================================
-       5. CLÍNICA DE ERRORES Y DIAGNÓSTICO (TROUBLESHOOTING)
-       ======================================================================= -->
   <section>
     <h2 class="section-title">5. Clínica de Errores y Diagnóstico de Tracebacks</h2>
     <p style="font-size: 8.5pt;">
       En Python 3.13, las trazas de error (<em>Tracebacks</em>) proporcionan indicadores precisos señalando la línea y columna exacta de la falla con caracteres <code>^^^^^</code>. Analice y resuelva los 2 errores típicos sembrados de esta sesión:
     </p>
 
-    <!-- Error Provocado 1 -->
     <div class="trouble-card trouble-critical">
       <div class="trouble-title">&#x1F6A8; Error Sembrado 1: Atributo mal escrito (mesage en vez de message)</div>
       <div class="terminal-container" style="margin: 6px 0; padding: 8px 10px; font-size: 8pt;">
@@ -980,7 +885,6 @@ Alcance: localhost (127.0.0.1) y fixtures locales
       </div>
     </div>
 
-    <!-- Error Provocado 2 -->
     <div class="trouble-card">
       <div class="trouble-title">&#x26A0;&#xFE0F; Error Sembrado 2: Validación manual débil que Pydantic rechaza (mensaje de 200 caracteres)</div>
       <div class="terminal-container" style="margin: 6px 0; padding: 8px 10px; font-size: 8pt;">
@@ -1004,9 +908,6 @@ Alcance: localhost (127.0.0.1) y fixtures locales
     </div>
   </section>
 
-  <!-- =======================================================================
-       6. DESAFÍO DE EXTENSIÓN / TOLERANCIA TÉCNICA (FAST-FINISHERS)
-       ======================================================================= -->
   <section>
     <h2 class="section-title">6. Desafío de Extensión para Avance Rápido (Opcional)</h2>
     <div class="callout callout-tip">
@@ -1017,7 +918,6 @@ Alcance: localhost (127.0.0.1) y fixtures locales
     </div>
 
     <h3 class="subsection-title">Tarea domiciliaria (caso causal):</h3>
-    <!-- CASE-FIELDS-HOMEWORK (Regla 12): Caso causal de la tarea con los siete elementos obligatorios y andamiaje predict-first. -->
     <div class="callout callout-info" style="margin-bottom: 12px;">
       <div class="callout-title">&#x1F3AF; Caso de tarea</div>
       <ul style="font-size: 8.5pt; margin-bottom: 8px;">
@@ -1029,14 +929,11 @@ Alcance: localhost (127.0.0.1) y fixtures locales
         <li><strong>Entrega a:</strong> Docente mediante reporte ejecutado en la próxima sesión</li>
         <li><strong>Resultado verificable:</strong> Salida con Turno aceptado: 4, rechazado: 2 y 4/4 chequeos en verde, comparable con la salida esperada</li>
       </ul>
-      <!-- PREDICT-FIRST-HOMEWORK (Regla 12): Predecir antes de completar cada TODO y comparar solo después de ejecutar. -->
       <p style="font-size: 8.5pt; margin-bottom: 0;"><strong>Antes de completar y ejecutar:</strong> Escriba en papel su predicción (valor esperado y motivo) antes de completar cada TODO; ejecute con ↑ y compare lo obtenido con su predicción y con la salida esperada (predecir → ejecutar → comparar). Los TODO nunca traen respuestas.</p>
+      <p style="font-size: 8.5pt; margin-top: 6px; margin-bottom: 0;">Con el modelo probado, la Sesión 19 reutilizará <code>Finding</code> sin cambios para integrar los tres formatos del checkpoint.</p>
     </div>
   </section>
 
-  <!-- =======================================================================
-       7. LISTA DE VERIFICACIÓN RÁPIDA Y FIRMA DOCENTE (SIGN-OFF)
-       ======================================================================= -->
   <section>
     <h2 class="section-title">7. Lista de Verificación y Firma de Conformidad</h2>
     <p style="font-size: 8.5pt;">Marque cada casilla tras comprobar visualmente el resultado en su pantalla:</p>
@@ -1050,17 +947,6 @@ Alcance: localhost (127.0.0.1) y fixtures locales
         </tr>
       </thead>
       <tbody>
-        <!-- <tr><td class="check-box-cell"><span class="check-square"></span></td><td><strong>Suite 3/3:</strong> La terminal muestra <code>3/3 en verde</code> y <code>OK</code></td><td>Línea <code>Pruebas del modelo: 3/3 en verde (unittest)</code> visible</td></tr>
-<tr><td class="check-box-cell"><span class="check-square"></span></td><td><strong>Conteo exacto:</strong> El reporte agrupa <code>INFO=3 WARNING=1 ERROR=2</code></td><td>Línea <code>Conteo por nivel: INFO=3 WARNING=1 ERROR=2</code> visible</td></tr>
-<tr><td class="check-box-cell"><span class="check-square"></span></td><td><strong>Evolución declarada:</strong> El pie muestra <code>manual (__init__) -&gt; BaseModel</code></td><td>Línea <code>Evolucion: manual (__init__) -&gt; BaseModel (Field + strict)</code> visible</td></tr>
-<tr><td class="check-box-cell"><span class="check-square"></span></td><td><strong>PEP 8 + alcance:</strong> Identificadores en inglés y pie <code>localhost</code></td><td>Línea <code>Alcance: localhost (127.0.0.1)</code> visible</td></tr>
-             Ejemplo:
-             <tr>
-               <td class="check-box-cell"><span class="check-square"></span></td>
-               <td><strong>Entorno Aislado:</strong> Intérprete corriendo en .venv</td>
-               <td>Ruta de executable contiene '.venv' y prompt activo</td>
-             </tr>
-        -->
         <tr><td class="check-box-cell"><span class="check-square"></span></td><td><strong>Suite 3/3:</strong> La terminal muestra <code>3/3 en verde</code> y <code>OK</code></td><td>Línea <code>Pruebas del modelo: 3/3 en verde (unittest)</code> visible</td></tr>
 <tr><td class="check-box-cell"><span class="check-square"></span></td><td><strong>Conteo exacto:</strong> El reporte agrupa <code>INFO=3 WARNING=1 ERROR=2</code></td><td>Línea <code>Conteo por nivel: INFO=3 WARNING=1 ERROR=2</code> visible</td></tr>
 <tr><td class="check-box-cell"><span class="check-square"></span></td><td><strong>Evolución declarada:</strong> El pie muestra <code>manual (__init__) -&gt; BaseModel</code></td><td>Línea <code>Evolucion: manual (__init__) -&gt; BaseModel (Field + strict)</code> visible</td></tr>
