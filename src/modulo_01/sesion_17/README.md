@@ -19,7 +19,7 @@ Al terminar la sesión podrás **escribir 6 pruebas (normales, bordes, errores) 
 
 ## Historia del ejercicio
 
-Formas parte del equipo que entrega eventos probados al tablero del siguiente turno sin que nadie consuma una cifra sin verificar. Recibes **10 dicts** en el lote de revisión, un umbral de 5 y **el lote `validate_events.py` heredado de la Sesión 16**: cuentas aceptados por nivel con `contar_por_nivel`, revisas la config local con `validar_config`, repites la frontera `Evento` con `model_validate` (lax contra `strict=True`), y encierras todo en **6 pruebas** que corren en verde con `unittest` y se re-ejecutan con `pytest`. En la Sesión 16 los datos quedaron validados; hoy además cada cifra queda probada y repetible.
+Formas parte del equipo que entrega eventos probados al tablero del siguiente turno sin que nadie consuma una cifra sin verificar. Recibes **10 dicts** en el lote de revisión, un umbral de 5 y **el lote `validate_events.py` heredado de la Sesión 16**: cuentas aceptados por nivel con `contar_por_nivel`, revisas la config local con `validar_config`, repites la frontera `Evento` con `model_validate` (lax contra `strict=True`), y encierras todo en **6 pruebas** que corren en verde con `unittest` y se re-ejecutan con `pytest`. En la Sesión 16 los datos quedaron validados; hoy además cada cifra queda probada y repetible. Con el lote probado, la Sesión 18 heredará estos testigos para modelar `Hallazgo` y `Reporte` primero manual y después como modelos Pydantic.
 
 ## Secuencia conceptual
 
@@ -38,12 +38,12 @@ El TestCase ordena cada prueba en arrange-act-assert; cada assert lleva mensaje 
 
 ```python
 import unittest
-from solution import Evento, contar_por_nivel, sample_events, validar_config
+from review_batch import Evento, contar_por_nivel, sample_events, validar_config
 from pydantic import ValidationError
 
 
 class TestReviewBatch(unittest.TestCase):
-    """Six local checks: three for counts and config, three for the boundary."""
+    """Six local checks: four for counts and config, two for the boundary."""
 
     def test_count_mixed_levels(self):
         # Arrange: ten local dicts with 4 INFO, 3 WARNING, 3 ERROR.
@@ -243,7 +243,7 @@ Totales esperados: `6` pruebas, `6` en verde, `0` errores de suite; `3` errores 
 | 5 | `test_evento_accepts_lax_numeric_string` | aceptación Pydantic | lax convierte `"15"` → `15`; `strict=True` lanza `ValidationError` |
 | 6 | `test_evento_rejects_missing_level` | rechazo Pydantic | dict sin `level` lanza `ValidationError` que nombra `level` |
 
-> Nota de fidelidad del respaldo: la suite conserva 3 pruebas de conteo/config más 1 de aceptación y 1 de rechazo Pydantic (más la prueba 4 mixta) para reproducir el reporte esperado oficial, que es el contrato que la referencia debe cumplir. Cada prueba sigue arrange-act-assert y cada assert lleva mensaje.
+> Nota de fidelidad del respaldo: la suite conserva 4 pruebas de conteo/config más 2 pruebas Pydantic (aceptación lax/strict y rechazo sin nivel) para reproducir el reporte esperado oficial, que es el contrato que la referencia debe cumplir. Cada prueba sigue arrange-act-assert y cada assert lleva mensaje.
 
 ## Salida esperada
 

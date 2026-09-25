@@ -40,7 +40,7 @@ from pydantic import ValidationError
 
 
 class TestReviewBatch(unittest.TestCase):
-    """Six local checks: three for counts and config, three for the boundary."""
+    """Six local checks: four for counts and config, two for the boundary."""
 
     def test_count_mixed_levels(self):
         """Mixed batch counts each allowed level exactly once per row."""
