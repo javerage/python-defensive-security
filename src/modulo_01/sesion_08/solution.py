@@ -72,27 +72,42 @@ print(f"Bucle local visto: {loopback_seen}")
 missing_seen = "10.9.9.9" in unique_ips
 print(f"Desconocida vista: {missing_seen}")
 
-# Classification with explicit membership checks: each int(... in ...)
-# is 1 when present and 0 when absent; the sum is the group total.
+# Compare explicit conversion with direct Boolean addition on the same
+# non-IP data: one tool is present and one is absent. Parenthesize EACH
+# direct membership check; both two-check sums are integer 1.
+available_tools = set(["editor", "terminal"])
+tool_count_explicit = (
+    int("editor" in available_tools)
+    + int("browser" in available_tools)
+)
+tool_count_direct = (
+    ("editor" in available_tools)
+    + ("browser" in available_tools)
+)
+tool_count_match = tool_count_explicit == tool_count_direct
+
+# Classification counts unique known group values present in the set,
+# not repetitions in the original list. int() is optional: True and False
+# contribute as 1 and 0; each direct membership check is parenthesized.
 # Loopback group of this lab (teaching rule): 127.0.0.0/8 plus ::1.
 local_count = (
-    int("127.0.0.1" in unique_ips)
-    + int("127.0.0.2" in unique_ips)
-    + int("127.0.0.53" in unique_ips)
-    + int("::1" in unique_ips)
-    + int("127.0.0.3" in unique_ips)
-    + int("127.0.0.4" in unique_ips)
-    + int("127.0.0.5" in unique_ips)
+    ("127.0.0.1" in unique_ips)
+    + ("127.0.0.2" in unique_ips)
+    + ("127.0.0.53" in unique_ips)
+    + ("::1" in unique_ips)
+    + ("127.0.0.3" in unique_ips)
+    + ("127.0.0.4" in unique_ips)
+    + ("127.0.0.5" in unique_ips)
 )
 print(f"Locales: {local_count}")
 
 # Documentation group of this lab (teaching rule): TEST-NET-1
 # addresses 192.0.2.0/24, classified as text, never contacted.
 doc_count = (
-    int("192.0.2.10" in unique_ips)
-    + int("192.0.2.20" in unique_ips)
-    + int("192.0.2.30" in unique_ips)
-    + int("192.0.2.40" in unique_ips)
+    ("192.0.2.10" in unique_ips)
+    + ("192.0.2.20" in unique_ips)
+    + ("192.0.2.30" in unique_ips)
+    + ("192.0.2.40" in unique_ips)
 )
 print(f"Documentales: {doc_count}")
 

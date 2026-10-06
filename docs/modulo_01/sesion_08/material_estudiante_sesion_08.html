@@ -138,6 +138,7 @@
       <li><strong>Distinguir tupla y lista:</strong> explicar que la tupla es inmutable (ficha protegida) mientras la lista conserva 20 entradas con orden y duplicados.</li>
       <li><strong>Deduplicar con set:</strong> convertir la lista de 20 en un set de 11 únicas, ordenar con <code>sorted()</code> y contar con <code>len()</code> sin ningún bucle.</li>
       <li><strong>Clasificar con pertenencia:</strong> usar <code>in</code> para separar 7 locales (<code>127.0.0.0/8</code> y <code>::1</code>) de 4 documentales (<code>192.0.2.0/24</code>), solo como texto, sin conexión.</li>
+      <li><strong>Contar pertenencias:</strong> sumar los valores únicos conocidos presentes y explicar por qué <code>int()</code> es opcional.</li>
     </ul>
     <div class="callout callout-critical">
       <div class="callout-title">⚠️ Compromiso Ético y Reglas del Laboratorio Defensivo Local</div>
@@ -372,14 +373,21 @@ analyst_record = ("Alex Mendez", "DEF-2026-09", 20)</div>
 #   the set itself has no order)
 # TODO 2.4: build loopback_seen with "127.0.0.1" in unique_ips and print it
 # TODO 2.5: build missing_seen with "10.9.9.9" in unique_ips and print it
-# TODO 2.6: build local_count with one int(address in unique_ips) per loopback
-#   address (127.0.0.1, 127.0.0.2, 127.0.0.53, ::1, 127.0.0.3,
-#   127.0.0.4, 127.0.0.5) and print the total
-# TODO 2.7: build doc_count with one int(address in unique_ips) per TEST-NET-1
-#   address (192.0.2.10, 192.0.2.20, 192.0.2.30, 192.0.2.40)
-#   and print the total
-
-# STEP 3 (given): print "--- Parte de direcciones ---" + data lines</div>
+</div>
+    <h3 class="subsection-title">Antes de contar: predice, ejecuta y compara</h3>
+    <p style="font-size: 8.5pt;">Primero usa herramientas disponibles, no direcciones. El set contiene una herramienta que está presente y otra que está ausente:</p>
+    <div class="student-code-box">available_tools = set(["editor", "terminal"])
+tool_count_explicit = (
+    int("editor" in available_tools)
+    + int("browser" in available_tools)
+)</div>
+    <p style="font-size: 8.5pt;">Predice el aporte de cada comparación y el total; después ejecuta. Ahora construye tú el conteo directo usando esas mismas dos comprobaciones, sin <code>int()</code> y con paréntesis alrededor de <strong>cada</strong> comparación. Ejecútalo con el mismo set y compara los totales. Solo después revela: ambos son el entero <code>1</code>. La pertenencia devuelve <code>True</code> o <code>False</code>; <code>int(True)</code> es <code>1</code> y <code>int(False)</code> es <code>0</code>. <code>int()</code> es opcional.</p>
+    <div class="student-code-box"># TODO 2.6: count the seven known local values PRESENT in unique_ips,
+#   not their repetitions in event_ips. Use int("value" in unique_ips)
+#   or add ("value" in unique_ips), with parentheses around EACH check.
+# TODO 2.7: count the four known documentary values PRESENT in unique_ips
+#   with either style; count unique present values, not repetitions.</div>
+    <div class="student-code-box"># STEP 3 (given): print "--- Parte de direcciones ---" + data lines</div>
     <h3 class="subsection-title">Salida esperada (verifica con tu ejecución):</h3>
     <div class="student-output-box">Observaciones registradas: 20
 Direcciones únicas: 11

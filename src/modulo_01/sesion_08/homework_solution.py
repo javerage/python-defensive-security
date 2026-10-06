@@ -68,6 +68,9 @@ print(f"Bucle local visto: {shift_seen}")
 shift_missing = "10.9.9.9" in shift_unique
 print(f"Desconocida vista: {shift_missing}")
 
+# Homework reuses the optional count style from class: count present
+# known unique values, not repetitions. True contributes 1 and False 0.
+
 # ==============================================================================
 # STEP 3: Communication. Ordered report for whoever receives the shift.
 # ==============================================================================

@@ -28,6 +28,8 @@ BEFORE CODING, PREDICT (read the shift tables first, without running):
       and how many repetitions are removed; verify after running.
     - Which field does shift_record protect, and why does assigning
       to shift_record[0] interrupt the program?
+    - For group counts, choose int(membership) or parenthesized
+      membership checks; count present unique values, not repeats.
     - What does "127.0.0.1" in shift_unique return versus
       "10.9.9.9" in shift_unique, and why does neither touch
       the network?
@@ -67,7 +69,10 @@ print(f"Observaciones del turno: {len(shift_ips)}")
 
 # ==============================================================================
 # STEP 2: Grouping (TODO). One set conversion, one ordering, explicit
-# membership checks. No loops, no set comprehensions.
+# membership checks. Count present known unique values, not repetitions.
+# For each contribution, either use int("value" in shift_unique), or
+# ("value" in shift_unique) with parentheses around EACH comparison.
+# Both styles are valid: True contributes 1 and False contributes 0.
 # ==============================================================================
 # TODO 2.1: Deduplicate with set(shift_ips).
 shift_unique = set()  # TODO: build it with set(shift_ips)

@@ -31,6 +31,18 @@ Cada agrupación del programa sigue este orden explícito:
 4. **Pertenencia:** `in` pregunta presencia como texto, sin conectar nada.
 5. **Parte ordenado:** `sorted()` ordena las únicas y cada total llega a su línea.
 
+Antes de los conteos, prueba con un dato que no es una dirección:
+
+```python
+available_tools = set(["editor", "terminal"])
+tool_count_explicit = (
+    int("editor" in available_tools)
+    + int("browser" in available_tools)
+)
+```
+
+Predice cada aporte y el total, y luego ejecuta. La primera comprobación está presente y la segunda ausente. Ahora construye por tu cuenta el conteo directo con esas mismas dos comparaciones, sin `int()` y con paréntesis alrededor de cada comparación; ejecútalo con los mismos datos y compara. Después de comparar: ambos totales son el entero `1`. La pertenencia produce `True` o `False`; `int(True)` da `1` y `int(False)` da `0`. `int()` es opcional: también puedes sumar directamente las comparaciones entre paréntesis.
+
 ## Cómo agrupa Python con tuplas y sets (en clase, sin evaluar nada más)
 
 La tupla protege la ficha con paréntesis y no admite cambios:
@@ -174,7 +186,7 @@ Crea `event_groups.py` con código lineal (sin funciones, sin `try/except`, sin 
 | Paso | Qué hace | Variables |
 |------|----------|-----------|
 | 1. Evidencia | Asigna las 20 observaciones y la tupla sellada más tu identidad | `event_ips` (20 textos), `analyst_record` (3 campos), `student_name`, `student_id`; imprime el total (`20`) |
-| 2. Agrupación | Deduplica con `set()`, ordena con `sorted()`, verifica presencia con `in` y clasifica con conteos explícitos | `unique_ips` (deduplicadas con `set`), `ordered_ips` (ordenadas con `sorted`), `loopback_seen`, `missing_seen` (verificación con `in`), `local_count`, `doc_count` (conteos con `int(... in ...)`) |
+| 2. Agrupación | Deduplica con `set()`, ordena con `sorted()`, verifica presencia con `in` y cuenta valores conocidos presentes | `unique_ips` (deduplicadas con `set`), `ordered_ips` (ordenadas con `sorted`), `loopback_seen`, `missing_seen` (verificación con `in`), `local_count`, `doc_count` (conteos con `int(... in ...)` o comparaciones entre paréntesis) |
 | 3. Comunicación | Imprime el encabezado y las líneas del parte con conteos y los valores de la lista ordenada | Encabezado más líneas de datos legibles |
 
 La solución de referencia está en `solution.py` y la plantilla guiada en `starter.py`.
@@ -247,6 +259,7 @@ Antes de pedir la firma del docente, comprueba que puedes explicar en voz alta:
 - [ ] Qué da `len(event_ips)` frente a `len(set(event_ips))` y cuántas repeticiones se retiran (`20` frente a `11`).
 - [ ] Qué devuelve `"127.0.0.1" in unique_ips` frente a `"10.9.9.9" in unique_ips` y por qué ninguno toca la red.
 - [ ] Cómo llega cada grupo al parte (qué variable muestra cada línea).
+- [ ] Por qué `True` aporta `1` y `False` aporta `0` al conteo, y por qué `int()` es opcional.
 - [ ] Qué NO hace el programa (no abre puertos, no toca disco/red, no confirma un incidente).
 - [ ] Tu programa se ejecuta sin errores y muestra las seis impresiones intermedias más el encabezado y las cinco líneas de datos.
 

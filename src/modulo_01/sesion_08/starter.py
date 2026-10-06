@@ -85,16 +85,33 @@ print("PENDING")  # TODO: print f"Bucle local visto: {loopback_seen}"
 missing_seen = False  # TODO: build it with "10.9.9.9" in unique_ips
 print("PENDING")  # TODO: print f"Desconocida vista: {missing_seen}"
 
-# TODO 2.6: Count the loopback addresses with explicit membership
-# checks (127.0.0.1, 127.0.0.2, 127.0.0.53, ::1, 127.0.0.3,
-# 127.0.0.4, 127.0.0.5) and print the total.
-local_count = 0  # TODO: add one int(... in unique_ips) per address
+# Before counting, predict the total for two checks against the same set:
+# one value is present and one is absent. Build the direct Boolean sum
+# yourself with parentheses around EACH membership comparison.
+available_tools = set(["editor", "terminal"])
+print("Predice los dos aportes y el total antes de ejecutar.")
+tool_count_explicit = (
+    int("editor" in available_tools)
+    + int("browser" in available_tools)
+)
+print(f"Conteo con int(): {tool_count_explicit}")
+tool_count_direct = 0  # TODO: build the same two-check sum without int()
+print("PENDING")  # TODO: print the direct count to compare with the first
+print("PENDING")  # TODO: compare whether both counts are equal
+# Reveal after comparing: both totals are integer 1. True contributes 1;
+# False contributes 0. int() is optional; either counting style is valid.
+
+# TODO 2.6: Count present, known group values in this unique set (not
+# repetitions in event_ips). Optional style A: int("address" in unique_ips).
+# Style B: ("address" in unique_ips), with parentheses around EACH check.
+# Add the seven known local values and print the total.
+local_count = 0  # TODO: add one contribution per known local value
 print("PENDING")  # TODO: print f"Locales: {local_count}"
 
-# TODO 2.7: Count the documentation addresses with explicit
-# membership checks (192.0.2.10, 192.0.2.20, 192.0.2.30,
-# 192.0.2.40) and print the total.
-doc_count = 0  # TODO: add one int(... in unique_ips) per address
+# TODO 2.7: Count present, known documentation values in this unique set
+# (not repetitions). Use int("address" in unique_ips), or add
+# ("address" in unique_ips) with parentheses around EACH check. Four values.
+doc_count = 0  # TODO: add one contribution per known documentation value
 print("PENDING")  # TODO: print f"Documentales: {doc_count}"
 
 # ==============================================================================
