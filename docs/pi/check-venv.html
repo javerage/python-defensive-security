@@ -78,6 +78,8 @@
       font-size: 13px;
       line-height: 1.55;
       margin: 12px 0;
+      white-space: pre-wrap;
+      word-break: break-word;
     }
     code.inline {
       background: #eef2ff; color: var(--secondary);
@@ -109,6 +111,8 @@
       padding: 10px 14px; margin-bottom: 8px; background: #fff;
     }
     .check input { margin-top: 4px; transform: scale(1.2); }
+    table.spec { width: 100%; border-collapse: collapse; font-size: 13px; margin: 10px 0; }
+    table.spec th, table.spec td { border: 1px solid var(--border); padding: 6px 8px; text-align: left; vertical-align: top; }
     a.back { display: inline-block; margin-top: 8px; font-size: 13.5px; font-weight: 600; color: var(--accent); text-decoration: none; }
     a.back:hover { text-decoration: underline; }
     footer { text-align: center; margin-top: 28px; font-size: 12.5px; color: #64748b; }
@@ -119,122 +123,138 @@
     <header>
       <div class="badge">PyDefSec • Guía de aula</div>
       <h1>Crea tu comando /check-venv en Pi</h1>
-      <p class="lead">Objetivo: comando <code>/check-venv</code> que inventaría el entorno de la raíz actual del proyecto, te deja elegirlo y verifica si ya está activo. Funciona con cualquier nombre de carpeta raíz.</p>
+      <p class="lead">Resultado: un comando <code>/check-venv</code> que lista los intérpretes Python instalados, te deja elegir uno explícitamente, crea <code>.venv</code> solo con tu permiso si falta, y te muestra cómo activarlo y verificarlo. Practicas con Python 3.13 o 3.14, declarando la versión elegida en cada ejercicio.</p>
       <div class="fact-row">
         <span class="fact">⏱ Tiempo: 15 min</span>
-        <span class="fact">🧰 Prerrequisito: guía /nuevo-py terminada (misma raíz y /reload)</span>
+        <span class="fact">🧰 Prerrequisito: Pi instalado y Python 3.13 o 3.14 instalado</span>
       </div>
     </header>
 
     <div class="card">
+      <h2>Ruta rápida</h2>
+      <ol>
+        <li>Copia la plantilla Markdown de abajo en <code class="inline">.pi/prompts/check-venv.md</code> (carpeta local del proyecto).</li>
+        <li>Lanza Pi desde la raíz, confía el proyecto y ejecuta <code class="inline">/reload</code>, luego <code class="inline">/check-venv</code>.</li>
+        <li>Elige tu versión instalada (3.13 o 3.14), autoriza crear <code class="inline">.venv</code> si falta, actívalo en TU terminal y verifica con el comando de comprobación.</li>
+      </ol>
+      <div class="alert">El agente nunca adivina rutas ni crea el entorno sin tu confirmación explícita. Si <code class="inline">.venv</code> ya existe y es válido, lo reporta y NO lo recrea.</div>
+    </div>
+
+    <div class="card">
       <h2>💡 Dónde vive cada cosa</h2>
-      <p><strong>Recomendación para el aula (local primero):</strong> guarda el comando en la raíz donde lanzaste Pi, en <code class="inline">&lt;raiz-del-proyecto&gt;/.pi/prompts/check-venv.md</code> (la misma raíz local de la guía anterior). La vía global (<code class="inline">~/.pi/agent/prompts/</code>) queda como alternativa opcional.</p>
-      <table style="width:100%; border-collapse:collapse; font-size:13px; margin:10px 0;">
-        <thead><tr><th style="border:1px solid var(--border); padding:6px 8px; text-align:left;">Ubicación</th><th style="border:1px solid var(--border); padding:6px 8px; text-align:left;">Ruta</th><th style="border:1px solid var(--border); padding:6px 8px; text-align:left;">Alcance</th></tr></thead>
+      <p><strong>Recomendación para el aula (local primero):</strong> guarda el comando en la raíz donde lanzaste Pi, en <code class="inline">&lt;raiz-del-proyecto&gt;/.pi/prompts/check-venv.md</code>. La vía global (<code class="inline">~/.pi/agent/prompts/</code>) queda como alternativa opcional.</p>
+      <table class="spec">
+        <thead><tr><th>Ubicación</th><th>Ruta</th><th>Alcance</th></tr></thead>
         <tbody>
-          <tr><td style="border:1px solid var(--border); padding:6px 8px;"><strong>LOCAL (recomendada)</strong></td><td style="border:1px solid var(--border); padding:6px 8px;"><code class="inline">&lt;raiz-del-proyecto&gt;/.pi/prompts/</code></td><td style="border:1px solid var(--border); padding:6px 8px;">Solo este proyecto; requiere confiar el proyecto (trust) y luego <code class="inline">/reload</code>.</td></tr>
-          <tr><td style="border:1px solid var(--border); padding:6px 8px;">GLOBAL (opcional)</td><td style="border:1px solid var(--border); padding:6px 8px;"><code class="inline">~/.pi/agent/prompts/</code></td><td style="border:1px solid var(--border); padding:6px 8px;">Todos tus proyectos; no requiere trust por proyecto.</td></tr>
+          <tr><td><strong>LOCAL (recomendada)</strong></td><td><code class="inline">&lt;raiz-del-proyecto&gt;/.pi/prompts/</code></td><td>Solo este proyecto; requiere confiar el proyecto (trust) y luego <code class="inline">/reload</code>.</td></tr>
+          <tr><td>GLOBAL (opcional)</td><td><code class="inline">~/.pi/agent/prompts/</code></td><td>Todos tus proyectos; no requiere trust por proyecto.</td></tr>
         </tbody>
       </table>
-      <p style="font-size:13px;">Solo cuentan los <code class="inline">.md</code> hijos directos de la carpeta de prompts (<code class="inline">check-venv.md</code> → <code class="inline">/check-venv</code>). No uses <code class="inline">.pi/agent/prompts/</code> <strong>dentro</strong> del proyecto: esa no es la convención de proyecto.</p>
-      <p style="font-size:13px;"><code class="inline">.pi/prompts</code> guarda plantillas de comandos (texto que Pi expande). <code class="inline">.venv</code> guarda dependencias de Python (un entorno virtual). Son carpetas completamente separadas: no confundas una con la otra.</p>
-      <p style="font-size:13px;">Ejemplo de árbol con una carpeta de nombre arbitrario (<code class="inline">pi-commands-test</code> es solo un ejemplo ilustrativo; tu raíz puede llamarse como sea):</p>
-      <pre><code>pi-commands-test/.pi/prompts/nuevo-py.md
-pi-commands-test/.pi/prompts/check-venv.md
-pi-commands-test/prds/feature_008.md</code></pre>
-      <p style="font-size:13px;">Cada carpeta tiene un trabajo distinto: <code class="inline">.pi/prompts</code> guarda plantillas de comandos, <code class="inline">prds</code> guarda especificaciones de ejercicios (Sesión 08 → <code class="inline">prds/feature_008.md</code>) y <code class="inline">.venv</code> guarda dependencias de Python. Son carpetas completamente separadas.</p>
+      <p style="font-size:13px;">Solo cuentan los <code class="inline">.md</code> hijos directos de la carpeta de prompts (<code class="inline">check-venv.md</code> → <code class="inline">/check-venv</code>). El nombre de la raíz del proyecto es arbitrario: la plantilla trabaja siempre desde el directorio actual donde se lanzó Pi.</p>
     </div>
 
     <div class="card">
-      <h2>Pasos</h2>
-      <ol>
-        <li>
-          <strong>Paso 1 — Crea el archivo <code class="inline">.pi/prompts/check-venv.md</code> en la raíz local</strong> (la misma raíz local de la guía anterior; si el archivo ya existe, NO lo sobrescribas) con este contenido exacto. Trabaja desde la raíz del proyecto: primero verifica la carpeta con <code class="inline">Test-Path .pi/prompts</code> (Windows) o <code class="inline">ls .pi</code> (macOS/Linux) y créala si falta con <code class="inline">New-Item -ItemType Directory -Force -Path .pi/prompts</code> o <code class="inline">mkdir -p .pi/prompts</code>. Esta plantilla es solo texto: no requiere instalar extensiones ni escribir TypeScript.
-          <pre><code>---
-description: Inventaría el venv de la raíz actual, deja elegirlo y verifica si está activo
+      <h2>Paso 1 — Crea el archivo con esta plantilla exacta</h2>
+      <p>Desde la raíz del proyecto verifica la carpeta (<code class="inline">Test-Path .pi/prompts</code> en Windows o <code class="inline">ls .pi</code> en macOS/Linux; créala si falta con <code class="inline">New-Item -ItemType Directory -Force -Path .pi/prompts</code> o <code class="inline">mkdir -p .pi/prompts</code>). Si <code class="inline">check-venv.md</code> ya existe, NO lo sobrescribas. Esta plantilla es solo texto: no requiere instalar extensiones.</p>
+      <pre><code>---
+description: Elige Python instalado, crea .venv con permiso si falta, verifica/activa
 ---
 
-Trabaja siempre desde la raíz actual del proyecto (donde se lanzó Pi). El nombre de la raíz es arbitrario: no asumas ningún nombre fijo.
+Trabaja siempre desde la raíz actual del proyecto (donde se lanzó Pi). El nombre de la raíz es arbitrario.
 
-1. Inventario local y acotado (sin crear ni adivinar nada):
-   - Candidata por defecto: `raíz/.venv`.
-   - Opcionalmente: `raíz/venv` o subdirectorios hijos inmediatos de la raíz.
-   - Un directorio solo cuenta como candidato verificado si contiene `pyvenv.cfg` MÁS el intérprete esperado (`bin/python` en Unix, `Scripts/python.exe` en Windows). Si falta alguno, no es un candidato válido.
-   - Inventario no recursivo y solo local: no explores el home, ni otras carpetas, ni otros repos. Los directorios ausentes o inaccesibles no son un error: simplemente no cuentan, y nunca crean ni modifican nada.
-   - Versiones de pyenv, Conda o Python del sistema no equivalen automáticamente a un directorio venv: solo cuentan los directorios verificados arriba.
-   - NUNCA ejecutes intérpretes candidatos no identificados para descubrirlos: primero inspecciona metadatos y archivos (`pyvenv.cfg`, rutas esperadas). Un entorno del proyecto solo se considera confiable después de que el estudiante lo elija.
+1. Inspecciona SOLO el directorio `.venv` de la raíz actual (cwd). No inventaríes ninguna otra carpeta: ningún otro directorio es candidato.
+   - Si `.venv` existe con `pyvenv.cfg` válido MÁS el intérprete esperado (`bin/python` en Unix, `Scripts/python.exe` en Windows): reporta su versión y su ruta, compara con el intérprete activo del shell del agente y NO lo recrees, sobrescribas, actualices ni cambies a otro Python.
+   - Si `.venv` existe pero está inválido o parcial (falta `pyvenv.cfg` o falta el intérprete esperado): detente y repórtalo. No intentes recuperación destructiva (no borrar, no reintentar, no reparar en silencio).
+   - Si su versión está fuera de 3.13/3.14: detente y aconseja (instalar o elegir 3.13/3.14); no lo modifiques en silencio.
 
-2. Selección por el estudiante (el estudiante elige, el agente no decide solo):
-   - Muestra la ruta del proyecto en revisión y la lista de candidatos verificados.
-   - Si hay varios, presenta un menú numerado con las rutas una sola vez y espera la respuesta. Sin autoselección, sin opción por defecto y sin asumir cancelación.
-   - Si solo hay `.venv`, igual confírmalo con el estudiante con una pregunta simple.
-   - Si no hay ninguno, explica que falta el entorno, sin crear ni modificar nada.
-   - Respuesta vacía o inválida: vuelve a preguntar. Cancelación: detente sin cambiar nada.
-   - Usa herramienta de preguntas si está disponible; si no, presenta opciones en texto y espera. (La herramienta de preguntas tipo AskUserQuestion es un puente opcional: solo existe si esa extensión está instalada y disponible en las herramientas reales de la sesión actual de Pi. Pi no la incluye por defecto.)
+2. Si `.venv` falta, descubre intérpretes realmente instalados con comandos de solo lectura. No hagas barridos recursivos del home, no instales nada, usa las rutas resueltas exactas descubiertas.
+   - Windows (si el lanzador existe): `py --list-paths` o `py -0p`. Si el lanzador no está disponible, explica el recurso alternativo sin inventar rutas.
+   - Unix: `command -v python3.13`, `command -v python3.14` y, opcionalmente, `python3` solo si se reporta y se confirma su versión.
+   - Sondea la versión SOLO de los ejecutables conocidos existentes (`&lt;ruta&gt; --version`, que identifica como `python --version`); elimina duplicados que apunten al mismo intérprete. Solo 3.13 y 3.14 son seleccionables; otras versiones se informan como no seleccionables, nunca se eligen en silencio.
+   - Si no hay ninguno de 3.13/3.14: reporta prerrequisito faltante y detente. No instales nada.
 
-3. Comparación contra la selección (chequeos del agente en su propio shell, no en la terminal del estudiante):
-   - Compara la ruta canónica real de `sys.prefix` contra el entorno elegido.
-   - Prueba principal: `sys.prefix != sys.base_prefix` indica intérprete aislado (venv). `VIRTUAL_ENV` es solo evidencia de apoyo, no prueba única.
-   - Informa en español claro uno de estos estados, con rutas y `sys.executable`: entorno elegido ya activo (ALREADY_SELECTED_VENV), otro entorno activo (DIFFERENT_VENV), o Python del sistema / sin venv (SYSTEM).
-   - Un intérprete de Python puede invocarse por su ruta explícita sin activar nada; activar solo afecta al shell actual.
+3. Presenta UN menú agrupado de una sola elección versión+ruta, por ejemplo `3.13 [ruta observada]`, `3.14 [ruta observada]`, solo con lo realmente instalado. Nunca fabriques rutas de ejemplo como si fueran observadas.
+   - Usa la herramienta de preguntas (AskUserQuestion) SOLO si el runtime la expone; si no, presenta opciones numeradas en texto y espera.
+   - Aunque haya una sola opción, confirma elección + propósito de creación (`.venv` en cwd). Respuesta vacía o inválida: vuelve a preguntar. Cancelación: detente sin cambiar nada. Sin elección por defecto ni autoselección; la confirmación incluye versión, ruta y destino.
 
-4. Comando de activación para la terminal del estudiante (ligado a la selección, entrecomillado):
-   - Muestra el comando EXACTO copiable con la ruta elegida entre comillas (por si tiene espacios), relativo a la raíz. `.venv` abajo es solo ilustrativo del entorno elegido:
-     - Unix (bash/zsh): `source ".venv/bin/activate"`
-     - Windows según el shell (Pi puede usar Bash en Windows: no ejecutes sintaxis PowerShell dentro de Bash): `".venv/Scripts/activate"` (Bash) o `".\.venv\Scripts\Activate.ps1"` (PowerShell).
-   - No actives un entorno no elegido ni uno equivocado.
-   - En PowerShell, si la política de ejecución bloquea, no apliques bypass automáticamente: solo si la escuela lo permite, explica el alcance limitado a la sesión (`Process`) sin cambio permanente, y no cambies la política desde el agente.
-   - El `source` no persiste entre llamadas independientes del agente ni afecta a la terminal del estudiante: el comando mostrado es para que el estudiante lo pegue en SU terminal. El agente solo puede usar el intérprete explícito si el estudiante lo autoriza y confía.
-   - Chequeo manual del estudiante desde la raíz, por ejemplo `python -c "import sys; print(sys.prefix); print(sys.executable)"`. Si `python` no existe, con cautela prueba `python3` en Unix o `py` en Windows si está instalado, sin redirecciones silenciosas a otro intérprete.</code></pre>
-          <div class="alert">Nota sobre la herramienta de preguntas: Pi es un harness mínimo; las herramientas de pregunta (<code class="inline">AskUserQuestion</code> / <code class="inline">ask_user</code> / <code class="inline">askUserQuestion</code>) son extensiones instalables (por ejemplo vía <code class="inline">pi install</code>), no comandos integrados. La plantilla de arriba NO exige esa herramienta: funciona con texto numerado si la extensión no está instalada.</div>
+4. Antes de crear, re-verifica que `.venv` sigue ausente (carrera). Luego crea con el intérprete EXACTO elegido: `&lt;ruta-elegida&gt; -m venv .venv`. Nunca uses un `python` genérico en silencio. Si falla, detente, conserva la salida parcial, repórtala y no reintentes ni borres nada. El agente puede crear en su propio shell solo tras consentimiento explícito; activar con `source` en el shell del agente NO cuenta como activación persistente.
+
+5. Verifica el `.venv` resultante con SU ejecutable explícito (la elección confiable del estudiante), que imprime versión, ejecutable y prefijos:
+   - Unix: `.venv/bin/python -c "import sys; print(sys.version); print(sys.executable); print(sys.prefix); print(sys.base_prefix)"`
+   - Windows: `.venv\Scripts\python.exe -c "import sys; print(sys.version); print(sys.executable); print(sys.prefix); print(sys.base_prefix)"`
+   - Comprueba: la versión coincide con la seleccionada y el prefijo corresponde a `&lt;proyecto&gt;/.venv`. Esto verifica la creación del entorno, no la activación del shell del estudiante.
+
+6. Muestra el comando de activación para que el ESTUDIANTE lo copie en SU terminal (el agente no puede activar la terminal ajena). Elige según el shell del estudiante, no solo según el SO:
+   - PowerShell: `&amp; ".\.venv\Scripts\Activate.ps1"` (la ruta entrecomillada exige el operador de llamada `&amp;`).
+   - bash/zsh: `source ".venv/bin/activate"`
+   - Bash en Windows (si aplica): `source ".venv/Scripts/activate"` (no es una cadena ejecutable).
+   - Sin bypass automático de políticas ni cambios persistentes: si la política de ejecución de la escuela bloquea, explícalo y detente, salvo instrucción permitida solo para el proceso actual.
+
+7. El estudiante, tras activar en su terminal, ejecuta `python -c "import sys; print(sys.version); print(sys.executable); print(sys.prefix != sys.base_prefix)"` y comprueba que la ruta contiene `.venv` y la versión es la elegida (no basta con `True`, que solo indica algún venv). El estudiante puede lanzar Pi desde esa terminal activada para heredar el entorno. El agente informa estados útiles (`.venv` válido ya activo, otro entorno activo, Python del sistema, `.venv` creado y pendiente de activación) y nunca declara ACTIVO por haber invocado un intérprete con ruta explícita.</code></pre>
+      <div class="alert">Nota sobre la herramienta de preguntas: Pi es un harness mínimo; <code class="inline">AskUserQuestion</code> solo existe si esa extensión está instalada en la sesión actual. La plantilla funciona con texto numerado si no está instalada.</div>
+    </div>
+
+    <div class="card">
+      <h2>Paso 2 — Recarga y prueba en clase</h2>
+      <ol>
+        <li>En la raíz ejecuta <code class="inline">pi</code>, acepta la confianza (trust) y dentro de Pi ejecuta <code class="inline">/reload</code> y luego <code class="inline">/check-venv</code>.</li>
+        <li>Lista las versiones con comandos de solo lectura antes de elegir. Ejemplos ilustrativos por plataforma (usa solo la rama de tu intérprete elegido):
+          <ul>
+            <li>Windows: <code class="inline">py -3.13 --version</code> o <code class="inline">py -3.14 --version</code> (tras confirmar con <code class="inline">py --list-paths</code>).</li>
+            <li>macOS/Linux: <code class="inline">python3.13 --version</code> o <code class="inline">python3.14 --version</code> (tras confirmar con <code class="inline">command -v</code>).</li>
+          </ul>
         </li>
-        <li>
-          <strong>Paso 2 — Lanza Pi desde la raíz, confía el proyecto, recarga y prueba.</strong>
-          En la raíz ejecuta <code class="inline">pi</code>, acepta la confianza (trust), y en Pi ejecuta:
-          <pre><code>/reload</code></pre>
-          y luego prueba con:
-          <pre><code>/check-venv</code></pre>
-          Verifica que inventaría tu raíz y te deja elegir antes de verificar. Si no está activo, copia el comando en TU terminal (la del agente no cuenta). Alternativa global opcional: <code class="inline">~/.pi/agent/prompts/</code> (no uses <code class="inline">.pi/agent/prompts/</code> dentro del proyecto).
+        <li>Confirma tu elección y el propósito (<code class="inline">.venv</code> en la raíz actual) y deja que el agente cree el entorno solo entonces, con el intérprete exacto elegido.</li>
+        <li>Activa en TU terminal (cópialo tú; la terminal del agente no cuenta):
+          <ul>
+            <li>PowerShell: <code class="inline">&amp; ".\.venv\Scripts\Activate.ps1"</code></li>
+            <li>bash/zsh: <code class="inline">source ".venv/bin/activate"</code></li>
+          </ul>
         </li>
+        <li>Verifica en tu terminal activada: <code class="inline">python -c "import sys; print(sys.version); print(sys.executable); print(sys.prefix != sys.base_prefix)"</code>. Comprueba que el ejecutable está bajo <code class="inline">.venv</code> y la versión es la elegida (3.13 o 3.14). Declara esa versión en cada ejercicio y comprueba compatibilidad de dependencias; si algo falla, no migres de versión en silencio.</li>
       </ol>
     </div>
 
     <div class="card">
-      <h2>🧪 Pruebas de aula (carpeta arbitraria)</h2>
-      <p>Usa una carpeta de nombre arbitrario como <code class="inline">pi-commands-test</code> solo como ejemplo. No crees entornos indeseados: cada escenario describe una situación teórica o ya existente, y la ruta es siempre selección + verificación manual.</p>
-      <ol>
-        <li><strong>Cero candidatos:</strong> raíz sin <code class="inline">.venv</code> ni directorios verificados → <code class="inline">/check-venv</code> debe explicar que falta el entorno, sin crear ni modificar nada.</li>
-        <li><strong>Un candidato:</strong> solo <code class="inline">.venv</code> verificado → el comando igual lo confirma contigo con una pregunta simple, luego compara <code class="inline">sys.prefix</code> y reporta ya-activo u otro/sistema con rutas y <code class="inline">sys.executable</code>.</li>
-        <li><strong>Varios candidatos:</strong> p. ej. <code class="inline">.venv</code> y otro hijo inmediato verificado → menú numerado una vez, espera tu número; respuesta vacía/inválida repite, cancelación detiene sin cambios. Comprueba que distingue «inactivo» (sistema) de «otro entorno activo» (DIFFERENT_VENV).</li>
-        <li><strong>Sin Pi (alternativa):</strong> desde la raíz, chequeo manual <code class="inline">python -c "import sys; print(sys.prefix); print(sys.executable)"</code> (con cautela <code class="inline">python3</code> en Unix o <code class="inline">py</code> en Windows si <code class="inline">python</code> falta). Para activar en tu terminal usa la ruta elegida entrecomillada, p. ej. <code class="inline">source ".venv/bin/activate"</code> o <code class="inline">".\.venv\Scripts\Activate.ps1"</code> según tu shell.</li>
-      </ol>
+      <h2>🧪 Pruebas de aula (solo lectura, sin crear entornos)</h2>
+      <p>No crees entornos permanentes para estas pruebas: revísalas por lectura y con comandos de consulta. La creación real la hace cada lector con su propia elección.</p>
+      <table class="spec">
+        <thead><tr><th>Situación</th><th>Resultado esperado de /check-venv</th></tr></thead>
+        <tbody>
+          <tr><td><code class="inline">.venv</code> válido existente</td><td>Reporta versión y ruta, compara con el intérprete activo y NO recrea ni cambia de Python.</td></tr>
+          <tr><td><code class="inline">.venv</code> inválido o parcial</td><td>Se detiene y lo reporta; no borra ni repara nada.</td></tr>
+          <tr><td><code class="inline">.venv</code> ausente, 3.13 y 3.14 instalados</td><td>Lista ambos con rutas observadas, pide elección explícita + consentimiento antes de crear.</td></tr>
+          <tr><td><code class="inline">.venv</code> ausente, ninguno instalado</td><td>Reporta prerrequisito faltante y se detiene; no instala nada.</td></tr>
+          <tr><td>Activación</td><td>Muestra el comando exacto según tu shell (PowerShell con <code class="inline">&amp;</code> + comillas, o <code class="inline">source</code> en bash/zsh); lo ejecutas tú en tu terminal.</td></tr>
+        </tbody>
+      </table>
     </div>
 
     <div class="card">
       <h2>🎯 Punto de control</h2>
-      <p>El comando debe inventariar solo tu raíz, dejarte elegir el entorno verificado y decirte si ESE entorno ya está activo, si hay OTRO activo o si estás en sistema. Si no está activo, el comando de activación con la ruta elegida debes ejecutarlo tú en tu propia terminal: la activación que hace el agente vive solo en su shell.</p>
+      <p>Al terminar sabes qué intérpretes tienes instalados (3.13 o 3.14), elegiste uno explícitamente, tu <code class="inline">.venv</code> existe y verificado contra esa elección, y sabes activarlo en tu propia terminal y comprobar ruta + versión. La activación del agente nunca sustituye la tuya.</p>
     </div>
 
     <div class="card">
       <h2>⚠️ Trampas comunes</h2>
       <ul class="traps">
-        <li>Olvidar confiar el proyecto o <code class="inline">/reload</code> después de crear el archivo local: el comando no aparecerá.</li>
-        <li>Poner el archivo en la carpeta equivocada (<code class="inline">.pi/agent/prompts/</code> dentro del proyecto): solo cuentan los <code class="inline">.md</code> hijos directos de <code class="inline">.pi/prompts/</code> (local) o <code class="inline">~/.pi/agent/prompts/</code> (global opcional).</li>
-        <li>Confundir <code class="inline">.pi/prompts</code> (plantillas) con <code class="inline">.venv</code> (dependencias): son carpetas separadas.</li>
-        <li>Reutilizar un nombre existente: lo reemplaza sin aviso.</li>
-        <li>Asumir que <code class="inline">AskUserQuestion</code> viene con Pi por defecto: es una extensión opcional; la plantilla funciona en texto si no está instalada.</li>
-        <li>Ejecutar sintaxis PowerShell dentro de Bash (Pi puede usar Bash en Windows): elige el comando según tu shell, no solo según el SO.</li>
+        <li>Olvidar confiar el proyecto o <code class="inline">/reload</code>: el comando no aparecerá.</li>
+        <li>Poner el archivo fuera de <code class="inline">.pi/prompts/</code> local (o la vía global opcional <code class="inline">~/.pi/agent/prompts/</code>): solo cuentan los <code class="inline">.md</code> hijos directos.</li>
+        <li>Inventariar otras carpetas como candidatas: esta guía solo inspecciona <code class="inline">.venv</code>, nada más.</li>
+        <li>Crear o recrear <code class="inline">.venv</code> sin confirmación, con un <code class="inline">python</code> genérico o tras un fallo borrando restos: la plantilla lo prohíbe.</li>
+        <li>Ejecutar sintaxis PowerShell dentro de Bash (Pi puede usar Bash en Windows): elige el comando según tu shell.</li>
+        <li>Declarar «activo» por invocar un intérprete con ruta explícita: solo cuenta la verificación en tu terminal activada (ruta bajo <code class="inline">.venv</code> + versión elegida).</li>
       </ul>
     </div>
 
     <div class="card">
       <h2>✅ Checklist de salida</h2>
       <ul class="check">
-        <li><input type="checkbox"><span>2 archivos en la carpeta local <code class="inline">.pi/prompts/</code> (<code class="inline">nuevo-py.md</code> y <code class="inline">check-venv.md</code>).</span></li>
-        <li><input type="checkbox"><span>Proyecto confiado (trust) y <code class="inline">/reload</code> ejecutado.</span></li>
-        <li><input type="checkbox"><span><code class="inline">/nuevo-py</code> genera .py con encabezado.</span></li>
-        <li><input type="checkbox"><span><code class="inline">/check-venv</code> inventaría solo la raíz, me deja elegir y verifica el elegido (ya-activo / otro / sistema).</span></li>
-        <li><input type="checkbox"><span>No se creó ni modificó ningún entorno; no hubo autoselección ni activación de un entorno no elegido.</span></li>
+        <li><input type="checkbox"><span>Archivo <code class="inline">.pi/prompts/check-venv.md</code> creado en la carpeta local (o vía global opcional), sin sobrescribir uno existente.</span></li>
+        <li><input type="checkbox"><span>Proyecto confiado (trust) y <code class="inline">/reload</code> ejecutado; <code class="inline">/check-venv</code> responde.</span></li>
+        <li><input type="checkbox"><span>Lista de intérpretes instalados con rutas observadas; elegí explícitamente 3.13 o 3.14 y autoricé crear <code class="inline">.venv</code> solo si faltaba.</span></li>
+        <li><input type="checkbox"><span>Si <code class="inline">.venv</code> ya existía y era válido, se reportó sin recrear ni cambiar de Python.</span></li>
+        <li><input type="checkbox"><span>Activé en MI terminal con el comando exacto de mi shell y verifiqué ruta bajo <code class="inline">.venv</code> + versión elegida.</span></li>
       </ul>
     </div>
 
