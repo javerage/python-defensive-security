@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crea tu comando /check-venv en Pi — PyDefSec</title>
+  <style>
+    :root {
+      --primary: #0f172a;
+      --secondary: #1e3a8a;
+      --accent: #2563eb;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #334155;
+      --text-dark: #0f172a;
+      --border: #e2e8f0;
+      --success: #16a34a;
+      --warn-bg: #fffbeb;
+      --warn-border: #fde68a;
+      --warn-text: #92400e;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 30px 20px;
+    }
+    .container { max-width: 860px; margin: 0 auto; }
+    header {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 32px 28px;
+      border-radius: 12px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.12);
+    }
+    .badge {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 4px 10px;
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    h1 { font-size: 24px; font-weight: 800; line-height: 1.25; margin-bottom: 10px; }
+    p.lead { font-size: 14px; color: #cbd5e1; max-width: 720px; }
+    .fact-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+    .fact {
+      font-size: 12.5px; font-weight: 600; color: #e0e7ff;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 6px; padding: 5px 12px;
+    }
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+    }
+    .card h2 { font-size: 17px; color: var(--text-dark); margin-bottom: 12px; }
+    .card p, .card li { font-size: 14px; }
+    .card ol, .card ul { padding-left: 22px; margin: 10px 0; }
+    .card li { margin-bottom: 8px; }
+    pre {
+      background: var(--primary);
+      color: #e2e8f0;
+      border-radius: 8px;
+      padding: 16px 18px;
+      overflow-x: auto;
+      font-size: 13px;
+      line-height: 1.55;
+      margin: 12px 0;
+    }
+    code.inline {
+      background: #eef2ff; color: var(--secondary);
+      padding: 2px 6px; border-radius: 4px;
+      font-size: 13px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+    pre code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .alert {
+      background: var(--warn-bg);
+      border: 1px solid var(--warn-border);
+      color: var(--warn-text);
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-size: 13.5px;
+      margin: 12px 0;
+    }
+    .traps { list-style: none; padding-left: 0; }
+    .traps li {
+      border-left: 4px solid var(--accent);
+      background: #f1f5f9;
+      border-radius: 0 8px 8px 0;
+      padding: 10px 14px;
+      margin-bottom: 8px;
+    }
+    .check { list-style: none; padding-left: 0; }
+    .check li {
+      display: flex; gap: 10px; align-items: flex-start;
+      border: 1px solid var(--border); border-radius: 8px;
+      padding: 10px 14px; margin-bottom: 8px; background: #fff;
+    }
+    .check input { margin-top: 4px; transform: scale(1.2); }
+    a.back { display: inline-block; margin-top: 8px; font-size: 13.5px; font-weight: 600; color: var(--accent); text-decoration: none; }
+    a.back:hover { text-decoration: underline; }
+    footer { text-align: center; margin-top: 28px; font-size: 12.5px; color: #64748b; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="badge">PyDefSec • Guía de aula</div>
+      <h1>Crea tu comando /check-venv en Pi</h1>
+      <p class="lead">Objetivo: comando <code>/check-venv</code> que verifica el venv del curso y da el comando de activación.</p>
+      <div class="fact-row">
+        <span class="fact">⏱ Tiempo: 15 min</span>
+        <span class="fact">🧰 Prerrequisito: guía /nuevo-py terminada (misma carpeta y /reload)</span>
+      </div>
+    </header>
+
+    <div class="card">
+      <h2>Pasos</h2>
+      <ol>
+        <li>
+          <strong>Paso 1 — Crea el archivo <code class="inline">check-venv.md</code> en <code class="inline">~/.pi/agent/prompts/</code></strong> (la misma carpeta de la guía anterior) con este contenido exacto:
+          <pre><code>---
+description: Verifica si el venv del curso está activo y muestra cómo activarlo
+---
+
+1. Detecta el SO: Windows PowerShell frente a macOS/Linux.
+2. Comprueba `sys.prefix` y la variable `VIRTUAL_ENV`; está activo solo si la ruta apunta al `.venv` de `curso-python-defensivo/`.
+3. Si NO está activo, muestra el comando EXACTO copiable según el SO y ejecútalo en tu shell cuando sea posible:
+   - macOS/Linux: `source curso-python-defensivo/.venv/bin/activate`
+   - Windows PowerShell: `Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass; curso-python-defensivo\.venv\Scripts\Activate.ps1`
+4. Si SÍ está activo, confírmalo en una sola línea con la ruta del intérprete.
+Nota: la activación que ejecuta el agente vive solo en su shell; el estudiante debe copiar el comando en su propia terminal.</code></pre>
+        </li>
+        <li>
+          <strong>Paso 2 — Recarga y prueba.</strong>
+          Ejecuta en Pi:
+          <pre><code>/reload</code></pre>
+          y luego prueba con:
+          <pre><code>/check-venv</code></pre>
+          Verifica que detecta tu venv y, si no está activo, copia el comando en TU terminal (la del agente no cuenta).
+        </li>
+      </ol>
+    </div>
+
+    <div class="card">
+      <h2>🎯 Punto de control</h2>
+      <p>El comando debe decirte si tu venv está activo o no. Si no lo está, el comando de activación que te muestre debes ejecutarlo tú en tu propia terminal: la activación que hace el agente vive solo en su shell.</p>
+    </div>
+
+    <div class="card">
+      <h2>⚠️ Trampas comunes</h2>
+      <ul class="traps">
+        <li>Olvidar <code class="inline">/reload</code> después de crear el archivo: el comando no aparecerá.</li>
+        <li>Poner el archivo en la carpeta equivocada: solo cuentan los <code class="inline">.md</code> hijos directos de la carpeta de prompts.</li>
+        <li>Reutilizar un nombre existente: lo reemplaza sin aviso.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>✅ Checklist de salida</h2>
+      <ul class="check">
+        <li><input type="checkbox"><span>2 archivos en prompts (<code class="inline">nuevo-py.md</code> y <code class="inline">check-venv.md</code>).</span></li>
+        <li><input type="checkbox"><span><code class="inline">/reload</code> ejecutado.</span></li>
+        <li><input type="checkbox"><span><code class="inline">/nuevo-py</code> genera .py con encabezado.</span></li>
+        <li><input type="checkbox"><span><code class="inline">/check-venv</code> detecta el venv.</span></li>
+      </ul>
+    </div>
+
+    <a class="back" href="../index.html">← Volver al portal del curso</a>
+    <footer>
+      <p><strong>Python for Defensive Security (PyDefSec) © 2026</strong> • Operación exclusiva en localhost (127.0.0.1)</p>
+    </footer>
+  </div>
+</body>
+</html>

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crea tu comando /nuevo-py en Pi — PyDefSec</title>
+  <style>
+    :root {
+      --primary: #0f172a;
+      --secondary: #1e3a8a;
+      --accent: #2563eb;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #334155;
+      --text-dark: #0f172a;
+      --border: #e2e8f0;
+      --success: #16a34a;
+      --warn-bg: #fffbeb;
+      --warn-border: #fde68a;
+      --warn-text: #92400e;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 30px 20px;
+    }
+    .container { max-width: 860px; margin: 0 auto; }
+    header {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 32px 28px;
+      border-radius: 12px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.12);
+    }
+    .badge {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 4px 10px;
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    h1 { font-size: 24px; font-weight: 800; line-height: 1.25; margin-bottom: 10px; }
+    p.lead { font-size: 14px; color: #cbd5e1; max-width: 720px; }
+    .fact-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+    .fact {
+      font-size: 12.5px; font-weight: 600; color: #e0e7ff;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 6px; padding: 5px 12px;
+    }
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+    }
+    .card h2 { font-size: 17px; color: var(--text-dark); margin-bottom: 12px; }
+    .card p, .card li { font-size: 14px; }
+    .card ol, .card ul { padding-left: 22px; margin: 10px 0; }
+    .card li { margin-bottom: 8px; }
+    pre {
+      background: var(--primary);
+      color: #e2e8f0;
+      border-radius: 8px;
+      padding: 16px 18px;
+      overflow-x: auto;
+      font-size: 13px;
+      line-height: 1.55;
+      margin: 12px 0;
+    }
+    code.inline {
+      background: #eef2ff; color: var(--secondary);
+      padding: 2px 6px; border-radius: 4px;
+      font-size: 13px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+    pre code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .alert {
+      background: var(--warn-bg);
+      border: 1px solid var(--warn-border);
+      color: var(--warn-text);
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-size: 13.5px;
+      margin: 12px 0;
+    }
+    .check { list-style: none; padding-left: 0; }
+    .check li {
+      display: flex; gap: 10px; align-items: flex-start;
+      border: 1px solid var(--border); border-radius: 8px;
+      padding: 10px 14px; margin-bottom: 8px; background: #fff;
+    }
+    .check input { margin-top: 4px; transform: scale(1.2); }
+    a.back { display: inline-block; margin-top: 8px; font-size: 13.5px; font-weight: 600; color: var(--accent); text-decoration: none; }
+    a.back:hover { text-decoration: underline; }
+    footer { text-align: center; margin-top: 28px; font-size: 12.5px; color: #64748b; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="badge">PyDefSec • Guía de aula</div>
+      <h1>Crea tu comando /nuevo-py en Pi</h1>
+      <p class="lead">Objetivo: al terminar tendrás el comando <code>/nuevo-py</code> que crea archivos .py con encabezado del curso.</p>
+      <div class="fact-row">
+        <span class="fact">⏱ Tiempo: 15 min</span>
+        <span class="fact">🧰 Prerrequisito: Pi instalado</span>
+      </div>
+    </header>
+
+    <div class="card">
+      <h2>💡 Concepto en 1 minuto</h2>
+      <p>En Pi, un archivo markdown en la carpeta de prompts se convierte en comando: el nombre del archivo es el nombre del comando (<code class="inline">nuevo-py.md</code> → <code class="inline">/nuevo-py</code>).</p>
+    </div>
+
+    <div class="card">
+      <h2>Pasos</h2>
+      <ol>
+        <li>
+          <strong>Paso 1 — Verifica la carpeta de prompts.</strong>
+          Ejecuta en tu terminal:
+          <pre><code>ls ~/.pi/agent/prompts/</code></pre>
+          Si no existe, créala con:
+          <pre><code>mkdir -p ~/.pi/agent/prompts/</code></pre>
+        </li>
+        <li>
+          <strong>Paso 2 — Crea el archivo <code class="inline">nuevo-py.md</code> en esa carpeta</strong> con este contenido exacto:
+          <pre><code>---
+description: Crea un archivo .py nuevo con el encabezado global del curso
+argument-hint: &lt;nombre-archivo.py&gt; &lt;sesion&gt; [purpose] [scope]
+---
+
+Crea el archivo `$1` con el encabezado estándar del curso.
+1. Usa SESSION = `$2` y FILE = nombre base de `$1`.
+2. Si faltan datos usa `${3:-Descripción pendiente de la práctica local}` para PURPOSE y `${4:-Localhost authorized testing environment (127.0.0.1 / ::1) only.}` para SCOPE.
+3. Copia esta estructura exacta al inicio del archivo (bloque docstring con COURSE: Python for Defensive Security..., REPOSITORY: python-defensive-security | Session $2 (PyDefSec), SESSION, FILE, PURPOSE, SCOPE entre líneas de `===`).
+4. Usa identificadores en inglés con PEP 8 (snake_case, UPPER_CASE).
+5. Cierra el archivo con `# TODO: implementa aquí`.</code></pre>
+        </li>
+        <li>
+          <strong>Paso 3 — Recarga los comandos en Pi.</strong>
+          En Pi ejecuta:
+          <pre><code>/reload</code></pre>
+          <div class="alert">⚠️ Sin esto el comando no aparece. Es el error n.º 1 del aula.</div>
+        </li>
+        <li>
+          <strong>Paso 4 — Prueba (predice antes de ejecutar).</strong>
+          Antes de pulsar Enter, predice: ¿qué archivo se creará y qué valores tomarán SESSION, FILE, PURPOSE y SCOPE? Luego ejecuta en Pi:
+          <pre><code>/nuevo-py scope_review.py 12</code></pre>
+          Verifica que el archivo generado tenga el encabezado completo y cierre con <code class="inline"># TODO: implementa aquí</code>. Si ves <code class="inline">$1</code> sin sustituir, avisa al docente.
+        </li>
+      </ol>
+    </div>
+
+    <div class="card">
+      <h2>🎯 Punto de control</h2>
+      <p>Muestra al docente tu archivo generado: debe tener el encabezado completo del curso y la línea final <code class="inline"># TODO: implementa aquí</code>. Si aparece <code class="inline">$1</code> literal sin sustituir, algo falló: avisa al docente antes de continuar.</p>
+    </div>
+
+    <div class="card">
+      <h2>✅ Checklist</h2>
+      <ul class="check">
+        <li><input type="checkbox"><span>Archivo <code class="inline">nuevo-py.md</code> en la carpeta correcta (<code class="inline">~/.pi/agent/prompts/</code>).</span></li>
+        <li><input type="checkbox"><span><code class="inline">/reload</code> ejecutado, comando visible y archivo .py generado con encabezado.</span></li>
+      </ul>
+    </div>
+
+    <a class="back" href="../index.html">← Volver al portal del curso</a>
+    <footer>
+      <p><strong>Python for Defensive Security (PyDefSec) © 2026</strong> • Operación exclusiva en localhost (127.0.0.1)</p>
+    </footer>
+  </div>
+</body>
+</html>
