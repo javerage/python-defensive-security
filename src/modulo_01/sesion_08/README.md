@@ -13,6 +13,12 @@ Al terminar la sesión podrás **agrupar 20 observaciones sintéticas con tuplas
 
 > El repositorio es solamente respaldo. No necesitas clonarlo ni navegar su estructura para completar la sesión.
 
+## Piloto opcional S08: `/nuevo-py` solo docstring + TODOs (5 min, dentro de la práctica)
+
+Puedes generar SOLO el docstring global y los TODOs de `event_groups.py` con `/nuevo-py`, siguiendo la [guía del comando](../../../docs/pi/nuevo-py.html) y el ejemplo `feature_event_groups.md` de esta carpeta. Pi nunca escribe tu solución, ni la revisa ni la evalúa.
+
+Sin Pi haces lo mismo en el mismo tiempo copiando el encabezado de `starter.py`; ambas vías valen igual. El piloto vive dentro de los 25 minutos de práctica (5 réplica + 10 reto + 5 piloto + 5 ejecución) y no extiende la clase de 60 minutos. El ejercicio, la tarea y su evaluación no cambian.
+
 ## Duración (60 minutos)
 
 10 min reencuentro con tu proyecto y verificación · 15 min secuencia y demo · 25 min práctica con `event_groups.py` · 10 min verificación de comprensión y cierre.
