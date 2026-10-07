@@ -167,17 +167,17 @@ Trabaja siempre desde la raíz actual del proyecto (donde se lanzó Pi). El nomb
    - Si `.venv` existe pero está inválido o parcial (falta `pyvenv.cfg` o falta el intérprete esperado): detente y repórtalo. No intentes recuperación destructiva (no borrar, no reintentar, no reparar en silencio).
    - Si su versión está fuera de 3.13/3.14: detente y aconseja (instalar o elegir 3.13/3.14); no lo modifiques en silencio.
 
-2. Si `.venv` falta, descubre intérpretes realmente instalados con comandos de solo lectura. No hagas barridos recursivos del home, no instales nada, usa las rutas resueltas exactas descubiertas.
-   - Windows (si el lanzador existe): `py --list-paths` o `py -0p`. Si el lanzador no está disponible, explica el recurso alternativo sin inventar rutas.
-   - Unix: `command -v python3.13`, `command -v python3.14` y, opcionalmente, `python3` solo si se reporta y se confirma su versión.
-   - Sondea la versión SOLO de los ejecutables conocidos existentes (`&lt;ruta&gt; --version`, que identifica como `python --version`); elimina duplicados que apunten al mismo intérprete. Solo 3.13 y 3.14 son seleccionables; otras versiones se informan como no seleccionables, nunca se eligen en silencio.
-   - Si no hay ninguno de 3.13/3.14: reporta prerrequisito faltante y detente. No instales nada.
+ 2. Si `.venv` falta, descubre intérpretes con sondeo acotado de solo lectura en el shell actual del agente. No hagas barridos recursivos del home ni de otras carpetas, no instales nada, usa las rutas resueltas exactas descubiertas.
+    - Sondeo obligatorio acotado (en el shell del agente): `python`, `python3`, `python3.13`, `python3.14` (por ejemplo `command -v python python3 python3.13 python3.14` en Unix; equivalentes `Get-Command` / `where` en Windows). Más, solo en Windows si el lanzador existe: `py --list-paths` o `py -0p`, y selector directo de la versión descubierta (`py -3.13`, `py -3.14`). Si el lanzador no está disponible, explica el recurso alternativo sin inventar rutas.
+    - Verificación de identidad obligatoria por cada candidato existente (no basta `--version`): `&lt;comando-conocido&gt; -c "import sys; print(sys.version); print(sys.executable); print(sys.prefix); print(sys.base_prefix)"` (por ejemplo `python -c ...` si `python` existe). En PowerShell cita la ruta y usa el operador de llamada (`&amp; "&lt;ruta&gt;" -c ...`); en Bash entrecomilla la ruta (`"&lt;ruta&gt;" -c ...`). Registra comando observado + resultado, mapea la identidad canónica (`sys.executable`) y elimina duplicados que resuelvan al mismo intérprete (un alias/shim queda reconocido por su salida real). Solo 3.13 y 3.14 son seleccionables; otras versiones se informan como no seleccionables, nunca se eligen en silencio. Un error de alias de Windows Store no es un candidato utilizable: conserva el fallo observado y no lo selecciones.
+    - Si el shell del agente ya está dentro de un venv (prefijo activo distinto de la base), muéstralo (`sys.prefix`, ruta actual) e informa al usuario antes de elegir: no crees un entorno anidado tomando el entorno activo como base sin decirlo; aclara qué ejecutable elegido se usará.
+    - Si ningún sondeo produce un 3.13/3.14 verificable: di exactamente `No encontré un intérprete compatible en el shell de Pi` (no afirmes que está desinstalado). Reporta SO + shell real + cwd y los resultados acotados observados, pide al estudiante el mismo sondeo de identidad en SU terminal (`python` si dispone, si no `python3` como alternativa) y que devuelva ruta/versión; una ruta local aportada solo se usa con confirmación más un sondeo de solo lectura de esa ruta en el shell del agente. Si sigue inaccesible, cierra en fallo explicado (diferencia de PATH/entorno de proceso) y ofrece el comando manual elegido por el estudiante; no fabriques rutas ni amplíes el barrido.
 
 3. Presenta UN menú agrupado de una sola elección versión+ruta, por ejemplo `3.13 [ruta observada]`, `3.14 [ruta observada]`, solo con lo realmente instalado. Nunca fabriques rutas de ejemplo como si fueran observadas.
    - Usa la herramienta de preguntas (AskUserQuestion) SOLO si el runtime la expone; si no, presenta opciones numeradas en texto y espera.
    - Aunque haya una sola opción, confirma elección + propósito de creación (`.venv` en cwd). Respuesta vacía o inválida: vuelve a preguntar. Cancelación: detente sin cambiar nada. Sin elección por defecto ni autoselección; la confirmación incluye versión, ruta y destino.
 
-4. Antes de crear, re-verifica que `.venv` sigue ausente (carrera). Luego crea con el intérprete EXACTO elegido: `&lt;ruta-elegida&gt; -m venv .venv`. Nunca uses un `python` genérico en silencio. Si falla, detente, conserva la salida parcial, repórtala y no reintentes ni borres nada. El agente puede crear en su propio shell solo tras consentimiento explícito; activar con `source` en el shell del agente NO cuenta como activación persistente.
+ 4. Antes de crear, re-verifica que `.venv` sigue ausente (carrera). Luego crea con el intérprete EXACTO elegido: `&lt;ruta-elegida&gt; -m venv .venv`. Nunca uses un intérprete no verificado/no seleccionado en silencio (`python` solo vale si fue descubierto y seleccionado tras verificación de versión+ruta). Si falla, detente, conserva la salida parcial, repórtala y no reintentes ni borres nada. El agente puede crear en su propio shell solo tras consentimiento explícito; activar con `source` en el shell del agente NO cuenta como activación persistente.
 
 5. Verifica el `.venv` resultante con SU ejecutable explícito (la elección confiable del estudiante), que imprime versión, ejecutable y prefijos:
    - Unix: `.venv/bin/python -c "import sys; print(sys.version); print(sys.executable); print(sys.prefix); print(sys.base_prefix)"`
@@ -198,10 +198,11 @@ Trabaja siempre desde la raíz actual del proyecto (donde se lanzó Pi). El nomb
       <h2>Paso 2 — Recarga y prueba en clase</h2>
       <ol>
         <li>En la raíz ejecuta <code class="inline">pi</code>, acepta la confianza (trust) y dentro de Pi ejecuta <code class="inline">/reload</code> y luego <code class="inline">/check-venv</code>.</li>
-        <li>Lista las versiones con comandos de solo lectura antes de elegir. Ejemplos ilustrativos por plataforma (usa solo la rama de tu intérprete elegido):
+        <li>Lista las versiones con comandos de solo lectura antes de elegir. Base obligatoria + ramas opcionales (usa la rama de tu intérprete elegido; las versiones específicas son opcionales, no un prerrequisito):
           <ul>
-            <li>Windows: <code class="inline">py -3.13 --version</code> o <code class="inline">py -3.14 --version</code> (tras confirmar con <code class="inline">py --list-paths</code>).</li>
-            <li>macOS/Linux: <code class="inline">python3.13 --version</code> o <code class="inline">python3.14 --version</code> (tras confirmar con <code class="inline">command -v</code>).</li>
+            <li>Base (todas las plataformas): <code class="inline">python --version</code> y sonda de identidad <code class="inline">python -c "import sys; print(sys.version); print(sys.executable); print(sys.prefix); print(sys.base_prefix)"</code> (si <code class="inline">python</code> no existe en tu terminal, usa <code class="inline">python3</code> con los mismos dos comandos).</li>
+            <li>Opcional Unix: <code class="inline">python3.13 --version</code> o <code class="inline">python3.14 --version</code> (tras confirmar con <code class="inline">command -v</code>).</li>
+            <li>Opcional Windows: <code class="inline">py --list-paths</code> y luego <code class="inline">py -3.13 --version</code> o <code class="inline">py -3.14 --version</code>.</li>
           </ul>
         </li>
         <li>Confirma tu elección y el propósito (<code class="inline">.venv</code> en la raíz actual) y deja que el agente cree el entorno solo entonces, con el intérprete exacto elegido.</li>
@@ -224,7 +225,9 @@ Trabaja siempre desde la raíz actual del proyecto (donde se lanzó Pi). El nomb
           <tr><td><code class="inline">.venv</code> válido existente</td><td>Reporta versión y ruta, compara con el intérprete activo y NO recrea ni cambia de Python.</td></tr>
           <tr><td><code class="inline">.venv</code> inválido o parcial</td><td>Se detiene y lo reporta; no borra ni repara nada.</td></tr>
           <tr><td><code class="inline">.venv</code> ausente, 3.13 y 3.14 instalados</td><td>Lista ambos con rutas observadas, pide elección explícita + consentimiento antes de crear.</td></tr>
-          <tr><td><code class="inline">.venv</code> ausente, ninguno instalado</td><td>Reporta prerrequisito faltante y se detiene; no instala nada.</td></tr>
+          <tr><td><code class="inline">.venv</code> ausente, solo existe el comando <code class="inline">python</code> con 3.14</td><td>Es seleccionable tras verificación de identidad (versión + <code class="inline">sys.executable</code>); no exige un comando con nombre de versión.</td></tr>
+          <tr><td><code class="inline">.venv</code> ausente, sin candidato verificable en el shell de Pi</td><td>Dice exactamente <code class="inline">No encontré un intérprete compatible en el shell de Pi</code>, reporta SO + shell + cwd y resultados acotados, y pide el sondeo manual en la terminal del estudiante; no afirma desinstalación (puede ser diferencia de PATH).</td></tr>
+          <tr><td>Solo <code class="inline">.pi/</code> o PRDs presentes, sin <code class="inline">.venv</code></td><td>No son candidatos: los reporta como no aplicables y sigue al sondeo acotado de intérpretes.</td></tr>
           <tr><td>Activación</td><td>Muestra el comando exacto según tu shell (PowerShell con <code class="inline">&amp;</code> + comillas, o <code class="inline">source</code> en bash/zsh); lo ejecutas tú en tu terminal.</td></tr>
         </tbody>
       </table>
@@ -241,7 +244,7 @@ Trabaja siempre desde la raíz actual del proyecto (donde se lanzó Pi). El nomb
         <li>Olvidar confiar el proyecto o <code class="inline">/reload</code>: el comando no aparecerá.</li>
         <li>Poner el archivo fuera de <code class="inline">.pi/prompts/</code> local (o la vía global opcional <code class="inline">~/.pi/agent/prompts/</code>): solo cuentan los <code class="inline">.md</code> hijos directos.</li>
         <li>Inventariar otras carpetas como candidatas: esta guía solo inspecciona <code class="inline">.venv</code>, nada más.</li>
-        <li>Crear o recrear <code class="inline">.venv</code> sin confirmación, con un <code class="inline">python</code> genérico o tras un fallo borrando restos: la plantilla lo prohíbe.</li>
+        <li>Crear o recrear <code class="inline">.venv</code> sin confirmación, con un intérprete no verificado/no seleccionado o tras un fallo borrando restos: la plantilla lo prohíbe.</li>
         <li>Ejecutar sintaxis PowerShell dentro de Bash (Pi puede usar Bash en Windows): elige el comando según tu shell.</li>
         <li>Declarar «activo» por invocar un intérprete con ruta explícita: solo cuenta la verificación en tu terminal activada (ruta bajo <code class="inline">.venv</code> + versión elegida).</li>
       </ul>
