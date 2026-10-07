@@ -123,6 +123,21 @@
       <h2>💡 Concepto en 1 minuto</h2>
       <p>En Pi, un archivo markdown en la carpeta de prompts se convierte en comando: el nombre del archivo es el nombre del comando (<code class="inline">nuevo-py.md</code> → <code class="inline">/nuevo-py</code>). Su uso es <code class="inline">/nuevo-py &lt;archivo.py&gt; &lt;sesion&gt; [feature.md]</code>: el tercer argumento es opcional.</p>
       <p>Pi expande los argumentos como <strong>texto</strong>: pasar una ruta NO incluye su contenido. Si das un <code class="inline">feature.md</code>, el comando debe leerlo primero con la herramienta <code class="inline">read</code> (solo lectura: nunca se ejecuta el Markdown). La ruta se escribe relativa a la carpeta actual del curso y, si contiene espacios, entre comillas (<code class="inline">"mi feature.md"</code>).</p>
+      <p><strong>Recomendación para el aula (local primero):</strong> guarda el comando en tu carpeta del curso, en <code class="inline">&lt;course-folder&gt;/.pi/prompts/nuevo-py.md</code>. Así viaja con tu proyecto y cada grupo controla su versión. La vía global (<code class="inline">~/.pi/agent/prompts/</code>) queda como alternativa opcional.</p>
+      <table style="width:100%; border-collapse:collapse; font-size:13px; margin:10px 0;">
+        <thead><tr><th style="border:1px solid var(--border); padding:6px 8px; text-align:left;">Ubicación</th><th style="border:1px solid var(--border); padding:6px 8px; text-align:left;">Ruta</th><th style="border:1px solid var(--border); padding:6px 8px; text-align:left;">Alcance</th></tr></thead>
+        <tbody>
+          <tr><td style="border:1px solid var(--border); padding:6px 8px;"><strong>LOCAL (recomendada)</strong></td><td style="border:1px solid var(--border); padding:6px 8px;"><code class="inline">&lt;course-folder&gt;/.pi/prompts/</code></td><td style="border:1px solid var(--border); padding:6px 8px;">Solo este proyecto; requiere confiar el proyecto (trust) y luego <code class="inline">/reload</code>.</td></tr>
+          <tr><td style="border:1px solid var(--border); padding:6px 8px;">GLOBAL (opcional)</td><td style="border:1px solid var(--border); padding:6px 8px;"><code class="inline">~/.pi/agent/prompts/</code></td><td style="border:1px solid var(--border); padding:6px 8px;">Todos tus proyectos; no requiere trust por proyecto.</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:13px;">Solo cuentan los <code class="inline">.md</code> hijos directos de la carpeta de prompts (<code class="inline">nuevo-py.md</code> → <code class="inline">/nuevo-py</code>; <code class="inline">nuevo_py.md</code> → <code class="inline">/nuevo_py</code>). No uses <code class="inline">.pi/agent/prompts/</code> <strong>dentro</strong> del proyecto: esa no es la convención de proyecto.</p>
+      <p style="font-size:13px;">Ejemplo de árbol en una carpeta demo (en clase tu carpeta real es <code class="inline">curso-python-defensivo</code>; aquí se muestra <code class="inline">pi-commands-test</code> como ejemplo):</p>
+      <pre><code>pi-commands-test/.pi/prompts/nuevo-py.md
+pi-commands-test/.pi/prompts/check-venv.md
+pi-commands-test/prds/feature_008.md</code></pre>
+      <p style="font-size:13px;">Cada carpeta tiene un trabajo distinto: <code class="inline">.pi/prompts/</code> guarda plantillas de comandos, <code class="inline">prds/</code> guarda especificaciones de ejercicios (una por sesión: <code class="inline">feature_008.md</code> es la Sesión 08) y <code class="inline">.venv/</code> guarda dependencias de Python. No mezcles sus contenidos.</p>
+      <p style="font-size:13px;">Convención del número de sesión: el archivo PRD usa <strong>3 dígitos</strong> (<code class="inline">###</code>): sesión 1 → <code class="inline">feature_001.md</code>, sesión 8 → <code class="inline">feature_008.md</code>, sesión 20 → <code class="inline">feature_020.md</code>. El argumento de sesión del comando sigue con <strong>2 dígitos</strong> (<code class="inline">08</code>).</p>
       <div class="alert">⚠️ Este comando solo prepara documentación repetitiva (docstring + TODOs). La solución del ejercicio la escribes tú a mano, sin Pi.</div>
     </div>
 
@@ -130,19 +145,20 @@
       <h2>Pasos</h2>
       <ol>
         <li>
-          <strong>Paso 1 — Verifica la carpeta de prompts (multiOS).</strong>
-          En tu terminal del sistema (NO en Pi):
+          <strong>Paso 1 — Trabaja desde la raíz del proyecto y verifica la carpeta local <code class="inline">.pi/prompts</code>.</strong>
+          En tu terminal del sistema (NO en Pi), ubícate primero en la raíz de tu carpeta del curso (<code class="inline">curso-python-defensivo</code> en clase; <code class="inline">pi-commands-test</code> en la demo):
           <p style="margin:6px 0 2px;"><strong>Windows (PowerShell):</strong></p>
-          <pre><code>Test-Path $HOME\.pi\agent\prompts\
+          <pre><code>Test-Path .pi/prompts
 # Si dice False, créala con:
-mkdir -p $HOME\.pi\agent\prompts\</code></pre>
+New-Item -ItemType Directory -Force -Path .pi/prompts</code></pre>
           <p style="margin:6px 0 2px;"><strong>macOS (zsh) / Linux (bash):</strong></p>
-          <pre><code>ls ~/.pi/agent/prompts/
+          <pre><code>ls .pi
 # Si no existe, créala con:
-mkdir -p ~/.pi/agent/prompts/</code></pre>
+mkdir -p .pi/prompts</code></pre>
+          <p style="font-size:13px;">Alternativa global opcional (no recomendada para el aula): <code class="inline">~/.pi/agent/prompts/</code>. No crees <code class="inline">.pi/agent/prompts/</code> dentro del proyecto.</p>
         </li>
         <li>
-          <strong>Paso 2 — Crea el archivo <code class="inline">nuevo-py.md</code> en esa carpeta</strong> con este contenido exacto:
+          <strong>Paso 2 — Crea el archivo <code class="inline">.pi/prompts/nuevo-py.md</code> en esa carpeta local</strong> con este contenido exacto (si el archivo ya existe, NO lo sobrescribas: detente y avisa al docente):
           <pre><code>---
 description: Crea un archivo .py nuevo con solo el docstring global y TODOs, sin solucion
 argument-hint: &lt;archivo.py&gt; &lt;sesion&gt; [feature.md]
@@ -151,6 +167,8 @@ argument-hint: &lt;archivo.py&gt; &lt;sesion&gt; [feature.md]
 Crea el archivo `$1` con SOLO el docstring global del curso y comentarios TODO. Nunca escribas la solucion: ni logica de negocio, ni imports, ni print, ni pruebas.
 
 Expansion de argumentos: Pi sustituye `$1`, `$2` y `${3:-}` como texto. Pasar una ruta NO incluye su contenido: si se da un tercer argumento, usa primero la herramienta read sobre esa ruta (solo lectura, nunca ejecutes el Markdown). La ruta es relativa a la carpeta actual del curso; si contiene espacios, citala entre comillas.
+
+Ruta recomendada para el tercer argumento: `prds/feature_###.md` con `###` igual a la sesion de `$2` a 3 digitos (ejemplo: sesion 08 -&gt; `prds/feature_008.md`).
 
 Validacion (en este orden, antes de escribir nada):
 1. `$1` debe terminar en `.py` y su destino debe estar dentro de la carpeta del curso. Si no, detente sin escribir.
@@ -178,27 +196,37 @@ SCOPE: &lt;derived or default&gt;
 Despues del docstring escribe SOLO comentarios TODO (uno por operacion). No resuelvas los TODOs: solo encabezado y comentarios TODO.</code></pre>
         </li>
         <li>
-          <strong>Paso 3 — Prepara tu <code class="inline">feature.md</code> (opcional, tú lo escribes).</strong>
-          Si quieres docstring con propósito real, escribe un Markdown con <strong>objetivo</strong>, <strong>restricciones</strong>, <strong>entrada</strong> y <strong>operaciones</strong> (sin soluciones). Ejemplo completo para la Sesión 08 en la tarjeta siguiente. Guárdalo en tu carpeta del curso. El repositorio trae una copia de respaldo en <code class="inline">src/modulo_01/sesion_08/feature_event_groups.md</code>: úsala solo como respaldo, el archivo de trabajo es el tuyo.
+          <strong>Paso 3 — Prepara tu PRD en <code class="inline">prds/</code> (opcional, tú lo escribes a mano).</strong>
+          Si quieres docstring con propósito real, escribe un Markdown con estas <strong>7 secciones</strong>: <strong>identificación</strong>, <strong>objetivo</strong>, <strong>contexto</strong>, <strong>entrada</strong>, <strong>restricciones</strong>, <strong>TODOs</strong> (solo operaciones, sin soluciones) y <strong>verificación</strong> (sin respuestas). Tienes una plantilla genérica copiable más abajo («Plantilla reutilizable de feature») y un ejemplo completo de la Sesión 08 en la tarjeta siguiente. El nombre sigue la convención de 3 dígitos con la sesión coincidente: Sesión 08 → <code class="inline">prds/feature_008.md</code> (1 → <code class="inline">001</code>, 8 → <code class="inline">008</code>, 20 → <code class="inline">020</code>).
+          <p style="margin:6px 0 2px;"><strong>Primero inspecciona, luego crea la carpeta <code class="inline">prds</code> solo si falta</strong> (desde la raíz del proyecto, en tu terminal del sistema):</p>
+          <p style="margin:6px 0 2px;"><strong>Windows (PowerShell):</strong></p>
+          <pre><code>Test-Path prds
+# Si dice False, créala con:
+New-Item -ItemType Directory -Force -Path prds</code></pre>
+          <p style="margin:6px 0 2px;"><strong>macOS (zsh) / Linux (bash):</strong></p>
+          <pre><code>ls
+# Si no ves prds, créala con:
+mkdir -p prds</code></pre>
+          <p style="font-size:13px;">Crea o edita el archivo manualmente con tu editor (el agente nunca genera tu feature ni tu ejercicio). Si el archivo ya existe, NO lo sobrescribas: detente y avisa al docente. El repositorio trae una copia de respaldo en <code class="inline">src/modulo_01/sesion_08/prds/feature_008.md</code>: úsala solo como respaldo, el archivo de trabajo es el tuyo y ves su entrada completa abajo en línea.</p>
         </li>
         <li>
-          <strong>Paso 4 — Recarga los comandos en Pi y verifica el guardado.</strong>
-          En Pi ejecuta:
+          <strong>Paso 4 — Lanza Pi desde la raíz, confía el proyecto, recarga y verifica el guardado.</strong>
+          En la raíz del proyecto ejecuta <code class="inline">pi</code>, acepta la confianza del proyecto (trust) cuando Pi la pida, y luego en Pi ejecuta:
           <pre><code>/reload</code></pre>
-          Confirma que el archivo quedó guardado donde debe (terminal del sistema):
+          Confirma que el archivo quedó guardado donde debe (terminal del sistema, desde la raíz):
           <p style="margin:6px 0 2px;"><strong>Windows (PowerShell):</strong></p>
-          <pre><code>dir $HOME\.pi\agent\prompts\nuevo-py.md</code></pre>
+          <pre><code>dir .pi\prompts\nuevo-py.md</code></pre>
           <p style="margin:6px 0 2px;"><strong>macOS (zsh) / Linux (bash):</strong></p>
-          <pre><code>ls -l ~/.pi/agent/prompts/nuevo-py.md</code></pre>
-          <div class="alert">⚠️ Sin <code class="inline">/reload</code> el comando no aparece. Es el error n.º 1 del aula.</div>
+          <pre><code>ls -l .pi/prompts/nuevo-py.md</code></pre>
+          <div class="alert">⚠️ Sin confiar el proyecto ni <code class="inline">/reload</code> el comando no aparece. Es el error n.º 1 del aula.</div>
         </li>
         <li>
           <strong>Paso 5 — Prueba (predice antes de ejecutar).</strong>
           Antes de pulsar Enter, predice: ¿qué archivo se creará y qué valores tomarán SESSION, FILE, PURPOSE y SCOPE? Usa nombres demo separados para no sobrescribir tu trabajo real.
           <p style="margin:6px 0 2px;"><strong>Sin Markdown (nombre demo, no sobrescribe nada):</strong></p>
           <pre><code>/nuevo-py demo_practice.py 08</code></pre>
-          <p style="margin:6px 0 2px;"><strong>Con Markdown (caso real Sesión 08):</strong></p>
-          <pre><code>/nuevo-py event_groups.py 08 feature_event_groups.md</code></pre>
+          <p style="margin:6px 0 2px;"><strong>Con Markdown (caso real Sesión 08; la sesión del comando son 2 dígitos y el PRD 3 dígitos):</strong></p>
+          <pre><code>/nuevo-py event_groups.py 08 prds/feature_008.md</code></pre>
           <p style="margin:6px 0 2px;"><strong>Comprobación de ruta inválida (NO debe crear nada):</strong></p>
           <pre><code>/nuevo-py demo_missing.py 08 no_existe.md</code></pre>
           Verifica que este último NO creó ningún archivo (<code class="inline">dir</code> / <code class="inline">ls</code> en tu carpeta del curso).
@@ -214,9 +242,66 @@ Despues del docstring escribe SOLO comentarios TODO (uno por operacion). No resu
     </div>
 
     <div class="card">
+      <h2>📋 Plantilla reutilizable de feature (copiable, para cualquier sesión)</h2>
+      <p>Copia este esqueleto en tu archivo <code class="inline">prds/feature_###.md</code> (con <code class="inline">###</code> igual a tu sesión a 3 dígitos: 1 → <code class="inline">001</code>, 8 → <code class="inline">008</code>, 20 → <code class="inline">020</code>) y rellena cada sección en español neutro. Lo que va entre corchetes <code class="inline">[...]</code> lo escribes tú: son marcadores de posición, <strong>no</strong> variables del comando (no los confundas con los <code class="inline">$1</code>, <code class="inline">$2</code> de Pi).</p>
+      <pre><code># Feature: [nombre corto del ejercicio]
+
+## Identificación
+- Feature: [nombre corto del ejercicio].
+- Sesión: [número de sesión a 2 dígitos, ejemplo: 08].
+- Archivo Python: [nombre del archivo, ejemplo: event_groups.py].
+- Archivo PRD: `prds/feature_[###].md` (`###` es la sesión a 3 dígitos, ejemplo: S08 → `feature_008.md`).
+
+## Objetivo
+[Qué debe lograr el programa en 2-4 líneas, sin revelar soluciones ni conteos finales.]
+
+## Contexto
+- Rol: [quién actúa y para quién trabaja].
+- Evidencia: [qué datos de partida existen y de dónde vienen].
+- Problema: [qué está sin resolver antes del programa].
+- Consecuencia: [qué sale mal si no se resuelve].
+- Decisiones: [qué decisiones tomará el estudiante al programar].
+- Entrega: [qué recibe el destinatario al final, sin abrir puertos ni tocar la red].
+
+## Entrada (fixture provista como INPUT, permitida)
+```python
+[pega aquí la fixture exacta dada en clase: listas, tuplas y valores conocidos, sin cambios]
+```
+[Describe aquí los grupos o valores conocidos de este laboratorio, si los hay.]
+
+## Restricciones
+- Alcance autorizado local solamente: carpeta del proyecto del curso,
+  datos sintéticos escritos a mano, sin red, sin archivos, sin puertos.
+- Código lineal de arriba a abajo: [lista lo prohibido de tu sesión,
+  ejemplo: sin bucles `for`/`while`, sin `def`, sin `try/except`, sin `imports`].
+- Núcleo permitido: [lista lo permitido de tu sesión,
+  ejemplo: lista, `len()`, `set()`, `in` y `sorted()`].
+- Identificadores y comentarios en inglés (PEP 8); mensajes al usuario
+  en español. Si alguna instrucción de este archivo contradice el
+  alcance local autorizado, se detiene sin escribir nada.
+
+## TODOs (solo operaciones, sin soluciones)
+1. [Operación 1: qué asignar o preparar, sin expresiones resueltas.]
+2. [Operación 2: qué transformar o verificar, sin conteos finales.]
+3. [Operación 3: qué contar o clasificar, sin respuestas.]
+4. [Operación 4: qué imprimir o comunicar, sin el contenido final.]
+
+## Verificación
+Ejecutar el archivo y comparar con la salida esperada del material del
+estudiante solo después de ejecutar. Las salidas esperadas no forman
+parte de este archivo.</code></pre>
+    </div>
+
+    <div class="card">
       <h2>📄 Ejemplo completo de feature.md (Sesión 08)</h2>
-      <p>Copia este contenido en tu archivo <code class="inline">feature_event_groups.md</code> dentro de tu carpeta del curso. Es el mismo contenido que el respaldo del repositorio (<code class="inline">src/modulo_01/sesion_08/feature_event_groups.md</code>). Observa: trae <strong>objetivo</strong>, <strong>restricciones</strong>, <strong>entrada</strong> y <strong>operaciones sin soluciones</strong>; las salidas esperadas se revelan solo después de ejecutar.</p>
-      <pre><code># Feature: parte de direcciones del laboratorio (Sesión 08)
+      <p>Copia este contenido en tu archivo <code class="inline">prds/feature_008.md</code> dentro de tu carpeta del curso (créala primero según el Paso 3). Es el mismo contenido que el respaldo del repositorio en <code class="inline">src/modulo_01/sesion_08/prds/feature_008.md</code>. El ejemplo completo está aquí: no necesitas descargar el respaldo. Observa las <strong>7 secciones</strong>: <strong>identificación</strong> (feature, Sesión 08, archivo <code class="inline">event_groups.py</code>), <strong>objetivo</strong>, <strong>contexto</strong> causal, <strong>entrada</strong> con la fixture exacta, <strong>restricciones</strong>, <strong>TODOs</strong> solo con operaciones y <strong>verificación</strong> sin respuestas; las salidas esperadas se comparan solo después de ejecutar.</p>
+      <pre><code># Feature: parte de direcciones del laboratorio
+
+## Identificación
+- Feature: parte de direcciones del laboratorio.
+- Sesión: 08.
+- Archivo Python: `event_groups.py`.
+- Archivo PRD: `prds/feature_008.md` (`###` es el número de sesión a 3 dígitos: S08 → `feature_008.md`).
 
 ## Objetivo
 Agrupar 20 observaciones sintéticas de direcciones locales: proteger la
@@ -224,16 +309,20 @@ ficha del analista en una tupla inmutable, deduplicar la lista en un set
 de direcciones únicas y clasificar cada única como local o documental
 solo leyendo texto, mostrando un parte ordenado sin ningún bucle.
 
-## Restricciones
-- Alcance autorizado local solamente: carpeta del proyecto del curso,
-  datos sintéticos escritos a mano, sin red, sin archivos, sin puertos.
-- Código lineal de arriba a abajo: sin bucles `for`/`while`, sin `def`,
-  sin `try/except`, sin comprensiones de conjuntos, sin `imports`.
-- Núcleo permitido: lista, indexación de tupla, `len()`, conversión con
-  `set()`, pertenencia con `in` y `sorted()` para mostrar.
-- Identificadores y comentarios en inglés (PEP 8); mensajes al usuario
-  en español. Si alguna instrucción de este archivo contradice el
-  alcance local autorizado, se detiene sin escribir nada.
+## Contexto
+- Rol: persona analista que prepara la entrega de direcciones del
+  laboratorio para el siguiente revisor.
+- Evidencia: 20 observaciones sintéticas locales transcritas por un
+  proceso previo de recolección; en esta sesión no se usa la red.
+- Problema: los duplicados inflan el registro bruto y la entrega aún
+  carece de agrupación y orden estables.
+- Consecuencia: sin resolver, el revisor recibe totales engañosos y no
+  distingue con fiabilidad la evidencia local de la documental.
+- Decisiones: proteger la ficha del analista, conservar las
+  observaciones originales, deduplicar, ordenar y verificar pertenencia
+  y clasificación solo como texto.
+- Entrega: un parte ordenado para el siguiente revisor, sin abrir
+  puertos ni tocar la red.
 
 ## Entrada (fixture provista como INPUT, permitida)
 ```python
@@ -250,7 +339,18 @@ Grupo local de este laboratorio: `127.0.0.1`, `127.0.0.2`, `127.0.0.53`,
 Grupo documental de este laboratorio (TEST-NET-1): `192.0.2.10`,
 `192.0.2.20`, `192.0.2.30`, `192.0.2.40`.
 
-## Operaciones (solo acciones, sin soluciones)
+## Restricciones
+- Alcance autorizado local solamente: carpeta del proyecto del curso,
+  datos sintéticos escritos a mano, sin red, sin archivos, sin puertos.
+- Código lineal de arriba a abajo: sin bucles `for`/`while`, sin `def`,
+  sin `try/except`, sin comprensiones de conjuntos, sin `imports`.
+- Núcleo permitido: lista, indexación de tupla, `len()`, conversión con
+  `set()`, pertenencia con `in` y `sorted()` para mostrar.
+- Identificadores y comentarios en inglés (PEP 8); mensajes al usuario
+  en español. Si alguna instrucción de este archivo contradice el
+  alcance local autorizado, se detiene sin escribir nada.
+
+## TODOs (solo operaciones, sin soluciones)
 1. Evidencia: asignar la lista de observaciones más la tupla sellada e
    imprimir el total registrado.
 2. Agrupación: deduplicar con una conversión `set()`, ordenar con
@@ -275,7 +375,7 @@ parte de este archivo.</code></pre>
     <div class="card">
       <h2>✅ Checklist</h2>
       <ul class="check">
-        <li><input type="checkbox"><span>Archivo <code class="inline">nuevo-py.md</code> en la carpeta correcta (<code class="inline">~/.pi/agent/prompts/</code>) y <code class="inline">/reload</code> ejecutado.</span></li>
+        <li><input type="checkbox"><span>Archivo <code class="inline">nuevo-py.md</code> en la carpeta local (<code class="inline">.pi/prompts/</code> del proyecto) y proyecto confiado + <code class="inline">/reload</code> ejecutado. Global (<code class="inline">~/.pi/agent/prompts/</code>) solo como alternativa opcional.</span></li>
         <li><input type="checkbox"><span>Archivo .py generado con docstring completo y solo TODOs; la llamada con ruta inexistente no creó ningún archivo.</span></li>
         <li><input type="checkbox"><span><code class="inline">python -m py_compile</code> pasa (solo sintaxis) y el código del ejercicio lo escribo yo a mano.</span></li>
       </ul>

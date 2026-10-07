@@ -127,29 +127,48 @@
     </header>
 
     <div class="card">
+      <h2>💡 Dónde vive cada cosa</h2>
+      <p><strong>Recomendación para el aula (local primero):</strong> guarda el comando en tu carpeta del curso, en <code class="inline">&lt;course-folder&gt;/.pi/prompts/check-venv.md</code> (la misma carpeta local de la guía anterior). La vía global (<code class="inline">~/.pi/agent/prompts/</code>) queda como alternativa opcional.</p>
+      <table style="width:100%; border-collapse:collapse; font-size:13px; margin:10px 0;">
+        <thead><tr><th style="border:1px solid var(--border); padding:6px 8px; text-align:left;">Ubicación</th><th style="border:1px solid var(--border); padding:6px 8px; text-align:left;">Ruta</th><th style="border:1px solid var(--border); padding:6px 8px; text-align:left;">Alcance</th></tr></thead>
+        <tbody>
+          <tr><td style="border:1px solid var(--border); padding:6px 8px;"><strong>LOCAL (recomendada)</strong></td><td style="border:1px solid var(--border); padding:6px 8px;"><code class="inline">&lt;course-folder&gt;/.pi/prompts/</code></td><td style="border:1px solid var(--border); padding:6px 8px;">Solo este proyecto; requiere confiar el proyecto (trust) y luego <code class="inline">/reload</code>.</td></tr>
+          <tr><td style="border:1px solid var(--border); padding:6px 8px;">GLOBAL (opcional)</td><td style="border:1px solid var(--border); padding:6px 8px;"><code class="inline">~/.pi/agent/prompts/</code></td><td style="border:1px solid var(--border); padding:6px 8px;">Todos tus proyectos; no requiere trust por proyecto.</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:13px;">Solo cuentan los <code class="inline">.md</code> hijos directos de la carpeta de prompts (<code class="inline">check-venv.md</code> → <code class="inline">/check-venv</code>). No uses <code class="inline">.pi/agent/prompts/</code> <strong>dentro</strong> del proyecto: esa no es la convención de proyecto.</p>
+      <p style="font-size:13px;"><code class="inline">.pi/prompts</code> guarda plantillas de comandos; <code class="inline">.venv</code> guarda dependencias de Python. Son carpetas completamente separadas: no confundas una con la otra.</p>
+      <p style="font-size:13px;">Ejemplo de árbol en una carpeta demo (en clase tu carpeta real es <code class="inline">curso-python-defensivo</code>; aquí se muestra <code class="inline">pi-commands-test</code> como ejemplo):</p>
+      <pre><code>pi-commands-test/.pi/prompts/nuevo-py.md
+pi-commands-test/.pi/prompts/check-venv.md
+pi-commands-test/prds/feature_008.md</code></pre>
+      <p style="font-size:13px;">Cada carpeta tiene un trabajo distinto: <code class="inline">.pi/prompts</code> guarda plantillas de comandos, <code class="inline">prds</code> guarda especificaciones de ejercicios (Sesión 08 → <code class="inline">prds/feature_008.md</code>) y <code class="inline">.venv</code> guarda dependencias de Python. Son carpetas completamente separadas.</p>
+    </div>
+
+    <div class="card">
       <h2>Pasos</h2>
       <ol>
         <li>
-          <strong>Paso 1 — Crea el archivo <code class="inline">check-venv.md</code> en <code class="inline">~/.pi/agent/prompts/</code></strong> (la misma carpeta de la guía anterior) con este contenido exacto:
+          <strong>Paso 1 — Crea el archivo <code class="inline">.pi/prompts/check-venv.md</code> en la carpeta local</strong> (la misma carpeta local de la guía anterior; si el archivo ya existe, NO lo sobrescribas) con este contenido exacto. Trabaja desde la raíz del proyecto: primero verifica la carpeta con <code class="inline">Test-Path .pi/prompts</code> (Windows) o <code class="inline">ls .pi</code> (macOS/Linux) y créala si falta con <code class="inline">New-Item -ItemType Directory -Force -Path .pi/prompts</code> o <code class="inline">mkdir -p .pi/prompts</code>:
           <pre><code>---
 description: Verifica si el venv del curso está activo y muestra cómo activarlo
 ---
 
 1. Detecta el SO: Windows PowerShell frente a macOS/Linux.
-2. Comprueba `sys.prefix` y la variable `VIRTUAL_ENV`; está activo solo si la ruta apunta al `.venv` de `curso-python-defensivo/`.
+2. Comprueba que `sys.prefix != sys.base_prefix` (prueba principal de intérprete aislado) y usa `VIRTUAL_ENV` solo como evidencia de apoyo, no como prueba única; está activo solo si la ruta apunta al `.venv` de `curso-python-defensivo/`.
 3. Si NO está activo, muestra el comando EXACTO copiable según el SO y ejecútalo en tu shell cuando sea posible:
    - macOS/Linux: `source curso-python-defensivo/.venv/bin/activate`
    - Windows PowerShell: `Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass; curso-python-defensivo\.venv\Scripts\Activate.ps1`
 4. Si SÍ está activo, confírmalo en una sola línea con la ruta del intérprete.
-Nota: la activación que ejecuta el agente vive solo en su shell; el estudiante debe copiar el comando en su propia terminal.</code></pre>
+Nota: `.pi/prompts` guarda plantillas de comandos y `.venv` guarda dependencias de Python (carpetas separadas). La activación que ejecuta el agente vive solo en su shell; el estudiante debe copiar el comando en su propia terminal.</code></pre>
         </li>
         <li>
-          <strong>Paso 2 — Recarga y prueba.</strong>
-          Ejecuta en Pi:
+          <strong>Paso 2 — Lanza Pi desde la raíz, confía el proyecto, recarga y prueba.</strong>
+          En la raíz ejecuta <code class="inline">pi</code>, acepta la confianza (trust), y en Pi ejecuta:
           <pre><code>/reload</code></pre>
           y luego prueba con:
           <pre><code>/check-venv</code></pre>
-          Verifica que detecta tu venv y, si no está activo, copia el comando en TU terminal (la del agente no cuenta).
+          Verifica que detecta tu venv y, si no está activo, copia el comando en TU terminal (la del agente no cuenta). Alternativa global opcional: <code class="inline">~/.pi/agent/prompts/</code> (no uses <code class="inline">.pi/agent/prompts/</code> dentro del proyecto).
         </li>
       </ol>
     </div>
@@ -162,8 +181,8 @@ Nota: la activación que ejecuta el agente vive solo en su shell; el estudiante 
     <div class="card">
       <h2>⚠️ Trampas comunes</h2>
       <ul class="traps">
-        <li>Olvidar <code class="inline">/reload</code> después de crear el archivo: el comando no aparecerá.</li>
-        <li>Poner el archivo en la carpeta equivocada: solo cuentan los <code class="inline">.md</code> hijos directos de la carpeta de prompts.</li>
+        <li>Olvidar confiar el proyecto o <code class="inline">/reload</code> después de crear el archivo local: el comando no aparecerá.</li>
+        <li>Poner el archivo en la carpeta equivocada (<code class="inline">.pi/agent/prompts/</code> dentro del proyecto): solo cuentan los <code class="inline">.md</code> hijos directos de <code class="inline">.pi/prompts/</code> (local) o <code class="inline">~/.pi/agent/prompts/</code> (global opcional).</li>
         <li>Reutilizar un nombre existente: lo reemplaza sin aviso.</li>
       </ul>
     </div>
@@ -171,8 +190,8 @@ Nota: la activación que ejecuta el agente vive solo en su shell; el estudiante 
     <div class="card">
       <h2>✅ Checklist de salida</h2>
       <ul class="check">
-        <li><input type="checkbox"><span>2 archivos en prompts (<code class="inline">nuevo-py.md</code> y <code class="inline">check-venv.md</code>).</span></li>
-        <li><input type="checkbox"><span><code class="inline">/reload</code> ejecutado.</span></li>
+        <li><input type="checkbox"><span>2 archivos en la carpeta local <code class="inline">.pi/prompts/</code> (<code class="inline">nuevo-py.md</code> y <code class="inline">check-venv.md</code>).</span></li>
+        <li><input type="checkbox"><span>Proyecto confiado (trust) y <code class="inline">/reload</code> ejecutado.</span></li>
         <li><input type="checkbox"><span><code class="inline">/nuevo-py</code> genera .py con encabezado.</span></li>
         <li><input type="checkbox"><span><code class="inline">/check-venv</code> detecta el venv.</span></li>
       </ul>

@@ -143,9 +143,17 @@
     </div>
 
     <div class="card">
+      <h2>Dónde se guardan (local primero)</h2>
+      <ul>
+        <li><strong>Recomendada para el aula:</strong> carpeta local del proyecto <code>&lt;course-folder&gt;/.pi/prompts/</code> (requiere confiar el proyecto y luego <code>/reload</code>).</li>
+        <li><strong>Alternativa global opcional:</strong> <code>~/.pi/agent/prompts/</code> (vale para todos tus proyectos). No uses <code>.pi/agent/prompts/</code> dentro del proyecto.</li>
+      </ul>
+    </div>
+
+    <div class="card">
       <h2>Qué hace cada comando</h2>
       <ul>
-        <li><strong>/nuevo-py:</strong> crea un archivo <code>.py</code> con solo el docstring global del curso y comentarios TODO. Si le pasas un Markdown con objetivo y restricciones, lo lee para redactar el encabezado; la solución del ejercicio la escribes tú.</li>
+        <li><strong>/nuevo-py:</strong> crea un archivo <code>.py</code> con solo el docstring global del curso y comentarios TODO. Si le pasas un Markdown con objetivo y restricciones, lo lee para redactar el encabezado; la solución del ejercicio la escribes tú. Reutiliza la plantilla de feature de la guía con la ruta <code>prds/feature_###.md</code> (Sesión 08 → <code>prds/feature_008.md</code>).</li>
         <li><strong>/check-venv:</strong> comprueba si estás dentro del entorno virtual del curso y te muestra el comando de activación correspondiente a tu sistema. No activa tu terminal por ti: copias el comando y lo ejecutas tú.</li>
       </ul>
     </div>
