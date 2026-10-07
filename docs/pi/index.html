@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Comandos personalizados Pi — PyDefSec</title>
+  <style>
+    :root {
+      --primary: #0f172a;
+      --secondary: #1e3a8a;
+      --accent: #2563eb;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #334155;
+      --text-dark: #0f172a;
+      --border: #e2e8f0;
+      --success: #16a34a;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 30px 20px;
+    }
+    .container { max-width: 860px; margin: 0 auto; }
+    header {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 32px 28px;
+      border-radius: 12px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.12);
+    }
+    .badge {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 4px 10px;
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    h1 { font-size: 24px; font-weight: 800; line-height: 1.25; margin-bottom: 10px; }
+    p.lead { font-size: 14px; color: #cbd5e1; max-width: 720px; }
+    .fact-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+    .fact {
+      font-size: 12.5px; font-weight: 600; color: #e0e7ff;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 6px; padding: 5px 12px;
+    }
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+    }
+    .card h2 { font-size: 17px; color: var(--text-dark); margin-bottom: 12px; }
+    .card p, .card li { font-size: 14px; }
+    .card ul { padding-left: 22px; margin: 10px 0; }
+    .card li { margin-bottom: 8px; }
+    .guide-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+    .guide-item {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 14px 16px;
+      border: 1px solid var(--border); border-radius: 8px;
+      background: #ffffff; text-decoration: none; color: inherit;
+      transition: all 0.2s ease;
+    }
+    .guide-item:hover {
+      border-color: var(--accent);
+      box-shadow: 0 4px 10px rgba(37, 99, 235, 0.08);
+      transform: translateY(-1px);
+    }
+    .guide-info { display: flex; flex-direction: column; gap: 3px; }
+    .guide-num {
+      font-size: 11px; text-transform: uppercase; font-weight: 700;
+      color: var(--accent); letter-spacing: 0.5px;
+    }
+    .guide-name { font-size: 14px; font-weight: 600; color: var(--text-dark); }
+    .guide-meta { font-size: 12px; color: #64748b; }
+    .guide-action {
+      display: flex; align-items: center; gap: 6px;
+      background: var(--accent); color: white;
+      padding: 7px 14px; border-radius: 6px;
+      font-size: 12px; font-weight: 600; white-space: nowrap;
+    }
+    a.back { display: inline-block; margin-top: 8px; font-size: 13.5px; font-weight: 600; color: var(--accent); text-decoration: none; }
+    a.back:hover { text-decoration: underline; }
+    footer { text-align: center; margin-top: 28px; font-size: 12.5px; color: #64748b; }
+    @media (max-width: 640px) {
+      .guide-item { flex-direction: column; align-items: flex-start; gap: 10px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="badge">PyDefSec • Guías de aula</div>
+      <h1>Comandos personalizados Pi</h1>
+      <p class="lead">Dos guías independientes para crear tus comandos de aula en Pi: preparar archivos Python y verificar tu entorno virtual.</p>
+      <div class="fact-row">
+        <span class="fact">⏱ Tiempo: 15 min por guía</span>
+        <span class="fact">🧰 Prerrequisito: Pi instalado</span>
+      </div>
+    </header>
+
+    <div class="card">
+      <h2>Elige tu guía</h2>
+      <ul class="guide-list">
+        <li>
+          <a class="guide-item" href="nuevo-py.html" aria-label="Abrir guía: crea tu comando nuevo-py en Pi">
+            <div class="guide-info">
+              <span class="guide-num">Guía de aula • 15 Minutos</span>
+              <span class="guide-name">Crea tu comando /nuevo-py en Pi</span>
+              <span class="guide-meta">Prepara el docstring y los TODOs de tu archivo Python; acepta un Markdown opcional y nunca escribe la solución</span>
+            </div>
+            <div class="guide-action" aria-hidden="true">
+              Abrir Guía &rarr;
+            </div>
+          </a>
+        </li>
+        <li>
+          <a class="guide-item" href="check-venv.html" aria-label="Abrir guía: crea tu comando check-venv en Pi">
+            <div class="guide-info">
+              <span class="guide-num">Guía de aula • 15 Minutos</span>
+              <span class="guide-name">Crea tu comando /check-venv en Pi</span>
+              <span class="guide-meta">Verifica si el entorno virtual está activo y muestra el comando de activación según tu sistema</span>
+            </div>
+            <div class="guide-action" aria-hidden="true">
+              Abrir Guía &rarr;
+            </div>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>Qué hace cada comando</h2>
+      <ul>
+        <li><strong>/nuevo-py:</strong> crea un archivo <code>.py</code> con solo el docstring global del curso y comentarios TODO. Si le pasas un Markdown con objetivo y restricciones, lo lee para redactar el encabezado; la solución del ejercicio la escribes tú.</li>
+        <li><strong>/check-venv:</strong> comprueba si estás dentro del entorno virtual del curso y te muestra el comando de activación correspondiente a tu sistema. No activa tu terminal por ti: copias el comando y lo ejecutas tú.</li>
+      </ul>
+    </div>
+
+    <a class="back" href="../index.html">← Volver al portal del curso</a>
+    <footer>
+      <p><strong>Python for Defensive Security (PyDefSec) © 2026</strong> • Operación exclusiva en localhost (127.0.0.1)</p>
+    </footer>
+  </div>
+</body>
+</html>
