@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crea una skill local para generar logs sintéticos de auditoría — PyDefSec</title>
+  <style>
+    :root {
+      --primary: #0f172a;
+      --secondary: #1e3a8a;
+      --accent: #2563eb;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #334155;
+      --text-dark: #0f172a;
+      --border: #e2e8f0;
+      --success: #16a34a;
+      --warn-bg: #fffbeb;
+      --warn-border: #fde68a;
+      --warn-text: #92400e;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 30px 20px;
+    }
+    .container { max-width: 860px; margin: 0 auto; }
+    header {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 32px 28px;
+      border-radius: 12px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.12);
+    }
+    .badge {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 4px 10px;
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    h1 { font-size: 24px; font-weight: 800; line-height: 1.25; margin-bottom: 10px; }
+    p.lead { font-size: 14px; color: #cbd5e1; max-width: 720px; }
+    .fact-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+    .fact {
+      font-size: 12.5px; font-weight: 600; color: #e0e7ff;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 6px; padding: 5px 12px;
+    }
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+    }
+    .card h2 { font-size: 17px; color: var(--text-dark); margin-bottom: 12px; }
+    .card h3 { font-size: 14.5px; color: var(--text-dark); margin: 14px 0 6px; }
+    .card p, .card li { font-size: 14px; }
+    .card ol, .card ul { padding-left: 22px; margin: 10px 0; }
+    .card li { margin-bottom: 8px; }
+    pre {
+      background: var(--primary);
+      color: #e2e8f0;
+      border-radius: 8px;
+      padding: 16px 18px;
+      overflow-x: auto;
+      font-size: 13px;
+      line-height: 1.55;
+      margin: 12px 0;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    code.inline {
+      background: #eef2ff; color: var(--secondary);
+      padding: 2px 6px; border-radius: 4px;
+      font-size: 13px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    }
+    pre code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .alert {
+      background: var(--warn-bg);
+      border: 1px solid var(--warn-border);
+      color: var(--warn-text);
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-size: 13.5px;
+      margin: 12px 0;
+    }
+    .check { list-style: none; padding-left: 0; }
+    .check li {
+      display: flex; gap: 10px; align-items: flex-start;
+      border: 1px solid var(--border); border-radius: 8px;
+      padding: 10px 14px; margin-bottom: 8px; background: #fff;
+    }
+    .check input { margin-top: 4px; transform: scale(1.2); }
+    table.spec { width: 100%; border-collapse: collapse; font-size: 13px; margin: 10px 0; }
+    table.spec th, table.spec td { border: 1px solid var(--border); padding: 6px 8px; text-align: left; vertical-align: top; }
+    .signoff { font-size: 14px; margin-top: 12px; color: var(--text-dark); }
+    a.back { display: inline-block; margin-top: 8px; font-size: 13.5px; font-weight: 600; color: var(--accent); text-decoration: none; }
+    a.back:hover { text-decoration: underline; }
+    .source-links { font-size: 13.5px; }
+    .source-links a { color: var(--accent); word-break: break-all; }
+    footer { text-align: center; margin-top: 28px; font-size: 12.5px; color: #64748b; }
+    @media (max-width: 640px) {
+      body { padding: 20px 12px; }
+      header { padding: 24px 20px; }
+      .card { padding: 18px; }
+      pre { font-size: 12px; }
+    }
+    @media print {
+      @page { size: A4; margin: 15mm; }
+      body { background: #fff; padding: 0; font-size: 11pt; }
+      .container { max-width: 100%; }
+      header { box-shadow: none; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .card { box-shadow: none; break-inside: avoid; }
+      pre { white-space: pre-wrap; }
+      a.back { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="badge">PyDefSec • Guía de aula</div>
+      <h1>Crea una skill local para generar logs sintéticos de auditoría informática</h1>
+      <p class="lead">Vas a crear una skill <strong>local</strong> de Pi que genera entradas sintéticas de un log de eventos de auditoría informática para practicar en clase. Al terminar, entenderás la diferencia entre una <strong>skill</strong> (un procedimiento reutilizable con perfil propio) y una <strong>plantilla de prompt</strong> (una instrucción repetitiva), y tendrás un generador que responde a una frase natural en español.</p>
+      <div class="fact-row">
+        <span class="fact">⏱ Tiempo: 20–25 min</span>
+        <span class="fact">🧰 Prerrequisito: Pi instalado</span>
+        <span class="fact">📦 Resultado: skill local <code>faker-data-custom</code> con formato <code>LEVEL | message</code></span>
+      </div>
+    </header>
+
+    <div class="card">
+      <h2>📌 Actividad independiente (lee esto primero)</h2>
+      <p>Esta guía <strong>no</strong> forma parte de la evaluación de la Sesión 09 ni la modifica. No tienes que cambiar nada de la S09 ni de sus archivos para completarla.</p>
+      <p><strong>Lo que obtienes:</strong> una skill local llamada <code class="inline">faker-data-custom</code> que, ante un pedido natural, devuelve N entradas sintéticas en formato <code class="inline">LEVEL | message</code>.</p>
+    </div>
+
+    <div class="card">
+      <h2>Ruta rápida</h2>
+      <ol>
+        <li>Abre la raíz de tu proyecto y verifica dónde estás.</li>
+        <li>Crea solo la carpeta <code class="inline">.pi/skills/faker-data-custom/</code>.</li>
+        <li>Crea el archivo <code class="inline">SKILL.md</code> copiando el contrato de esta guía.</li>
+        <li>Abre Pi en la raíz, ejecuta <code class="inline">/reload</code> y prueba con una frase natural.</li>
+      </ol>
+    </div>
+
+    <div class="card">
+      <h2>💡 Concepto: qué es una skill y en qué se diferencia de una plantilla</h2>
+      <p>Una skill reúne <strong>instrucciones especializadas reutilizables</strong>: en este ejemplo define un dominio, etiquetas, formato y criterios de verificación. Pi puede cargarla cuando la petición coincide con su descripción; no se garantiza que el modelo la seleccione ni que cumpla siempre sus reglas. Un prompt-template también puede contener reglas y formatos, pero se expande al invocar su comando con argumentos. La diferencia es la organización y forma de carga, no que uno permita reglas y el otro no.</p>
+      <table class="spec">
+        <thead><tr><th>Aspecto</th><th>Skill</th><th>Plantilla de prompt</th></tr></thead>
+        <tbody>
+          <tr><td>Propósito</td><td>Instrucciones especializadas y recursos opcionales</td><td>Instrucción reutilizable con argumentos</td></tr>
+          <tr><td>Archivos</td><td>Carpeta propia con <code class="inline">SKILL.md</code></td><td>Archivo Markdown en la carpeta de prompts</td></tr>
+          <tr><td>Ruta local (Pi)</td><td><code class="inline">.pi/skills/&lt;nombre&gt;/SKILL.md</code> en la raíz del proyecto</td><td><code class="inline">.pi/prompts/&lt;nombre&gt;.md</code> (comando manual)</td></tr>
+          <tr><td>Invocación</td><td>Automática cuando el pedido coincide, o explícita con <code class="inline">/skill:&lt;nombre&gt;</code></td><td>Solo manual con <code class="inline">/&lt;nombre&gt;</code></td></tr>
+          <tr><td>Cuándo conviene</td><td>Procedimiento de dominio, referencias o criterios reutilizables</td><td>Petición repetitiva que cabe en una plantilla, incluso con reglas</td></tr>
+          <tr><td>Descubrimiento automático</td><td>Sí, por <code class="inline">name</code> + <code class="inline">description</code> (no garantizado; existe alternativa explícita)</td><td>No; siempre la invocas tú</td></tr>
+          <tr><td>Distribución</td><td>Se comparte con el proyecto (carpeta local) o contigo (global)</td><td>Igual, pero sin activación automática</td></tr>
+          <tr><td>Recursos adicionales</td><td>No requeridos para esta guía</td><td>No requeridos</td></tr>
+          <tr><td>Límites</td><td>Las reglas son instrucciones al modelo, no un sandbox</td><td>Las reglas son instrucciones al modelo, no un sandbox</td></tr>
+        </tbody>
+      </table>
+      <p><strong>Cuándo usar una skill:</strong> cuando hay reglas del dominio (etiquetas permitidas, formato exacto, contenido permitido y prohibido) y quieres verificación antes de entregar. <strong>Cuándo basta una plantilla:</strong> cuando la instrucción es simple y repetitiva. Extender esta skill a otros dominios no es necesario para esta guía.</p>
+    </div>
+
+    <div class="card">
+      <h2>📁 Dónde vive cada cosa (local primero)</h2>
+      <p>Trabaja siempre en <strong>local</strong>. La ubicación global existe, pero <strong>no la toques</strong> en esta actividad.</p>
+      <table class="spec">
+        <thead><tr><th>Ámbito</th><th>Ruta exacta</th><th>Cuándo usarla</th></tr></thead>
+        <tbody>
+          <tr><td>Local (recomendada)</td><td><code class="inline">&lt;raíz-del-proyecto&gt;/.pi/skills/faker-data-custom/SKILL.md</code></td><td>Esta guía. Vale solo para el proyecto abierto.</td></tr>
+          <tr><td>Global (opcional, no usar aquí)</td><td><code class="inline">~/.pi/agent/skills/&lt;nombre&gt;/SKILL.md</code></td><td>Solo si quieres la skill en todos tus proyectos.</td></tr>
+          <tr><td>Descubrimiento alternativo</td><td><code class="inline">.agents/skills/&lt;nombre&gt;/SKILL.md</code> (por ancestría)</td><td>Pi también la descubre; no la necesitas aquí.</td></tr>
+        </tbody>
+      </table>
+      <p>En esta guía el proyecto se muestra como <code class="inline">tu-proyecto/</code> (un marcador genérico: usa tu propia carpeta, no crees una con ese nombre).</p>
+      <p>No confundas estas carpetas:</p>
+      <table class="spec">
+        <thead><tr><th>Ruta</th><th>Contenido</th></tr></thead>
+        <tbody>
+          <tr><td><code class="inline">.pi/skills/</code></td><td>Skills (activación automática o <code class="inline">/skill:&lt;nombre&gt;</code>). Es donde trabaja esta guía.</td></tr>
+          <tr><td><code class="inline">.pi/prompts/</code></td><td>Comandos manuales (<code class="inline">/&lt;nombre&gt;</code>). <strong>No</strong> pongas aquí la skill.</td></tr>
+          <tr><td><code class="inline">prds/</code></td><td>Documentos de funcionalidades del curso. Nada que ver con Pi.</td></tr>
+          <tr><td><code class="inline">.venv/</code></td><td>Entorno virtual de Python. Nada que ver con Pi.</td></tr>
+        </tbody>
+      </table>
+      <h3>Reglas de nombre de archivo y carpeta</h3>
+      <ul>
+        <li>El archivo debe llamarse exactamente <code class="inline">SKILL.md</code>, en mayúsculas y con extensión <code class="inline">.md</code> (nunca <code class="inline">.txt</code>).</li>
+        <li>La carpeta usa minúsculas con guiones (kebab-case): <code class="inline">faker-data-custom</code>.</li>
+        <li>La carpeta y el campo <code class="inline">name</code> del frontmatter deben coincidir para que la skill sea portable.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>Paso 1 — Ubícate en la raíz de tu proyecto</h2>
+      <p>Abre una terminal en la raíz del proyecto que tú elijas (tu propia ruta, la que ya usas en clase) y confirma dónde estás:</p>
+      <pre><code>pwd
+ls</code></pre>
+      <p>En PowerShell:</p>
+      <pre><code>Get-Location
+Get-ChildItem</code></pre>
+      <p>Debes ver la raíz de tu proyecto (sus archivos y carpetas habituales). Todo lo que sigue se ejecuta desde ahí.</p>
+    </div>
+
+    <div class="card">
+      <h2>Paso 2 — Crea solo la carpeta nueva</h2>
+      <p>Primero verifica si la skill ya existe. Si el archivo <code class="inline">SKILL.md</code> ya está, <strong>detente y no lo sobrescribas</strong>: revísalo con el Paso 4 en lugar de reemplazarlo.</p>
+      <p>En macOS o Linux:</p>
+      <pre><code>ls .pi/skills/faker-data-custom/SKILL.md
+mkdir -p .pi/skills/faker-data-custom</code></pre>
+      <p>En Windows (PowerShell):</p>
+      <pre><code>Test-Path .pi/skills/faker-data-custom/SKILL.md
+New-Item -ItemType Directory -Force .pi/skills/faker-data-custom</code></pre>
+      <div class="alert">⚠️ Crea <strong>solo</strong> directorios nuevos. No borres ni modifiques nada existente.</div>
+    </div>
+
+    <div class="card">
+      <h2>Paso 3 — Crea el contrato de la skill</h2>
+      <p>Crea manualmente el archivo <code class="inline">.pi/skills/faker-data-custom/SKILL.md</code> con tu editor, guárdalo en UTF-8 y copia el bloque completo siguiente. Mantén las instrucciones concisas; Pi no exige un número de palabras.</p>
+      <p>Sobre el frontmatter (la parte entre <code class="inline">---</code>): los campos usan los nombres que reconoce Pi. En esta guía escribimos <code class="inline">description</code> en <strong>una sola línea entre comillas</strong> para facilitar la copia y mantener YAML válido; no es la única sintaxis YAML posible. Incluye el disparador en español (<code class="inline">eventos sintéticos</code>) junto con los términos en inglés del dominio. Para este ejemplo basta con <code class="inline">name</code> y <code class="inline">description</code>; campos como <code class="inline">license</code> y <code class="inline">metadata</code> son opcionales y se omiten.</p>
+      <p>La skill no usa scripts, ni TypeScript, ni integración con Faker: se activa con un pedido en lenguaje natural y devuelve datos de ejemplo.</p>
+      <p><strong>Copia desde aquí:</strong></p>
+      <pre><code>---
+name: faker-data-custom
+description: "Trigger: eventos sintéticos, synthetic audit log events, synthetic log entries. Generate synthetic IT audit log entries in TEXT format for classroom practice."
+---
+
+# Faker Data Custom — Synthetic Audit Log
+
+Generate N synthetic IT audit log entries as pure classroom data. Default N is 20 when the request states no number.
+
+## Default output format
+
+Unless the user explicitly requests another format, output plain TEXT, one entry per line, with this exact shape:
+
+LEVEL | message
+
+Do not output a Python list or code by default. Another format is allowed only when the user explicitly requests it. Output pure data in the conversation only. Never present data as a Python processing solution.
+
+## Audit profile (fixed)
+
+Use only these labels. They are synthetic educational labels, not a universal severity standard and not verified findings:
+
+- INFO: normal confirmation of a simulated routine action.
+- WARNING: reviewable discrepancy in a simulated routine action.
+- ERROR: the simulated task could not complete. It is not a verified vulnerability or an actual audited finding.
+
+Accept only INFO, WARNING, and ERROR.
+
+## Allowed content
+
+Write each message in Spanish. Describe only inert simulated actions such as a permissions check on a test directory, an integrity check producing a synthetic record, or a mock configuration review. Never include real secrets, real personal data, real URLs, real IPs, network actions, or malware actions.
+
+Vary the entries. Repeated levels are allowed. Do not force random uniqueness, uniform distribution of levels, deterministic randomness, seeds, or any fixed external count table.
+
+## Limits
+
+Ask a clarifying question only when the request is materially unclear or contains a meaningful contradiction. Never perform a real audit, read the filesystem, execute code, or use the network. Never create files and never write outside the conversation without explicit authorization. Before delivering, self-check quantity, allowed labels, the `|` separator, Spanish message text, and audit context. If the request is outside this audit domain, decline briefly and explain this skill covers only synthetic audit logs; quantity, format, and context may vary within the audit domain. For very large N, propose delivering in batches instead of generating an unbounded output.</code></pre>
+      <p><strong>Hasta aquí la copia.</strong> Verifica que el archivo guardado empiece con <code class="inline">---</code>, que <code class="inline">name</code> sea <code class="inline">faker-data-custom</code> (minúsculas, 17 caracteres, dentro del máximo de 64) y que <code class="inline">description</code> sea una sola línea entre comillas (dentro del máximo de 1024).</p>
+    </div>
+
+    <div class="card">
+      <h2>📝 Ejemplo de salida (ilustrativo, no es una ejecución real)</h2>
+      <p>Así se ven 3 entradas de ejemplo con el formato de la skill. Es solo una ilustración del formato, <strong>no</strong> son 20 entradas generadas ni el resultado de haber ejecutado nada:</p>
+      <pre><code>INFO | Revisión de permisos completada en el directorio de prueba.
+WARNING | Registro de integridad sintético con discrepancia pendiente de revisión.
+ERROR | No se pudo completar la revisión simulada de configuración.</code></pre>
+      <p>Observa: cada línea usa una etiqueta permitida, el separador exacto <code class="inline"> | </code> y el mensaje en español. En tu prueba real pedirás 20 y contarás las líneas fuera de cualquier comentario.</p>
+    </div>
+
+    <div class="card">
+      <h2>Paso 4 — Confía, recarga y prueba en Pi</h2>
+      <ol>
+        <li><strong>Lee y revisa</strong> el contenido de tu <code class="inline">SKILL.md</code> antes de confiar en el proyecto.</li>
+        <li>Abre Pi <strong>en la raíz de tu proyecto</strong> y confía en el proyecto cuando Pi lo pida (esto permite cargar recursos protegidos como tu skill local).</li>
+        <li>Ejecuta <code class="inline">/reload</code> para que Pi lea la skill nueva o editada.</li>
+        <li>Revisa el diagnóstico de inicio y la disponibilidad de comandos. Si tu skill no aparece en ningún menú de skills, no significa que esté rota: ese menú no está garantizado (y menos si los comandos de skills están desactivados). La prueba real es el pedido en lenguaje natural.</li>
+        <li>Prueba principal, con esta frase exacta:
+          <pre><code>Genera 20 entradas sintéticas de un log de eventos de auditoría informática.</code></pre>
+        </li>
+        <li>Verifica el resultado: si la interfaz de Pi muestra que leyó tu <code class="inline">SKILL.md</code>, úsalo como evidencia; si no lo muestra, usa la alternativa explícita sin asumir activación automática:
+          <pre><code>/skill:faker-data-custom Genera 20 entradas sintéticas de un log de eventos de auditoría informática.</code></pre>
+        </li>
+        <li>Haz estas comprobaciones sin resolver ningún ejercicio:
+          <ul>
+            <li>Pide 5 y luego 20; cuenta las líneas manualmente y confirma etiquetas, separador y mensajes sintéticos en español, sin código ni archivos.</li>
+            <li>Prueba un pedido no relacionado (por ejemplo, pedir un resumen de otro tema) y confirma que la skill <strong>no</strong> se activa.</li>
+            <li>No afirmes que probaste nada que no ejecutaste realmente.</li>
+          </ul>
+        </li>
+      </ol>
+      <div class="alert">ℹ️ No desactives la invocación por el modelo (una opción como <code class="inline">disable-model-invocation</code> en <code class="inline">true</code> impediría el descubrimiento automático; déjala en su valor por defecto).</div>
+    </div>
+
+    <div class="card">
+      <h2>🔄 Alternativa sin Pi (misma exigencia)</h2>
+      <p>Si no tienes Pi a mano, no necesitas cuentas ni instalaciones externas. Lee el contrato del Paso 3 y escribe a mano 3 entradas que cumplan los mismos criterios: cantidad exacta, solo etiquetas <code class="inline">INFO</code>, <code class="inline">WARNING</code>, <code class="inline">ERROR</code>, separador <code class="inline"> | </code>, mensajes sintéticos en español e inertes, sin código, sin archivos y sin datos reales. Luego autoevalúalas con la lista de verificación siguiente.</p>
+    </div>
+
+    <div class="card">
+      <h2>🛠 Solución de problemas</h2>
+      <table class="spec">
+        <thead><tr><th>Síntoma</th><th>Causa probable</th><th>Qué hacer</th></tr></thead>
+        <tbody>
+          <tr><td>Pi no encuentra la skill</td><td>La guardaste en <code class="inline">.pi/agent/skills/</code> dentro del proyecto (esa ruta es global, con <code class="inline">~</code>)</td><td>Muévela a <code class="inline">.pi/skills/faker-data-custom/SKILL.md</code> en la raíz</td></tr>
+          <tr><td>El comando <code class="inline">/faker-data-custom</code> no existe</td><td>Confundiste <code class="inline">.pi/prompts</code> (comandos) con <code class="inline">.pi/skills</code> (skills)</td><td>Las skills se invocan con frase natural o <code class="inline">/skill:faker-data-custom</code>, no con <code class="inline">/&lt;nombre&gt;</code></td></tr>
+          <tr><td>Pi ignora el archivo</td><td>Se llama <code class="inline">skill.md</code> o <code class="inline">SKILL.txt</code></td><td>Renómbralo a <code class="inline">SKILL.md</code> exacto, en mayúsculas y con <code class="inline">.md</code></td></tr>
+          <tr><td>Error al cargar</td><td>Frontmatter YAML mal formado o falta de <code class="inline">description</code></td><td>Compara con el bloque copiable; usa su descripción entrecomillada para evitar errores</td></tr>
+          <tr><td>Cambios que no aparecen</td><td>Falta confiar el proyecto o ejecutar <code class="inline">/reload</code></td><td>Confía el proyecto, guarda el archivo y ejecuta <code class="inline">/reload</code></td></tr>
+          <tr><td>Dos skills con el mismo nombre</td><td>Colisión: la primera encontrada gana, sin reemplazo silencioso</td><td>Renombra tu carpeta y tu <code class="inline">name</code> para que coincidan y sean únicos</td></tr>
+          <tr><td>Resultados distintos cada vez</td><td>El modelo no es determinista; la carga de la skill tampoco</td><td>Es normal: verifica formato y reglas, no igualdad byte a byte</td></tr>
+          <tr><td>"Aleatoriedad con semilla" que no se repite</td><td>La aleatoriedad determinista con semilla no está garantizada</td><td>No pidas ni prometas semillas; pide entradas variadas y verifícalas a mano</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <h2>✅ Lista de verificación y firma del docente</h2>
+      <p>Marca cada punto cuando lo hayas comprobado. Esta lista verifica que seguiste la guía; <strong>no</strong> es la evaluación de la S09.</p>
+      <ul class="check">
+        <li><input type="checkbox"><span>La skill está en <code class="inline">.pi/skills/faker-data-custom/SKILL.md</code> (ruta local, archivo <code class="inline">SKILL.md</code> exacto).</span></li>
+        <li><input type="checkbox"><span>El frontmatter tiene <code class="inline">name</code> y una <code class="inline">description</code> entrecomillada en una sola línea; carpeta y <code class="inline">name</code> coinciden.</span></li>
+        <li><input type="checkbox"><span>El perfil de auditoría usa solo <code class="inline">INFO</code>, <code class="inline">WARNING</code> y <code class="inline">ERROR</code> con su significado sintético y educativo.</span></li>
+        <li><input type="checkbox"><span>El pedido de 20 entradas devuelve 20 líneas con el formato <code class="inline">LEVEL | message</code>, mensajes sintéticos en español, sin código ni archivos.</span></li>
+        <li><input type="checkbox"><span>Hay evidencia de que seguiste las instrucciones (captura o nota de <code class="inline">/reload</code>, del pedido y del conteo manual).</span></li>
+      </ul>
+      <p class="signoff"><strong>Firma del docente:</strong> ______________________________ <strong>Fecha:</strong> ______________</p>
+    </div>
+
+    <div class="card">
+      <h2>📚 Fuentes oficiales</h2>
+      <ul class="source-links">
+        <li><a href="https://pi.dev/docs/latest/skills">https://pi.dev/docs/latest/skills</a></li>
+        <li><a href="https://pi.dev/docs/latest/configuration">https://pi.dev/docs/latest/configuration</a></li>
+        <li><a href="https://pi.dev/docs/latest/security">https://pi.dev/docs/latest/security</a></li>
+      </ul>
+      <p>Consulta esas páginas si quieres confirmar cómo Pi descubre, confía y recarga las skills locales.</p>
+      <p style="font-size:13px;">Fuente de esta guía en Markdown: <a href="crear-skill-auditoria.md">crear-skill-auditoria.md</a></p>
+    </div>
+
+    <a class="back" href="../index.html">← Volver al portal del curso</a>
+    <footer>
+      <p><strong>Python for Defensive Security (PyDefSec) © 2026</strong> • Operación exclusiva en localhost (127.0.0.1)</p>
+    </footer>
+  </div>
+</body>
+</html>
