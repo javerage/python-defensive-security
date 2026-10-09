@@ -120,7 +120,7 @@
             <div class="guide-info">
               <span class="guide-num">Guía de aula • 15 Minutos</span>
               <span class="guide-name">Crea tu comando /nuevo-py en Pi</span>
-              <span class="guide-meta">Prepara el docstring y los TODOs de tu archivo Python; acepta un Markdown opcional y nunca escribe la solución</span>
+              <span class="guide-meta">Prepara el docstring y los TODOs de tu archivo Python; con PRD obtiene archivo y sesión del documento, sin PRD usa archivo y sesión; nunca escribe la solución</span>
             </div>
             <div class="guide-action" aria-hidden="true">
               Abrir Guía &rarr;
@@ -138,6 +138,7 @@
               Abrir Guía &rarr;
             </div>
           </a>
+        </li>
         <li>
           <a class="guide-item" href="crear-skill-auditoria.html" aria-label="Abrir guía: crea una skill local de auditoría en Pi">
             <div class="guide-info">
@@ -164,7 +165,7 @@
     <div class="card">
       <h2>Qué hace cada comando</h2>
       <ul>
-        <li><strong>/nuevo-py:</strong> crea un archivo <code>.py</code> con solo el docstring global del curso y comentarios TODO. Si le pasas un Markdown con objetivo y restricciones, lo lee para redactar el encabezado; la solución del ejercicio la escribes tú. Reutiliza la plantilla de feature de la guía con la ruta <code>prds/feature_###.md</code> (Sesión 08 → <code>prds/feature_008.md</code>).</li>
+        <li><strong>/nuevo-py:</strong> crea un archivo <code>.py</code> con solo el docstring global del curso y comentarios TODO; la solución la escribes tú. Con PRD: <code>/nuevo-py prds/feature_008.md</code> (archivo y sesión del documento). Sin PRD: <code>/nuevo-py demo_practice.py 08</code> (archivo y sesión dados). No acepta mezcla de 3 args.</li>
         <li><strong>/check-venv:</strong> elige Python instalado, crea .venv con permiso si falta, verifica/activa. No activa tu terminal por ti: copias el comando y lo ejecutas tú.</li>
       </ul>
     </div>

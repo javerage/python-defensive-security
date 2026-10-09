@@ -239,13 +239,19 @@ Pasos desde la raíz del proyecto (tu propia carpeta; aquí se muestra la forma,
 
 2. Crea el archivo a mano con tu editor copiando el bloque canónico completo de abajo en `prds/feature_009.md`. Si el archivo ya existe, detente y avisa al docente; no lo sobrescribas. El repositorio trae respaldo en `src/modulo_01/sesion_09/prds/feature_009.md`; el archivo de trabajo es el tuyo.
 3. `/reload` solo si el comando o prompt es nuevo o cambió. Tras crear o editar solo el PRD no hace falta recargar para leerlo, pues se lee en la invocación.
-4. Lanza Pi desde la raíz y, solo si el destino no existe y el docente lo autoriza, ejecuta:
+4. Lanza Pi desde la raíz y, solo si el destino no existe y el docente lo autoriza, ejecuta (MODO A, PRD única fuente):
+
+   ```text
+   /nuevo-py prds/feature_009.md
+   ```
+
+   La sesión (`09`) y el archivo Python (`event_loop.py`) salen exclusivamente de la sección Identificación del PRD; no se repiten en el comando. La mezcla vieja de 3 argumentos no está permitida y se rechaza sin escribir nada:
 
    ```text
    /nuevo-py event_loop.py 09 prds/feature_009.md
    ```
 
-5. Inspecciona el resultado: encabezado completo con COURSE/REPOSITORY/SESSION/FILE/PURPOSE/SCOPE y después solo comentarios TODO en inglés, sin lógica ni conteos resueltos. Confirma que no se sobrescribió nada existente. El comando está protegido: si el destino ya existe, se detiene sin escribir. Si `event_loop.py` ya existe, detente ahí. Solo como variante opcional separada, para no tocar la práctica real, habría que copiar el PRD a una demo aparte y ajustar su Archivo Python al destino demo; no muta lo canónico. Se deja una sola llamada principal para no confundir.
+5. Inspecciona el resultado: encabezado completo con COURSE/REPOSITORY/SESSION/FILE/PURPOSE/SCOPE y después solo comentarios TODO en inglés, sin lógica ni conteos resueltos. Confirma que no se sobrescribió nada existente. El comando está protegido: si el destino ya existe, se detiene sin escribir. Si `event_loop.py` ya existe, detente ahí. Solo como forma sin PRD (MODO B), si útil para practicar sin tocar la S09: `/nuevo-py demo_practice.py 09`.
 
 Por qué conviene unir ambas piezas: la skill entrena la lectura de datos sintéticos independientes; el PRD deja fijo el requisito exacto e inmutable de la S09 y el comando solo lo documenta como encabezado y TODOs. No alimentes el comando con líneas emitidas por la skill para afirmar resultados originales. Un PRD guiado por un log generado sería una variante nueva, no la pedida aquí. Detalle en la guía del comando: [Crea tu comando /nuevo-py](nuevo-py.html).
 
