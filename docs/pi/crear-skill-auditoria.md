@@ -128,6 +128,10 @@ Do not output a Python list or code by default. Another format is allowed only w
 
 When explicitly asked for a Python list of bare labels, output only a Python list containing the requested number of strings, each exactly INFO, WARNING, or ERROR. Do not add descriptions, separators, or processing code. This optional format is preparation data, not a replacement for any canonical class fixture. The number of ERROR labels may vary; do not promise a fixed count.
 
+## Optional placement (only with explicit authorization)
+
+Place a generated bare-label list in a file only when the user explicitly authorizes placement. In `event_loop.py`, assign it to `event_log` immediately after the `# STEP 1 (given)` comment block and before any `# TODO 2.1` comment. If an `event_log` assignment already exists, replace only that assignment; never create a second one. Preserve `student_name`, `student_id`, and all TODO comments without completing, deleting, or moving them. If the STEP 1 block cannot be identified unambiguously, stop and ask. After placement, verify a single `event_log` assignment exists inside STEP 1.
+
 ## Audit profile (fixed)
 
 Use only these labels. They are synthetic educational labels, not a universal severity standard and not verified findings:
