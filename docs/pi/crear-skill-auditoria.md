@@ -124,6 +124,10 @@ LEVEL | message
 
 Do not output a Python list or code by default. Another format is allowed only when the user explicitly requests it. Output pure data in the conversation only. Never present data as a Python processing solution.
 
+## Optional bare-label fixture
+
+When explicitly asked for a Python list of bare labels, output only a Python list containing the requested number of strings, each exactly INFO, WARNING, or ERROR. Do not add descriptions, separators, or processing code. This optional format is preparation data, not a replacement for any canonical class fixture. The number of ERROR labels may vary; do not promise a fixed count.
+
 ## Audit profile (fixed)
 
 Use only these labels. They are synthetic educational labels, not a universal severity standard and not verified findings:
@@ -217,7 +221,15 @@ Marca cada punto cuando lo hayas comprobado. Esta lista verifica que seguiste la
 
 Esta es una demostración separada de preparación: con `/nuevo-py` se genera SOLO el encabezado y los TODOs en inglés. No cambia la S09, no resuelve su ejercicio y no autoriza por sí sola el uso evaluado; ese uso lo autoriza el docente según la política vigente. Para esta demo no leas, escribas ni modifiques archivos reales de la S09 ni su material original.
 
-Son dos actividades distintas. La skill de esta guía produce líneas de conversación con forma `LEVEL | message` para practicar la lectura de datos sintéticos. El PRD de la S09 usa una lista Python con etiquetas desnudas `INFO`, `WARNING` y `ERROR`. No hay compatibilidad directa: una comparación del tipo `event == ERROR` sobre la línea completa con mensaje no aplica. No sustituyas la fixture canónica por líneas generadas, no cambies sus valores y no añadas partición de texto como concepto nuevo.
+Son dos actividades distintas. Por defecto, la skill produce líneas con forma `LEVEL | message`; esas líneas descriptivas no se comparan directamente con `ERROR`. Si se solicita expresamente el formato alternativo de lista Python de etiquetas desnudas, puede generar datos de preparación compatibles con la comparación del PRD, pero no sustituye la fixture canónica ni sus valores. La cantidad de `ERROR` generados puede variar y no está garantizada. La preparación opcional no cambia el ejercicio evaluado ni autoriza a resolver sus TODOs. No añadas partición de texto como concepto nuevo.
+
+Para preparar esa lista, pide exactamente:
+
+```text
+Genera una lista Python de cadenas con 20 eventos sintéticos de auditoría informática. Cada cadena debe contener únicamente una etiqueta: "INFO", "WARNING" o "ERROR". No incluyas descripciones, separadores ni código de procesamiento. Devuelve únicamente la lista.
+```
+
+Verifica que haya exactamente 20 cadenas y que cada una sea exactamente una de las tres etiquetas permitidas: sin descripciones, separadores ni lógica de procesamiento. No esperes seis `ERROR` ni uses el resultado para predecir la respuesta: la cantidad es variable. Para la actividad de la S09, copia y conserva sin cambios la fixture canónica provista abajo; el docente puede usar la demostración de preparación como apoyo, pero el ejercicio y sus TODOs siguen siendo los del PRD.
 
 Pasos desde la raíz del proyecto (tu propia carpeta; aquí se muestra la forma, no una ruta fija):
 

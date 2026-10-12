@@ -187,6 +187,16 @@ La solución de referencia está en `solution.py` y la plantilla guiada en `star
 
 ## Entrada sintética y tablas de conteo (léelas antes de programar)
 
+### Preparación opcional de datos (solo S09)
+
+Si lo solicitas explícitamente, puedes usar la [skill local `faker-data-custom`](../../../docs/pi/crear-skill-auditoria.html) únicamente para generar la entrada: una lista Python de exactamente 20 cadenas, cada una con solo `INFO`, `WARNING` o `ERROR`. No genera ni resuelve el ejercicio.
+
+Prompt compartido:
+
+> Genera una lista Python de cadenas con 20 eventos sintéticos de auditoría informática. Cada cadena debe contener únicamente una etiqueta: "INFO", "WARNING" o "ERROR". No incluyas descripciones, separadores ni código de procesamiento. Devuelve únicamente la lista.
+
+Comprueba que haya 20 cadenas y que todas contengan solo una etiqueta permitida. Después, usa la fixture canónica de abajo para el ejercicio evaluado y la salida de referencia. La cantidad de `ERROR` generada puede variar; no se exige que sea 6. Predice a mano los conteos antes de programar. La preparación de datos es la única excepción autorizada de IA para S09: los ciclos, conteos, comparación y TODOs los escribes y comprendes tú, sin IA generativa.
+
 ```python
 event_log = [
     "INFO", "ERROR", "WARNING", "INFO", "ERROR",

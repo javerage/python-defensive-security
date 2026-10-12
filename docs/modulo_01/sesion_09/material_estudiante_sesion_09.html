@@ -109,7 +109,7 @@
       <div class="badge-container">
         <span class="badge badge-primary">Sesión 09 | 60 minutos</span>
         <span class="badge badge-neutral">Nivel: principiante absoluto</span>
-        <span class="badge badge-alert">Sin IA generativa (S01–S18)</span>
+        <span class="badge badge-alert">Sin IA generativa para resolver (S01–S18)</span>
       </div>
     </div>
     <div style="font-size: 8.5pt; color: var(--text-muted); display: flex; justify-content: space-between;">
@@ -343,6 +343,12 @@ python3 event_loop.py</div>
       </tbody>
     </table>
     <h3 class="subsection-title">Los 20 eventos (léelos antes de programar):</h3>
+    <div class="callout callout-info" style="margin: 8px 0;">
+      <div class="callout-title">Preparación opcional de datos (solo S09)</div>
+      <p style="font-size: 8pt; margin-bottom: 4px;">Si lo solicitas explícitamente, puedes usar la <a href="../../pi/crear-skill-auditoria.html">skill local faker-data-custom</a> únicamente para generar la entrada: una lista Python de exactamente 20 cadenas, cada una con solo <code>INFO</code>, <code>WARNING</code> o <code>ERROR</code>. No genera ni resuelve el ejercicio.</p>
+      <div class="student-code-box" style="margin: 4px 0;">Genera una lista Python de cadenas con 20 eventos sintéticos de auditoría informática. Cada cadena debe contener únicamente una etiqueta: "INFO", "WARNING" o "ERROR". No incluyas descripciones, separadores ni código de procesamiento. Devuelve únicamente la lista.</div>
+      <p style="font-size: 8pt; margin-bottom: 0;">Comprueba que haya 20 cadenas y que todas contengan solo una etiqueta permitida. Después, usa la fixture canónica de abajo para el ejercicio evaluado y la salida de referencia. La cantidad de <code>ERROR</code> generada puede variar; no se exige que sea 6. Predice a mano los conteos antes de programar. La preparación de datos es la única excepción autorizada de IA para S09: los ciclos, conteos, comparación y TODOs los escribes y comprendes tú, sin IA generativa.</p>
+    </div>
     <div class="student-code-box">event_log = [
     "INFO", "ERROR", "WARNING", "INFO", "ERROR",
     "INFO", "WARNING", "ERROR", "INFO", "WARNING",
@@ -440,7 +446,7 @@ while index &lt; len(event_log):
       </tbody>
     </table>
     <div class="signature-box">
-      <p style="font-size: 8pt; color: var(--text-muted); margin-bottom: 8px;"><strong>Declaración del Estudiante:</strong> Certifico que el código presentado fue escrito por mí de forma autónoma sin asistentes de IA generativa, que operó exclusivamente en localhost (127.0.0.1) y sobre fixtures sintéticos locales, y que comprendo el propósito de cada variable e instrucción ejecutada.</p>
+      <p style="font-size: 8pt; color: var(--text-muted); margin-bottom: 8px;"><strong>Declaración del Estudiante:</strong> Certifico que escribí y comprendo de forma autónoma la lógica, los conteos y la comparación, sin asistentes de IA generativa. La única excepción autorizada en S09 es la preparación opcional de la lista sintética de entrada con faker-data-custom; revisé sus 20 etiquetas. El programa operó exclusivamente en localhost (127.0.0.1) y sobre fixtures sintéticas locales, y comprendo el propósito de cada variable e instrucción ejecutada.</p>
       <div class="signature-grid"><div><div class="sig-line">Firma del Estudiante</div></div><div><div class="sig-line">Sello / Validación Docente (&lt; 15 seg)</div></div></div>
     </div>
   </section>
