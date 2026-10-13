@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Define la misión de tu proyecto — Pi</title>
+  <style>
+    :root { --primary:#0f172a; --secondary:#1e3a8a; --accent:#2563eb; --bg:#f8fafc; --card:#fff; --text:#334155; --dark:#0f172a; --border:#e2e8f0; --warn:#fffbeb; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,sans-serif; background:var(--bg); color:var(--text); line-height:1.65; padding:30px 20px; }
+    .container { max-width:860px; margin:auto; }
+    header { background:linear-gradient(135deg,var(--primary),var(--secondary)); color:white; padding:32px 28px; border-radius:12px; margin-bottom:24px; }
+    h1 { font-size:26px; line-height:1.25; margin-bottom:10px; }
+    .lead { color:#cbd5e1; }
+    .card { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:24px; margin-bottom:18px; }
+    h2 { color:var(--dark); font-size:19px; margin-bottom:10px; }
+    p,li { font-size:14px; }
+    ol,ul { padding-left:22px; margin:10px 0; }
+    li { margin:7px 0; }
+    a { color:#1d4ed8; }
+    .downloads { display:flex; flex-wrap:wrap; gap:12px; margin-top:18px; }
+    .downloads a { display:inline-block; background:white; border:1px solid #bfdbfe; border-radius:7px; padding:10px 14px; font-size:14px; font-weight:700; text-decoration:none; }
+    .note { background:var(--warn); border-left:4px solid #d97706; padding:12px 14px; margin:12px 0; border-radius:0 6px 6px 0; }
+    pre { overflow-x:auto; white-space:pre-wrap; background:#f1f5f9; padding:14px; border-radius:7px; margin:10px 0; font-size:13px; }
+    code { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; }
+    .checklist { list-style:none; padding-left:0; }
+    .checklist li { padding:9px 12px; border:1px solid var(--border); border-radius:6px; }
+    a.back { display:inline-block; margin-top:8px; font-weight:600; text-decoration:none; }
+    footer { text-align:center; margin-top:28px; font-size:12.5px; color:#64748b; }
+    @media (max-width:600px) { body { padding:18px 12px; } header,.card { padding:20px 17px; } }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <header>
+      <p><strong>Pi · Guía pública para estudiantes</strong></p>
+      <h1>Define la misión de tu proyecto</h1>
+      <p class="lead">Define el propósito mediante una entrevista guiada, revisa el borrador y autoriza por separado el guardado. La misión acompaña la constitución: no cambia sus reglas ni implementa la solución.</p>
+      <nav class="downloads" aria-label="Materiales descargables">
+        <a href="mision-template.md">Abrir plantilla Markdown</a>
+        <a href="mision-sesion-10.md">Ver ejemplo completo: Sesión 10</a>
+      </nav>
+    </header>
+
+    <section class="card">
+      <h2>Primero: conserva la constitución</h2>
+      <p>La <a href="constitucion-proyecto.html">guía de constitución</a> ayuda a documentar reglas, responsabilidades, límites y autorizaciones. Esta guía prepara <code>MISSION.md</code>: el propósito, las personas destinatarias, el resultado deseado y las señales de éxito. Ningún documento reemplaza al otro.</p>
+      <p>Lee primero la plantilla pública y limita las rutas de lectura a los documentos que indiques. Puedes descargar la plantilla temporalmente o pedir a Pi que la lea desde su ubicación accesible; no hace falta copiarla al proyecto. El ejemplo S10 corresponde a <code>matrix_review.py</code>; una clase posterior puede aplicar el método a otro contexto con su guía real.</p>
+      <div class="note"><strong>Si hay contradicción:</strong> detén la preparación y consulta a la persona responsable. No cambies en silencio una constitución existente ni inventes autorizaciones, hechos o resultados.</div>
+    </section>
+
+    <section class="card">
+      <h2>Entrevista, revisión y guardado autorizado</h2>
+      <ol>
+        <li><strong>Lee primero</strong> <a href="mision-template.md">mision-template.md</a> y localiza la constitución aplicable. Pi debe leerla antes de entrevistar; no presupongas que existe una misión previa. Si ya hay una misión, debe leerla y mostrar diferencias, no actualizarla aún.</li>
+        <li><strong>Indica rutas reales y permitidas:</strong> la carpeta del proyecto, la plantilla y la constitución, además de cualquier documento adicional que autorices. Usa una descarga temporal o la ubicación actual de la plantilla; no es obligatorio copiarla al proyecto. No uses marcadores sin sustituirlos.</li>
+        <li><strong>Responde la entrevista de una pregunta por turno.</strong> Pi explica cada sección, espera tu respuesta, aclara ambigüedades y no inventa hechos o decisiones. «Pendiente de decisión» debe indicar quién decide. No incluyas secretos ni datos sensibles.</li>
+        <li><strong>Revisa el borrador completo</strong> junto con la constitución aplicable. La misión no la modifica ni añade permisos, hechos, herramientas o resultados no confirmados. Conserva acuerdos previos.</li>
+        <li><strong>Aprueba explícitamente contenido y destino</strong> antes de pedir el guardado como <code>MISSION.md</code>. Si existe, solo se actualiza con autorización explícita; cancelar o rechazar no cambia ningún archivo.</li>
+        <li><strong>Después del guardado aprobado,</strong> solicita la lectura final de solo lectura y verifica las citas en el archivo real. La entrevista no debe asumir que el archivo final ya existe.</li>
+      </ol>
+      <div class="note">Si tu trabajo diario está dividido en etapas, prepara solo las etapas 1 y 2 y detente para revisarlas con una persona antes de comenzar la etapa 3.</div>
+    </section>
+
+    <section class="card">
+      <h2>Pide a Pi una lectura explícita, no una implementación</h2>
+      <h3>Solicitud de entrevista</h3>
+      <pre><code>Lee la plantilla en [RUTA REAL DE LA PLANTILLA], la constitución aplicable en [RUTA REAL] y únicamente estos otros documentos: [RUTAS REALES O “NINGUNO”]. La carpeta del proyecto es [RUTA REAL]. No supongas que existe MISSION.md; compruébalo y léelo solo si existe. Durante la entrevista no edites ni ejecutes archivos. Explica cada sección de la plantilla, haz una sola pregunta y espera mi respuesta antes de continuar. Aclara ambigüedades conmigo, no inventes hechos, permisos ni decisiones, y deja lo desconocido como “Pendiente de decisión” con su responsable. No solicites secretos ni datos sensibles. La misión no puede cambiar la constitución. Presenta el borrador completo y las diferencias si ya había misión; espera mi aprobación explícita del contenido y destino antes de guardar. Si cancelo, rechazo o no puedes leer una ruta autorizada, no cambies nada y detente.</code></pre>
+      <h3>Solicitud de lectura final después del guardado</h3>
+      <pre><code>Lee [RUTA REAL DE MISSION.md] y [RUTA REAL DE LA CONSTITUCIÓN] en modo de solo lectura. Resume propósito, destinatarios y límites; cita títulos de secciones existentes. Distingue hechos escritos de incertidumbres y señala posibles contradicciones sin resolverlas. Si no puedes leer un archivo, detente; no infieras contenido, edites ni ejecutes.</code></pre>
+      <p>La lectura final solo se solicita cuando existe el documento guardado y cita sus secciones reales. Si la interfaz no ofrece controles estructurados, Pi debe hacer las preguntas en la conversación. No afirmes carga automática, disponibilidad de una herramienta de entrevista concreta ni necesidad de instalar una extensión o usar <code>/reload</code>.</p>
+    </section>
+
+    <section class="card">
+      <h2>Lista final</h2>
+      <ul class="checklist">
+        <li>☐ Leí primero la constitución aplicable y limité la entrevista a las rutas indicadas.</li>
+        <li>☐ Revisé el borrador y autoricé explícitamente contenido y destino antes de guardar.</li>
+        <li>☐ No se actualizó una misión previa ni se modificó la constitución sin mi autorización.</li>
+        <li>☐ La misión describe destinatarios, necesidad, resultado deseado y evidencia comprobable.</li>
+        <li>☐ Dejé incertidumbres como pendientes y no afirmé ejecución ni resultados no observados.</li>
+        <li>☐ Revisé misión y constitución juntas; cualquier contradicción quedó pendiente de revisión humana.</li>
+        <li>☐ Después del guardado pedí una lectura final de solo lectura y contrasté sus citas con secciones reales.</li>
+        <li>☐ Si continúo el proyecto en otra clase, usaré su contexto y guía reales sin trasladar supuestos de S10.</li>
+      </ul>
+      <p>La guía pública enseña a preparar documentos; no completa ejercicios de programación ni cambia las reglas de asistencia de tu curso.</p>
+    </section>
+    <a class="back" href="index.html">← Volver a las guías de Pi</a>
+    <footer><p>Material público de apoyo para proyectos estudiantiles.</p></footer>
+  </main>
+</body>
+</html>

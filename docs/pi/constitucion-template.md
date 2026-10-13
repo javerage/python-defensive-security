@@ -1,8 +1,8 @@
 # Plantilla de constitución del proyecto
 
-Guarda una copia como `CONSTITUTION.md` en la raíz de tu proyecto, completa las secciones y revísalas con una persona responsable. Esta constitución registra propósito, límites y acuerdos de trabajo; no es un plan técnico ni un mecanismo de seguridad ejecutable.
+Usa esta estructura para preparar `CONSTITUTION.md` en la raíz de tu proyecto. Puedes trabajar manualmente o pedir a Pi que lea esta plantilla y te entreviste sección por sección antes de proponer un borrador. Esta constitución registra propósito, límites y acuerdos de trabajo; no es un plan técnico ni un mecanismo de seguridad ejecutable.
 
-**Cómo usarla:** sustituye cada texto entre corchetes. Los ejemplos son ilustrativos: elige solo lo que describa tu proyecto y esté autorizado. Elimina las ayudas y ejemplos antes de aceptar tu versión final. Si aún no sabes algo, escribe «Pendiente de decisión» y quién debe decidirlo; no inventes datos.
+**Uso manual:** sustituye cada texto entre corchetes. **Uso asistido:** entrega a Pi esta plantilla desde su ubicación real y pídele que lea también los documentos de contexto que tú indiques. Pi debe hacer una pregunta por turno, explicar la sección y esperar tu respuesta antes de continuar; después presenta el borrador completo y espera tu aprobación explícita antes de guardar. Puede trabajar con un archivo temporal descargado o con la plantilla abierta en su ubicación original: no es obligatorio copiarla a la carpeta del proyecto. Si `CONSTITUTION.md` ya existe, Pi debe mostrar los cambios propuestos y esperar autorización explícita para actualizarlo; sin autorización, conserva el original. Los ejemplos son ilustrativos. Lo desconocido queda como «Pendiente de decisión» e indica quién debe decidirlo; no inventes datos. No incluyas secretos ni datos personales sensibles.
 
 ## 1. Identificación
 

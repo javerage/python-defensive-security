@@ -36,7 +36,7 @@
     <header>
       <p><strong>Pi · Guía pública para estudiantes</strong></p>
       <h1>Prepara la constitución de tu proyecto</h1>
-      <p class="lead">Crea un único archivo de contexto, revísalo tú y pide a Pi que lo lea explícitamente. La constitución documenta acuerdos; no convierte al agente en un entorno aislado ni completa tu proyecto.</p>
+      <p class="lead">Prepara la constitución con una entrevista guiada, revisa el borrador y autoriza por separado cualquier guardado. El documento registra acuerdos; no convierte al agente en un entorno aislado ni completa tu proyecto.</p>
       <nav class="downloads" aria-label="Materiales descargables">
         <a href="constitucion-template.md">Abrir plantilla Markdown</a>
         <a href="constitucion-sesion-10.md">Ver ejemplo completo: Sesión 10</a>
@@ -46,7 +46,7 @@
     <section class="card">
       <h2>Qué prepararás y qué no</h2>
       <p>Prepara <code>CONSTITUTION.md</code> en la raíz del proyecto que elijas. Describe propósito, límites, datos, responsabilidades, autorizaciones y verificación de TU proyecto. La plantilla es reutilizable: no presupone lenguaje, plataforma, cliente ni tipo de aplicación.</p>
-      <p>Los dos archivos Markdown enlazados son materiales públicos de apoyo, no archivos de contexto adicionales que debas copiar al proyecto. No se crea un comando de Pi ni una skill: estos documentos no pertenecen a <code>.pi/prompts/</code> ni a <code>.pi/skills/</code>.</p>
+      <p>La plantilla Markdown es material público de apoyo. Puedes descargarla a una ubicación accesible para Pi o pedirle que la lea desde su ubicación actual; no hace falta copiarla a tu proyecto. La entrevista solo prepara un borrador: no resuelve ejercicios ni autoriza cambios por sí misma.</p>
       <div class="note"><strong>Importante:</strong> un archivo de constitución expresa instrucciones y acuerdos, pero no los hace cumplir técnicamente ni concede permisos al agente. La persona decide y revisa cada acción.</div>
     </section>
 
@@ -54,24 +54,28 @@
       <h2>Antes de empezar</h2>
       <ul>
         <li>Ten un proyecto y una persona responsable de confirmar sus límites.</li>
-        <li>Elige un editor de texto. No necesitas instalar una herramienta adicional para completar el Markdown.</li>
+        <li>Ten accesibles para Pi la plantilla y los documentos que quieras usar como contexto. No necesitas instalar una herramienta adicional para completar el Markdown.</li>
         <li>Usa la plantilla como guía y el ejemplo de Sesión 10 solo para entender el nivel de detalle. Adapta todo a tu propio proyecto.</li>
         <li>No escribas contraseñas, tokens, claves, datos personales sensibles ni información privada de terceros.</li>
       </ul>
     </section>
 
     <section class="card">
-      <h2>Pasos: de la plantilla al archivo revisado</h2>
+      <h2>Pasos: entrevista, revisión y guardado autorizado</h2>
       <ol>
-        <li><strong>Abre tu carpeta de proyecto</strong> y comprueba si ya contiene <code>CONSTITUTION.md</code>. En Windows puedes verlo en el Explorador de archivos; no reemplaces un archivo existente. Si ya existe, léelo y acuerda su actualización con la persona responsable.</li>
-        <li><strong>Abre la plantilla pública</strong> <a href="constitucion-template.md">constitucion-template.md</a>. Usa «Guardar como» en tu editor de texto y guarda una copia llamada exactamente <code>CONSTITUTION.md</code> en la raíz de tu proyecto. Selecciona codificación UTF-8 si el editor lo pregunta y confirma que no agregó <code>.txt</code>. La carpeta raíz depende de tu proyecto; no hay un nombre obligatorio.</li>
-        <li><strong>Completa las secciones</strong> con hechos y decisiones confirmadas. Los ejemplos de herramienta local, sitio web e informe de datos son alternativas ilustrativas, no requisitos. Si algo se desconoce, anota «Pendiente de decisión» y quién debe resolverlo.</li>
-        <li><strong>Revisa el alcance con una persona.</strong> Confirma quién conserva la decisión, qué datos se permiten, qué acciones requieren autorización y cómo se verificará el resultado. Elimina los corchetes, ayudas y ejemplos que no aplican. No declares pruebas exitosas antes de observarlas.</li>
-        <li><strong>Guarda y vuelve a abrir el archivo</strong> para confirmar el nombre y contenido. Conserva el original si tienes dudas; no sobrescribas acuerdos previos sin aprobación.</li>
-        <li><strong>Pide a Pi que lo lea expresamente</strong> desde el proyecto abierto:</li>
+        <li><strong>Lee primero la plantilla</strong> <a href="constitucion-template.md">constitucion-template.md</a>. Puedes descargarla a un archivo temporal y proporcionar a Pi su ruta real, o indicar su ubicación actual accesible; no hace falta copiarla al proyecto.</li>
+        <li><strong>Define rutas y permisos de lectura.</strong> Comprueba la carpeta del proyecto y si contiene <code>CONSTITUTION.md</code>. Sustituye todos los marcadores por rutas reales y enumera solo documentos que Pi puede leer. Si el archivo final existe, Pi debe leerlo y proponer diferencias, nunca sobrescribirlo sin autorización.</li>
+        <li><strong>Inicia una entrevista de solo lectura.</strong> Pi explica cada sección antes de preguntar, hace una pregunta por turno y espera tu respuesta. Aclara ambigüedades contigo; no inventa hechos, decisiones, herramientas, permisos ni resultados. Lo desconocido queda como «Pendiente de decisión» con quién decide.</li>
+        <li><strong>Revisa el borrador completo.</strong> Confirma que representa tus respuestas, no amplía autorizaciones y conserva los acuerdos existentes. No incluyas secretos ni datos personales sensibles.</li>
+        <li><strong>Autoriza el guardado expresamente.</strong> Solo tras aprobar contenido y destino puede crear <code>CONSTITUTION.md</code> o actualizar el existente. Rechazar o cancelar no cambia archivos. El documento no concede permisos futuros.</li>
+        <li><strong>Después del guardado aprobado</strong>, pide una lectura final de solo lectura que cite secciones reales del archivo guardado:</li>
       </ol>
-      <pre><code>Lee CONSTITUTION.md y resume sus límites, responsabilidades y criterios de verificación. Para cada punto, cita la sección concreta. No edites ni ejecutes archivos del proyecto. Si no puedes leer el archivo, detente e informa esa limitación; no infieras su contenido.</code></pre>
-      <p>No se necesita <code>/reload</code> para este archivo de contexto nuevo: ese comando corresponde a recargar prompts/skills y la constitución no es ninguna de esas cosas.</p>
+      <div class="note">Si tu trabajo diario está dividido en etapas, prepara solo las etapas 1 y 2 y detente para revisarlas con una persona antes de comenzar la etapa 3.</div>
+      <h3>Solicitud de entrevista</h3>
+      <pre><code>Lee la plantilla en [RUTA REAL DE LA PLANTILLA] y únicamente estos documentos de contexto: [RUTAS REALES O “NINGUNO”]. La carpeta del proyecto es [RUTA REAL DEL PROYECTO]. Comprueba si existe CONSTITUTION.md y léelo si existe. Durante la entrevista, no edites ni ejecutes nada. Guíame por las secciones: explica brevemente cada una, haz una sola pregunta y espera mi respuesta antes de continuar. Aclara ambigüedades conmigo; no inventes decisiones, hechos, herramientas, permisos ni resultados. Deja lo desconocido como “Pendiente de decisión” e indica quién decide. No solicites secretos ni datos sensibles. Al terminar, presenta el borrador completo y, si ya existe un archivo, las diferencias propuestas. Espera mi aprobación explícita del contenido y destino antes de guardar. Si no apruebo, cancelo o no puedes leer un archivo autorizado, no cambies nada y detente.</code></pre>
+      <h3>Solicitud de lectura final, solo después del guardado</h3>
+      <pre><code>Lee [RUTA REAL DEL ARCHIVO GUARDADO] en modo de solo lectura. Resume sus límites, responsabilidades y criterios de verificación, citando títulos de secciones que existan en el archivo. Si no puedes leerlo, detente; no infieras contenido ni edites o ejecutes archivos.</code></pre>
+      <p>La lectura final no sustituye la entrevista y no se pide antes de que exista el archivo guardado. Si la interfaz no ofrece controles de preguntas estructurados, usa preguntas en la conversación. No se requiere instalar una extensión ni usar <code>/reload</code>.</p>
     </section>
 
     <section class="card">
@@ -90,8 +94,9 @@
       <h2>Errores comunes</h2>
       <ul>
         <li><strong>Nombre incorrecto:</strong> el editor guardó <code>CONSTITUTION.md.txt</code>. Activa la visualización de extensiones y corrige el nombre sin reemplazar archivos inesperadamente.</li>
-        <li><strong>Archivo en otra carpeta:</strong> guardaste la plantilla en descargas y pediste a Pi que la leyera desde el proyecto. Guarda la copia acordada en la raíz elegida.</li>
-        <li><strong>Asumir que Pi lo descubrió:</strong> no supongas carga automática. Nombra explícitamente <code>CONSTITUTION.md</code> en tu solicitud.</li>
+        <li><strong>Confundir plantilla con documento final:</strong> la plantilla puede estar en una descarga temporal o ubicación actual; solo el archivo final aprobado va al destino elegido.</li>
+        <li><strong>Guardar antes de revisar:</strong> una entrevista no autoriza escritura; cancelar o rechazar debe dejar el proyecto sin cambios.</li>
+        <li><strong>Asumir que Pi descubrió los archivos:</strong> sustituye los marcadores por rutas reales y limita explícitamente qué documentos puede leer.</li>
         <li><strong>Confundir lectura con ejecución:</strong> pedir un resumen no significa que el agente haya modificado el proyecto ni que debas permitirlo.</li>
         <li><strong>Copiar el ejemplo literalmente:</strong> el ejemplo describe una práctica concreta de la Sesión 10. Sustitúyelo por hechos de tu proyecto y no copies reglas de seguridad que no hayan sido acordadas.</li>
         <li><strong>Usar datos reales innecesarios:</strong> describe categorías y procedencia sin pegar secretos ni información personal.</li>
@@ -101,10 +106,12 @@
     <section class="card">
       <h2>Lista final</h2>
       <ul class="checklist">
-        <li>☐ Existe un solo <code>CONSTITUTION.md</code> en la raíz elegida y confirmé su nombre.</li>
+        <li>☐ Leí la plantilla y limité la lectura a las rutas que indiqué.</li>
+        <li>☐ Revisé el borrador y aprobé explícitamente contenido y destino antes del guardado.</li>
+        <li>☐ Un archivo previo no se actualizó sin mi autorización explícita.</li>
         <li>☐ Cada autorización corresponde a una decisión humana real; el archivo no se trata como control técnico.</li>
         <li>☐ Quité los marcadores y ejemplos que no aplican; no incluí información sensible.</li>
-        <li>☐ Pedí a Pi leer el archivo sin editar ni ejecutar y revisé la evidencia observable de lectura.</li>
+        <li>☐ Después del guardado pedí una lectura final de solo lectura y contrasté sus citas con secciones reales.</li>
         <li>☐ Puedo trasladar el proceso a otro proyecto cambiando su contenido, no copiando supuestos del ejemplo.</li>
       </ul>
       <p>La práctica de programación de la Sesión 10 sigue sus propias instrucciones y la autoría del estudiante. Preparar este archivo no completa el ejercicio.</p>
