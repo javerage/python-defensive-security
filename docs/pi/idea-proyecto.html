@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prepara la idea inicial de tu proyecto — Pi</title>
+  <style>
+    :root { --primary:#0f172a; --secondary:#1e3a8a; --accent:#2563eb; --bg:#f8fafc; --card:#fff; --text:#334155; --dark:#0f172a; --border:#e2e8f0; --warn:#fffbeb; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,sans-serif; background:var(--bg); color:var(--text); line-height:1.65; padding:30px 20px; }
+    .container { max-width:860px; margin:auto; }
+    header { background:linear-gradient(135deg,var(--primary),var(--secondary)); color:white; padding:32px 28px; border-radius:12px; margin-bottom:24px; }
+    h1 { font-size:26px; line-height:1.25; margin:8px 0 10px; }
+    .lead { color:#cbd5e1; }
+    .card { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:24px; margin-bottom:18px; }
+    h2 { color:var(--dark); font-size:19px; margin-bottom:10px; }
+    h3 { color:var(--secondary); font-size:16px; margin:16px 0 6px; }
+    p,li { font-size:14px; }
+    ol,ul { padding-left:22px; margin:10px 0; }
+    li { margin:7px 0; }
+    a { color:#1d4ed8; }
+    .downloads { display:flex; flex-wrap:wrap; gap:12px; margin-top:18px; }
+    .downloads a { display:inline-block; background:white; border:1px solid #bfdbfe; border-radius:7px; padding:10px 14px; font-size:14px; font-weight:700; text-decoration:none; }
+    .note { background:var(--warn); border-left:4px solid #d97706; padding:12px 14px; margin:12px 0; border-radius:0 6px 6px 0; }
+    pre { overflow-x:auto; white-space:pre-wrap; overflow-wrap:anywhere; background:#f1f5f9; padding:14px; border-radius:7px; margin:10px 0; font-size:13px; }
+    code { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; }
+    .checklist { list-style:none; padding-left:0; }
+    .checklist li { padding:9px 12px; border:1px solid var(--border); border-radius:6px; }
+    a.back { display:inline-block; margin-top:8px; font-weight:600; text-decoration:none; }
+    footer { text-align:center; margin-top:28px; font-size:12.5px; color:#64748b; }
+    @media (max-width:600px) { body { padding:18px 12px; } header,.card { padding:20px 17px; } }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <header>
+      <p><strong>Pi · Guía pública para estudiantes</strong></p>
+      <p><strong>Etapa 0 · Idea inicial</strong></p>
+      <h1>Prepara la idea inicial de tu proyecto</h1>
+      <p class="lead">Describe qué quieres construir antes de decidir cómo hacerlo. Completa la plantilla, conversa sobre tus decisiones y revisa cualquier propuesta antes de autorizar que se actualice tu propio archivo.</p>
+      <nav class="downloads" aria-label="Materiales de la idea del proyecto">
+        <a href="idea-proyecto-template.md">Abrir o descargar plantilla Markdown</a>
+        <a href="idea-proyecto-snake.md">Ver ejemplo didáctico: Snake</a>
+      </nav>
+    </header>
+
+    <section class="card">
+      <h2>Qué prepararás</h2>
+      <p>Esta etapa registra la idea inicial: qué resultado imaginas, para quién, qué experiencia buscas, qué debería poder hacer la primera versión, qué dejarías fuera por ahora y qué decisiones siguen abiertas. Todavía no es un plan técnico ni una constitución del proyecto.</p>
+      <p>Descarga la <a href="idea-proyecto-template.md">plantilla Markdown</a> y copia su contenido <strong>una sola vez</strong> en un archivo real de tu proyecto que tú elijas. <code>IDEA-PROYECTO.md</code> es un nombre sugerido, no obligatorio: puedes usar otro nombre y ruta. Completa ese archivo y consérvalo allí. La guía HTML acompaña el trabajo; no sustituye tu documento Markdown.</p>
+      <div class="note"><strong>Tu idea, tus decisiones:</strong> escribe lo que sabes hoy. Si algo no está decidido, déjalo como «Pendiente de decisión» e indica quién puede decidirlo. No tienes que resolver todo para empezar.</div>
+      <p>El ejemplo de Snake es material didáctico para entender cómo se expresan ideas y preguntas abiertas. No es una definición aprobada ni una especificación que debas copiar como tu propio proyecto.</p>
+    </section>
+
+    <section class="card">
+      <h2>Las seis partes de la plantilla</h2>
+      <ol>
+        <li><strong>Qué quiere construir:</strong> el resultado que imaginas, sin elegir todavía la implementación. Por ejemplo, una guía para encontrar espacios tranquilos de estudio.</li>
+        <li><strong>Para quién:</strong> quién podría usarlo y en qué situación. Por ejemplo, estudiantes que buscan dónde estudiar.</li>
+        <li><strong>Qué necesidad o experiencia quiere atender:</strong> la dificultad o experiencia positiva que quieres abordar; distingue lo que sabes de lo que supones. Por ejemplo, hoy la información de esos espacios está dispersa.</li>
+        <li><strong>Qué comportamientos considera indispensables:</strong> resultados observables que harían útil la primera versión, no tecnologías. Por ejemplo, consultar los espacios incluidos y ver su dirección.</li>
+        <li><strong>Qué quedará fuera de la primera versión:</strong> ideas que, si ya lo decidiste, no abordarás ahora. Una exclusión puede ser para más adelante y no significa descartarla para siempre. No conviertas una propuesta en un hecho confirmado.</li>
+        <li><strong>Qué todavía no sabe decidir:</strong> preguntas abiertas y, si se sabe, quién ayudará a resolverlas. Por ejemplo, confirmar con posibles usuarios qué información les sería útil.</li>
+      </ol>
+      <p>La plantilla existente contiene estas mismas seis secciones y sus espacios para responder. Usa sus ejemplos como ilustraciones, no como requisitos.</p>
+    </section>
+
+    <section class="card">
+      <h2>Entrevista, borrador y actualización autorizada</h2>
+      <ol>
+        <li><strong>Completa tu archivo de idea.</strong> Abre el Markdown que copiaste en tu proyecto y escribe con tus palabras. Puedes completarlo manualmente; no necesitas Pi ni herramientas adicionales para esta etapa.</li>
+        <li><strong>Prepara las rutas.</strong> Antes de pedir ayuda, sustituye los marcadores de los prompts de abajo por la ruta real de la plantilla autorizada y de tu archivo de idea. Indica explícitamente qué rutas puede leer; no incluyas otros archivos por conveniencia.</li>
+        <li><strong>Conversa sin cambios.</strong> Pide que lea únicamente la plantilla autorizada y tu archivo de idea. Por cada sección, explica brevemente su propósito, formula una pregunta a la vez y espera tu respuesta. Si no hay una herramienta de preguntas estructuradas, puede hacerlo en la conversación normal. Si no puede leer una ruta autorizada, debe detenerse: no debe inferir su contenido. Conserva respuestas claras y pregunta solo cuando haya una ambigüedad que realmente necesite aclaración.</li>
+        <li><strong>Revisa la propuesta completa.</strong> Antes de cualquier escritura, lee el borrador completo y las diferencias propuestas contra tu archivo actual. Confirma que conserva tus respuestas, no inventa decisiones y deja lo desconocido como pendiente con responsable cuando se conozca.</li>
+        <li><strong>Aprueba contenido, archivo y alcance por separado.</strong> Solo después de ver el borrador puedes aprobar explícitamente su contenido, la ruta del archivo existente que se actualizará y el alcance de esa escritura. Una aprobación no autoriza otros archivos, ejecución de código ni etapas posteriores.</li>
+        <li><strong>Verifica después de actualizar.</strong> Una vez aprobada y realizada la actualización del mismo archivo, pide una lectura final de solo lectura. Comprueba evidencia visible de que se leyó el archivo guardado y que las referencias corresponden a secciones reales.</li>
+      </ol>
+      <div class="note">La entrevista y el borrador no escriben ni ejecutan nada. Si rechazas o cancelas, no se cambia ningún archivo. La actualización autorizada es sobre el mismo archivo de idea que ya preparaste, no sobre un documento formal separado.</div>
+
+      <h3>Prompt para iniciar la entrevista de solo lectura</h3>
+      <pre><code>Lee únicamente la plantilla autorizada en [RUTA REAL DE LA PLANTILLA] y mi archivo de idea existente en [RUTA REAL DE MI ARCHIVO]. No leas otros archivos. No escribas ni ejecutes nada. Guíame por las seis secciones de la plantilla: explica brevemente el propósito de cada una, haz una pregunta por turno y espera mi respuesta. Si no tienes una herramienta de preguntas estructuradas, pregunta en esta conversación. Conserva mis respuestas cuando estén claras; pregunta solo para resolver ambigüedades necesarias. No inventes hechos ni decisiones. Deja lo desconocido como “Pendiente de decisión” e indica quién decide si lo sabemos. El ejemplo de Snake es solo didáctico, no es la definición de mi proyecto. Al terminar, muestra el borrador completo y las diferencias propuestas para actualizar mi mismo archivo existente. No guardes nada; espera mi aprobación explícita del contenido, de la ruta de ese archivo y del alcance de la actualización. Si no apruebo, cancelo o no puedes leer una ruta autorizada, no cambies nada y detente.</code></pre>
+
+      <h3>Prompt de aprobación explícita, solo después de revisar</h3>
+      <pre><code>Apruebo el contenido del borrador que acabamos de revisar y autorizo actualizar únicamente el archivo existente [RUTA REAL DE MI ARCHIVO] con ese contenido. Esta autorización cubre solo esa actualización: no crees otro documento, no cambies otros archivos y no ejecutes nada. Si el archivo o la ruta no corresponden, detente y pregunta antes de actuar.</code></pre>
+
+      <h3>Prompt de verificación final, solo después de la actualización aprobada</h3>
+      <pre><code>Lee [RUTA REAL DE MI ARCHIVO] en modo de solo lectura. Confirma qué archivo pudiste leer y resume la idea, las seis secciones y las decisiones que siguen pendientes, citando títulos de secciones que existan realmente en ese archivo. Indica la evidencia visible de lectura disponible en la interfaz, sin afirmar una actividad que no ocurrió. Si no puedes leerlo, detente; no infieras el contenido ni edites o ejecutes archivos.</code></pre>
+      <p>Sustituye cada marcador por una ruta real antes de usar los prompts. No se promete una extensión, comando, recarga automática ni capacidad específica de Pi; usa la conversación normal si no hay controles estructurados disponibles.</p>
+    </section>
+
+    <section class="card">
+      <h2>Límites claros</h2>
+      <ul>
+        <li>La autorización para actualizar tu archivo de idea no autoriza implementar el juego o producto, editar otros archivos, instalar herramientas, usar Git o conectarse a servicios remotos.</li>
+        <li>Tampoco autoriza crear o modificar una constitución, una misión u otros documentos, ni comenzar automáticamente etapas posteriores.</li>
+        <li>No pegues contraseñas, tokens, claves, datos personales sensibles ni información privada de terceros.</li>
+        <li>Una respuesta plausible no demuestra por sí sola que el archivo se haya leído. Comprueba la actividad visible de lectura disponible y contrasta las citas con títulos que realmente existan en tu archivo.</li>
+        <li>Si no hay evidencia visible o el archivo no se puede leer, detén la verificación y revisa tú el documento; no trates una conjetura como contexto confirmado.</li>
+      </ul>
+      <div class="note">Esta guía describe un flujo de trabajo; no afirma que una entrevista, lectura o actualización haya ocurrido en tu entorno. Tú revisas y decides cada paso.</div>
+    </section>
+
+    <section class="card">
+      <h2>Errores comunes y comprobación</h2>
+      <ul>
+        <li><strong>Confundir guía con archivo de trabajo:</strong> completa y conserva tu propia copia Markdown en tu proyecto.</li>
+        <li><strong>Tratar el ejemplo como requisito:</strong> Snake solo ilustra una idea y sus pendientes; decide el contenido de tu proyecto.</li>
+        <li><strong>Inventar respuestas para cerrar secciones:</strong> lo desconocido puede seguir pendiente; no necesitas resolverlo todo para comenzar.</li>
+        <li><strong>Interpretar “fuera de la primera versión” como “descartado para siempre”:</strong> registra solo exclusiones que hayas decidido y si podrían retomarse.</li>
+        <li><strong>Guardar antes de revisar:</strong> entrevista y borrador son de solo lectura; cancelar o rechazar no cambia archivos.</li>
+        <li><strong>Autorizar sin limitar el destino:</strong> verifica el contenido, la ruta del mismo archivo existente y el alcance concreto antes de aprobar.</li>
+      </ul>
+      <h3>Lista final</h3>
+      <ul class="checklist">
+        <li>☐ Copié la plantilla una vez y completé mi archivo Markdown en una ruta que elegí.</li>
+        <li>☐ Identifiqué lo que sé y dejé decisiones abiertas como pendientes, sin inventarlas.</li>
+        <li>☐ Si usé una entrevista, limité las lecturas a las dos rutas que indiqué y revisé el borrador completo.</li>
+        <li>☐ Aprobé explícitamente contenido, ruta del archivo existente y alcance antes de permitir su actualización.</li>
+        <li>☐ Rechazar o cancelar dejó los archivos sin cambios; ninguna autorización se extendió a otras tareas.</li>
+        <li>☐ Tras una actualización aprobada, contrasté la lectura final y las citas con el archivo real.</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>Después: conoce la constitución del proyecto</h2>
+      <p>La idea inicial responde principalmente <strong>qué</strong> quieres construir y para quién; no es todavía un plan técnico ni un conjunto de acuerdos de trabajo. Más adelante, una misión puede reutilizar material aprobado de tu idea, sin repetir innecesariamente la entrevista. La constitución añade acuerdos para trabajar en el proyecto; no es una lista de todas sus funciones.</p>
+      <p>Cuando tú y la persona responsable confirmen que es momento de continuar, pueden revisar la <a href="constitucion-proyecto.html">guía de constitución del proyecto</a>. Este enlace es informativo: no inicia esa etapa ni autoriza generar documentos. También puedes completar la plantilla a mano y detenerte aquí.</p>
+    </section>
+    <a class="back" href="index.html#contexto-proyecto">← Volver al contexto del proyecto</a>
+    <footer><p>Material público de apoyo para proyectos estudiantiles.</p></footer>
+  </main>
+</body>
+</html>
