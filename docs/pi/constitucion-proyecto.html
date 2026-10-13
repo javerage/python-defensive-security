@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prepara la constitución de tu proyecto — Pi</title>
+  <style>
+    :root { --primary:#0f172a; --secondary:#1e3a8a; --accent:#2563eb; --bg:#f8fafc; --card:#fff; --text:#334155; --dark:#0f172a; --border:#e2e8f0; --warn:#fffbeb; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,sans-serif; background:var(--bg); color:var(--text); line-height:1.65; padding:30px 20px; }
+    .container { max-width:860px; margin:auto; }
+    header { background:linear-gradient(135deg,var(--primary),var(--secondary)); color:white; padding:32px 28px; border-radius:12px; margin-bottom:24px; }
+    h1 { font-size:26px; line-height:1.25; margin-bottom:10px; }
+    .lead { color:#cbd5e1; }
+    .card { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:24px; margin-bottom:18px; }
+    h2 { color:var(--dark); font-size:19px; margin-bottom:10px; }
+    h3 { color:var(--secondary); font-size:16px; margin:16px 0 6px; }
+    p,li { font-size:14px; }
+    ol,ul { padding-left:22px; margin:10px 0; }
+    li { margin:7px 0; }
+    a { color:#1d4ed8; }
+    .downloads { display:flex; flex-wrap:wrap; gap:12px; margin-top:18px; }
+    .downloads a { display:inline-block; background:white; border:1px solid #bfdbfe; border-radius:7px; padding:10px 14px; font-size:14px; font-weight:700; text-decoration:none; }
+    .note { background:var(--warn); border-left:4px solid #d97706; padding:12px 14px; margin:12px 0; border-radius:0 6px 6px 0; }
+    pre { overflow-x:auto; white-space:pre-wrap; background:#f1f5f9; padding:14px; border-radius:7px; margin:10px 0; font-size:13px; }
+    code { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; }
+    .checklist { list-style:none; padding-left:0; }
+    .checklist li { padding:9px 12px; border:1px solid var(--border); border-radius:6px; }
+    a.back { display:inline-block; margin-top:8px; font-weight:600; text-decoration:none; }
+    footer { text-align:center; margin-top:28px; font-size:12.5px; color:#64748b; }
+    @media (max-width:600px) { body { padding:18px 12px; } header,.card { padding:20px 17px; } }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <header>
+      <p><strong>Pi · Guía pública para estudiantes</strong></p>
+      <h1>Prepara la constitución de tu proyecto</h1>
+      <p class="lead">Crea un único archivo de contexto, revísalo tú y pide a Pi que lo lea explícitamente. La constitución documenta acuerdos; no convierte al agente en un entorno aislado ni completa tu proyecto.</p>
+      <nav class="downloads" aria-label="Materiales descargables">
+        <a href="constitucion-template.md">Abrir plantilla Markdown</a>
+        <a href="constitucion-sesion-10.md">Ver ejemplo completo: Sesión 10</a>
+      </nav>
+    </header>
+
+    <section class="card">
+      <h2>Qué prepararás y qué no</h2>
+      <p>Prepara <code>CONSTITUTION.md</code> en la raíz del proyecto que elijas. Describe propósito, límites, datos, responsabilidades, autorizaciones y verificación de TU proyecto. La plantilla es reutilizable: no presupone lenguaje, plataforma, cliente ni tipo de aplicación.</p>
+      <p>Los dos archivos Markdown enlazados son materiales públicos de apoyo, no archivos de contexto adicionales que debas copiar al proyecto. No se crea un comando de Pi ni una skill: estos documentos no pertenecen a <code>.pi/prompts/</code> ni a <code>.pi/skills/</code>.</p>
+      <div class="note"><strong>Importante:</strong> un archivo de constitución expresa instrucciones y acuerdos, pero no los hace cumplir técnicamente ni concede permisos al agente. La persona decide y revisa cada acción.</div>
+    </section>
+
+    <section class="card">
+      <h2>Antes de empezar</h2>
+      <ul>
+        <li>Ten un proyecto y una persona responsable de confirmar sus límites.</li>
+        <li>Elige un editor de texto. No necesitas instalar una herramienta adicional para completar el Markdown.</li>
+        <li>Usa la plantilla como guía y el ejemplo de Sesión 10 solo para entender el nivel de detalle. Adapta todo a tu propio proyecto.</li>
+        <li>No escribas contraseñas, tokens, claves, datos personales sensibles ni información privada de terceros.</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>Pasos: de la plantilla al archivo revisado</h2>
+      <ol>
+        <li><strong>Abre tu carpeta de proyecto</strong> y comprueba si ya contiene <code>CONSTITUTION.md</code>. En Windows puedes verlo en el Explorador de archivos; no reemplaces un archivo existente. Si ya existe, léelo y acuerda su actualización con la persona responsable.</li>
+        <li><strong>Abre la plantilla pública</strong> <a href="constitucion-template.md">constitucion-template.md</a>. Usa «Guardar como» en tu editor de texto y guarda una copia llamada exactamente <code>CONSTITUTION.md</code> en la raíz de tu proyecto. Selecciona codificación UTF-8 si el editor lo pregunta y confirma que no agregó <code>.txt</code>. La carpeta raíz depende de tu proyecto; no hay un nombre obligatorio.</li>
+        <li><strong>Completa las secciones</strong> con hechos y decisiones confirmadas. Los ejemplos de herramienta local, sitio web e informe de datos son alternativas ilustrativas, no requisitos. Si algo se desconoce, anota «Pendiente de decisión» y quién debe resolverlo.</li>
+        <li><strong>Revisa el alcance con una persona.</strong> Confirma quién conserva la decisión, qué datos se permiten, qué acciones requieren autorización y cómo se verificará el resultado. Elimina los corchetes, ayudas y ejemplos que no aplican. No declares pruebas exitosas antes de observarlas.</li>
+        <li><strong>Guarda y vuelve a abrir el archivo</strong> para confirmar el nombre y contenido. Conserva el original si tienes dudas; no sobrescribas acuerdos previos sin aprobación.</li>
+        <li><strong>Pide a Pi que lo lea expresamente</strong> desde el proyecto abierto:</li>
+      </ol>
+      <pre><code>Lee CONSTITUTION.md y resume sus límites, responsabilidades y criterios de verificación. Para cada punto, cita la sección concreta. No edites ni ejecutes archivos del proyecto. Si no puedes leer el archivo, detente e informa esa limitación; no infieras su contenido.</code></pre>
+      <p>No se necesita <code>/reload</code> para este archivo de contexto nuevo: ese comando corresponde a recargar prompts/skills y la constitución no es ninguna de esas cosas.</p>
+    </section>
+
+    <section class="card">
+      <h2>Comprueba la lectura con evidencia</h2>
+      <p>Lee tú la respuesta y contrástala con las secciones del archivo. Una respuesta plausible no demuestra por sí sola que Pi haya cargado el documento.</p>
+      <ul>
+        <li>Busca una confirmación observable de que se leyó el archivo indicado (por ejemplo, la actividad de herramienta visible en tu interfaz).</li>
+        <li>Comprueba que las citas corresponden a títulos y límites que realmente escribiste.</li>
+        <li>Si no ves evidencia de lectura, abre el archivo y revisa tú misma/o el resumen; no trates una conjetura como contexto verificado.</li>
+        <li>Si Pi no puede leerlo, detén el flujo y revisa con la persona responsable el archivo abierto y la carpeta de trabajo. No le pidas que adivine ni que edite.</li>
+      </ul>
+      <div class="note">La constitución no es un sandbox, una política ejecutable ni una concesión de acceso. Revisa cualquier propuesta y autoriza por separado las acciones que correspondan.</div>
+    </section>
+
+    <section class="card">
+      <h2>Errores comunes</h2>
+      <ul>
+        <li><strong>Nombre incorrecto:</strong> el editor guardó <code>CONSTITUTION.md.txt</code>. Activa la visualización de extensiones y corrige el nombre sin reemplazar archivos inesperadamente.</li>
+        <li><strong>Archivo en otra carpeta:</strong> guardaste la plantilla en descargas y pediste a Pi que la leyera desde el proyecto. Guarda la copia acordada en la raíz elegida.</li>
+        <li><strong>Asumir que Pi lo descubrió:</strong> no supongas carga automática. Nombra explícitamente <code>CONSTITUTION.md</code> en tu solicitud.</li>
+        <li><strong>Confundir lectura con ejecución:</strong> pedir un resumen no significa que el agente haya modificado el proyecto ni que debas permitirlo.</li>
+        <li><strong>Copiar el ejemplo literalmente:</strong> el ejemplo describe una práctica concreta de la Sesión 10. Sustitúyelo por hechos de tu proyecto y no copies reglas de seguridad que no hayan sido acordadas.</li>
+        <li><strong>Usar datos reales innecesarios:</strong> describe categorías y procedencia sin pegar secretos ni información personal.</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>Lista final</h2>
+      <ul class="checklist">
+        <li>☐ Existe un solo <code>CONSTITUTION.md</code> en la raíz elegida y confirmé su nombre.</li>
+        <li>☐ Cada autorización corresponde a una decisión humana real; el archivo no se trata como control técnico.</li>
+        <li>☐ Quité los marcadores y ejemplos que no aplican; no incluí información sensible.</li>
+        <li>☐ Pedí a Pi leer el archivo sin editar ni ejecutar y revisé la evidencia observable de lectura.</li>
+        <li>☐ Puedo trasladar el proceso a otro proyecto cambiando su contenido, no copiando supuestos del ejemplo.</li>
+      </ul>
+      <p>La práctica de programación de la Sesión 10 sigue sus propias instrucciones y la autoría del estudiante. Preparar este archivo no completa el ejercicio.</p>
+    </section>
+    <a class="back" href="index.html">← Volver a las guías de Pi</a>
+    <footer><p>Material público de apoyo para proyectos estudiantiles.</p></footer>
+  </main>
+</body>
+</html>
