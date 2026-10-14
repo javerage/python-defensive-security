@@ -46,9 +46,9 @@
 
     <section class="card">
       <h2>Qué prepararás</h2>
-      <p>Esta etapa registra la idea inicial: qué resultado imaginas, para quién, qué experiencia buscas, qué debería poder hacer la primera versión, qué dejarías fuera por ahora y qué decisiones siguen abiertas. Todavía no es un plan técnico ni una constitución del proyecto.</p>
+      <p>Esta etapa describe el producto que imaginas: qué resultado ofrecerá, quién podría usarlo, qué experiencia busca ofrecer, qué comportamientos necesita y qué decisiones siguen abiertas. También permite registrar exclusiones confirmadas para la primera versión. No es un plan técnico ni una guía de cómo aprender o construirlo.</p>
       <p>Descarga la <a href="idea-proyecto-template.md">plantilla Markdown</a> y copia su contenido <strong>una sola vez</strong> en un archivo real de tu proyecto que tú elijas. <code>IDEA-PROYECTO.md</code> es un nombre sugerido, no obligatorio: puedes usar otro nombre y ruta. Completa ese archivo y consérvalo allí. La guía HTML acompaña el trabajo; no sustituye tu documento Markdown.</p>
-      <div class="note"><strong>Tu idea, tus decisiones:</strong> escribe lo que sabes hoy. Si algo no está decidido, déjalo como «Pendiente de decisión» e indica quién puede decidirlo. No tienes que resolver todo para empezar.</div>
+      <div class="note"><strong>Tu idea, tus decisiones:</strong> escribe lo que sabes hoy y distingue requisitos confirmados de propuestas. Una pregunta puede quedar abierta y cambiar a medida que aparezca evidencia o tomes una decisión explícita. No tienes que resolver todo para empezar.</div>
       <p>Snake es el proyecto de referencia de este ejercicio: un proyecto real que desarrollaremos progresivamente a partir de sus requisitos y decisiones pendientes. El documento distingue los requisitos explícitos de las decisiones aún abiertas; no implica que el juego esté implementado ni que todos sus requisitos estén definidos o aprobados.</p>
     </section>
 
@@ -56,13 +56,19 @@
       <h2>Las seis partes de la plantilla</h2>
       <ol>
         <li><strong>Qué quiere construir:</strong> el resultado que imaginas, sin elegir todavía la implementación. Por ejemplo, una guía para encontrar espacios tranquilos de estudio.</li>
-        <li><strong>Para quién:</strong> quién podría usarlo y en qué situación. Por ejemplo, estudiantes que buscan dónde estudiar.</li>
+        <li><strong>Para quién:</strong> quién podría usarlo y en qué situación. Si el acceso tiene límites, descríbelos por separado: las personas a quienes se dirige el diseño no son necesariamente las únicas que podrán usarlo ni una lista automática de exclusiones.</li>
         <li><strong>Qué necesidad o experiencia quiere atender:</strong> la dificultad o experiencia positiva que quieres abordar; distingue lo que sabes de lo que supones. Por ejemplo, hoy la información de esos espacios está dispersa.</li>
         <li><strong>Qué comportamientos considera indispensables:</strong> resultados observables que harían útil la primera versión, no tecnologías. Por ejemplo, consultar los espacios incluidos y ver su dirección.</li>
-        <li><strong>Qué quedará fuera de la primera versión:</strong> ideas que, si ya lo decidiste, no abordarás ahora. Una exclusión puede ser para más adelante y no significa descartarla para siempre. No conviertas una propuesta en un hecho confirmado.</li>
-        <li><strong>Qué todavía no sabe decidir:</strong> preguntas abiertas y, si se sabe, quién ayudará a resolverlas. Por ejemplo, confirmar con posibles usuarios qué información les sería útil.</li>
+        <li><strong>Qué quedará fuera de la primera versión:</strong> ideas que hayas confirmado excluir por ahora. Distingue una exclusión del MVP de una prioridad aplazada o una limitación de acceso; una exclusión no es una imposibilidad técnica ni un descarte permanente. Las propuestas aún no confirmadas no son requisitos.</li>
+        <li><strong>Qué todavía no sabe decidir:</strong> preguntas abiertas y, si se sabe, quién ayudará a resolverlas. Pueden seguir abiertas y evolucionar con evidencia o decisiones confirmadas; no es necesario cerrarlas para completar la idea.</li>
       </ol>
       <p>La plantilla existente contiene estas mismas seis secciones y sus espacios para responder. Usa sus ejemplos como ilustraciones, no como requisitos.</p>
+    </section>
+
+    <section class="card">
+      <h2>Cómo redactar y revisar tu idea</h2>
+      <p>Describe el proyecto con una voz natural y consistente: qué quieres construir, qué podrá hacer quien lo use y qué sigue por decidir. Usa frases claras y evita presentar como terminado algo que todavía se propone. Los párrafos ayudan a explicar el propósito, el público y la experiencia; las listas sirven para ordenar comportamientos, exclusiones y preguntas abiertas.</p>
+      <p>Después de cada cambio, revisa las seis secciones como un conjunto: elimina repeticiones innecesarias y comprueba que no se contradigan. Mejorar el estilo no autoriza cambiar reglas, cifras, etiquetas ni decisiones confirmadas. Si aparece una duda nueva que amplía lo solicitado, debe presentarse aparte para que decidas si la incorporas, no resolverse por suposición.</p>
     </section>
 
     <section class="card">
@@ -70,21 +76,21 @@
       <ol>
         <li><strong>Completa tu archivo de idea.</strong> Abre el Markdown que copiaste en tu proyecto y escribe con tus palabras. Puedes completarlo manualmente; no necesitas Pi ni herramientas adicionales para esta etapa.</li>
         <li><strong>Prepara las rutas.</strong> Antes de pedir ayuda, sustituye los marcadores de los prompts de abajo por la ruta real de la plantilla autorizada y de tu archivo de idea. Indica explícitamente qué rutas puede leer; no incluyas otros archivos por conveniencia.</li>
-        <li><strong>Conversa sin cambios.</strong> Pide que lea únicamente la plantilla autorizada y tu archivo de idea. Por cada sección, explica brevemente su propósito, formula una pregunta a la vez y espera tu respuesta. Si no hay una herramienta de preguntas estructuradas, puede hacerlo en la conversación normal. Si no puede leer una ruta autorizada, debe detenerse: no debe inferir su contenido. Conserva respuestas claras y pregunta solo cuando haya una ambigüedad que realmente necesite aclaración.</li>
-        <li><strong>Revisa la propuesta completa.</strong> Antes de cualquier escritura, lee el borrador completo y las diferencias propuestas contra tu archivo actual. Confirma que conserva tus respuestas, no inventa decisiones y deja lo desconocido como pendiente con responsable cuando se conozca.</li>
+        <li><strong>Conversa sin cambios.</strong> Pide que lea únicamente la plantilla autorizada y tu archivo de idea. Por cada sección, explica brevemente su propósito, formula una pregunta a la vez y espera tu respuesta. Si no hay una herramienta de preguntas estructuradas, puede hacerlo en la conversación normal. Si no puede leer una ruta autorizada, debe detenerse: no debe inferir su contenido. Conserva respuestas claras y pregunta solo cuando una ambigüedad sea necesaria para el cambio solicitado. No conviertas una petición de mejorar la redacción en una instrucción para completar requisitos.</li>
+        <li><strong>Revisa la propuesta completa.</strong> Antes de cualquier escritura, lee el borrador completo y las diferencias propuestas contra tu archivo actual. Comprueba que preserva decisiones y valores concretos, diferencia requisitos confirmados de propuestas y preguntas abiertas, y no cambia el alcance sin consultarte. Una propuesta nueva que amplíe lo pedido debe presentarse aparte para que la confirmes antes de incorporarla.</li>
         <li><strong>Aprueba contenido, archivo y alcance por separado.</strong> Solo después de ver el borrador puedes aprobar explícitamente su contenido, la ruta del archivo existente que se actualizará y el alcance de esa escritura. Una aprobación no autoriza otros archivos, ejecución de código ni etapas posteriores.</li>
         <li><strong>Verifica después de actualizar.</strong> Una vez aprobada y realizada la actualización del mismo archivo, pide una lectura final de solo lectura. Comprueba evidencia visible de que se leyó el archivo guardado y que las referencias corresponden a secciones reales.</li>
       </ol>
       <div class="note">La entrevista y el borrador no escriben ni ejecutan nada. Si rechazas o cancelas, no se cambia ningún archivo. La actualización autorizada es sobre el mismo archivo de idea que ya preparaste, no sobre un documento formal separado.</div>
 
       <h3>Prompt para iniciar la entrevista de solo lectura</h3>
-      <pre><code>Lee únicamente la plantilla autorizada en [RUTA REAL DE LA PLANTILLA] y mi archivo de idea existente en [RUTA REAL DE MI ARCHIVO]. No leas otros archivos. No escribas ni ejecutes nada. Guíame por las seis secciones de la plantilla: explica brevemente el propósito de cada una, haz una pregunta por turno y espera mi respuesta. Si no tienes una herramienta de preguntas estructuradas, pregunta en esta conversación. Conserva mis respuestas cuando estén claras; pregunta solo para resolver ambigüedades necesarias. No inventes hechos ni decisiones. Deja lo desconocido como “Pendiente de decisión” e indica quién decide si lo sabemos. Al terminar, muestra el borrador completo y las diferencias propuestas para actualizar mi mismo archivo existente. No guardes nada; espera mi aprobación explícita del contenido, de la ruta de ese archivo y del alcance de la actualización. Si no apruebo, cancelo o no puedes leer una ruta autorizada, no cambies nada y detente.</code></pre>
+      <pre><code>Lee únicamente la plantilla autorizada en [RUTA REAL DE LA PLANTILLA] y mi archivo de idea existente en [RUTA REAL DE MI ARCHIVO]. No leas otros archivos. No escribas ni ejecutes nada. Guíame por las seis secciones de la plantilla: explica brevemente el propósito de cada una, haz una pregunta por turno y espera mi respuesta. Si no hay herramienta de preguntas estructuradas, pregunta en esta conversación. Conserva las decisiones y respuestas claras; no las vuelvas a preguntar. Pregunta solo por una ambigüedad necesaria para el cambio que solicito, no para cerrar todos los temas pendientes. Describe el producto, no la metodología con la que aprenderemos a desarrollarlo. Distingue quién puede acceder de las personas a quienes se dirige el diseño, y diferencia requisitos confirmados, propuestas, inclusiones por decidir, prioridades aplazadas y exclusiones del MVP. No presentes una limitación sin confirmar como imposibilidad técnica ni inventes hechos o decisiones. Lo desconocido puede permanecer como “Pendiente de decisión”, indicando quién decide si se conoce, y evolucionar con evidencia o decisiones explícitas. Redacta con una voz natural y consistente de proyecto por construir, sin frases fragmentadas ni repeticiones innecesarias. Conserva reglas, números y etiquetas confirmados, y revisa las seis secciones en conjunto. Si una duda nueva amplía mi pedido, muéstramela aparte para confirmar antes de incorporarla. Al terminar, presenta el borrador completo y las diferencias propuestas para actualizar mi mismo archivo existente. No guardes nada; espera mi aprobación explícita del contenido, la ruta de ese archivo y el alcance de la escritura. Si no apruebo, cancelo o no puedes leer una ruta autorizada, no cambies nada y detente.</code></pre>
 
       <h3>Prompt de aprobación explícita, solo después de revisar</h3>
-      <pre><code>Apruebo el contenido del borrador que acabamos de revisar y autorizo actualizar únicamente el archivo existente [RUTA REAL DE MI ARCHIVO] con ese contenido. Esta autorización cubre solo esa actualización: no crees otro documento, no cambies otros archivos y no ejecutes nada. Si el archivo o la ruta no corresponden, detente y pregunta antes de actuar.</code></pre>
+      <pre><code>Apruebo el contenido completo del borrador que acabamos de revisar y autorizo actualizar únicamente el archivo existente [RUTA REAL DE MI ARCHIVO] con ese contenido. Esta autorización cubre solo esa escritura: no crees otro documento, no cambies otros archivos y no ejecutes nada. Si el archivo o la ruta no corresponden, detente y pregunta antes de actuar.</code></pre>
 
       <h3>Prompt de verificación final, solo después de la actualización aprobada</h3>
-      <pre><code>Lee [RUTA REAL DE MI ARCHIVO] en modo de solo lectura. Confirma qué archivo pudiste leer y resume la idea, las seis secciones y las decisiones que siguen pendientes, citando títulos de secciones que existan realmente en ese archivo. Indica la evidencia visible de lectura disponible en la interfaz, sin afirmar una actividad que no ocurrió. Si no puedes leerlo, detente; no infieras el contenido ni edites o ejecutes archivos.</code></pre>
+      <pre><code>Lee [RUTA REAL DE MI ARCHIVO] en modo de solo lectura. Confirma qué archivo pudiste leer y resume la idea, sus seis secciones y las preguntas que siguen abiertas, citando títulos que existan realmente en el archivo. Comprueba que el texto guardado conserva las decisiones y reglas confirmadas, distingue propuestas y exclusiones, y no presenta como resuelta una pregunta que sigue abierta. Indica la evidencia visible de lectura disponible en la interfaz, sin afirmar una actividad que no ocurrió. Si no puedes leerlo, detente; no infieras el contenido ni edites o ejecutes archivos.</code></pre>
       <p>Sustituye cada marcador por una ruta real antes de usar los prompts. No se promete una extensión, comando, recarga automática ni capacidad específica de Pi; usa la conversación normal si no hay controles estructurados disponibles.</p>
     </section>
 
@@ -104,7 +110,8 @@
       <h2>Errores comunes y comprobación</h2>
       <ul>
         <li><strong>Confundir guía con archivo de trabajo:</strong> completa y conserva tu propia copia Markdown en tu proyecto.</li>
-        <li><strong>Trasladar requisitos de Snake a otro proyecto:</strong> usa sus requisitos solo si Snake es tu proyecto; si elegiste otro, define el contenido de ese proyecto.</li>
+        <li><strong>Confundir acceso con público de diseño:</strong> describe por separado quién puede acceder y a quién se dirige el diseño; no deduzcas exclusiones solo por el público principal.</li>
+        <li><strong>Confundir estados de una decisión:</strong> una propuesta, una prioridad aplazada o una inclusión pendiente no equivalen a requisito confirmado ni a exclusión del MVP.</li>
         <li><strong>Inventar respuestas para cerrar secciones:</strong> lo desconocido puede seguir pendiente; no necesitas resolverlo todo para comenzar.</li>
         <li><strong>Interpretar “fuera de la primera versión” como “descartado para siempre”:</strong> registra solo exclusiones que hayas decidido y si podrían retomarse.</li>
         <li><strong>Guardar antes de revisar:</strong> entrevista y borrador son de solo lectura; cancelar o rechazar no cambia archivos.</li>
@@ -113,7 +120,8 @@
       <h3>Lista final</h3>
       <ul class="checklist">
         <li>☐ Copié la plantilla una vez y completé mi archivo Markdown en una ruta que elegí.</li>
-        <li>☐ Identifiqué lo que sé y dejé decisiones abiertas como pendientes, sin inventarlas.</li>
+        <li>☐ Diferencié requisitos confirmados, propuestas, inclusiones pendientes, prioridades aplazadas y exclusiones confirmadas.</li>
+        <li>☐ Leí las seis secciones en conjunto y conservé las preguntas que siguen abiertas.</li>
         <li>☐ Si usé una entrevista, limité las lecturas a las dos rutas que indiqué y revisé el borrador completo.</li>
         <li>☐ Aprobé explícitamente contenido, ruta del archivo existente y alcance antes de permitir su actualización.</li>
         <li>☐ Rechazar o cancelar dejó los archivos sin cambios; ninguna autorización se extendió a otras tareas.</li>
