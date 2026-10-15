@@ -16,15 +16,14 @@ Las referencias de la tabla corresponden a estas secciones de la idea:
 - **S5:** «5. Qué quedará fuera de la primera versión»: sin guardar y retomar partidas ni modo multijugador; se mantiene el highscore.
 - **S6:** «6. Qué todavía no sabe decidir»: reglas y funciones que siguen abiertas.
 
-Además, la entrevista confirmó dos decisiones que todavía no están incorporadas a la idea original:
+El inicio y el reinicio se rigen por estas reglas de la sección S4:
 
-- **D1 — Name required:** si se pulsa `play` o la tecla de espacio sin indicar un nombre, la partida no comienza. Se solicita el nombre y se permanece esperando el inicio. Las reglas detalladas de validación del nombre siguen pendientes.
-- **D2 — Automatic restart:** si una colisión consume una vida y todavía quedan otras, la partida se reinicia y el movimiento se reanuda automáticamente. No se vuelve a pedir `play` ni la tecla de espacio. Qué datos se conservan o reinician sigue pendiente.
+- **Player name:** se puede indicar un nombre antes de iniciar. Si se pulsa `play` o la tecla de espacio sin haberlo indicado, se genera `player_YYYYMMDD_HHmmss_SSS` con la fecha, la hora y tres dígitos de milisegundos del momento de inicio, y la partida comienza sin pedir otra acción. Por ejemplo: `player_20261015_173025_482`. No se usa aleatoriedad ni se garantiza unicidad; es un nombre visible de la partida, no un identificador único. La referencia horaria y la validación detallada de los nombres escritos siguen pendientes.
+- **Automatic restart:** si una colisión consume una vida y todavía quedan otras, la partida se reinicia y el movimiento se reanuda automáticamente. No se vuelve a pedir `play` ni la tecla de espacio. Qué datos se conservan o reinician sigue pendiente.
 
 Los estados describen situaciones del juego, no pantallas ni diseños de interfaz:
 
-- `AwaitingName`: se espera que el jugador indique su nombre.
-- `ReadyToPlay`: el nombre está indicado y se espera la acción de inicio.
+- `AwaitingStart`: se espera la acción de inicio; indicar un nombre es opcional.
 - `Playing`: la serpiente se mueve y el jugador puede dirigirla.
 - `Results`: la partida terminó por agotarse las vidas y se muestran sus resultados.
 
@@ -34,14 +33,14 @@ Los estados describen situaciones del juego, no pantallas ni diseños de interfa
 
 | Current state | Action or event | Condition | Game response | Next state | Source or open question |
 | --- | --- | --- | --- | --- | --- |
-| `AwaitingName` | `StartRequested` — pulsar `play` o espacio | No se ha indicado un nombre | Solicitar el nombre sin iniciar la partida | `AwaitingName` | S4; D1. Validación detallada: pendiente |
-| `AwaitingName` | `NameProvided` — indicar el nombre | El jugador ha indicado un nombre | Conservar el nombre para identificar la partida y esperar la acción de inicio | `ReadyToPlay` | S4; D1 |
-| `ReadyToPlay` | `StartRequested` — pulsar `play` o espacio | Hay un nombre indicado | Iniciar con tres vidas y una serpiente de tres bloques que avanza automáticamente en horizontal; mostrar puntaje, vidas y velocidad; reproducir el sonido de inicio y la música suave en bucle | `Playing` | S4. Velocidad inicial: S6 |
+| `AwaitingStart` | `NameProvided` — indicar el nombre | Todavía no se ha solicitado el inicio | Conservar el nombre escrito y esperar `play` o espacio | `AwaitingStart` | S4. Validación detallada: S6 |
+| `AwaitingStart` | `StartRequested` — pulsar `play` o espacio | No se ha indicado un nombre | Generar `player_YYYYMMDD_HHmmss_SSS` e iniciar con tres vidas y una serpiente de tres bloques que avanza automáticamente en horizontal; mostrar puntaje, vidas y velocidad; reproducir el sonido de inicio y la música suave en bucle | `Playing` | S4. Referencia horaria y velocidad inicial: S6 |
+| `AwaitingStart` | `StartRequested` — pulsar `play` o espacio | Hay un nombre indicado | Usar el nombre escrito e iniciar con tres vidas y una serpiente de tres bloques que avanza automáticamente en horizontal; mostrar puntaje, vidas y velocidad; reproducir el sonido de inicio y la música suave en bucle | `Playing` | S4. Velocidad inicial: S6 |
 | `Playing` | `MovementContinues` — transcurre el movimiento | No ocurre una colisión ni otro evento de cambio | Continuar el desplazamiento automático | `Playing` | S4 |
 | `Playing` | `DirectionRequested` — pulsar una flecha | La partida está en curso | Dirigir la serpiente con las flechas del teclado | `Playing` | S4. No se añaden reglas de giro que no estén definidas |
 | `Playing` | `FoodConsumed` — comer un bloque | La serpiente consume comida | Sumar puntos, crecer un bloque, actualizar el puntaje y reproducir `coin`; comprobar si corresponde subir de nivel | `Playing` | S4. Puntos por comida: S6 |
 | `Playing` | `LevelAdvance` — corresponde subir de nivel | Se cumple el umbral de 15 puntos y queda un nivel siguiente entre los cinco previstos | Subir de nivel, aumentar la velocidad y cambiar el escenario con mayor dificultad | `Playing` | S1; S4. Incremento de velocidad y escenarios concretos: S6 |
-| `Playing` | `Collision` — chocar con un muro o con el propio cuerpo | Tras descontar una vida todavía quedan otras | Actualizar las vidas, reproducir `explosion`, reiniciar la partida y reanudar el movimiento automáticamente | `Playing` | S4; D2. Puntaje, nivel, velocidad y demás datos tras el reinicio: pendientes |
+| `Playing` | `Collision` — chocar con un muro o con el propio cuerpo | Tras descontar una vida todavía quedan otras | Actualizar las vidas, reproducir `explosion`, reiniciar la partida y reanudar el movimiento automáticamente | `Playing` | S4. Puntaje, nivel, velocidad y demás datos tras el reinicio: S6 |
 | `Playing` | `Collision` — chocar con un muro o con el propio cuerpo | Se pierde la última vida | Terminar la partida y mostrar nombre, puntaje, nivel y velocidad alcanzados; se aplican los sonidos de pérdida de vida y `game over`, sin fijar su orden | `Results` | S3; S4 |
 | `Playing` | `FinalLevelCompleted` — completar el quinto nivel | La condición de finalización todavía no está definida | No se decide una victoria, un sexto nivel ni otra continuación | `Pending decision` | S1; S6. Es un límite del conocimiento del flujo, no un comportamiento aprobado |
 | `Pending decision` | `HighscoreRecording` — registrar y consultar resultados | El momento y el punto de acceso todavía no están definidos | Requisito confirmado: guardar highscore por nivel alcanzado y mostrar como máximo los diez mejores resultados, retirando los superados. No se fija todavía su conexión con el resto del recorrido | `Pending decision` | S4; S6. Registro por nivel, empates, almacenamiento y duración: pendientes |
@@ -53,13 +52,13 @@ El audio forma parte del comportamiento previsto, aunque se desarrollará despu�
 ## Flow Diagram
 
 ```text
-[AwaitingName]
-  -- StartRequested [no name] ---------------------> [AwaitingName]
-       Request a name; do not start.
-  -- NameProvided --------------------------------> [ReadyToPlay]
-
-[ReadyToPlay]
+[AwaitingStart]
+  -- NameProvided --------------------------------> [AwaitingStart]
+       Keep the supplied name and wait for play or Space.
+  -- StartRequested [no name] ---------------------> [Playing]
+       Generate player_YYYYMMDD_HHmmss_SSS and start immediately.
   -- StartRequested [name provided] --------------> [Playing]
+       Use the supplied name and start.
 
 [Playing]
   -- MovementContinues [no state-changing event] -> [Playing]
@@ -88,9 +87,9 @@ Las condiciones `remaining lives > 0` y `remaining lives = 0` se evalúan despu�
 
 - Cuántos puntos otorga cada comida.
 - Velocidad inicial e incremento al avanzar de nivel.
-- Qué datos se conservan o reinician tras perder una vida. La reanudación automática sí está confirmada por D2.
+- Qué datos se conservan o reinician tras perder una vida. La reanudación automática está definida en S4.
 - Dificultad y escenario de cada nivel, condición para completar el quinto y qué sucede después.
-- Reglas detalladas para aceptar el nombre. D1 solo confirma que no se inicia sin haberlo indicado.
+- Reglas detalladas para validar un nombre escrito y referencia horaria del nombre automático. El formato `player_YYYYMMDD_HHmmss_SSS` ya está definido y no promete unicidad.
 
 **Highscore flow**
 

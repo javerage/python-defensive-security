@@ -22,10 +22,10 @@ Al terminar la partida, se mostrarán el nombre del jugador y los resultados alc
 
 ## 4. Qué comportamientos considera indispensables
 
-- Antes de jugar, se solicitará el nombre del jugador. La partida comenzará al pulsar un botón con la etiqueta exacta «play» o la tecla de espacio; las flechas del teclado servirán para dirigir la serpiente.
+- Antes de jugar, se ofrecerá indicar un nombre. La partida comenzará al pulsar un botón con la etiqueta exacta «play» o la tecla de espacio. Si no se ha indicado un nombre, se generará uno con el formato `player_YYYYMMDD_HHmmss_SSS`, usando la fecha, la hora y tres dígitos de milisegundos del momento de inicio; por ejemplo, `player_20261015_173025_482`. No se añadirá un componente aleatorio. El nombre será una etiqueta visible de la partida que busca reducir coincidencias, sin garantizar unicidad. Las flechas del teclado servirán para dirigir la serpiente.
 - La serpiente empezará con tres bloques y avanzará automáticamente en línea recta horizontal. Cada bloque de comida consumido sumará puntos y hará crecer la serpiente en un bloque.
 - Durante la partida se mostrarán el puntaje, las vidas y la velocidad. Cada 15 puntos se subirá un nivel y aumentará la velocidad. La progresión prevista es de cinco niveles, con dificultad creciente y un cambio de escenario en cada nivel.
-- El jugador comenzará con tres vidas. Chocar contra un muro o contra la propia serpiente consumirá una vida. Si todavía quedan vidas, se reiniciará la partida; al perder la última, el juego terminará.
+- El jugador comenzará con tres vidas. Chocar contra un muro o contra la propia serpiente consumirá una vida. Si todavía quedan vidas, se reiniciará la partida y el movimiento se reanudará automáticamente, sin volver a pulsar «play» o espacio; al perder la última, el juego terminará.
 - Los escenarios tendrán muros y obstáculos representados con bloques de distintos colores y formas geométricas simples.
 - Se guardará un «highscore» por nivel alcanzado y se mostrarán hasta diez resultados, correspondientes a los mejores puntajes, nunca más de diez. Los puntajes se eliminarán a medida que sean superados; las reglas del registro por nivel y de los empates, así como la forma y el tiempo de almacenamiento, siguen pendientes.
 - La interfaz se adaptará a distintos tamaños de ventana en computadora. El tamaño mínimo y los dispositivos compatibles siguen pendientes; no se confirma soporte para teléfonos, tabletas ni controles táctiles.
@@ -54,6 +54,7 @@ Siguen pendientes decisiones necesarias para concretar las reglas y la presentac
 - Cómo se definirán la dificultad y los escenarios de cada uno de los cinco niveles.
 - Qué ocurrirá al completar el quinto nivel; no se ha definido un sexto nivel ni un final específico.
 - Cómo se interpretará el «highscore» por nivel, cómo se resolverán los empates, dónde se conservarán los resultados y durante cuánto tiempo.
+- Qué referencia horaria se usará para generar los nombres y cuáles serán las reglas detalladas de validación de los nombres escritos por el jugador.
 
 **Compatibilidad y presentación**
 
