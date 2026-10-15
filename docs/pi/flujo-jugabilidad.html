@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Define el flujo de jugabilidad — Pi</title>
+  <style>
+    :root { --primary:#0f172a; --secondary:#1e3a8a; --accent:#2563eb; --bg:#f8fafc; --card:#fff; --text:#334155; --border:#e2e8f0; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,sans-serif; background:var(--bg); color:var(--text); line-height:1.65; padding:30px 20px; }
+    main { max-width:860px; margin:auto; }
+    header { background:linear-gradient(135deg,var(--primary),var(--secondary)); color:white; padding:32px 28px; border-radius:12px; margin-bottom:24px; }
+    h1 { font-size:26px; line-height:1.25; margin:8px 0 10px; }
+    .lead { color:#cbd5e1; }
+    .card { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:24px; margin-bottom:18px; }
+    h2 { color:var(--primary); font-size:19px; margin-bottom:10px; }
+    h3 { color:var(--secondary); font-size:16px; margin:16px 0 6px; }
+    p,li { font-size:14px; }
+    p + p { margin-top:10px; }
+    ol,ul { padding-left:22px; margin:10px 0; }
+    li { margin:7px 0; }
+    a { color:#1d4ed8; }
+    .materials { display:flex; flex-wrap:wrap; gap:12px; margin-top:18px; }
+    .materials a { background:white; border:1px solid #bfdbfe; border-radius:7px; padding:10px 14px; font-size:14px; font-weight:700; text-decoration:none; }
+    .note { background:#fffbeb; border-left:4px solid #d97706; padding:12px 14px; margin:12px 0; }
+    pre { white-space:pre-wrap; overflow-wrap:anywhere; background:#f1f5f9; padding:14px; border-radius:7px; margin:10px 0; font-size:13px; }
+    code { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; }
+    .table-wrap { overflow-x:auto; }
+    table { border-collapse:collapse; width:100%; font-size:14px; margin:10px 0; }
+    th,td { padding:10px; text-align:left; border:1px solid var(--border); vertical-align:top; }
+    th { background:#f1f5f9; }
+    a:focus-visible { outline:3px solid var(--accent); outline-offset:3px; }
+    footer { margin:24px 0; font-size:13px; }
+    @media (max-width:600px) { body { padding:18px 12px; } header,.card { padding:20px 17px; } }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <p><strong>Pi · Guía de aula · Diseño del flujo</strong></p>
+      <h1>Define el flujo de jugabilidad</h1>
+      <p class="lead">Describe qué hace el jugador, cómo responde el juego y qué ocurre después. Primero revisaremos ese recorrido; los bocetos de las interfaces y la programación vendrán más adelante, cuando se autoricen.</p>
+      <nav class="materials" aria-label="Materiales de partida">
+        <a href="idea-proyecto.html">Revisar la guía de idea inicial</a>
+        <a href="idea-proyecto-snake.md">Leer la idea del proyecto Snake</a>
+      </nav>
+    </header>
+
+    <section class="card">
+      <h2>Qué aprenderás y qué entregarás</h2>
+      <p>Al terminar podrás explicar el recorrido de una partida, distinguir estados de acciones y justificar las transiciones con requisitos del proyecto. Prepararás una tabla de transiciones y un diagrama sencillo dentro de un mismo documento de trabajo.</p>
+      <p>Puedes llamar a ese documento <code>FLUJO-JUEGO.md</code>, aunque el nombre y la ubicación los decides tú. Describe la experiencia de quien juega, no el orden de construcción del producto; por eso no sustituye el roadmap del juego.</p>
+      <div class="note">Esta página enseña a elaborar el flujo. No contiene el flujo completo resuelto de Snake, no crea archivos por sí misma y no autoriza diseñar pantallas, programar o instalar herramientas.</div>
+    </section>
+
+    <section class="card">
+      <h2>Antes de empezar</h2>
+      <ul>
+        <li>Lee la idea inicial de tu proyecto y distingue requisitos confirmados, exclusiones y preguntas abiertas. En el aula usaremos Snake como proyecto de referencia; si trabajas con otro juego, utiliza sus propias reglas.</li>
+        <li>Ten a mano el texto real y su ubicación. No asumas que el agente ya lo leyó ni que recuerda las decisiones de otra sesión.</li>
+        <li>Puedes hacer la actividad a mano en papel o en un editor de texto. Pi es una ayuda opcional; no se requiere una herramienta de diagramas, una extensión ni un servicio externo.</li>
+        <li>No incluyas contraseñas, credenciales ni datos personales sensibles. Los nombres usados para recorrer una partida pueden ser ficticios.</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>Cuatro conceptos para leer el flujo</h2>
+      <ul>
+        <li><strong>Estado:</strong> la situación en la que se encuentra el juego, como una partida en curso. No todo estado necesita una pantalla distinta.</li>
+        <li><strong>Acción o evento:</strong> lo que hace el jugador o sucede durante la partida. Comer es un evento del juego; dirigir la serpiente es una acción del jugador.</li>
+        <li><strong>Condición:</strong> una regla que determina qué camino se sigue, como si todavía quedan vidas.</li>
+        <li><strong>Transición y respuesta:</strong> a qué estado se pasa y qué información o cambio percibe el jugador. Un evento puede actualizar el juego sin salir del estado actual.</li>
+      </ul>
+      <h3>Un fragmento para practicar, no una solución completa</h3>
+      <p>La idea de Snake confirma que comer suma puntos y aumenta la longitud en un bloque, pero deja pendiente cuántos puntos otorga cada comida. Podemos representar ese evento sin inventar la cantidad:</p>
+      <div class="table-wrap" role="region" aria-label="Fragmento de transición al comer" tabindex="0">
+        <table>
+          <caption>Fragmento basado en la sección 4 de la idea de Snake</caption>
+          <thead><tr><th scope="col">Estado</th><th scope="col">Evento</th><th scope="col">Condición</th><th scope="col">Respuesta</th><th scope="col">Destino</th><th scope="col">Pendiente</th></tr></thead>
+          <tbody><tr><td>Partida en curso</td><td>Comer un bloque de comida</td><td>La suma no alcanza un umbral de cambio de nivel</td><td>Sumar puntos y crecer un bloque</td><td>Partida en curso</td><td>Puntos por comida</td></tr></tbody>
+        </table>
+      </div>
+      <p>Es solo una rama del evento: tú deberás revisar qué ocurre cuando sí se alcanza el umbral. La condición delimita el fragmento, no fija una puntuación nueva ni resuelve una pregunta abierta.</p>
+    </section>
+
+    <section class="card">
+      <h2>Actividad guiada: construye y revisa el recorrido</h2>
+      <ol>
+        <li><strong>Identifica la entrada y los resultados.</strong> Explica con tus palabras cómo llega una persona al juego, qué se le solicita antes de empezar y qué información verá al terminar. Anota la sección de la idea que respalda cada comportamiento.</li>
+        <li><strong>Enumera los estados necesarios.</strong> Distingue lo que está confirmado de una propuesta tuya. No añadas pausa, tienda, inicio de sesión u otras funciones solo porque aparezcan en otros juegos.</li>
+        <li><strong>Conecta acciones, condiciones y respuestas.</strong> Usa una fila por transición. Además del recorrido habitual, revisa colisiones, cambios de nivel y pérdida de la última vida según las reglas de tu juego.</li>
+        <li><strong>Haz visibles los pendientes.</strong> Una transición puede terminar en «Pendiente de decisión». Por ejemplo, la idea de Snake no define qué ocurre al completar el quinto nivel. No inventes un sexto nivel o una victoria para cerrar el dibujo.</li>
+        <li><strong>Dibuja el recorrido en texto.</strong> Une estados con flechas y rotula cada enlace con el evento y, cuando aplique, la condición. Usa los mismos nombres que en la tabla. No es necesario renderizar un lenguaje de diagramas.</li>
+        <li><strong>Recorre una partida con otra persona.</strong> Explica un camino habitual y uno con una colisión. Compara el diagrama, la tabla y la idea inicial; señala saltos o contradicciones sin afirmar que has probado un juego que todavía no existe.</li>
+        <li><strong>Revisa antes de dar el flujo por preparado.</strong> Conserva las dudas abiertas y presenta las propuestas nuevas aparte. Si usaste un agente, aprueba el borrador y la ruta antes de permitir que guarde el documento.</li>
+      </ol>
+      <h3>Estructura copiable para tu documento</h3>
+      <pre><code># Flujo de jugabilidad: [nombre del proyecto]
+
+Idea consultada: [ruta real y secciones utilizadas]
+
+## Estados y transiciones
+| Estado actual | Acción o evento | Condición | Respuesta del juego | Estado siguiente | Fuente o pendiente |
+| --- | --- | --- | --- | --- | --- |
+| [estado] | [evento] | [condición, si aplica] | [respuesta] | [estado o pendiente] | [sección o decisión abierta] |
+
+## Diagrama del recorrido
+[Estado inicial] -- [evento o condición] --&gt; [Estado siguiente o pendiente]
+
+## Dudas y propuestas
+- [Pregunta abierta, o propuesta que aún requiere confirmación]</code></pre>
+      <p>La tabla y el diagrama son dos vistas del mismo flujo, no dos versiones independientes. No copies decisiones de otro proyecto ni conviertas las etiquetas de este esquema en requisitos.</p>
+    </section>
+
+    <section class="card">
+      <h2>Asistencia de Pi: entrevista, propuesta y guardado</h2>
+      <p>Sustituye los marcadores por rutas reales. Durante la entrevista solo se leen los documentos indicados y se prepara una propuesta en la conversación. El agente hará una pregunta por turno y esperará la respuesta; si no hay herramienta de preguntas, usará el chat. No necesita volver a preguntar lo que ya está claro ni resolver todos los pendientes.</p>
+      <h3>1. Solicitar la entrevista y el borrador, sin escritura</h3>
+      <pre><code>Lee únicamente mi idea de juego en [RUTA REAL DE LA IDEA] y esta guía en [RUTA REAL DE LA GUÍA]. Si existe un flujo previo en [RUTA REAL DEL FLUJO], puedes leer también ese archivo; si no existe, no lo inventes ni lo crees todavía. No escribas ni ejecutes nada. Ayúdame a identificar estados, acciones, condiciones y respuestas a partir de las reglas confirmadas. Haz una pregunta por turno, explica su propósito y espera mi respuesta, usando una herramienta de preguntas si está disponible o el chat si no lo está. No repitas preguntas ya respondidas ni cierres todos los pendientes por obligación. Mantén separadas las reglas, las propuestas y las dudas, y cita las secciones reales que respaldan cada transición. Si aparece una propuesta que amplía el alcance, consúltame antes de incorporarla. Presenta la tabla y un diagrama de texto como borrador completo de un único documento, con redacción natural y nombres consistentes. Si hay un archivo previo, muestra las diferencias. No cambies la idea del juego ni prepares pantallas, código o un roadmap. Espera mi aprobación explícita del contenido, la ruta y el permiso de guardado. Si no puedes leer una fuente autorizada, detente y no adivines su contenido. Si rechazo o cancelo, no cambies archivos.</code></pre>
+      <h3>2. Autorizar únicamente el documento revisado</h3>
+      <pre><code>Apruebo el borrador completo del flujo que acabamos de revisar y autorizo guardarlo únicamente en [RUTA REAL DEL FLUJO]. Antes de escribir, comprueba si el archivo existe: si existe, actualízalo solo si las diferencias que revisé corresponden a ese archivo; si no existe, créalo con el contenido aprobado. Si encuentras otro contenido o una ruta distinta de lo revisado, detente y consulta. No crees una segunda versión formal ni cambies otros archivos. Esta aprobación no autoriza ejecutar código, instalar herramientas, publicar ni avanzar al diseño de interfaces o a la programación.</code></pre>
+      <h3>3. Verificar el archivo después del guardado autorizado</h3>
+      <pre><code>Lee únicamente [RUTA REAL DEL FLUJO GUARDADO] y [RUTA REAL DE LA IDEA] en modo de solo lectura. Comprueba que la tabla y el diagrama usan los mismos estados, que las transiciones confirmadas corresponden a las reglas de la idea y que las preguntas abiertas no aparecen como resueltas. Contrasta el documento con el borrador aprobado en esta conversación y cita secciones reales. Indica la evidencia visible de lectura que exista, sin inventarla. Si no puedes leer un archivo, detente. No edites, ejecutes ni publiques nada.</code></pre>
+      <div class="note">Una respuesta plausible no demuestra lectura. Revisa la actividad visible de las herramientas y contrasta las citas con los archivos. Si no hay evidencia de acceso, no des por verificado el resultado. Guardar el flujo no autoriza modificar el juego ni otros documentos.</div>
+    </section>
+
+    <section class="card">
+      <h2>Comprobación para el aula</h2>
+      <ul>
+        <li>☐ Puedo explicar la diferencia entre estado, acción, condición y respuesta con una transición de mi proyecto.</li>
+        <li>☐ La tabla y el diagrama coinciden y permiten seguir los recorridos confirmados, incluidas sus alternativas.</li>
+        <li>☐ Cada transición tiene respaldo en la idea, está marcada como propuesta o conserva una duda explícita.</li>
+        <li>☐ No he convertido una función pendiente o excluida en parte del flujo confirmado.</li>
+        <li>☐ Revisé un recorrido habitual y otro con colisión; registré lo comprobado y lo que sigue abierto.</li>
+        <li>☐ Si usé Pi, revisé el borrador antes de autorizar el guardado y comprobé después el archivo real.</li>
+      </ul>
+      <p>Como comprobación de comprensión, elige una transición que no aparezca en el fragmento de ejemplo y explica qué requisito la respalda. Otra persona debe poder seguirla sin que tengas que inventar una regla para continuar.</p>
+    </section>
+
+    <section class="card">
+      <h2>Detente antes de diseñar las interfaces</h2>
+      <p>Este paso termina con el flujo revisado y sus pendientes visibles. Una pregunta abierta no es un error que debas borrar para dar el documento por terminado. Más adelante podrás actualizarlo con evidencia o decisiones explícitas.</p>
+      <p>La próxima actividad será representar ese recorrido mediante bocetos de interfaces, cuando se autorice. Esta guía no la prepara ni la inicia. Tampoco sustituye el roadmap del juego.</p>
+    </section>
+    <footer><a href="index.html#contexto-proyecto">← Volver al contexto del proyecto</a></footer>
+  </main>
+</body>
+</html>
