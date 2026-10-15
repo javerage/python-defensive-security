@@ -74,6 +74,52 @@
     </section>
 
     <section class="card">
+      <h2>Diagrama del recorrido</h2>
+      <p>Mapa completo de estados y eventos. Las flechas agrupan eventos; la tabla detalla cada transición. Las ramas en ámbar están pendientes y no definen un comportamiento.</p>
+      <svg viewBox="0 0 640 400" width="100%" role="img" aria-label="Diagrama de estados del flujo de Snake: espera de inicio, partida en curso, resultados y decisiones pendientes">
+        <title>Diagrama del flujo de Snake</title>
+        <desc>Desde la espera de inicio se puede indicar el nombre o comenzar la partida. Durante la partida, cinco eventos la conservan; la última colisión lleva a los resultados y el quinto nivel queda pendiente, igual que el registro del highscore.</desc>
+        <defs>
+          <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M 0 1 L 9 5 L 0 9 z" fill="#2563eb"></path>
+          </marker>
+          <marker id="arrow-pending" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M 0 1 L 9 5 L 0 9 z" fill="#d97706"></path>
+          </marker>
+        </defs>
+        <g font-size="13" font-weight="bold" text-anchor="middle" fill="#ffffff">
+          <rect x="15" y="60" width="150" height="56" rx="10" fill="#0f172a"></rect>
+          <text x="90" y="84">AwaitingStart</text>
+          <text x="90" y="101" font-size="11" font-weight="normal" fill="#cbd5e1">Espera de inicio</text>
+          <rect x="245" y="60" width="150" height="56" rx="10" fill="#0f172a"></rect>
+          <text x="320" y="84">Playing</text>
+          <text x="320" y="101" font-size="11" font-weight="normal" fill="#cbd5e1">Partida en curso</text>
+          <rect x="475" y="60" width="150" height="56" rx="10" fill="#0f172a"></rect>
+          <text x="550" y="84">Results</text>
+          <text x="550" y="101" font-size="11" font-weight="normal" fill="#cbd5e1">Fin de la partida</text>
+          <rect x="245" y="290" width="150" height="56" rx="10" fill="#fffbeb" stroke="#d97706" stroke-width="2" stroke-dasharray="7 4"></rect>
+          <text x="320" y="314" fill="#92400e">Pendiente</text>
+          <text x="320" y="331" font-size="11" font-weight="normal" fill="#92400e">Sin decidir</text>
+        </g>
+        <g font-size="11" text-anchor="middle" fill="#334155">
+          <path d="M 55 60 C 55 30 125 30 125 60" fill="none" stroke="#2563eb" stroke-width="2" marker-end="url(#arrow)"></path>
+          <text x="90" y="24">NameProvided</text>
+          <path d="M 165 88 H 243" fill="none" stroke="#2563eb" stroke-width="2" marker-end="url(#arrow)"></path>
+          <text x="205" y="78">StartRequested</text>
+          <path d="M 285 60 C 285 30 355 30 355 60" fill="none" stroke="#2563eb" stroke-width="2" marker-end="url(#arrow)"></path>
+          <text x="320" y="24">5 eventos conservan la partida</text>
+          <path d="M 395 88 H 473" fill="none" stroke="#2563eb" stroke-width="2" marker-end="url(#arrow)"></path>
+          <text x="435" y="78">Colisión (última vida)</text>
+          <path d="M 320 116 V 288" fill="none" stroke="#d97706" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arrow-pending)"></path>
+          <text x="414" y="200">Quinto nivel (pendiente)</text>
+          <path d="M 285 346 C 285 372 355 372 355 346" fill="none" stroke="#d97706" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arrow-pending)"></path>
+          <text x="320" y="388">Highscore (pendiente)</text>
+        </g>
+      </svg>
+      <p>El recorrido interactivo de arriba permite seguir este mapa paso a paso; la tabla siguiente detalla cada transición con su fuente.</p>
+    </section>
+
+    <section class="card">
       <h2>Tabla de transiciones aprobada</h2>
       <div class="table-wrap" role="region" aria-label="Transiciones del flujo de Snake" tabindex="0">
         <table>
@@ -107,7 +153,7 @@
       { from: "Pending", event: "HighscoreRecording", label: "Registrar o consultar el highscore", condition: "Momento y punto de acceso sin definir", response: "Requisito confirmado: top 10 por nivel. Su conexión con el recorrido sigue pendiente.", to: "Pending", source: "S4; S6", pending: true }
     ];
     var current = "AwaitingStart";
-    var history = [];
+    var trail = [];
     var stateEl = document.getElementById("current-state");
     var descEl = document.getElementById("state-desc");
     var responseEl = document.getElementById("last-response");
@@ -141,10 +187,10 @@
         li.appendChild(btn);
         listEl.appendChild(li);
       });
-      document.getElementById("back-btn").disabled = history.length === 0;
+      document.getElementById("back-btn").disabled = trail.length === 0;
     }
     function step(t) {
-      history.push(current);
+      trail.push(current);
       current = t.to;
       responseEl.innerHTML = "<strong>" + t.label + " → " + (t.to === "Pending" ? "Pendiente de decisión" : t.to) + "</strong><br>" + t.response + "<br><small>Fuente: " + t.source + "</small>";
       var entry = document.createElement("li");
@@ -156,8 +202,8 @@
       setTimeout(function () { responseEl.classList.remove("flash"); }, 1200);
     }
     document.getElementById("back-btn").addEventListener("click", function () {
-      if (history.length === 0) { return; }
-      current = history.pop();
+      if (trail.length === 0) { return; }
+      current = trail.pop();
       var last = logEl.lastChild;
       if (last) { logEl.removeChild(last); }
       responseEl.textContent = "";
@@ -165,7 +211,7 @@
     });
     document.getElementById("restart-btn").addEventListener("click", function () {
       current = "AwaitingStart";
-      history = [];
+      trail = [];
       logEl.innerHTML = "";
       responseEl.innerHTML = "<strong>Recorrido reiniciado.</strong> Vuelve a elegir un evento desde el estado inicial.";
       render();
