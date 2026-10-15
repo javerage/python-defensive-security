@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recorre el flujo de Snake — Pi</title>
+  <style>
+    :root { --primary:#0f172a; --secondary:#1e3a8a; --accent:#2563eb; --bg:#f8fafc; --card:#fff; --text:#334155; --border:#e2e8f0; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,sans-serif; background:var(--bg); color:var(--text); line-height:1.65; padding:30px 20px; }
+    main { max-width:860px; margin:auto; }
+    header { background:linear-gradient(135deg,var(--primary),var(--secondary)); color:white; padding:32px 28px; border-radius:12px; margin-bottom:24px; }
+    h1 { font-size:26px; line-height:1.25; margin:8px 0 10px; }
+    .lead { color:#cbd5e1; }
+    .card { background:var(--card); border:1px solid var(--border); border-radius:10px; padding:24px; margin-bottom:18px; }
+    h2 { color:var(--primary); font-size:19px; margin-bottom:10px; }
+    p,li { font-size:14px; }
+    p + p { margin-top:10px; }
+    ol,ul { padding-left:22px; margin:10px 0; }
+    li { margin:7px 0; }
+    a { color:#1d4ed8; }
+    .materials { display:flex; flex-wrap:wrap; gap:12px; margin-top:18px; }
+    .materials a { background:white; border:1px solid #bfdbfe; border-radius:7px; padding:10px 14px; font-size:14px; font-weight:700; text-decoration:none; }
+    .note { background:#fffbeb; border-left:4px solid #d97706; padding:12px 14px; margin:12px 0; }
+    pre { white-space:pre-wrap; overflow-wrap:anywhere; background:#f1f5f9; padding:14px; border-radius:7px; margin:10px 0; font-size:13px; }
+    code { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; }
+    .table-wrap { overflow-x:auto; }
+    table { border-collapse:collapse; width:100%; font-size:14px; margin:10px 0; }
+    th,td { padding:10px; text-align:left; border:1px solid var(--border); vertical-align:top; }
+    th { background:#f1f5f9; }
+    .state-name { display:inline-block; background:var(--primary); color:white; border-radius:6px; padding:4px 12px; font-size:14px; font-weight:700; }
+    .pending-badge { display:inline-block; background:#fffbeb; border:1px solid #d97706; color:#92400e; border-radius:6px; padding:2px 10px; font-size:12px; font-weight:700; }
+    .event-list { list-style:none; padding:0; margin:12px 0; display:flex; flex-direction:column; gap:8px; }
+    .event-list button { width:100%; text-align:left; background:white; border:1px solid var(--accent); border-radius:8px; padding:10px 14px; font-size:14px; cursor:pointer; }
+    .event-list button:hover { background:#eff6ff; }
+    .event-list small { display:block; color:#64748b; font-size:12px; }
+    .walker-controls { display:flex; flex-wrap:wrap; gap:10px; margin-top:12px; }
+    .walker-controls button { background:#f1f5f9; border:1px solid var(--border); border-radius:7px; padding:8px 14px; font-size:13px; font-weight:600; cursor:pointer; }
+    .response { background:#f8fafc; border:1px solid var(--border); border-radius:8px; padding:12px 14px; margin-top:12px; }
+    .path-log { list-style:none; padding:0; margin:10px 0; font-size:13px; }
+    .path-log li { padding:6px 0; border-bottom:1px dashed var(--border); }
+    a:focus-visible, button:focus-visible { outline:3px solid var(--accent); outline-offset:3px; }
+    footer { margin:24px 0; font-size:13px; }
+    @media (max-width:600px) { body { padding:18px 12px; } header,.card { padding:20px 17px; } }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <p><strong>Pi · Referencia del flujo · Snake</strong></p>
+      <h1>Recorre el flujo de Snake</h1>
+      <p class="lead">Sigue los estados de una partida aprobada en el documento de referencia: elige un evento y observa la respuesta del juego. Las ramas pendientes se muestran como tales, sin inventar su continuación. Esto no es el juego ni una prueba de su implementación.</p>
+      <nav class="materials" aria-label="Materiales de referencia">
+        <a href="flujo-jugabilidad.html">Volver a la guía del flujo</a>
+        <a href="game-flow-snake.md">Leer el flujo en Markdown</a>
+        <a href="idea-proyecto-snake.md">Leer la idea del proyecto</a>
+      </nav>
+    </header>
+
+    <section class="card" aria-labelledby="walker-heading">
+      <h2 id="walker-heading">Recorrido interactivo</h2>
+      <p>Estado actual: <span class="state-name" id="current-state">AwaitingStart</span></p>
+      <p id="state-desc"></p>
+      <div class="response" id="last-response" aria-live="polite"></div>
+      <h3 style="margin-top:14px;">Elige un evento</h3>
+      <ul class="event-list" id="event-list"></ul>
+      <div class="walker-controls">
+        <button type="button" id="back-btn">← Volver al estado anterior</button>
+        <button type="button" id="restart-btn">Reiniciar el recorrido</button>
+      </div>
+      <h3>Camino recorrido</h3>
+      <ol class="path-log" id="path-log"></ol>
+    </section>
+
+    <section class="card">
+      <h2>Tabla de transiciones aprobada</h2>
+      <div class="table-wrap" role="region" aria-label="Transiciones del flujo de Snake" tabindex="0">
+        <table>
+          <thead><tr><th scope="col">Estado actual</th><th scope="col">Evento</th><th scope="col">Condición</th><th scope="col">Respuesta</th><th scope="col">Destino</th></tr></thead>
+          <tbody id="flow-table"></tbody>
+        </table>
+      </div>
+      <p>Fuente: <a href="game-flow-snake.md">Snake Game Flow</a>, a partir de la idea inicial del proyecto. Las ramas marcadas como pendientes no definen un comportamiento.</p>
+    </section>
+
+    <footer><a href="flujo-jugabilidad.html">← Volver a la guía del flujo</a></footer>
+  </main>
+  <script>
+    var STATES = {
+      AwaitingStart: "Se espera la acción de inicio. Indicar un nombre es opcional.",
+      Playing: "La serpiente se mueve y el jugador puede dirigirla.",
+      Results: "La partida terminó porque se agotaron las vidas. Aquí termina el recorrido.",
+      Pending: "Información todavía no decidida. No es un estado del juego."
+    };
+    var TRANSITIONS = [
+      { from: "AwaitingStart", event: "NameProvided", label: "Indicar el nombre", condition: "Todavía no se ha solicitado el inicio", response: "Se conserva el nombre escrito y se sigue esperando «play» o espacio.", to: "AwaitingStart", source: "S4" },
+      { from: "AwaitingStart", event: "StartRequested", label: "Pulsar «play» o espacio sin nombre", condition: "No se ha indicado un nombre", response: "Se genera player_YYYYMMDD_HHmmss_SSS y la partida comienza de inmediato.", to: "Playing", source: "S4" },
+      { from: "AwaitingStart", event: "StartRequested", label: "Pulsar «play» o espacio con nombre", condition: "Hay un nombre indicado", response: "Se usa el nombre escrito y la partida comienza.", to: "Playing", source: "S4" },
+      { from: "Playing", event: "MovementContinues", label: "Dejar transcurrir el movimiento", condition: "Sin colisión ni otro evento de cambio", response: "La serpiente continúa su desplazamiento automático.", to: "Playing", source: "S4" },
+      { from: "Playing", event: "DirectionRequested", label: "Pulsar una flecha", condition: "La partida está en curso", response: "La serpiente cambia de dirección con las flechas del teclado.", to: "Playing", source: "S4" },
+      { from: "Playing", event: "FoodConsumed", label: "Comer un bloque de comida", condition: "La serpiente consume comida", response: "Suma puntos, crece un bloque y se comprueba si corresponde subir de nivel.", to: "Playing", source: "S4" },
+      { from: "Playing", event: "LevelAdvance", label: "Alcanzar el umbral de nivel", condition: "Se cumplen 15 puntos y queda un nivel siguiente", response: "Sube de nivel, aumenta la velocidad y cambia el escenario.", to: "Playing", source: "S1; S4" },
+      { from: "Playing", event: "Collision", label: "Chocar con muro o cuerpo (quedan vidas)", condition: "Tras descontar una vida todavía quedan otras", response: "Se actualizan las vidas, la partida se reinicia y el movimiento se reanuda automáticamente.", to: "Playing", source: "S4" },
+      { from: "Playing", event: "Collision", label: "Chocar con muro o cuerpo (última vida)", condition: "Se pierde la última vida", response: "La partida termina y se muestran nombre, puntaje, nivel y velocidad.", to: "Results", source: "S3; S4" },
+      { from: "Playing", event: "FinalLevelCompleted", label: "Completar el quinto nivel", condition: "Condición de finalización sin definir", response: "No hay continuación aprobada: ni victoria, ni sexto nivel, ni otro desenlace.", to: "Pending", source: "S1; S6", pending: true },
+      { from: "Pending", event: "HighscoreRecording", label: "Registrar o consultar el highscore", condition: "Momento y punto de acceso sin definir", response: "Requisito confirmado: top 10 por nivel. Su conexión con el recorrido sigue pendiente.", to: "Pending", source: "S4; S6", pending: true }
+    ];
+    var current = "AwaitingStart";
+    var history = [];
+    var stateEl = document.getElementById("current-state");
+    var descEl = document.getElementById("state-desc");
+    var responseEl = document.getElementById("last-response");
+    var listEl = document.getElementById("event-list");
+    var logEl = document.getElementById("path-log");
+    function renderTable() {
+      var body = document.getElementById("flow-table");
+      TRANSITIONS.forEach(function (t) {
+        var tr = document.createElement("tr");
+        var dest = t.to === "Pending" ? "Pendiente de decisión" : t.to;
+        tr.innerHTML = "<td><code>" + t.from + "</code></td><td><code>" + t.event + "</code><br>" + t.label + "</td><td>" + t.condition + "</td><td>" + t.response + "</td><td><code>" + dest + "</code></td>";
+        body.appendChild(tr);
+      });
+    }
+    function render() {
+      stateEl.textContent = current === "Pending" ? "Pendiente de decisión" : current;
+      descEl.textContent = STATES[current];
+      listEl.innerHTML = "";
+      var outgoing = TRANSITIONS.filter(function (t) { return t.from === current; });
+      if (outgoing.length === 0) {
+        var li = document.createElement("li");
+        li.textContent = "No hay más eventos desde este estado. Reinicia el recorrido para volver a empezar.";
+        listEl.appendChild(li);
+      }
+      outgoing.forEach(function (t) {
+        var li = document.createElement("li");
+        var btn = document.createElement("button");
+        btn.type = "button";
+        btn.innerHTML = "<strong>" + t.label + "</strong><small>" + t.condition + (t.pending ? " · <span class='pending-badge'>Pendiente de decisión</span>" : "") + "</small>";
+        btn.addEventListener("click", function () { step(t); });
+        li.appendChild(btn);
+        listEl.appendChild(li);
+      });
+      document.getElementById("back-btn").disabled = history.length === 0;
+    }
+    function step(t) {
+      history.push(current);
+      current = t.to;
+      responseEl.innerHTML = "<strong>" + t.label + " → " + (t.to === "Pending" ? "Pendiente de decisión" : t.to) + "</strong><br>" + t.response + "<br><small>Fuente: " + t.source + "</small>";
+      var entry = document.createElement("li");
+      entry.textContent = t.from + " — " + t.label + " → " + (t.to === "Pending" ? "Pendiente de decisión" : t.to);
+      logEl.appendChild(entry);
+      render();
+    }
+    document.getElementById("back-btn").addEventListener("click", function () {
+      if (history.length === 0) { return; }
+      current = history.pop();
+      var last = logEl.lastChild;
+      if (last) { logEl.removeChild(last); }
+      responseEl.textContent = "";
+      render();
+    });
+    document.getElementById("restart-btn").addEventListener("click", function () {
+      current = "AwaitingStart";
+      history = [];
+      logEl.innerHTML = "";
+      responseEl.innerHTML = "<strong>Recorrido reiniciado.</strong> Vuelve a elegir un evento desde el estado inicial.";
+      render();
+    });
+    responseEl.innerHTML = "<strong>Recorrido listo.</strong> Elige un evento para dar el primer paso.";
+    renderTable();
+    render();
+  </script>
+</body>
+</html>
