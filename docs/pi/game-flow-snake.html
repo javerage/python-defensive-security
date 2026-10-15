@@ -88,31 +88,31 @@
           </marker>
         </defs>
         <g font-size="13" font-weight="bold" text-anchor="middle" fill="#ffffff">
-          <rect x="15" y="60" width="150" height="56" rx="10" fill="#0f172a"></rect>
+          <rect id="n-AwaitingStart" x="15" y="60" width="150" height="56" rx="10" fill="#0f172a"></rect>
           <text x="90" y="84">AwaitingStart</text>
           <text x="90" y="101" font-size="11" font-weight="normal" fill="#cbd5e1">Espera de inicio</text>
-          <rect x="245" y="60" width="150" height="56" rx="10" fill="#0f172a"></rect>
+          <rect id="n-Playing" x="245" y="60" width="150" height="56" rx="10" fill="#0f172a"></rect>
           <text x="320" y="84">Playing</text>
           <text x="320" y="101" font-size="11" font-weight="normal" fill="#cbd5e1">Partida en curso</text>
-          <rect x="475" y="60" width="150" height="56" rx="10" fill="#0f172a"></rect>
+          <rect id="n-Results" x="475" y="60" width="150" height="56" rx="10" fill="#0f172a"></rect>
           <text x="550" y="84">Results</text>
           <text x="550" y="101" font-size="11" font-weight="normal" fill="#cbd5e1">Fin de la partida</text>
-          <rect x="245" y="290" width="150" height="56" rx="10" fill="#fffbeb" stroke="#d97706" stroke-width="2" stroke-dasharray="7 4"></rect>
+          <rect id="n-Pending" x="245" y="290" width="150" height="56" rx="10" fill="#fffbeb" stroke="#d97706" stroke-width="2" stroke-dasharray="7 4"></rect>
           <text x="320" y="314" fill="#92400e">Pendiente</text>
           <text x="320" y="331" font-size="11" font-weight="normal" fill="#92400e">Sin decidir</text>
         </g>
         <g font-size="11" text-anchor="middle" fill="#334155">
-          <path d="M 55 60 C 55 30 125 30 125 60" fill="none" stroke="#2563eb" stroke-width="2" marker-end="url(#arrow)"></path>
+          <path id="e-loopA" d="M 55 60 C 55 30 125 30 125 60" fill="none" stroke="#2563eb" stroke-width="2" marker-end="url(#arrow)"></path>
           <text x="90" y="24">NameProvided</text>
-          <path d="M 165 88 H 243" fill="none" stroke="#2563eb" stroke-width="2" marker-end="url(#arrow)"></path>
+          <path id="e-start" d="M 165 88 H 243" fill="none" stroke="#2563eb" stroke-width="2" marker-end="url(#arrow)"></path>
           <text x="205" y="78">StartRequested</text>
-          <path d="M 285 60 C 285 30 355 30 355 60" fill="none" stroke="#2563eb" stroke-width="2" marker-end="url(#arrow)"></path>
+          <path id="e-loopP" d="M 285 60 C 285 30 355 30 355 60" fill="none" stroke="#2563eb" stroke-width="2" marker-end="url(#arrow)"></path>
           <text x="320" y="24">5 eventos conservan la partida</text>
-          <path d="M 395 88 H 473" fill="none" stroke="#2563eb" stroke-width="2" marker-end="url(#arrow)"></path>
+          <path id="e-end" d="M 395 88 H 473" fill="none" stroke="#2563eb" stroke-width="2" marker-end="url(#arrow)"></path>
           <text x="435" y="78">Colisión (última vida)</text>
-          <path d="M 320 116 V 288" fill="none" stroke="#d97706" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arrow-pending)"></path>
+          <path id="e-final" d="M 320 116 V 288" fill="none" stroke="#d97706" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arrow-pending)"></path>
           <text x="414" y="200">Quinto nivel (pendiente)</text>
-          <path d="M 285 346 C 285 372 355 372 355 346" fill="none" stroke="#d97706" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arrow-pending)"></path>
+          <path id="e-high" d="M 285 346 C 285 372 355 372 355 346" fill="none" stroke="#d97706" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arrow-pending)"></path>
           <text x="320" y="388">Highscore (pendiente)</text>
         </g>
       </svg>
@@ -140,20 +140,21 @@
       Pending: "Información todavía no decidida. No es un estado del juego."
     };
     var TRANSITIONS = [
-      { from: "AwaitingStart", event: "NameProvided", label: "Indicar el nombre", condition: "Todavía no se ha solicitado el inicio", response: "Se conserva el nombre escrito y se sigue esperando «play» o espacio.", to: "AwaitingStart", source: "S4" },
-      { from: "AwaitingStart", event: "StartRequested", label: "Pulsar «play» o espacio sin nombre", condition: "No se ha indicado un nombre", response: "Se genera player_YYYYMMDD_HHmmss_SSS y la partida comienza de inmediato.", to: "Playing", source: "S4" },
-      { from: "AwaitingStart", event: "StartRequested", label: "Pulsar «play» o espacio con nombre", condition: "Hay un nombre indicado", response: "Se usa el nombre escrito y la partida comienza.", to: "Playing", source: "S4" },
-      { from: "Playing", event: "MovementContinues", label: "Dejar transcurrir el movimiento", condition: "Sin colisión ni otro evento de cambio", response: "La serpiente continúa su desplazamiento automático.", to: "Playing", source: "S4" },
-      { from: "Playing", event: "DirectionRequested", label: "Pulsar una flecha", condition: "La partida está en curso", response: "La serpiente cambia de dirección con las flechas del teclado.", to: "Playing", source: "S4" },
-      { from: "Playing", event: "FoodConsumed", label: "Comer un bloque de comida", condition: "La serpiente consume comida", response: "Suma puntos, crece un bloque y se comprueba si corresponde subir de nivel.", to: "Playing", source: "S4" },
-      { from: "Playing", event: "LevelAdvance", label: "Alcanzar el umbral de nivel", condition: "Se cumplen 15 puntos y queda un nivel siguiente", response: "Sube de nivel, aumenta la velocidad y cambia el escenario.", to: "Playing", source: "S1; S4" },
-      { from: "Playing", event: "Collision", label: "Chocar con muro o cuerpo (quedan vidas)", condition: "Tras descontar una vida todavía quedan otras", response: "Se actualizan las vidas, la partida se reinicia y el movimiento se reanuda automáticamente.", to: "Playing", source: "S4" },
-      { from: "Playing", event: "Collision", label: "Chocar con muro o cuerpo (última vida)", condition: "Se pierde la última vida", response: "La partida termina y se muestran nombre, puntaje, nivel y velocidad.", to: "Results", source: "S3; S4" },
-      { from: "Playing", event: "FinalLevelCompleted", label: "Completar el quinto nivel", condition: "Condición de finalización sin definir", response: "No hay continuación aprobada: ni victoria, ni sexto nivel, ni otro desenlace.", to: "Pending", source: "S1; S6", pending: true },
-      { from: "Pending", event: "HighscoreRecording", label: "Registrar o consultar el highscore", condition: "Momento y punto de acceso sin definir", response: "Requisito confirmado: top 10 por nivel. Su conexión con el recorrido sigue pendiente.", to: "Pending", source: "S4; S6", pending: true }
+      { from: "AwaitingStart", event: "NameProvided", edge: "e-loopA", label: "Indicar el nombre", condition: "Todavía no se ha solicitado el inicio", response: "Se conserva el nombre escrito y se sigue esperando «play» o espacio.", to: "AwaitingStart", source: "S4" },
+      { from: "AwaitingStart", event: "StartRequested", edge: "e-start", label: "Pulsar «play» o espacio sin nombre", condition: "No se ha indicado un nombre", response: "Se genera player_YYYYMMDD_HHmmss_SSS y la partida comienza de inmediato.", to: "Playing", source: "S4" },
+      { from: "AwaitingStart", event: "StartRequested", edge: "e-start", label: "Pulsar «play» o espacio con nombre", condition: "Hay un nombre indicado", response: "Se usa el nombre escrito y la partida comienza.", to: "Playing", source: "S4" },
+      { from: "Playing", event: "MovementContinues", edge: "e-loopP", label: "Dejar transcurrir el movimiento", condition: "Sin colisión ni otro evento de cambio", response: "La serpiente continúa su desplazamiento automático.", to: "Playing", source: "S4" },
+      { from: "Playing", event: "DirectionRequested", edge: "e-loopP", label: "Pulsar una flecha", condition: "La partida está en curso", response: "La serpiente cambia de dirección con las flechas del teclado.", to: "Playing", source: "S4" },
+      { from: "Playing", event: "FoodConsumed", edge: "e-loopP", label: "Comer un bloque de comida", condition: "La serpiente consume comida", response: "Suma puntos, crece un bloque y se comprueba si corresponde subir de nivel.", to: "Playing", source: "S4" },
+      { from: "Playing", event: "LevelAdvance", edge: "e-loopP", label: "Alcanzar el umbral de nivel", condition: "Se cumplen 15 puntos y queda un nivel siguiente", response: "Sube de nivel, aumenta la velocidad y cambia el escenario.", to: "Playing", source: "S1; S4" },
+      { from: "Playing", event: "Collision", edge: "e-loopP", label: "Chocar con muro o cuerpo (quedan vidas)", condition: "Tras descontar una vida todavía quedan otras", response: "Se actualizan las vidas, la partida se reinicia y el movimiento se reanuda automáticamente.", to: "Playing", source: "S4" },
+      { from: "Playing", event: "Collision", edge: "e-end", label: "Chocar con muro o cuerpo (última vida)", condition: "Se pierde la última vida", response: "La partida termina y se muestran nombre, puntaje, nivel y velocidad.", to: "Results", source: "S3; S4" },
+      { from: "Playing", event: "FinalLevelCompleted", edge: "e-final", label: "Completar el quinto nivel", condition: "Condición de finalización sin definir", response: "No hay continuación aprobada: ni victoria, ni sexto nivel, ni otro desenlace.", to: "Pending", source: "S1; S6", pending: true },
+      { from: "Pending", event: "HighscoreRecording", edge: "e-high", label: "Registrar o consultar el highscore", condition: "Momento y punto de acceso sin definir", response: "Requisito confirmado: top 10 por nivel. Su conexión con el recorrido sigue pendiente.", to: "Pending", source: "S4; S6", pending: true }
     ];
     var current = "AwaitingStart";
     var trail = [];
+    var edgeTrail = [];
     var stateEl = document.getElementById("current-state");
     var descEl = document.getElementById("state-desc");
     var responseEl = document.getElementById("last-response");
@@ -166,6 +167,22 @@
         var dest = t.to === "Pending" ? "Pendiente de decisión" : t.to;
         tr.innerHTML = "<td><code>" + t.from + "</code></td><td><code>" + t.event + "</code><br>" + t.label + "</td><td>" + t.condition + "</td><td>" + t.response + "</td><td><code>" + dest + "</code></td>";
         body.appendChild(tr);
+      });
+    }
+    function paintDiagram() {
+      var nodes = ["AwaitingStart", "Playing", "Results"];
+      nodes.forEach(function (n) {
+        var rect = document.getElementById("n-" + n);
+        if (rect) { rect.setAttribute("fill", n === current ? "#1d4ed8" : "#0f172a"); }
+      });
+      var pendingRect = document.getElementById("n-Pending");
+      if (pendingRect) { pendingRect.setAttribute("stroke-width", current === "Pending" ? "4" : "2"); }
+      ["e-loopA", "e-start", "e-loopP", "e-end", "e-final", "e-high"].forEach(function (id) {
+        var edge = document.getElementById(id);
+        if (!edge) { return; }
+        var used = edgeTrail.indexOf(id) >= 0;
+        edge.style.opacity = used ? "1" : ".35";
+        edge.style.strokeWidth = used ? "3.5" : "2";
       });
     }
     function render() {
@@ -188,9 +205,11 @@
         listEl.appendChild(li);
       });
       document.getElementById("back-btn").disabled = trail.length === 0;
+      paintDiagram();
     }
     function step(t) {
       trail.push(current);
+      edgeTrail.push(t.edge);
       current = t.to;
       responseEl.innerHTML = "<strong>" + t.label + " → " + (t.to === "Pending" ? "Pendiente de decisión" : t.to) + "</strong><br>" + t.response + "<br><small>Fuente: " + t.source + "</small>";
       var entry = document.createElement("li");
@@ -204,6 +223,7 @@
     document.getElementById("back-btn").addEventListener("click", function () {
       if (trail.length === 0) { return; }
       current = trail.pop();
+      edgeTrail.pop();
       var last = logEl.lastChild;
       if (last) { logEl.removeChild(last); }
       responseEl.textContent = "";
@@ -212,6 +232,7 @@
     document.getElementById("restart-btn").addEventListener("click", function () {
       current = "AwaitingStart";
       trail = [];
+      edgeTrail = [];
       logEl.innerHTML = "";
       responseEl.innerHTML = "<strong>Recorrido reiniciado.</strong> Vuelve a elegir un evento desde el estado inicial.";
       render();
