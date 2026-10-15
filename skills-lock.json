@@ -18,6 +18,18 @@
       "sourceType": "github",
       "skillPath": "skills/curriculum-assessment/curriculum-knowledge-architecture-designer/SKILL.md",
       "computedHash": "d3fb625833d32bd68fbce0beec2b3c8fff494e40d9b63f0798085146e2740c0c"
+    },
+    "stitch-design-taste": {
+      "source": "leonxlnx/taste-skill",
+      "sourceType": "github",
+      "skillPath": "skills/stitch-skill/SKILL.md",
+      "computedHash": "13322f38406cd3abf16ba45e35bdc9b18002d0153a79b4612b97aefc65d5a335"
+    },
+    "stitch::generate-design": {
+      "source": "google-labs-code/stitch-skills",
+      "sourceType": "github",
+      "skillPath": "plugins/stitch-design/skills/generate-design/SKILL.md",
+      "computedHash": "c5cf0685e477166e16283b5c2ee08c5b5022f0712d2a5988fdb475a9de79ad40"
     }
   }
 }
