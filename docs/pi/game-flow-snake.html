@@ -36,7 +36,8 @@
     .event-list small { display:block; color:#64748b; font-size:12px; }
     .walker-controls { display:flex; flex-wrap:wrap; gap:10px; margin-top:12px; }
     .walker-controls button { background:#f1f5f9; border:1px solid var(--border); border-radius:7px; padding:8px 14px; font-size:13px; font-weight:600; cursor:pointer; }
-    .response { background:#f8fafc; border:1px solid var(--border); border-radius:8px; padding:12px 14px; margin-top:12px; }
+    .response { background:#f8fafc; border:1px solid var(--border); border-radius:8px; padding:12px 14px; margin-top:12px; transition:border-color .3s, box-shadow .3s; }
+    .response.flash { border-color:var(--accent); box-shadow:0 0 0 3px rgba(37,99,235,.25); }
     .path-log { list-style:none; padding:0; margin:10px 0; font-size:13px; }
     .path-log li { padding:6px 0; border-bottom:1px dashed var(--border); }
     a:focus-visible, button:focus-visible { outline:3px solid var(--accent); outline-offset:3px; }
@@ -150,6 +151,9 @@
       entry.textContent = t.from + " — " + t.label + " → " + (t.to === "Pending" ? "Pendiente de decisión" : t.to);
       logEl.appendChild(entry);
       render();
+      responseEl.classList.add("flash");
+      if (responseEl.scrollIntoView) { responseEl.scrollIntoView({ behavior: "smooth", block: "nearest" }); }
+      setTimeout(function () { responseEl.classList.remove("flash"); }, 1200);
     }
     document.getElementById("back-btn").addEventListener("click", function () {
       if (history.length === 0) { return; }
