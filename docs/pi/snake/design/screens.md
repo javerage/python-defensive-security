@@ -1,6 +1,6 @@
 # Notas por pantalla — wireframes de Snake (propuesta)
 
-Propuesta de diseño **pendiente de revisión humana**. Cada boceto usa una referencia de ventana de computadora de **1024 × 768**. Solo escala de grises: color, tipografía y estilo visual quedan aplazados.
+Propuesta de diseño **revisada y aprobada**. Cada boceto usa una referencia de ventana de computadora de **1024 × 768**. Los wireframes permanecen en escala de grises; el [lenguaje visual](visual-style.md) se documenta aparte como borrador de fase 1, sin aplicarlo todavía a las pantallas.
 
 > Los nombres de estado (`AwaitingStart`, `Playing`, `Results`, `Victory`, `Highscores`) provienen del [recorrido de una partida](../../game-flow-snake.md). Los bocetos proponen disposición, no reglas nuevas.
 

@@ -1,13 +1,13 @@
 # Wireframes de Snake (propuesta de diseño)
 
-Bocetos en escala de grises de las pantallas del juego Snake. Son una **propuesta pendiente de revisión humana**: no son un diseño visual final ni una implementación del juego. El color, la tipografía y el estilo visual están aplazados.
+Bocetos en escala de grises de las pantallas del juego Snake. Son una **propuesta de diseño revisada y aprobada**: la disposición está acordada, pero no son un diseño visual final ni una implementación del juego. El lenguaje visual cuenta ahora con un [borrador de fase 1](visual-style.md); sus tokens no están aprobados todavía. En una ronda de revisión se acordaron refinamientos de componentes (radio de 8 px en botones y campo de nombre, estados de botón con inversión de color y foco separado, serpiente como tubo continuo y ranking sin cuadrícula) y se eligió la fuente pixelada **Silkscreen**, que cierra la revisión de tipografía. El siguiente paso acordado es la **pantalla piloto de Inicio**, todavía no creada; la paleta, los tamaños, la integración local de la fuente y el estilo visual final siguen pendientes.
 
 ## Cómo abrir la galería
 
 1. Abre `docs/pi/snake/design/index.html` en un navegador (doble clic o «Abrir con»).
 2. Opcional: sírvelo localmente desde la raíz del repositorio con `python3 -m http.server` y visita la ruta del archivo.
 
-No requiere instalar dependencias, ni JavaScript, ni recursos externos.
+La galería de wireframes no requiere dependencias, JavaScript ni recursos externos. La hoja `style-sheet.html` sí solicita temporalmente a Google Fonts la fuente ya elegida, **Silkscreen** (400 y 700), para mostrarla en V2: esa muestra requiere conexión y usa un script local solo para avisar de la carga; el resto de la hoja sigue disponible sin conexión. No se guardan archivos de fuentes en el proyecto; la integración local (licencia, `@font-face` y renderizado sin conexión) es una tarea de construcción pendiente.
 
 El inicio acordado es activar «play» o pulsar Enter desde el campo de nombre. Se pueden escribir nombres como «dark angel» sin que sus espacios inicien la partida. Los bocetos describen esta regla, no capturan teclas ni implementan un formulario.
 
@@ -19,6 +19,9 @@ El campo de nombre recibe el foco en cada entrada al inicio (acceso inicial, «N
 | --- | --- |
 | `index.html` | Galería local que muestra y enlaza los cinco bocetos |
 | `screens.md` | Notas por pantalla: propósito, elementos, acciones, transiciones y reglas pendientes |
+| `visual-style.md` | Dirección confirmada y propuesta de tokens, tipografía y componentes |
+| `style-sheet.html` | Hoja local de revisión visual: muestras de tokens, tipografía (Silkscreen elegida, integración local pendiente), controles, tablero, HUD y ranking (borrador, sin aprobar; incluye los refinamientos acordados) |
+| `DESIGN.md` | Guía de aplicación que referencia el lenguaje visual sin duplicar tokens |
 | `wireframes/start.svg` | Inicio (`AwaitingStart`) |
 | `wireframes/playing.svg` | Partida (`Playing`) |
 | `wireframes/game-over.svg` | Game Over (`Results`) |
@@ -42,4 +45,6 @@ La idea y el flujo son la fuente del significado del juego; los bocetos no añad
 
 ## Siguiente paso
 
-Revisión humana de estos bocetos. Después de la revisión se decidirá si se aplica el estilo visual. Este paquete no introduce el estilo visual, los mockups ni sus recursos.
+Aplicar el sistema acordado a una **pantalla piloto: Inicio** y revisarla antes de extender el estilo al resto de pantallas (Partida, Game Over, Victoria y Top 10). La pantalla piloto aún no existe y usará los tokens y tamaños propuestos de [visual-style.md](visual-style.md) y su [guía de aplicación](DESIGN.md); usarlos no los aprueba. El primer punto a comprobar es el encaje del texto más largo de los botones con **Silkscreen** a tamaño real, junto con la paleta y el espaciado.
+
+La revisión de la tipografía está cerrada con **Silkscreen** y esta documentación muestra solo esa familia. Su integración local queda pendiente de construcción: adquirir Silkscreen con su licencia OFL, configurar un `@font-face` local y retirar la dependencia de Google al preparar la base de la aplicación. La fase 1 todavía no contiene mockups, archivos de fuentes ni recursos del juego.

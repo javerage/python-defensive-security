@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hoja de revisión del estilo visual — Snake (borrador, sin aprobar)</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&amp;display=swap" referrerpolicy="no-referrer">
+  <style>
+    :root {
+      /* Tokens propuestos — copiados literalmente de visual-style.md (borrador). */
+      --color-background: #0D1117;
+      --color-surface: #161B22;
+      --color-board: #0B1014;
+      --color-text: #F0F6FC;
+      --color-text-muted: #A9B4C0;
+      --color-border: #8B949E;
+      --color-grid: #22303A;
+      --color-snake: #7EE787;
+      --color-food: #FF7B72;
+      --color-accent: #79C0FF;
+      --color-focus: #F2CC60;
+
+      /* Roles tipográficos: pixelado = Silkscreen (seleccionada); cuerpo = sistema. */
+      --font-pixel: "Silkscreen", ui-monospace, "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      --font-body: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+      --space-1: 4px;
+      --space-2: 8px;
+      --space-3: 12px;
+      --space-4: 16px;
+      --space-6: 24px;
+      --space-8: 32px;
+      --border-w: 2px;
+      /* Radio acordado: 8 px solo en botones y campo de nombre. Panel y tablero siguen rectos. */
+      --radius: 8px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--color-background);
+      color: var(--color-text);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.5;
+      padding: var(--space-6) var(--space-4) 48px;
+    }
+
+    .skip-link {
+      position: absolute;
+      left: -9999px;
+      top: 0;
+      background: var(--color-surface);
+      color: var(--color-text);
+      border: var(--border-w) solid var(--color-focus);
+      padding: var(--space-2) var(--space-3);
+    }
+    .skip-link:focus-visible { left: var(--space-3); outline: var(--border-w) solid var(--color-focus); outline-offset: 2px; }
+
+    .container { max-width: 1080px; margin: 0 auto; }
+
+    .type-pixel { font-family: var(--font-pixel); letter-spacing: 0.06em; }
+    .type-body { font-family: var(--font-body); font-size: 16px; line-height: 1.5; }
+
+    .page-header {
+      border: var(--border-w) solid var(--color-border);
+      background: var(--color-surface);
+      padding: var(--space-6);
+      margin-bottom: var(--space-6);
+    }
+    .badge {
+      display: inline-block;
+      border: var(--border-w) solid var(--color-focus);
+      color: var(--color-focus);
+      font-family: var(--font-pixel);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      margin-bottom: var(--space-4);
+    }
+    h1 {
+      font-family: var(--font-pixel);
+      font-weight: 700;
+      font-size: 24px;
+      line-height: 1.3;
+      margin: 0 0 var(--space-3);
+    }
+    .lead { font-size: 15px; color: var(--color-text-muted); max-width: 820px; margin: 0 0 var(--space-4); }
+    .fact-row { list-style: none; display: flex; flex-wrap: wrap; gap: var(--space-2); padding: 0; margin: 0; }
+    .fact-row li {
+      font-family: var(--font-pixel);
+      font-size: 12px;
+      color: var(--color-accent);
+      border: var(--border-w) solid var(--color-border);
+      padding: 4px 10px;
+    }
+
+    .page-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+      margin-bottom: var(--space-6);
+    }
+    .page-nav a {
+      font-family: var(--font-pixel);
+      font-size: 12px;
+      color: var(--color-text);
+      text-decoration: none;
+      border: var(--border-w) solid var(--color-border);
+      padding: 6px 10px;
+    }
+    .page-nav a:hover { border-color: var(--color-accent); }
+    .page-nav a:focus-visible { outline: var(--border-w) solid var(--color-focus); outline-offset: 2px; }
+
+    .card, .review-section {
+      border: var(--border-w) solid var(--color-border);
+      background: var(--color-surface);
+      padding: var(--space-6);
+      margin-bottom: var(--space-6);
+    }
+    .card h2, .review-section h2 {
+      font-family: var(--font-pixel);
+      font-weight: 700;
+      font-size: 20px;
+      margin: 0 0 var(--space-3);
+    }
+    .card h3 { font-size: 15px; color: var(--color-accent); margin: var(--space-4) 0 var(--space-2); }
+    .card p, .card li { font-size: 14.5px; }
+    .card ul { padding-left: var(--space-6); margin: var(--space-2) 0; }
+    .card li { margin-bottom: var(--space-1); }
+    .section-tag {
+      display: inline-block;
+      font-family: var(--font-pixel);
+      font-size: 12px;
+      color: var(--color-background);
+      background: var(--color-accent);
+      padding: 2px 8px;
+      margin-bottom: var(--space-2);
+    }
+
+    .review-prompt {
+      list-style: none;
+      border: var(--border-w) dashed var(--color-border);
+      background: var(--color-background);
+      padding: var(--space-4);
+      margin: var(--space-4) 0 0;
+    }
+    .review-prompt li { margin: var(--space-1) 0; font-size: 14px; color: var(--color-text-muted); }
+    .review-prompt strong { color: var(--color-accent); }
+
+    .swatches {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: var(--space-3);
+      padding: 0;
+      margin: var(--space-4) 0 0;
+    }
+    .swatch {
+      display: grid;
+      grid-template-columns: 56px 1fr;
+      gap: var(--space-3);
+      align-items: center;
+      border: var(--border-w) solid var(--color-border);
+      background: var(--color-background);
+      padding: var(--space-3);
+    }
+    .swatch-chip { width: 56px; height: 56px; border: var(--border-w) solid var(--color-border); }
+    .swatch-name { font-family: var(--font-pixel); font-size: 13px; }
+    .swatch-hex { font-family: var(--font-pixel); font-size: 13px; color: var(--color-text-muted); }
+    .swatch-use { display: block; font-size: 13.5px; color: var(--color-text-muted); }
+
+    .specimen-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: var(--space-3); margin-top: var(--space-4); }
+    .specimen { border: var(--border-w) solid var(--color-border); background: var(--color-background); padding: var(--space-4); }
+    .specimen h3 { font-family: var(--font-body); font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-text-muted); margin: 0 0 var(--space-2); }
+    .specimen-pixel-demo { font-family: var(--font-pixel); font-size: 24px; letter-spacing: 0.06em; margin: 0 0 var(--space-2); }
+    .specimen-numbers { font-family: var(--font-pixel); font-size: 16px; color: var(--color-snake); margin: 0; }
+    .specimen-body-demo { font-size: 16px; line-height: 1.5; margin: 0; }
+    .role-note { font-size: 12.5px; color: var(--color-text-muted); margin: var(--space-2) 0 0; }
+    .fallback-note {
+      border: var(--border-w) solid var(--color-focus);
+      background: var(--color-background);
+      padding: var(--space-4);
+      margin-top: var(--space-4);
+      font-size: 14px;
+    }
+    .fallback-note strong { color: var(--color-focus); }
+
+    /* Fuente pixelada seleccionada: Silkscreen. La referencia web es temporal;
+       la integración local (licencia OFL, @font-face) es una tarea de construcción pendiente. */
+    .font-selected { border: var(--border-w) solid var(--color-border); background: var(--color-background); padding: var(--space-4); min-width: 0; margin-top: var(--space-4); }
+    .font-selected h3 { margin: 0 0 var(--space-2); font-family: var(--font-body); }
+    .font-examples {
+      font-family: var(--font-pixel);
+      font-size: 16px;
+      font-weight: 400;
+      font-synthesis: none;
+      line-height: 1.6;
+      letter-spacing: normal;
+      overflow-wrap: anywhere;
+    }
+    .font-title { font-size: 24px; margin: var(--space-3) 0; }
+    .font-load-status { font-size: 14px; color: var(--color-focus); }
+    .font-selected[data-font-state="loaded"] .font-load-status { color: var(--color-snake); }
+
+    .control-demo { display: flex; flex-wrap: wrap; gap: var(--space-4); align-items: flex-end; margin-top: var(--space-4); }
+    .field { display: flex; flex-direction: column; gap: 6px; min-width: 260px; }
+    .field label { font-size: 13.5px; color: var(--color-text-muted); }
+    .field input {
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.5;
+      color: var(--color-text);
+      background: var(--color-surface);
+      border: var(--border-w) solid var(--color-border);
+      border-radius: var(--radius);
+      padding: 8px 10px;
+    }
+    .field input::placeholder { color: var(--color-text-muted); }
+    .field input:focus-visible { outline: var(--border-w) solid var(--color-focus); outline-offset: 2px; border-color: var(--color-accent); }
+
+    /* Botones: relleno verde con texto carbón; hover y pulsado invierten relleno y texto. */
+    .btn {
+      font-family: var(--font-pixel);
+      font-size: 16px;
+      color: var(--color-background);
+      background: var(--color-snake);
+      border: var(--border-w) solid var(--color-snake);
+      border-radius: var(--radius);
+      padding: 10px 18px;
+      cursor: pointer;
+    }
+    .btn:hover {
+      background: var(--color-background);
+      color: var(--color-snake);
+      border-color: var(--color-snake);
+    }
+    .btn:active {
+      background: var(--color-background);
+      color: var(--color-snake);
+      border-color: var(--color-snake);
+      box-shadow: inset 0 0 0 2px var(--color-snake);
+    }
+    /* Foco: contorno dorado exterior separado 2 px por el fondo oscuro (sin desplazar la caja). */
+    .btn:focus-visible {
+      outline: var(--border-w) solid var(--color-focus);
+      outline-offset: 2px;
+      box-shadow: 0 0 0 2px var(--color-background);
+    }
+    /* Pulsado + foco: se conservan la señal interior y la separación exterior real. */
+    .btn:active:focus-visible {
+      box-shadow: 0 0 0 2px var(--color-background), inset 0 0 0 2px var(--color-snake);
+    }
+    .font-examples .btn { font-family: inherit; font-weight: 400; letter-spacing: normal; max-width: 100%; overflow-wrap: anywhere; }
+
+    .state-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: var(--space-3); margin-top: var(--space-4); }
+    .state-item { border: var(--border-w) solid var(--color-border); background: var(--color-background); padding: var(--space-3); text-align: center; }
+    .state-label { display: block; font-size: 12px; color: var(--color-text-muted); margin-bottom: var(--space-2); }
+    .state-sample {
+      display: inline-block;
+      font-family: var(--font-pixel);
+      font-size: 16px;
+      padding: 10px 18px;
+      border: var(--border-w) solid var(--color-snake);
+      border-radius: var(--radius);
+      background: var(--color-snake);
+      color: var(--color-background);
+    }
+    .state-sample.is-hover { background: var(--color-background); color: var(--color-snake); border-color: var(--color-snake); }
+    .state-sample.is-active { background: var(--color-background); color: var(--color-snake); border-color: var(--color-snake); box-shadow: inset 0 0 0 2px var(--color-snake); }
+    .state-sample.is-focus { outline: var(--border-w) solid var(--color-focus); outline-offset: 2px; box-shadow: 0 0 0 2px var(--color-background); }
+    .state-sample.is-disabled { background: transparent; border-color: var(--color-border); color: var(--color-text-muted); }
+
+    .v4-board {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-template-rows: repeat(9, 1fr);
+      aspect-ratio: 12 / 9;
+      max-width: 660px;
+      background-color: var(--color-board);
+      background-image:
+        repeating-linear-gradient(to right, var(--color-grid) 0 1px, transparent 1px calc(100% / 12)),
+        repeating-linear-gradient(to bottom, var(--color-grid) 0 1px, transparent 1px calc(100% / 9));
+      border: var(--border-w) solid var(--color-border);
+      padding: 2px;
+      margin-top: var(--space-4);
+    }
+    .cell { width: 100%; height: 100%; }
+    /* La serpiente se lee como un tubo continuo, no como bloques sueltos.
+       Excepción documentada a la regla general «sin degradados»: el volumen sutil
+       se construye mezclando tokens existentes (color-mix), sin nuevos valores de
+       paleta. Sin radio por celda para no abrir huecos entre segmentos contiguos. */
+    .snake {
+      background: linear-gradient(180deg,
+        color-mix(in srgb, var(--color-snake) 90%, var(--color-text)) 0%,
+        var(--color-snake) 42%,
+        color-mix(in srgb, var(--color-snake) 70%, var(--color-board)) 100%);
+    }
+    /* Cola redondeada solo en el extremo expuesto (izquierda). */
+    .snake-tail {
+      border-radius: 50% 0 0 50%;
+      background: linear-gradient(180deg,
+        color-mix(in srgb, var(--color-snake) 90%, var(--color-text)) 0%,
+        var(--color-snake) 42%,
+        color-mix(in srgb, var(--color-snake) 70%, var(--color-board)) 100%);
+    }
+    /* Cabeza redondeada y amistosa hacia el frente (derecha), con ojos. */
+    .snake-head {
+      position: relative;
+      border-radius: 0 50% 50% 0;
+      background: linear-gradient(180deg,
+        color-mix(in srgb, var(--color-snake) 90%, var(--color-text)) 0%,
+        var(--color-snake) 42%,
+        color-mix(in srgb, var(--color-snake) 70%, var(--color-board)) 100%);
+      box-shadow: inset 0 0 0 3px var(--color-board);
+    }
+    .snake-head::before {
+      content: "";
+      position: absolute;
+      width: 20%;
+      height: 20%;
+      right: 30%;
+      top: 24%;
+      border-radius: 50%;
+      background: var(--color-board);
+    }
+    .snake-head::after {
+      content: "";
+      position: absolute;
+      width: 20%;
+      height: 20%;
+      right: 30%;
+      bottom: 24%;
+      border-radius: 50%;
+      background: var(--color-board);
+    }
+    .food { background: var(--color-food); clip-path: polygon(50% 8%, 92% 50%, 50% 92%, 8% 50%); }
+    .wall { background: repeating-linear-gradient(45deg, var(--color-border) 0 3px, var(--color-board) 3px 6px); border: 1px solid var(--color-board); }
+
+    .board-key { display: flex; flex-wrap: wrap; gap: var(--space-4); margin-top: var(--space-3); font-size: 13px; color: var(--color-text-muted); }
+    .board-key span { display: inline-flex; align-items: center; gap: 6px; }
+    .key-shape { width: 18px; height: 18px; border: var(--border-w) solid var(--color-board); display: inline-block; }
+    .key-snake { background: linear-gradient(180deg, color-mix(in srgb, var(--color-snake) 90%, var(--color-text)), var(--color-snake) 42%, color-mix(in srgb, var(--color-snake) 70%, var(--color-board))); }
+    .key-head { background: var(--color-snake); border-radius: 0 50% 50% 0; box-shadow: inset 0 0 0 3px var(--color-board); }
+    .key-food { background: var(--color-food); clip-path: polygon(50% 8%, 92% 50%, 50% 92%, 8% 50%); }
+    .key-wall { background: repeating-linear-gradient(45deg, var(--color-border) 0 3px, var(--color-board) 3px 6px); }
+
+    .hud {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: var(--space-3);
+      border: var(--border-w) solid var(--color-border);
+      background: var(--color-background);
+      padding: var(--space-3);
+      margin-top: var(--space-4);
+    }
+    .hud-item { display: flex; flex-direction: column; gap: 2px; }
+    .hud-label { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-text-muted); }
+    .hud-value { font-size: 16px; }
+    .hud-value.type-pixel { color: var(--color-accent); }
+
+    /* Ranking: sin cuadrícula de celdas. Se conserva la tabla semántica, los
+       encabezados, el caption y la alineación; la alternancia es discreta y usa
+       los tokens existentes. */
+    .ranking { border-collapse: collapse; width: 100%; margin-top: var(--space-4); background: var(--color-background); font-size: 14px; }
+    .ranking caption { text-align: left; font-size: 12.5px; color: var(--color-text-muted); margin-bottom: var(--space-2); }
+    .ranking th, .ranking td { border: none; padding: 10px 12px; text-align: left; vertical-align: middle; }
+    .ranking th { font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-text-muted); }
+    .ranking tbody tr:nth-child(even) { background: var(--color-surface); }
+    .ranking td.num { font-family: var(--font-pixel); color: var(--color-accent); }
+    .ranking td.name { font-family: var(--font-body); }
+
+    .results { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: var(--space-3); margin-top: var(--space-4); }
+    .result-card { border: var(--border-w) solid var(--color-border); background: var(--color-background); padding: var(--space-4); }
+    .result-gameover { border-top: 6px solid var(--color-food); }
+    .result-gameover h3 { font-family: var(--font-pixel); font-weight: 700; font-size: 22px; color: var(--color-food); margin: 0 0 var(--space-2); }
+    .result-victory { border-top: 6px solid var(--color-snake); }
+    .result-victory h3 { font-family: var(--font-pixel); font-weight: 700; font-size: 22px; color: var(--color-snake); margin: 0 0 var(--space-2); }
+    .result-summary { font-size: 14px; color: var(--color-text-muted); margin: 0; }
+    .result-summary b { color: var(--color-text); font-family: var(--font-pixel); font-weight: 400; }
+
+    .note { font-size: 13px; color: var(--color-text-muted); }
+    code { background: var(--color-background); border: 1px solid var(--color-grid); padding: 1px 5px; font-family: var(--font-pixel); font-size: 13px; }
+    a { color: var(--color-accent); }
+
+    footer { font-size: 12.5px; color: var(--color-text-muted); padding: var(--space-3) 4px var(--space-6); }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+  <div class="container">
+
+    <header class="page-header">
+      <span class="badge">Borrador para revisión · sin aprobar</span>
+      <h1>Hoja de revisión del estilo visual — Snake</h1>
+      <p class="lead">
+        Tablero local para revisar la propuesta de estilo visual antes de aprobarla. Muestra colores, tipografía,
+        controles, un fragmento de tablero, el HUD y el ranking con los tokens en borrador de
+        <a href="visual-style.md">visual-style.md</a>. La fuente pixelada ya está elegida (Silkscreen); su integración
+        local y el resto del estilo siguen pendientes. No es el diseño final ni una implementación del juego, y no
+        demuestra comportamiento real de navegador.
+      </p>
+      <ul class="fact-row">
+        <li>Borrador · tokens sin aprobar</li>
+        <li>Sin formulario ni lógica de juego</li>
+        <li>Silkscreen elegida · integración local pendiente</li>
+        <li>Paleta verde clásica · arcade 8/16 bits</li>
+      </ul>
+    </header>
+
+    <nav class="page-nav" aria-label="Secciones de revisión">
+      <a href="#V1">V1 · Colores</a>
+      <a href="#V2">V2 · Tipografía</a>
+      <a href="#V3">V3 · Controles y estados</a>
+      <a href="#V4">V4 · Tablero</a>
+      <a href="#V5">V5 · HUD y ranking</a>
+      <a href="#V6">V6 · Resultados</a>
+    </nav>
+
+    <main id="contenido">
+
+      <section class="card" aria-labelledby="guia-title">
+        <h2 id="guia-title">Cómo abrir y usar esta hoja</h2>
+        <ul>
+          <li>Abre <code>style-sheet.html</code> con doble clic o «Abrir con» un navegador. No instala nada. La muestra de Silkscreen en V2 requiere conexión y hace solicitudes a Google; el resto de la hoja puede consultarse sin conexión.</li>
+          <li>Recorre la página con <code>Tab</code> y retrocede con <code>Shift+Tab</code>. Con <code>Tab</code> llegas al campo de nombre y a los botones de muestra; observa el contorno de foco antes de activarlos.</li>
+          <li>Pasa el puntero sobre los botones para ver el estado <em>hover</em>; mantén pulsado para ver el estado <em>pressed/active</em>; vuelve a enfocar con teclado para ver <code>focus-visible</code>.</li>
+          <li>Los botones son muestras visuales: no inician ninguna partida ni ejecutan acciones. Solo responden visualmente a <em>hover</em>, <em>active</em> y <em>focus-visible</em>.</li>
+          <li>Para dejar retroalimentación, escribe en el chat indicando el id de la sección (por ejemplo <code>V1</code>) y una decisión: <strong>mantener</strong>, <strong>cambiar</strong> o <strong>pendiente</strong>, junto con la observación. La hoja no envía ni guarda tus respuestas ni el nombre escrito; únicamente solicita las fuentes externas.</li>
+        </ul>
+      </section>
+
+      <section class="card" aria-labelledby="alcance-title">
+        <h2 id="alcance-title">Alcance de esta revisión</h2>
+        <h3>Confirmado</h3>
+        <ul>
+          <li>Los cinco wireframes ya están aprobados; su disposición no se revisa ni se reabre aquí.</li>
+          <li>Dirección confirmada: arcade 8/16 bits, tipografía pixelada en títulos, botones y cifras, y paleta verde clásica.</li>
+          <li>Fuente pixelada elegida: <strong>Silkscreen</strong> (pesos 400 y 700) para títulos, botones y cifras. Nombres, instrucciones y texto del ranking siguen con la fuente sencilla del sistema.</li>
+          <li>Punto actual: la revisión de la tipografía está cerrada con esta hoja; el siguiente paso acordado es la <strong>pantalla piloto de Inicio</strong>, todavía no creada. La paleta y los tamaños siguen propuestos y la pantalla piloto no los aprueba.</li>
+        </ul>
+        <h3>Refinamientos acordados en esta ronda</h3>
+        <ul>
+          <li>Radio de 8 px en botones y campo de nombre; panel y tablero siguen rectos.</li>
+          <li>Botones que invierten relleno y texto en hover y pulsado, con foco exterior separado por 2 px de fondo oscuro.</li>
+          <li>Serpiente como tubo continuo con cola redondeada y cabeza redondeada con ojos; volumen sutil solo para la serpiente como excepción documentada.</li>
+          <li>Ranking sin cuadrícula de celdas, conservando la tabla semántica, el caption, los encabezados y la alineación.</li>
+        </ul>
+        <h3>Propuesto (borrador, todavía sin aprobar)</h3>
+        <ul>
+          <li>Los 11 tokens de color exactos y los tamaños tipográficos.</li>
+        </ul>
+        <h3>Lo que NO se aprueba con esta hoja</h3>
+        <ul>
+          <li>La disposición: ya está aprobada en los wireframes y no se reabre.</li>
+          <li>La jugabilidad, el movimiento, los temporizadores y el estado de partida.</li>
+          <li>La integración local de la fuente: la elección de Silkscreen está confirmada, pero descargarla desde su fuente oficial con su licencia OFL, configurar un <code>@font-face</code> local y retirar la dependencia de Google son tareas de construcción aún pendientes. Esta hoja solo usa una referencia web temporal.</li>
+          <li>La compatibilidad real de navegador: esta hoja no es el layout final del juego 1024 × 768 y no demuestra encaje ni comportamiento de teclado.</li>
+          <li>El estilo visual final en conjunto: estos refinamientos están acordados, pero el estilo completo queda pendiente de revisión.</li>
+        </ul>
+      </section>
+
+      <section id="V1" class="review-section" data-review-section="V1" aria-labelledby="V1-title">
+        <span class="section-tag">V1</span>
+        <h2 id="V1-title">Colores</h2>
+        <p class="note">Once tokens propuestos con su valor y uso semántico. Los valores son un borrador; el contraste debe comprobarse con la fuente y los fondos reales.</p>
+        <ul class="swatches">
+          <li class="swatch" data-token="background">
+            <span class="swatch-chip" style="background: var(--color-background);"></span>
+            <span><span class="swatch-name">background</span> <span class="swatch-hex">#0D1117</span><span class="swatch-use">Fondo general y texto sobre botones verdes.</span></span>
+          </li>
+          <li class="swatch" data-token="surface">
+            <span class="swatch-chip" style="background: var(--color-surface);"></span>
+            <span><span class="swatch-name">surface</span> <span class="swatch-hex">#161B22</span><span class="swatch-use">Paneles, campo de nombre y filas del ranking.</span></span>
+          </li>
+          <li class="swatch" data-token="board">
+            <span class="swatch-chip" style="background: var(--color-board);"></span>
+            <span><span class="swatch-name">board</span> <span class="swatch-hex">#0B1014</span><span class="swatch-use">Fondo del tablero.</span></span>
+          </li>
+          <li class="swatch" data-token="text">
+            <span class="swatch-chip" style="background: var(--color-text);"></span>
+            <span><span class="swatch-name">text</span> <span class="swatch-hex">#F0F6FC</span><span class="swatch-use">Texto principal sobre fondos oscuros.</span></span>
+          </li>
+          <li class="swatch" data-token="text-muted">
+            <span class="swatch-chip" style="background: var(--color-text-muted);"></span>
+            <span><span class="swatch-name">text-muted</span> <span class="swatch-hex">#A9B4C0</span><span class="swatch-use">Instrucciones y etiquetas secundarias.</span></span>
+          </li>
+          <li class="swatch" data-token="border">
+            <span class="swatch-chip" style="background: var(--color-border);"></span>
+            <span><span class="swatch-name">border</span> <span class="swatch-hex">#8B949E</span><span class="swatch-use">Límites de campos, muros y obstáculos.</span></span>
+          </li>
+          <li class="swatch" data-token="grid">
+            <span class="swatch-chip" style="background: var(--color-grid);"></span>
+            <span><span class="swatch-name">grid</span> <span class="swatch-hex">#22303A</span><span class="swatch-use">Cuadrícula decorativa; nunca un obstáculo.</span></span>
+          </li>
+          <li class="swatch" data-token="snake">
+            <span class="swatch-chip" style="background: var(--color-snake);"></span>
+            <span><span class="swatch-name">snake</span> <span class="swatch-hex">#7EE787</span><span class="swatch-use">Serpiente y relleno de botones de acción.</span></span>
+          </li>
+          <li class="swatch" data-token="food">
+            <span class="swatch-chip" style="background: var(--color-food);"></span>
+            <span><span class="swatch-name">food</span> <span class="swatch-hex">#FF7B72</span><span class="swatch-use">Comida; acento del resultado Game Over.</span></span>
+          </li>
+          <li class="swatch" data-token="accent">
+            <span class="swatch-chip" style="background: var(--color-accent);"></span>
+            <span><span class="swatch-name">accent</span> <span class="swatch-hex">#79C0FF</span><span class="swatch-use">Acentos de interfaz y etiquetas destacadas.</span></span>
+          </li>
+          <li class="swatch" data-token="focus">
+            <span class="swatch-chip" style="background: var(--color-focus);"></span>
+            <span><span class="swatch-name">focus</span> <span class="swatch-hex">#F2CC60</span><span class="swatch-use">Contorno de foco del campo y botones.</span></span>
+          </li>
+        </ul>
+        <ul class="review-prompt">
+          <li><strong>Qué revisar:</strong> que cada color se distinga en su uso previsto y que el contraste texto/fondo y límites/foco sea suficiente.</li>
+          <li><strong>Propuesta:</strong> estos 11 valores exactos como base de la paleta verde clásica.</li>
+          <li><strong>Ajuste a describir:</strong> si algún valor debe aclararse, oscurecerse o desviarse, indica el token y el uso donde falla.</li>
+        </ul>
+      </section>
+
+      <section id="V2" class="review-section" data-review-section="V2" aria-labelledby="V2-title">
+        <span class="section-tag">V2</span>
+        <h2 id="V2-title">Tipografía</h2>
+        <p class="note">Dos roles: <strong>pixelado</strong> para títulos, botones y cifras, y <strong>sencillo</strong> para nombres, instrucciones y etiquetas.</p>
+        <div class="specimen-grid">
+          <div class="specimen">
+            <h3>Rol pixelado — títulos y cifras</h3>
+            <p class="specimen-pixel-demo type-pixel">SNAKE</p>
+            <p class="specimen-numbers type-pixel">012345 · puntaje 120 · nivel 5</p>
+            <p class="role-note">Rol pixelado (Silkscreen; integración local pendiente).</p>
+          </div>
+          <div class="specimen">
+            <h3>Rol sencillo — nombres e instrucciones</h3>
+            <p class="specimen-body-demo type-body">Nombre: dark angel</p>
+            <p class="specimen-body-demo type-body">Instrucciones: escribe un nombre y pulsa «play». Si lo dejas vacío, se genera uno automático.</p>
+            <p class="role-note">Rol sencillo (fuente del sistema).</p>
+          </div>
+        </div>
+        <p id="V2-fallback-nota" class="fallback-note">
+          <strong>Fuente seleccionada: Silkscreen. Integración local pendiente.</strong>
+          La persona responsable eligió Silkscreen para el rol pixelado; esta hoja carga solo esa familia, a 400 y 700,
+          desde Google Fonts como referencia temporal. La referencia requiere conexión y hace solicitudes a Google,
+          pero no envía el texto escrito en la hoja. El navegador descarga temporalmente las fuentes y puede conservarlas en caché;
+          no añadimos sus archivos al proyecto. La elección no significa que la fuente esté alojada localmente ni disponible sin conexión:
+          si la carga remota falla, se muestra un sustituto monoespaciado y esta hoja lo advierte. Antes de entregar la aplicación con estilo
+          hay que adquirir Silkscreen con su licencia OFL, configurar un <code>@font-face</code> local y retirar la dependencia de Google.
+        </p>
+        <h3>Fuente seleccionada — Silkscreen</h3>
+        <p class="note">Mismos textos que el resto de la hoja, a 400 en el cuerpo y 700 en los encabezados, sin estilos sintéticos. Revisa el estado de carga antes de juzgar la muestra. «dark angel» es una prueba de caracteres; los nombres e instrucciones siguen con la fuente sencilla del sistema.</p>
+        <noscript><p class="fallback-note">JavaScript está desactivado: Silkscreen podría cargar, pero no se puede verificar su carga aquí. No confíes en la muestra si ves el sustituto del sistema.</p></noscript>
+        <article class="font-selected" data-font-selected="Silkscreen" data-font-state="unchecked" aria-labelledby="font-selected-title">
+          <h3 id="font-selected-title">Silkscreen · 400 y 700</h3>
+          <p class="font-load-status" data-font-status role="status" aria-live="polite">Sin comprobar: podría mostrarse el sustituto. Espera la confirmación de carga.</p>
+          <div class="font-examples">
+            <p class="font-title">SNAKE</p>
+            <button type="button" class="btn">Nueva partida</button>
+            <p>0123456789 · Puntaje 120 · Nivel 5</p>
+            <p>dark angel · á é í ó ú ñ ü ¿ ¡</p>
+          </div>
+        </article>
+        <ul class="review-prompt">
+          <li><strong>Qué revisar:</strong> con el estado «Silkscreen cargada», revisa títulos, botón y cifras, y avisa si el texto más largo («Nueva partida») se corta o salta de línea, o si los acentos no se ven.</li>
+          <li><strong>Propuesta confirmada:</strong> Silkscreen como fuente pixelada, con 400 y 700 reales; los nombres e instrucciones siguen con la fuente sencilla del sistema.</li>
+          <li><strong>Ajuste a describir:</strong> si algo no encaja, indica qué texto o rol revisar. La integración local (licencia OFL, <code>@font-face</code> y renderizado sin conexión) es una tarea de construcción aún no realizada; si la carga remota falla, no evalúes el sustituto como si fuera la fuente real.</li>
+        </ul>
+      </section>
+
+      <section id="V3" class="review-section" data-review-section="V3" aria-labelledby="V3-title">
+        <span class="section-tag">V3</span>
+        <h2 id="V3-title">Controles y estados</h2>
+        <p class="note">Controles nativos reales: el campo de nombre y los botones de muestra. Los botones no inician partidas ni ejecutan acciones; solo reaccionan visualmente a <em>hover</em>, <em>active</em> y <em>focus-visible</em>. Campo y botones usan el radio acordado de 8 px; panel y tablero siguen rectos.</p>
+        <div class="control-demo">
+          <div class="field">
+            <label for="nombre-ejemplo">Nombre del jugador (opcional)</label>
+            <input type="text" id="nombre-ejemplo" name="nombre-ejemplo" placeholder="Escribe un nombre…" autocomplete="off">
+          </div>
+          <button type="button" class="btn">play</button>
+          <button type="button" class="btn">Nueva partida</button>
+        </div>
+        <h3>Ejemplos estáticos de estados</h3>
+        <div class="state-grid">
+          <div class="state-item"><span class="state-label">default</span><span class="state-sample">play</span></div>
+          <div class="state-item"><span class="state-label">hover</span><span class="state-sample is-hover">play</span></div>
+          <div class="state-item"><span class="state-label">pressed/active</span><span class="state-sample is-active">play</span></div>
+          <div class="state-item"><span class="state-label">focus-visible</span><span class="state-sample is-focus">play</span></div>
+          <div class="state-item"><span class="state-label">deshabilitado/disabled</span><span class="state-sample is-disabled">play</span></div>
+        </div>
+        <ul class="review-prompt">
+          <li><strong>Qué revisar:</strong> que el foco de teclado se distinga del <em>hover</em>, que la pulsación no desplace la caja y que los colores invertidos se lean.</li>
+          <li><strong>Propuesta acordada para estos componentes:</strong> normal con relleno verde y texto carbón; <em>hover</em> con relleno carbón, texto verde y borde verde; pulsación que conserva la inversión y añade una señal interior; foco dorado exterior separado por 2 px de fondo oscuro. Radio de 8 px en campo y botones.</li>
+          <li><strong>Ajuste a describir:</strong> si el foco o la pulsación no se perciben, indica qué estado y qué elemento del conjunto. Los valores exactos de color siguen en borrador.</li>
+        </ul>
+      </section>
+
+      <section id="V4" class="review-section" data-review-section="V4" aria-labelledby="V4-title">
+        <span class="section-tag">V4</span>
+        <h2 id="V4-title">Tablero (fragmento ilustrativo)</h2>
+        <p class="note">Fragmento con valores ilustrativos: serpiente verde como tubo continuo con cola redondeada y cabeza redondeada con ojos, comida coral en rombo y muros con trama interior. La cuadrícula decorativa es tenue y nunca se dibuja como obstáculo; no es jugabilidad.</p>
+        <div class="v4-board" role="img" aria-label="Fragmento de tablero con serpiente verde como tubo continuo, cola redondeada, cabeza redondeada con ojos, comida coral en rombo y muros con trama">
+          <span class="cell snake snake-tail" style="grid-area: 6 / 3;" data-cell="6,3"></span>
+          <span class="cell snake" style="grid-area: 6 / 4;" data-cell="6,4"></span>
+          <span class="cell snake" style="grid-area: 6 / 5;" data-cell="6,5"></span>
+          <span class="cell snake snake-head" style="grid-area: 6 / 6;" data-cell="6,6"></span>
+          <span class="cell food" style="grid-area: 3 / 9;" data-cell="3,9"></span>
+          <span class="cell wall" style="grid-area: 2 / 3;" data-cell="2,3"></span>
+          <span class="cell wall" style="grid-area: 2 / 4;" data-cell="2,4"></span>
+          <span class="cell wall" style="grid-area: 2 / 5;" data-cell="2,5"></span>
+          <span class="cell wall" style="grid-area: 8 / 8;" data-cell="8,8"></span>
+          <span class="cell wall" style="grid-area: 8 / 9;" data-cell="8,9"></span>
+          <span class="cell wall" style="grid-area: 4 / 10;" data-cell="4,10"></span>
+          <span class="cell wall" style="grid-area: 5 / 10;" data-cell="5,10"></span>
+        </div>
+        <div class="board-key">
+          <span><i class="key-shape key-snake"></i> serpiente (tubo continuo)</span>
+          <span><i class="key-shape key-head"></i> cabeza redondeada con ojos</span>
+          <span><i class="key-shape key-food"></i> comida (rombo coral)</span>
+          <span><i class="key-shape key-wall"></i> muro/obstáculo (trama)</span>
+        </div>
+        <ul class="review-prompt">
+          <li><strong>Qué revisar:</strong> que la serpiente se lea como tubo continuo y que serpiente, cabeza, comida y muros se distingan por forma y color, sin solaparse, y que la cuadrícula no confunda.</li>
+          <li><strong>Propuesta acordada para estos componentes:</strong> serpiente como tubo continuo con volumen sutil y sin huecos entre celdas contiguas, cola redondeada, cabeza redondeada con ojos, comida en rombo coral y muros con trama inclinada. El volumen usa solo los tokens existentes.</li>
+          <li><strong>Ajuste a describir:</strong> si la cabeza, la comida o los muros no se diferencian, o si la serpiente no se lee como tubo, indica cuál y qué rasgo añadir o quitar.</li>
+        </ul>
+      </section>
+
+      <section id="V5" class="review-section" data-review-section="V5" aria-labelledby="V5-title">
+        <span class="section-tag">V5</span>
+        <h2 id="V5-title">HUD y ranking (datos ficticios)</h2>
+        <p class="note">Muestra de indicadores y fragmento del Top 10. Los valores son ficticios y no representan partidas reales. El ranking conserva la tabla semántica, el caption, los encabezados y las columnas, pero sin cuadrícula de celdas.</p>
+        <div class="hud">
+          <span class="hud-item"><span class="hud-label">JUGADOR</span><span class="hud-value type-body">dark angel</span></span>
+          <span class="hud-item"><span class="hud-label">PUNTAJE</span><span class="hud-value type-pixel">120</span></span>
+          <span class="hud-item"><span class="hud-label">VIDAS</span><span class="hud-value type-pixel">3</span></span>
+          <span class="hud-item"><span class="hud-label">NIVEL</span><span class="hud-value type-pixel">5</span></span>
+          <span class="hud-item"><span class="hud-label">VELOCIDAD</span><span class="hud-value type-pixel">7</span></span>
+        </div>
+        <table class="ranking">
+          <caption>Top 10 · datos ilustrativos, no son rankings reales</caption>
+          <thead>
+            <tr><th scope="col">#</th><th scope="col">Nombre</th><th scope="col">Puntaje</th><th scope="col">Nivel</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="num">1</td><td class="name">Ada_88</td><td class="num">120</td><td class="num">5</td></tr>
+            <tr><td class="num">2</td><td class="name">SnakeMaster</td><td class="num">105</td><td class="num">5</td></tr>
+            <tr><td class="num">3</td><td class="name">nori_7</td><td class="num">98</td><td class="num">4</td></tr>
+            <tr><td class="num">4</td><td class="name">byte_luna</td><td class="num">76</td><td class="num">3</td></tr>
+          </tbody>
+        </table>
+        <ul class="review-prompt">
+          <li><strong>Qué revisar:</strong> que las etiquetas del HUD y los nombres del ranking se lean, que las cifras pixeladas destaquen sin competir con los nombres, y que el ranking sin cuadrícula se lea ordenado.</li>
+          <li><strong>Propuesta acordada para estos componentes:</strong> etiquetas sencillas con cifras pixeladas en acento cian; nombres en rol sencillo; ranking sin cuadrícula de celdas, con alineación y espaciado claros y alternancia discreta usando los tokens existentes.</li>
+          <li><strong>Ajuste a describir:</strong> si las cifras o los nombres pierden legibilidad, o si el ranking sin cuadrícula se lee ambiguo, indica la etiqueta o la columna afectada.</li>
+        </ul>
+      </section>
+
+      <section id="V6" class="review-section" data-review-section="V6" aria-labelledby="V6-title">
+        <span class="section-tag">V6</span>
+        <h2 id="V6-title">Resultados (acentos breves)</h2>
+        <p class="note">Solo el acento de color de Game Over y de victoria. No son pantallas nuevas ni añaden acciones; el resumen de resultados ya está definido en el flujo.</p>
+        <div class="results">
+          <div class="result-card result-gameover">
+            <h3>GAME OVER</h3>
+            <p class="result-summary">Nombre <b>dark angel</b> · Puntaje <b>120</b> · Nivel <b>5</b> · Velocidad <b>7</b></p>
+          </div>
+          <div class="result-card result-victory">
+            <h3>VICTORIA</h3>
+            <p class="result-summary">Nombre <b>dark angel</b> · Puntaje <b>120</b> · Nivel <b>5</b> · Velocidad <b>7</b></p>
+          </div>
+        </div>
+        <ul class="review-prompt">
+          <li><strong>Qué revisar:</strong> que el acento coral de Game Over y el verde de victoria se distingan y no opaquen el resumen.</li>
+          <li><strong>Propuesta:</strong> borde superior y título en el color de acento correspondiente, con el resumen en texto legible.</li>
+          <li><strong>Ajuste a describir:</strong> si el acento resulta excesivo o insuficiente, indica cuál resultado y qué ajustar.</li>
+        </ul>
+      </section>
+
+    </main>
+
+    <footer>
+      <p>Hoja de revisión del estilo visual · borrador sin aprobar. Tokens en <a href="visual-style.md">visual-style.md</a> ·
+      guía en <a href="DESIGN.md">DESIGN.md</a> · notas por pantalla en <a href="screens.md">screens.md</a> ·
+      galería en <a href="index.html">index.html</a> · paquete en <a href="README.md">README.md</a>.</p>
+    </footer>
+
+  </div>
+  <script id="selected-font-status">
+    (() => {
+      const sampleText = 'SNAKE Nueva partida 0123456789 Puntaje Nivel dark angel á é í ó ú ñ ü ¿ ¡';
+      const specs = ['400 16px', '700 24px'];
+      for (const card of document.querySelectorAll('[data-font-selected]')) {
+        const family = card.dataset.fontSelected;
+        const status = card.querySelector('[data-font-status]');
+        const show = (state, message) => {
+          card.dataset.fontState = state;
+          status.textContent = message;
+        };
+        if (!document.fonts || typeof document.fonts.load !== 'function') {
+          show('unavailable', 'No se puede comprobar la carga en este navegador. Podría mostrarse el sustituto; no confíes en esta muestra.');
+          continue;
+        }
+        show('loading', 'Cargando Silkscreen… No la evalúes todavía; podría mostrarse el sustituto.');
+        let timer;
+        const deadline = new Promise((_, reject) => {
+          timer = setTimeout(() => reject(new Error('Font loading timed out')), 10000);
+        });
+        Promise.race([
+          Promise.all(specs.map(spec => document.fonts.load(`${spec} "${family}"`, sampleText))),
+          deadline,
+        ])
+          .then(groups => {
+            if (groups.some(faces => !faces.length)) throw new Error('No matching web font');
+            show('loaded', 'Silkscreen cargada. Comprueba los caracteres y el encaje.');
+          })
+          .catch(() => show('failed', 'No se pudo confirmar la carga. Puede mostrarse un sustituto: no confíes en esta muestra. Comprueba la conexión o los bloqueos y recarga la página.'))
+          .finally(() => clearTimeout(timer));
+      }
+    })();
+  </script>
+</body>
+</html>
