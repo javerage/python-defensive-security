@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 768" width="1024" height="768"
+     font-family="system-ui, sans-serif" role="img"
+     aria-label="Wireframe de la pantalla de partida: indicadores de jugador, puntaje, vidas, nivel y velocidad sobre un tablero con serpiente y comida">
+  <title>Wireframe · Partida (Playing)</title>
+  <desc>Propuesta de diseño en escala de grises, pendiente de revisión humana. Muestra los indicadores y el tablero central; no define reglas de juego ni estilo visual final.</desc>
+
+  <defs>
+    <pattern id="hatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <rect width="8" height="8" fill="#bfbfbf"/>
+      <line x1="0" y1="0" x2="0" y2="8" stroke="#6b6b6b" stroke-width="2"/>
+    </pattern>
+  </defs>
+
+  <!-- Ventana del navegador de referencia (1024 x 768) -->
+  <rect x="1" y="1" width="1022" height="766" fill="#ffffff" stroke="#2b2b2b" stroke-width="2"/>
+  <rect x="1" y="1" width="1022" height="40" fill="#ececec" stroke="#2b2b2b" stroke-width="1"/>
+  <circle cx="26" cy="21" r="6" fill="#c9c9c9" stroke="#555555" stroke-width="1"/>
+  <circle cx="46" cy="21" r="6" fill="#c9c9c9" stroke="#555555" stroke-width="1"/>
+  <circle cx="66" cy="21" r="6" fill="#c9c9c9" stroke="#555555" stroke-width="1"/>
+  <text x="512" y="26" text-anchor="middle" font-size="13" fill="#444444">Snake · ventana del navegador · referencia 1024 × 768</text>
+
+  <!-- Panel central del juego -->
+  <rect x="112" y="80" width="800" height="600" fill="#ffffff" stroke="#2b2b2b" stroke-width="2"/>
+  <rect x="112" y="80" width="800" height="46" fill="#f0f0f0" stroke="#2b2b2b" stroke-width="1"/>
+  <text x="136" y="109" font-size="16" font-weight="700" fill="#1a1a1a">PARTIDA · Playing</text>
+  <text x="888" y="108" text-anchor="end" font-size="12" fill="#666666">propuesta — pendiente de revisión</text>
+
+  <!-- Indicadores (HUD) -->
+  <rect x="124" y="140" width="776" height="52" rx="4" fill="#f0f0f0" stroke="#333333" stroke-width="1"/>
+  <line x1="384" y1="140" x2="384" y2="192" stroke="#cccccc" stroke-width="1"/>
+  <line x1="513" y1="140" x2="513" y2="192" stroke="#cccccc" stroke-width="1"/>
+  <line x1="642" y1="140" x2="642" y2="192" stroke="#cccccc" stroke-width="1"/>
+  <line x1="771" y1="140" x2="771" y2="192" stroke="#cccccc" stroke-width="1"/>
+  <text x="136" y="162" font-size="10" font-weight="700" letter-spacing="1" fill="#666666">JUGADOR</text>
+  <text x="136" y="181" font-family="monospace" font-size="11" fill="#111111">player_20261016_120000_000</text>
+  <text x="396" y="162" font-size="10" font-weight="700" letter-spacing="1" fill="#666666">PUNTAJE</text>
+  <text x="396" y="182" font-size="15" font-weight="700" fill="#111111">0</text>
+  <text x="525" y="162" font-size="10" font-weight="700" letter-spacing="1" fill="#666666">VIDAS</text>
+  <text x="525" y="182" font-size="15" font-weight="700" fill="#111111">3</text>
+  <text x="654" y="162" font-size="10" font-weight="700" letter-spacing="1" fill="#666666">NIVEL</text>
+  <text x="654" y="182" font-size="15" font-weight="700" fill="#111111">1</text>
+  <text x="783" y="162" font-size="10" font-weight="700" letter-spacing="1" fill="#666666">VELOCIDAD</text>
+  <text x="783" y="182" font-size="15" font-weight="700" fill="#111111">1</text>
+
+  <!-- Tablero central -->
+  <rect x="252" y="212" width="520" height="400" fill="#3a3a3a" stroke="#2b2b2b" stroke-width="2"/>
+  <!-- Cuadricula de referencia -->
+  <line x1="292" y1="212" x2="292" y2="612" stroke="#4a4a4a" stroke-width="1"/>
+  <line x1="332" y1="212" x2="332" y2="612" stroke="#4a4a4a" stroke-width="1"/>
+  <line x1="372" y1="212" x2="372" y2="612" stroke="#4a4a4a" stroke-width="1"/>
+  <line x1="412" y1="212" x2="412" y2="612" stroke="#4a4a4a" stroke-width="1"/>
+  <line x1="452" y1="212" x2="452" y2="612" stroke="#4a4a4a" stroke-width="1"/>
+  <line x1="492" y1="212" x2="492" y2="612" stroke="#4a4a4a" stroke-width="1"/>
+  <line x1="532" y1="212" x2="532" y2="612" stroke="#4a4a4a" stroke-width="1"/>
+  <line x1="572" y1="212" x2="572" y2="612" stroke="#4a4a4a" stroke-width="1"/>
+  <line x1="612" y1="212" x2="612" y2="612" stroke="#4a4a4a" stroke-width="1"/>
+  <line x1="652" y1="212" x2="652" y2="612" stroke="#4a4a4a" stroke-width="1"/>
+  <line x1="692" y1="212" x2="692" y2="612" stroke="#4a4a4a" stroke-width="1"/>
+  <line x1="732" y1="212" x2="732" y2="612" stroke="#4a4a4a" stroke-width="1"/>
+  <line x1="252" y1="252" x2="772" y2="252" stroke="#4a4a4a" stroke-width="1"/>
+  <line x1="252" y1="292" x2="772" y2="292" stroke="#4a4a4a" stroke-width="1"/>
+  <line x1="252" y1="332" x2="772" y2="332" stroke="#4a4a4a" stroke-width="1"/>
+  <line x1="252" y1="372" x2="772" y2="372" stroke="#4a4a4a" stroke-width="1"/>
+  <line x1="252" y1="412" x2="772" y2="412" stroke="#4a4a4a" stroke-width="1"/>
+  <line x1="252" y1="452" x2="772" y2="452" stroke="#4a4a4a" stroke-width="1"/>
+  <line x1="252" y1="492" x2="772" y2="492" stroke="#4a4a4a" stroke-width="1"/>
+  <line x1="252" y1="532" x2="772" y2="532" stroke="#4a4a4a" stroke-width="1"/>
+  <line x1="252" y1="572" x2="772" y2="572" stroke="#4a4a4a" stroke-width="1"/>
+
+  <!-- Muros y obstaculos (bloques geometricos, valores ilustrativos) -->
+  <rect x="332" y="212" width="120" height="40" fill="url(#hatch)" stroke="#2b2b2b" stroke-width="1"/>
+  <rect x="612" y="212" width="120" height="40" fill="url(#hatch)" stroke="#2b2b2b" stroke-width="1"/>
+  <rect x="292" y="572" width="120" height="40" fill="url(#hatch)" stroke="#2b2b2b" stroke-width="1"/>
+  <rect x="652" y="572" width="120" height="40" fill="url(#hatch)" stroke="#2b2b2b" stroke-width="1"/>
+  <rect x="452" y="332" width="40" height="80" fill="url(#hatch)" stroke="#2b2b2b" stroke-width="1"/>
+  <rect x="572" y="452" width="80" height="40" fill="url(#hatch)" stroke="#2b2b2b" stroke-width="1"/>
+
+  <!-- Serpiente (tres bloques) y comida -->
+  <rect x="412" y="452" width="40" height="40" rx="6" fill="#dcdcdc" stroke="#111111" stroke-width="2"/>
+  <rect x="452" y="452" width="40" height="40" rx="6" fill="#dcdcdc" stroke="#111111" stroke-width="2"/>
+  <rect x="492" y="452" width="40" height="40" rx="6" fill="#c4c4c4" stroke="#111111" stroke-width="2"/>
+  <circle cx="508" cy="466" r="3" fill="#111111"/>
+  <circle cx="508" cy="482" r="3" fill="#111111"/>
+  <circle cx="632" cy="392" r="12" fill="#ffffff" stroke="#111111" stroke-width="2"/>
+
+  <!-- Leyenda y notas -->
+  <text x="512" y="640" text-anchor="middle" font-size="12.5" fill="#444444">Flechas del teclado (← ↑ → ↓): dirigir la serpiente.</text>
+  <text x="512" y="662" text-anchor="middle" font-size="11.5" fill="#666666">Sin pausa, ajustes, reinicio manual ni registro de puntaje desde esta pantalla.</text>
+
+  <text x="512" y="720" text-anchor="middle" font-size="12" fill="#555555">Wireframe en escala de grises · propuesta de diseño pendiente de revisión humana</text>
+  <text x="512" y="740" text-anchor="middle" font-size="12" fill="#555555">Tablero, serpiente, comida, muros y obstáculos con valores ilustrativos; color y tipografía aplazados.</text>
+</svg>

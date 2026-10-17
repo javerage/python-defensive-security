@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wireframes de Snake — propuesta de diseño (pendiente de revisión)</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      background-color: #f8fafc;
+      color: #334155;
+      line-height: 1.6;
+      padding: 30px 20px;
+    }
+    .container { max-width: 1120px; margin: 0 auto; }
+    header {
+      background: linear-gradient(135deg, #334155, #1e293b);
+      color: #ffffff;
+      padding: 32px 28px;
+      border-radius: 12px;
+      margin-bottom: 24px;
+    }
+    .badge {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      padding: 4px 10px;
+      border-radius: 9999px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    h1 { font-size: 24px; font-weight: 800; line-height: 1.25; margin-bottom: 10px; }
+    p.lead { font-size: 14px; color: #e2e8f0; max-width: 820px; }
+    .fact-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+    .fact {
+      font-size: 12.5px; font-weight: 600; color: #f1f5f9;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 6px; padding: 5px 12px;
+    }
+    .card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+    .card h2 { font-size: 17px; color: #0f172a; margin-bottom: 12px; }
+    .card p, .card li { font-size: 14px; }
+    .card ul { padding-left: 22px; margin: 8px 0; }
+    .card li { margin-bottom: 6px; }
+    .frame {
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 14px;
+      margin-bottom: 18px;
+      background: #fbfdff;
+    }
+    .frame h3 { font-size: 15px; color: #0f172a; margin-bottom: 4px; }
+    .frame .state { font-family: monospace; font-size: 12px; color: #64748b; }
+    .frame .meta { font-size: 12.5px; color: #475569; margin: 8px 0 10px; }
+    .scroller { overflow-x: auto; padding-bottom: 6px; }
+    .scroller img { display: block; width: 1024px; height: 768px; border: 1px solid #cbd5e1; background: #ffffff; }
+    .note { font-size: 12.5px; color: #64748b; margin-top: 6px; }
+    code { background: #f1f5f9; padding: 1px 5px; border-radius: 4px; font-size: 12.5px; }
+    a { color: #1d4ed8; }
+    footer { font-size: 12.5px; color: #64748b; padding: 8px 4px 24px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <span class="badge">Propuesta de diseño</span>
+      <h1>Wireframes de Snake</h1>
+      <p class="lead">
+        Bocetos en escala de grises de las pantallas del juego Snake. Son una <strong>propuesta pendiente de revisión humana</strong>:
+        no son un diseño visual final ni una implementación del juego. Color, tipografía y estilo visual quedan aplazados.
+      </p>
+      <div class="fact-row">
+        <span class="fact">Escala de grises</span>
+        <span class="fact">Ventana de computadora · referencia 1024 × 768</span>
+        <span class="fact">Sin estilo visual final</span>
+        <span class="fact">Sin jugabilidad</span>
+      </div>
+    </header>
+
+    <section class="card">
+      <h2>Cómo usar esta galería</h2>
+      <ul>
+        <li>Es una página local y estática: no usa JavaScript, recursos remotos, fuentes externas ni frameworks.</li>
+        <li>Cada marco se muestra a su tamaño de referencia de <strong>1024 × 768</strong>. Cada marco tiene su propio desplazamiento horizontal: ese desplazamiento es de la galería, <em>no</em> una prueba de que la ventana del juego encaje en la pantalla.</li>
+        <li>Haz clic en cualquier marco para abrir el SVG original, o revisa las notas por pantalla en <a href="screens.md">screens.md</a>.</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>Pantallas propuestas (5)</h2>
+
+      <div class="frame">
+        <h3>Inicio</h3>
+        <p class="state">AwaitingStart</p>
+        <p class="meta">El campo de nombre recibe el foco en cada entrada al inicio, sin alterar su contenido ni iniciar la partida. Activa <code>play</code> o pulsa Enter desde el campo para iniciar. Los espacios de «dark angel» no inician la partida. Sin nombre se genera uno al iniciar. El foco es visible y Tab permite pasar a <code>play</code>.</p>
+        <div class="scroller">
+          <a href="wireframes/start.svg"><img src="wireframes/start.svg" width="1024" height="768" alt="Boceto de la pantalla de inicio con campo de nombre opcional y botón play"></a>
+        </div>
+      </div>
+
+      <div class="frame">
+        <h3>Partida</h3>
+        <p class="state">Playing</p>
+        <p class="meta">Indicadores de jugador, puntaje, vidas, nivel y velocidad sobre un tablero central con serpiente, comida, muros y obstáculos.</p>
+        <div class="scroller">
+          <a href="wireframes/playing.svg"><img src="wireframes/playing.svg" width="1024" height="768" alt="Boceto de la pantalla de partida con indicadores y tablero central"></a>
+        </div>
+      </div>
+
+      <div class="frame">
+        <h3>Game Over</h3>
+        <p class="state">Results</p>
+        <p class="meta">Resultados de nombre, puntaje, nivel y velocidad, con la nota de redirección a los 5 segundos. Sin botón de continuar.</p>
+        <div class="scroller">
+          <a href="wireframes/game-over.svg"><img src="wireframes/game-over.svg" width="1024" height="768" alt="Boceto de la pantalla de Game Over con los resultados de la partida"></a>
+        </div>
+      </div>
+
+      <div class="frame">
+        <h3>Victoria</h3>
+        <p class="state">Victory</p>
+        <p class="meta">Resultados tras completar los cinco niveles, con la nota de redirección. Sin botón de reintentar.</p>
+        <div class="scroller">
+          <a href="wireframes/victory.svg"><img src="wireframes/victory.svg" width="1024" height="768" alt="Boceto de la pantalla de victoria con los resultados de la partida"></a>
+        </div>
+      </div>
+
+      <div class="frame">
+        <h3>Top 10</h3>
+        <p class="state">Highscores</p>
+        <p class="meta">Hasta diez entradas ilustrativas y una única acción, «Nueva partida», que vuelve al inicio.</p>
+        <div class="scroller">
+          <a href="wireframes/top10.svg"><img src="wireframes/top10.svg" width="1024" height="768" alt="Boceto de la pantalla de Top 10 con diez entradas y el botón Nueva partida"></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Alcance</h2>
+      <ul>
+        <li>Estos bocetos proponen <strong>disposición</strong>: qué se ve y qué puede hacer el jugador. No añaden reglas de juego.</li>
+        <li>Solo escala de grises; el color, la tipografía y el estilo visual están aplazados.</li>
+        <li>1024 × 768 es una referencia de diseño, no una prueba de compatibilidad de navegadores.</li>
+        <li>No incluyen jugabilidad, recursos, sonido ni soporte táctil.</li>
+        <li>Las reglas aún no decididas (por ejemplo, la condición para completar el quinto nivel o el almacenamiento del ranking) siguen pendientes y no se resuelven aquí.</li>
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>Fuentes y siguiente paso</h2>
+      <ul>
+        <li><a href="../../idea-proyecto-snake.md">Idea inicial: juego de Snake</a></li>
+        <li><a href="../../game-flow-snake.md">Recorrido de una partida (flujo)</a></li>
+        <li><a href="screens.md">Notas por pantalla (screens.md)</a></li>
+        <li><a href="README.md">README del paquete</a></li>
+      </ul>
+      <p class="note">Siguiente paso: revisión humana de estos bocetos antes de aplicar cualquier estilo visual.</p>
+    </section>
+
+    <footer>
+      Propuesta de diseño pendiente de revisión · paquete de interfaces de Snake · bocetos en escala de grises.
+    </footer>
+  </div>
+</body>
+</html>

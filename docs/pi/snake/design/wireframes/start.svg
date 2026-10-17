@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 768" width="1024" height="768"
+     font-family="system-ui, sans-serif" role="img"
+     aria-label="Wireframe de la pantalla de inicio: campo de nombre opcional con foco al entrar y botón play">
+  <title>Wireframe · Inicio (AwaitingStart)</title>
+  <desc>Propuesta de diseño en escala de grises, pendiente de revisión humana. La disposición sigue una composición arcade con panel central; color y tipografía finales quedan aplazados.</desc>
+
+  <!-- Ventana del navegador de referencia (1024 x 768) -->
+  <rect x="1" y="1" width="1022" height="766" fill="#ffffff" stroke="#2b2b2b" stroke-width="2"/>
+  <rect x="1" y="1" width="1022" height="40" fill="#ececec" stroke="#2b2b2b" stroke-width="1"/>
+  <circle cx="26" cy="21" r="6" fill="#c9c9c9" stroke="#555555" stroke-width="1"/>
+  <circle cx="46" cy="21" r="6" fill="#c9c9c9" stroke="#555555" stroke-width="1"/>
+  <circle cx="66" cy="21" r="6" fill="#c9c9c9" stroke="#555555" stroke-width="1"/>
+  <text x="512" y="26" text-anchor="middle" font-size="13" fill="#444444">Snake · ventana del navegador · referencia 1024 × 768</text>
+
+  <!-- Panel central del juego -->
+  <rect x="112" y="80" width="800" height="600" fill="#ffffff" stroke="#2b2b2b" stroke-width="2"/>
+  <rect x="112" y="80" width="800" height="46" fill="#f0f0f0" stroke="#2b2b2b" stroke-width="1"/>
+  <text x="136" y="109" font-size="16" font-weight="700" fill="#1a1a1a">INICIO · AwaitingStart</text>
+  <text x="888" y="108" text-anchor="end" font-size="12" fill="#666666">propuesta — pendiente de revisión</text>
+
+  <!-- Contenido de la pantalla de inicio -->
+  <text x="512" y="272" text-anchor="middle" font-size="52" font-weight="800" letter-spacing="6" fill="#1a1a1a">SNAKE</text>
+  <text x="512" y="306" text-anchor="middle" font-size="13" fill="#666666">Pantalla de inicio · el jugador aún no inicia el movimiento</text>
+
+  <text x="512" y="362" text-anchor="middle" font-size="15" fill="#1a1a1a">Nombre del jugador (opcional)</text>
+  <rect x="332" y="378" width="360" height="48" rx="4" fill="#ffffff" stroke="#2b2b2b" stroke-width="2"/>
+  <rect x="328" y="374" width="368" height="56" rx="6" fill="none" stroke="#111111" stroke-width="2"/>
+  <text x="350" y="408" font-size="14" fill="#9a9a9a">Escribe un nombre…</text>
+  <text x="512" y="454" text-anchor="middle" font-size="12.5" fill="#555555">Si se deja vacío, al iniciar se genera player_YYYYMMDD_HHmmss_SSS.</text>
+
+  <rect x="412" y="482" width="200" height="56" rx="6" fill="#e8e8e8" stroke="#2b2b2b" stroke-width="2"/>
+  <text x="512" y="518" text-anchor="middle" font-size="24" font-weight="700" fill="#1a1a1a">play</text>
+  <text x="512" y="568" text-anchor="middle" font-size="13" fill="#444444">Activa «play» o pulsa Enter desde el campo de nombre para iniciar.</text>
+  <text x="512" y="598" text-anchor="middle" font-size="12" fill="#666666">Puedes escribir «dark angel»: sus espacios no inician la partida.</text>
+  <text x="512" y="626" text-anchor="middle" font-size="12" fill="#444444">Foco en el nombre en cada entrada al inicio; Tab permite pasar a «play».</text>
+
+  <!-- Anotaciones del boceto -->
+  <text x="512" y="720" text-anchor="middle" font-size="12" fill="#555555">Wireframe en escala de grises · propuesta de diseño pendiente de revisión humana</text>
+  <text x="512" y="740" text-anchor="middle" font-size="12" fill="#555555">Composición de panel central de inspiración arcade; color y tipografía finales aplazados.</text>
+</svg>

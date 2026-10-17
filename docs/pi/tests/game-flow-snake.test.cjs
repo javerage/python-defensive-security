@@ -126,7 +126,7 @@ test('Nueva partida returns from either ending through top 10 and waits for play
     assert.equal(context.current, 'AwaitingStart');
     const response = elements.get('last-response').innerHTML;
     for (const rule of [/nombre escrito/i, /precargado y editable/i, /no se reutiliza/i,
-      /play.*espacio/i, /no se arrastra/i]) assert.match(response, rule);
+      /play.*Enter/i, /no se arrastra/i]) assert.match(response, rule);
     assert.equal(elements.get('n-AwaitingStart').attributes.fill, '#1d4ed8');
     assert.equal(elements.get('e-new-game').style.opacity, '1');
     elements.get('back-btn').listeners.click();
@@ -144,7 +144,7 @@ test('all returns explain typed-name retention and never reuse generated names',
   assert.equal(returns.length, 3);
   for (const route of returns) {
     for (const rule of [/nombre escrito/i, /precargado y editable/i, /no se reutiliza/i,
-      /play.*espacio/i, /no se arrastra/i]) assert.match(route.response, rule);
+      /play.*Enter/i, /no se arrastra/i]) assert.match(route.response, rule);
   }
   click('StartRequested', 'Playing');
   assert.match(elements.get('last-response').innerHTML, /player_YYYYMMDD_HHmmss_SSS/);
@@ -153,4 +153,45 @@ test('all returns explain typed-name retention and never reuse generated names',
   assert.equal(context.current, 'AwaitingStart');
   click('StartRequested', 'Playing');
   assert.match(elements.get('last-response').innerHTML, /Se genera player_YYYYMMDD_HHmmss_SSS/);
+});
+
+test('viewer explains Enter from the name field without treating name spaces as start', () => {
+  const { context, elements, click } = loadViewer();
+  click('NameProvided', 'AwaitingStart');
+  assert.equal(context.current, 'AwaitingStart');
+  const response = elements.get('last-response').innerHTML;
+  assert.match(response, /dark angel/);
+  assert.match(response, /espacios.*no inician/i);
+  assert.match(response, /Enter.*campo de nombre/i);
+  const starts = context.TRANSITIONS.filter(t => t.event === 'StartRequested');
+  assert.equal(starts.length, 2);
+  for (const start of starts) {
+    assert.match(start.label, /play.*Enter/i);
+    assert.match(start.label, /campo de nombre/i);
+    assert.doesNotMatch(start.label, /espacio/i);
+  }
+  click('StartRequested', 'Playing');
+  assert.equal(context.current, 'Playing');
+  assert.match(elements.get('last-response').innerHTML, /player_YYYYMMDD_HHmmss_SSS/);
+});
+
+test('viewer explains name-field focus on initial entry and every return to start', () => {
+  const { context, elements, click } = loadViewer();
+  assert.equal(context.current, 'AwaitingStart');
+  for (const rule of [/foco.*campo de nombre/i, /visible/i, /Tab/, /sin cambiar.*contenido/i]) {
+    assert.match(elements.get('state-desc').textContent, rule);
+  }
+  for (const ending of ['Results', 'Victory']) {
+    for (const destination of ['AwaitingStart', 'Highscores']) {
+      elements.get('restart-btn').listeners.click();
+      click('StartRequested', 'Playing');
+      click(ending === 'Victory' ? 'FinalLevelCompleted' : 'Collision', ending);
+      click('AnimationFinished', destination);
+      if (destination === 'Highscores') click('NewGameRequested', 'AwaitingStart');
+      assert.equal(context.current, 'AwaitingStart');
+      assert.match(elements.get('last-response').innerHTML, /foco.*campo de nombre/i);
+      assert.match(elements.get('state-desc').textContent, /sin cambiar.*contenido/i);
+      assert.match(elements.get('last-response').innerHTML, /play.*Enter/i);
+    }
+  }
 });

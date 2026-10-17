@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 768" width="1024" height="768"
+     font-family="system-ui, sans-serif" role="img"
+     aria-label="Wireframe de la pantalla de Game Over: resultados de nombre, puntaje, nivel y velocidad">
+  <title>Wireframe · Game Over (Results)</title>
+  <desc>Propuesta de diseño en escala de grises, pendiente de revisión humana. Muestra los resultados tras agotar las vidas y la nota de redirección; no incluye botón de continuar ni de reintentar.</desc>
+
+  <!-- Ventana del navegador de referencia (1024 x 768) -->
+  <rect x="1" y="1" width="1022" height="766" fill="#ffffff" stroke="#2b2b2b" stroke-width="2"/>
+  <rect x="1" y="1" width="1022" height="40" fill="#ececec" stroke="#2b2b2b" stroke-width="1"/>
+  <circle cx="26" cy="21" r="6" fill="#c9c9c9" stroke="#555555" stroke-width="1"/>
+  <circle cx="46" cy="21" r="6" fill="#c9c9c9" stroke="#555555" stroke-width="1"/>
+  <circle cx="66" cy="21" r="6" fill="#c9c9c9" stroke="#555555" stroke-width="1"/>
+  <text x="512" y="26" text-anchor="middle" font-size="13" fill="#444444">Snake · ventana del navegador · referencia 1024 × 768</text>
+
+  <!-- Panel central del juego -->
+  <rect x="112" y="80" width="800" height="600" fill="#ffffff" stroke="#2b2b2b" stroke-width="2"/>
+  <rect x="112" y="80" width="800" height="46" fill="#f0f0f0" stroke="#2b2b2b" stroke-width="1"/>
+  <text x="136" y="109" font-size="16" font-weight="700" fill="#1a1a1a">GAME OVER · Results</text>
+  <text x="888" y="108" text-anchor="end" font-size="12" fill="#666666">propuesta — pendiente de revisión</text>
+
+  <!-- Contenido -->
+  <text x="512" y="252" text-anchor="middle" font-size="52" font-weight="800" letter-spacing="6" fill="#1a1a1a">GAME OVER</text>
+  <text x="512" y="286" text-anchor="middle" font-size="13" fill="#666666">Animación de fin de partida · la partida terminó al agotarse las vidas</text>
+
+  <rect x="312" y="318" width="400" height="236" rx="6" fill="#f7f7f7" stroke="#333333" stroke-width="2"/>
+  <text x="336" y="358" font-size="13" fill="#444444">Nombre</text>
+  <text x="688" y="358" text-anchor="end" font-family="monospace" font-size="12" fill="#111111">player_20261016_120000_000</text>
+  <line x1="336" y1="374" x2="688" y2="374" stroke="#dddddd" stroke-width="1"/>
+  <text x="336" y="400" font-size="13" fill="#444444">Puntaje</text>
+  <text x="688" y="400" text-anchor="end" font-size="15" font-weight="700" fill="#111111">0</text>
+  <line x1="336" y1="416" x2="688" y2="416" stroke="#dddddd" stroke-width="1"/>
+  <text x="336" y="442" font-size="13" fill="#444444">Nivel</text>
+  <text x="688" y="442" text-anchor="end" font-size="15" font-weight="700" fill="#111111">1</text>
+  <line x1="336" y1="458" x2="688" y2="458" stroke="#dddddd" stroke-width="1"/>
+  <text x="336" y="484" font-size="13" fill="#444444">Velocidad</text>
+  <text x="688" y="484" text-anchor="end" font-size="15" font-weight="700" fill="#111111">1</text>
+  <text x="512" y="534" text-anchor="middle" font-size="11" fill="#777777">Valores ilustrativos — no son resultados reales.</text>
+
+  <text x="512" y="586" text-anchor="middle" font-size="13" fill="#444444">Tras 5 segundos: Top 10 si el resultado clasifica; si no clasifica, vuelve al inicio.</text>
+  <text x="512" y="614" text-anchor="middle" font-size="12" fill="#666666">Esta pantalla no incluye botón de continuar ni de reintentar (no definidos en la fuente).</text>
+
+  <text x="512" y="720" text-anchor="middle" font-size="12" fill="#555555">Wireframe en escala de grises · propuesta de diseño pendiente de revisión humana</text>
+  <text x="512" y="740" text-anchor="middle" font-size="12" fill="#555555">Redirección automática a los 5 segundos; color y tipografía finales aplazados.</text>
+</svg>

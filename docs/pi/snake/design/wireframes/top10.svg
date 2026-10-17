@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 768" width="1024" height="768"
+     font-family="system-ui, sans-serif" role="img"
+     aria-label="Wireframe de la pantalla de Top 10 con diez entradas ilustrativas y el botón Nueva partida">
+  <title>Wireframe · Top 10 (Highscores)</title>
+  <desc>Propuesta de diseño en escala de grises, pendiente de revisión humana. Muestra hasta diez entradas ilustrativas y una única acción «Nueva partida» que vuelve al inicio.</desc>
+
+  <!-- Ventana del navegador de referencia (1024 x 768) -->
+  <rect x="1" y="1" width="1022" height="766" fill="#ffffff" stroke="#2b2b2b" stroke-width="2"/>
+  <rect x="1" y="1" width="1022" height="40" fill="#ececec" stroke="#2b2b2b" stroke-width="1"/>
+  <circle cx="26" cy="21" r="6" fill="#c9c9c9" stroke="#555555" stroke-width="1"/>
+  <circle cx="46" cy="21" r="6" fill="#c9c9c9" stroke="#555555" stroke-width="1"/>
+  <circle cx="66" cy="21" r="6" fill="#c9c9c9" stroke="#555555" stroke-width="1"/>
+  <text x="512" y="26" text-anchor="middle" font-size="13" fill="#444444">Snake · ventana del navegador · referencia 1024 × 768</text>
+
+  <!-- Panel central del juego -->
+  <rect x="112" y="80" width="800" height="600" fill="#ffffff" stroke="#2b2b2b" stroke-width="2"/>
+  <rect x="112" y="80" width="800" height="46" fill="#f0f0f0" stroke="#2b2b2b" stroke-width="1"/>
+  <text x="136" y="109" font-size="16" font-weight="700" fill="#1a1a1a">TOP 10 · Highscores</text>
+  <text x="888" y="108" text-anchor="end" font-size="12" fill="#666666">propuesta — pendiente de revisión</text>
+
+  <!-- Encabezado -->
+  <text x="512" y="152" text-anchor="middle" font-size="28" font-weight="800" fill="#1a1a1a">Top 10</text>
+  <text x="512" y="176" text-anchor="middle" font-size="12" fill="#666666">Máximo diez entradas · datos ilustrativos; orden y almacenamiento siguen pendientes.</text>
+
+  <!-- Tabla -->
+  <rect x="212" y="196" width="600" height="34" fill="#e8e8e8" stroke="#333333" stroke-width="1"/>
+  <text x="226" y="218" font-size="12" font-weight="700" fill="#333333">#</text>
+  <text x="306" y="218" font-size="12" font-weight="700" fill="#333333">Nombre</text>
+  <text x="546" y="218" font-size="12" font-weight="700" fill="#333333">Puntaje</text>
+  <text x="686" y="218" font-size="12" font-weight="700" fill="#333333">Nivel</text>
+
+  <rect x="212" y="230" width="600" height="32" fill="#ffffff" stroke="#e0e0e0" stroke-width="1"/>
+  <text x="226" y="251" font-size="12" fill="#555555">1</text>
+  <text x="306" y="251" font-family="monospace" font-size="12" fill="#111111">Ada_88</text>
+  <text x="546" y="251" font-size="12" fill="#111111">120</text>
+  <text x="686" y="251" font-size="12" fill="#111111">5</text>
+
+  <rect x="212" y="262" width="600" height="32" fill="#fafafa" stroke="#e0e0e0" stroke-width="1"/>
+  <text x="226" y="283" font-size="12" fill="#555555">2</text>
+  <text x="306" y="283" font-family="monospace" font-size="12" fill="#111111">player_20261016_101500_204</text>
+  <text x="546" y="283" font-size="12" fill="#111111">105</text>
+  <text x="686" y="283" font-size="12" fill="#111111">5</text>
+
+  <rect x="212" y="294" width="600" height="32" fill="#ffffff" stroke="#e0e0e0" stroke-width="1"/>
+  <text x="226" y="315" font-size="12" fill="#555555">3</text>
+  <text x="306" y="315" font-family="monospace" font-size="12" fill="#111111">SnakeMaster</text>
+  <text x="546" y="315" font-size="12" fill="#111111">98</text>
+  <text x="686" y="315" font-size="12" fill="#111111">4</text>
+
+  <rect x="212" y="326" width="600" height="32" fill="#fafafa" stroke="#e0e0e0" stroke-width="1"/>
+  <text x="226" y="347" font-size="12" fill="#555555">4</text>
+  <text x="306" y="347" font-family="monospace" font-size="12" fill="#111111">nori_7</text>
+  <text x="546" y="347" font-size="12" fill="#111111">87</text>
+  <text x="686" y="347" font-size="12" fill="#111111">4</text>
+
+  <rect x="212" y="358" width="600" height="32" fill="#ffffff" stroke="#e0e0e0" stroke-width="1"/>
+  <text x="226" y="379" font-size="12" fill="#555555">5</text>
+  <text x="306" y="379" font-family="monospace" font-size="12" fill="#111111">byte_luna</text>
+  <text x="546" y="379" font-size="12" fill="#111111">76</text>
+  <text x="686" y="379" font-size="12" fill="#111111">3</text>
+
+  <rect x="212" y="390" width="600" height="32" fill="#fafafa" stroke="#e0e0e0" stroke-width="1"/>
+  <text x="226" y="411" font-size="12" fill="#555555">6</text>
+  <text x="306" y="411" font-family="monospace" font-size="12" fill="#111111">player_20261016_093000_771</text>
+  <text x="546" y="411" font-size="12" fill="#111111">65</text>
+  <text x="686" y="411" font-size="12" fill="#111111">3</text>
+
+  <rect x="212" y="422" width="600" height="32" fill="#ffffff" stroke="#e0e0e0" stroke-width="1"/>
+  <text x="226" y="443" font-size="12" fill="#555555">7</text>
+  <text x="306" y="443" font-family="monospace" font-size="12" fill="#111111">pixel_ana</text>
+  <text x="546" y="443" font-size="12" fill="#111111">54</text>
+  <text x="686" y="443" font-size="12" fill="#111111">2</text>
+
+  <rect x="212" y="454" width="600" height="32" fill="#fafafa" stroke="#e0e0e0" stroke-width="1"/>
+  <text x="226" y="475" font-size="12" fill="#555555">8</text>
+  <text x="306" y="475" font-family="monospace" font-size="12" fill="#111111">jugador_44</text>
+  <text x="546" y="475" font-size="12" fill="#111111">43</text>
+  <text x="686" y="475" font-size="12" fill="#111111">2</text>
+
+  <rect x="212" y="486" width="600" height="32" fill="#ffffff" stroke="#e0e0e0" stroke-width="1"/>
+  <text x="226" y="507" font-size="12" fill="#555555">9</text>
+  <text x="306" y="507" font-family="monospace" font-size="12" fill="#111111">zeta</text>
+  <text x="546" y="507" font-size="12" fill="#111111">32</text>
+  <text x="686" y="507" font-size="12" fill="#111111">1</text>
+
+  <rect x="212" y="518" width="600" height="32" fill="#fafafa" stroke="#e0e0e0" stroke-width="1"/>
+  <text x="226" y="539" font-size="12" fill="#555555">10</text>
+  <text x="306" y="539" font-family="monospace" font-size="12" fill="#111111">kai_01</text>
+  <text x="546" y="539" font-size="12" fill="#111111">21</text>
+  <text x="686" y="539" font-size="12" fill="#111111">1</text>
+
+  <!-- Única acción -->
+  <rect x="412" y="580" width="200" height="52" rx="6" fill="#e8e8e8" stroke="#2b2b2b" stroke-width="2"/>
+  <text x="512" y="613" text-anchor="middle" font-size="18" font-weight="700" fill="#1a1a1a">Nueva partida</text>
+  <text x="512" y="654" text-anchor="middle" font-size="12" fill="#444444">Vuelve al inicio: espera «play» o Enter desde el campo de nombre; no inicia movimiento.</text>
+  <text x="512" y="672" text-anchor="middle" font-size="11" fill="#666666">El registro por nivel y el orden entre empates iguales siguen pendientes.</text>
+
+  <text x="512" y="720" text-anchor="middle" font-size="12" fill="#555555">Wireframe en escala de grises · propuesta de diseño pendiente de revisión humana</text>
+  <text x="512" y="740" text-anchor="middle" font-size="12" fill="#555555">Tabla de ejemplo, no son rankings reales; color y tipografía finales aplazados.</text>
+</svg>
