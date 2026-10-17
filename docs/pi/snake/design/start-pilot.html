@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pantalla piloto de Inicio — Snake (referencia visual aceptada)</title>
+  <!-- Muestra temporal de la única familia elegida (Silkscreen, 400 y 700).
+       La integración local (@font-face + licencia OFL) sigue pendiente. -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&amp;display=swap" referrerpolicy="no-referrer">
+  <style>
+    :root {
+      /* Tokens propuestos — copiados literalmente de visual-style.md (borrador, sin aprobar). */
+      --color-background: #0D1117;
+      --color-surface: #161B22;
+      --color-board: #0B1014;
+      --color-text: #F0F6FC;
+      --color-text-muted: #A9B4C0;
+      --color-border: #8B949E;
+      --color-grid: #22303A;
+      --color-snake: #7EE787;
+      --color-food: #FF7B72;
+      --color-accent: #79C0FF;
+      --color-focus: #F2CC60;
+
+      /* Roles tipográficos: pixelado = Silkscreen (elegida); cuerpo = fuente del sistema. */
+      --font-pixel: "Silkscreen", ui-monospace, "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      --font-body: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+      --border-w: 2px;
+      /* Radio acordado: 8 px solo en botones y campo de nombre. */
+      --radius: 8px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { background: var(--color-background); }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--color-background);
+      color: var(--color-text);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.5;
+    }
+
+    /* Referencia aprobada 1024 × 768: no es certificación responsive ni de navegadores.
+       El tamaño es fijo para conservar la composición; el body permite desplazarse en ventanas pequeñas. */
+    .pilot-screen {
+      position: relative;
+      width: 1024px;
+      height: 768px;
+      margin: 0 auto;
+      background: var(--color-background);
+    }
+
+    /* Panel central aprobado: 800 × 600 en (112, 80). El borde se dibuja con box-shadow
+       interior para que las coordenadas locales del wireframe se conserven exactas. */
+    .game-panel {
+      position: absolute;
+      left: 112px;
+      top: 80px;
+      width: 800px;
+      height: 600px;
+      background: var(--color-surface);
+      box-shadow: inset 0 0 0 var(--border-w) var(--color-border);
+    }
+
+    .game-panel-head {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 46px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      background: var(--color-background);
+      border-bottom: 1px solid var(--color-border);
+    }
+    .panel-title { font-family: var(--font-pixel); font-size: 16px; }
+    .panel-note { font-size: 12px; color: var(--color-text-muted); }
+
+    /* Las siguientes posiciones se derivan del wireframe aprobado: línea base global menos
+       el tamaño de fuente, con el panel en (112, 80). No se inventa un esquema nuevo. */
+    .game-title {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 168px;
+      margin: 0;
+      text-align: center;
+      font-family: var(--font-pixel);
+      font-weight: 700;
+      font-size: 24px;
+      line-height: 24px;
+      letter-spacing: 0.12em;
+      color: var(--color-text);
+    }
+    .game-subtitle {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 213px;
+      margin: 0;
+      text-align: center;
+      font-size: 13px;
+      line-height: 13px;
+      color: var(--color-text-muted);
+    }
+    .field-label {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 269px;
+      text-align: center;
+      font-family: var(--font-body);
+      font-size: 13px;
+      line-height: 13px;
+      color: var(--color-text);
+    }
+
+    /* Campo de nombre: caja aprobada 360 × 48, centrada en el panel. Empieza vacío y editable. */
+    .name-field {
+      position: absolute;
+      left: 220px;
+      top: 298px;
+      width: 360px;
+      height: 48px;
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.5;
+      color: var(--color-text);
+      background: var(--color-surface);
+      border: var(--border-w) solid var(--color-border);
+      border-radius: var(--radius);
+      padding: 8px 12px;
+    }
+    .name-field::placeholder { color: var(--color-text-muted); }
+    /* Foco dorado con separación real de 2 px de fondo; no retiene el foco. */
+    .name-field:focus-visible {
+      outline: var(--border-w) solid var(--color-focus);
+      outline-offset: 2px;
+      box-shadow: 0 0 0 2px var(--color-background);
+      border-color: var(--color-border);
+    }
+
+    .field-help {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 362px;
+      margin: 0;
+      text-align: center;
+      font-size: 12px;
+      line-height: 12px;
+      color: var(--color-text-muted);
+    }
+
+    /* Botón play: caja aprobada 200 × 56, centrada. Relleno verde, inversión en hover y pulsado. */
+    .btn {
+      position: absolute;
+      left: 300px;
+      top: 402px;
+      width: 200px;
+      height: 56px;
+      font-family: var(--font-pixel);
+      font-size: 16px;
+      color: var(--color-background);
+      background: var(--color-snake);
+      border: var(--border-w) solid var(--color-snake);
+      border-radius: var(--radius);
+      padding: 0;
+      cursor: pointer;
+    }
+    .btn:hover {
+      background: var(--color-background);
+      color: var(--color-snake);
+      border-color: var(--color-snake);
+    }
+    .btn:active {
+      background: var(--color-background);
+      color: var(--color-snake);
+      border-color: var(--color-snake);
+      box-shadow: inset 0 0 0 2px var(--color-snake);
+    }
+    /* Foco: contorno dorado exterior separado 2 px por el fondo oscuro (sin desplazar la caja). */
+    .btn:focus-visible {
+      outline: var(--border-w) solid var(--color-focus);
+      outline-offset: 2px;
+      box-shadow: 0 0 0 2px var(--color-background);
+    }
+    /* Pulsado + foco: se conservan la señal interior y la separación exterior real. */
+    .btn:active:focus-visible {
+      box-shadow: 0 0 0 2px var(--color-background), inset 0 0 0 2px var(--color-snake);
+    }
+
+    .screen-hint {
+      position: absolute;
+      left: 0;
+      right: 0;
+      margin: 0;
+      text-align: center;
+      font-size: 12px;
+      line-height: 12px;
+      color: var(--color-text-muted);
+    }
+    .screen-hint.is-strong { top: 475px; font-size: 13px; line-height: 13px; color: var(--color-text); }
+    .screen-hint.is-space { top: 506px; }
+    .screen-hint.is-focus { top: 534px; }
+
+    /* Aviso de carga de la fuente: fuera de la pantalla 1024 × 768 (honestidad ambiental).
+       No es una galería de componentes y se oculta si la carga se confirma. */
+    .page-note {
+      max-width: 1024px;
+      margin: 0 auto;
+      /* Sin relleno vertical: con el aviso oculto no deja franja en blanco. */
+      padding: 0 24px;
+    }
+    .font-status {
+      /* El espaciado vive en el aviso visible; oculto no aporta altura. */
+      margin: 12px 0 24px;
+      font-size: 13px;
+      line-height: 1.5;
+      color: var(--color-text-muted);
+      border: var(--border-w) solid var(--color-border);
+      padding: 10px 12px;
+    }
+    .font-status[data-font-state="failed"],
+    .font-status[data-font-state="unavailable"] {
+      border-color: var(--color-focus);
+      color: var(--color-focus);
+    }
+    .font-status[hidden] { display: none; }
+  </style>
+</head>
+<body>
+  <section class="pilot-screen" aria-label="Pantalla de inicio (AwaitingStart) — referencia visual aceptada, referencia 1024 × 768">
+    <div class="game-panel">
+      <div class="game-panel-head">
+        <span class="panel-title">INICIO · AwaitingStart</span>
+        <span class="panel-note">referencia visual aceptada · sin jugabilidad</span>
+      </div>
+
+      <h1 class="game-title">SNAKE</h1>
+      <p class="game-subtitle">Pantalla de inicio · el jugador aún no inicia el movimiento</p>
+
+      <label class="field-label" for="player-name">Nombre del jugador (opcional)</label>
+      <input class="name-field" type="text" id="player-name" name="player-name" placeholder="Escribe un nombre…" autocomplete="off" autofocus>
+      <p class="field-help">Si se deja vacío, al iniciar se genera player_YYYYMMDD_HHmmss_SSS.</p>
+
+      <button type="button" class="btn" id="play-button">play</button>
+
+      <p class="screen-hint is-strong">Activa «play» o pulsa Enter desde el campo de nombre para iniciar.</p>
+      <p class="screen-hint is-space">Puedes escribir «dark angel»: sus espacios no inician la partida.</p>
+      <p class="screen-hint is-focus">Foco en el nombre en cada entrada al inicio; Tab permite pasar a «play».</p>
+    </div>
+  </section>
+
+  <div class="page-note">
+    <p class="font-status" data-font-status data-font-state="unchecked" role="status" aria-live="polite">
+      Este piloto carga Silkscreen (400 y 700) desde Google Fonts como referencia temporal: la muestra requiere conexión.
+      Si la carga no se confirma, se muestra un sustituto monoespaciado y no debe juzgarse como la fuente real. La integración local sigue pendiente.
+    </p>
+    <noscript>
+      <p class="font-status">JavaScript está desactivado: no se puede verificar la carga de Silkscreen. Si ves el sustituto del sistema, no lo juzgues como la fuente real.</p>
+    </noscript>
+  </div>
+
+  <script id="pilot-font-status">
+    (() => {
+      const family = 'Silkscreen';
+      const sampleText = 'SNAKE play 0123456789 dark angel á é í ó ú ñ ü ¿ ¡';
+      const specs = ['400 16px', '700 24px'];
+      const status = document.querySelector('[data-font-status]');
+      const show = (state, message) => {
+        if (!status) return;
+        status.hidden = state === 'loaded';
+        status.dataset.fontState = state;
+        status.textContent = message;
+      };
+      if (!document.fonts || typeof document.fonts.load !== 'function') {
+        show('unavailable', 'No se puede comprobar la carga de Silkscreen en este navegador. Podría mostrarse un sustituto; no lo juzgues como la fuente real. La integración local sigue pendiente.');
+        return;
+      }
+      show('loading', 'Comprobando la carga de Silkscreen…');
+      let timer;
+      const deadline = new Promise((_, reject) => {
+        timer = setTimeout(() => reject(new Error('Font loading timed out')), 10000);
+      });
+      Promise.race([
+        Promise.all(specs.map(spec => document.fonts.load(`${spec} "${family}"`, sampleText))),
+        deadline,
+      ])
+        .then(groups => {
+          if (groups.some(faces => !faces.length)) throw new Error('No matching web font');
+          show('loaded', 'Silkscreen cargada.');
+        })
+        .catch(() => show('failed', 'No se pudo confirmar la carga de Silkscreen: se muestra un sustituto monoespaciado. Comprueba la conexión y recarga; no lo juzgues como la fuente real.'))
+        .finally(() => clearTimeout(timer));
+    })();
+  </script>
+</body>
+</html>

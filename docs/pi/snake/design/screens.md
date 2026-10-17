@@ -1,6 +1,6 @@
 # Notas por pantalla — wireframes de Snake (propuesta)
 
-Propuesta de diseño **revisada y aprobada**. Cada boceto usa una referencia de ventana de computadora de **1024 × 768**. Los wireframes permanecen en escala de grises; el [lenguaje visual](visual-style.md) se documenta aparte como borrador de fase 1, sin aplicarlo todavía a las pantallas.
+Propuesta de diseño **revisada y aprobada**. Cada boceto usa una referencia de ventana de computadora de **1024 × 768**. Los wireframes permanecen en escala de grises y aprobados; el [lenguaje visual](visual-style.md) se documenta aparte como borrador de fase 1 y no modifica estos bocetos. Existen además dos **pantallas piloto** separadas que aplican el borrador visual: la **[pantalla piloto de Inicio](start-pilot.html)** y la **[pantalla piloto de Partida](playing-pilot.html)**, ambas **aceptadas como referencia visual** (los valores visuales aplicados en ellas quedan aceptados como referencia). Las notas de abajo describen los wireframes en escala de grises.
 
 > Los nombres de estado (`AwaitingStart`, `Playing`, `Results`, `Victory`, `Highscores`) provienen del [recorrido de una partida](../../game-flow-snake.md). Los bocetos proponen disposición, no reglas nuevas.
 
@@ -14,12 +14,13 @@ Propuesta de diseño **revisada y aprobada**. Cada boceto usa una referencia de 
 - **Notas de reglas pendientes:** validación detallada del nombre y referencia horaria del automático. El campo no precarga el nombre automático anterior.
 
 ## Partida — `Playing`
+- **Artefacto:** [pantalla piloto de Partida](playing-pilot.html) (aceptada como referencia visual).
 - **Propósito:** mostrar el estado de la partida y el tablero mientras la serpiente se mueve.
-- **Elementos visibles:** jugador, puntaje, vidas, nivel y velocidad; tablero central con serpiente, comida, muros y obstáculos.
+- **Elementos visibles:** jugador, puntaje, vidas, nivel y velocidad; las vidas se muestran como tres corazones pixelados (llenos para las disponibles, de contorno para las perdidas); tablero central con serpiente, comida, muros y obstáculos.
 - **Acciones:** dirigir la serpiente con las flechas del teclado. No hay pausa, ajustes, reinicio manual ni registro desde esta pantalla.
 - **Transiciones:** dentro de `Playing` al comer, avanzar de nivel o perder una vida (reinicio automático); a `Results` al perder la última vida; a `Victory` al completar el quinto nivel.
 - **Referencia:** 1024 × 768 (tablero y HUD dentro del panel central).
-- **Notas de reglas pendientes:** puntos por comida, velocidad inicial e incremento, datos conservados tras perder una vida, escenarios por nivel y condición para completar el quinto. Escenario, serpiente y comida usan valores ilustrativos.
+- **Notas de reglas pendientes:** puntos por comida, velocidad inicial e incremento, datos conservados tras perder una vida, escenarios por nivel y condición para completar el quinto. Escenario, serpiente y comida usan valores ilustrativos. La comida se mantiene como un único rombo ilustrativo: las variantes de comida (formas, colores o efectos) no están definidas ni se presentan en el mockup y se registran como posibilidad abierta en la [idea inicial del proyecto](../../idea-proyecto-snake.md). La presentación de vidas con corazones pixelados es de referencia y no implementa la pérdida de vidas.
 
 ## Game Over — `Results`
 - **Propósito:** mostrar los resultados cuando se agotan las vidas.

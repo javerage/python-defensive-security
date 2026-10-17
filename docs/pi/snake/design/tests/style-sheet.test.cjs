@@ -460,3 +460,167 @@ test('actualiza el punto actual: tipografía cerrada y pantalla piloto como sigu
   assert.match(docs['README.md'], /Silkscreen/);
   assert.doesNotMatch(docs['README.md'], /falta elegir|sin elegir la fuente|fuente sin decidir/i, 'la tipografía ya no está abierta');
 });
+
+// Punto actual: Inicio y la Partida aceptadas como referencia visual.
+test('los documentos públicos enlazan Inicio y la Partida aceptadas como referencia visual', () => {
+  const acceptedPath = path.join(DESIGN_DIR, 'start-pilot.html');
+  assert.ok(fs.existsSync(acceptedPath), 'la pantalla piloto aceptada debe existir como archivo local');
+  const partidaPath = path.join(DESIGN_DIR, 'playing-pilot.html');
+  assert.ok(fs.existsSync(partidaPath), 'la pantalla piloto de Partida debe existir como archivo local');
+
+  const docs = {
+    'README.md': fs.readFileSync(path.join(DESIGN_DIR, 'README.md'), 'utf8'),
+    'visual-style.md': fs.readFileSync(path.join(DESIGN_DIR, 'visual-style.md'), 'utf8'),
+    'DESIGN.md': fs.readFileSync(path.join(DESIGN_DIR, 'DESIGN.md'), 'utf8'),
+    'index.html': fs.readFileSync(path.join(DESIGN_DIR, 'index.html'), 'utf8'),
+    'style-sheet.html': sheet(),
+    'screens.md': fs.readFileSync(path.join(DESIGN_DIR, 'screens.md'), 'utf8'),
+  };
+  for (const [name, text] of Object.entries(docs)) {
+    assert.match(text, /start-pilot\.html/, `${name} debe enlazar la pantalla piloto de Inicio`);
+    assert.match(text, /playing-pilot\.html/, `${name} debe enlazar la pantalla piloto de Partida`);
+    assert.match(text, /aceptad/i, `${name} debe marcar las pantallas piloto como referencia visual aceptada`);
+    assert.doesNotMatch(text, /pendiente de revisi[oó]n humana/i, `${name} no debe mantener ninguna pantalla piloto como pendiente de revisión humana`);
+  }
+
+  const readme = docs['README.md'];
+  assert.match(readme, /start-pilot\.test\.cjs/, 'la tabla y el comando de pruebas deben incluir el test de la pantalla piloto de Inicio');
+  assert.match(readme, /playing-pilot\.test\.cjs/, 'la tabla y el comando de pruebas deben incluir el test de la pantalla piloto de Partida');
+  assert.match(readme, /node --test[^\n]*start-pilot\.test\.cjs/, 'el README debe indicar cómo ejecutar el test de la pantalla piloto de Inicio');
+  assert.match(readme, /node --test[^\n]*playing-pilot\.test\.cjs/, 'el README debe indicar cómo ejecutar el test de la pantalla piloto de Partida');
+});
+
+// --- Acuerdo de vidas con corazones y variedad de comida (ronda de la pantalla de Partida) ---
+
+const IDEA_PATH = path.join(DESIGN_DIR, '..', '..', 'idea-proyecto-snake.md');
+
+function idea() {
+  return fs.readFileSync(IDEA_PATH, 'utf8');
+}
+
+function markdownSection(text, heading) {
+  const start = text.indexOf(heading);
+  assert.notEqual(start, -1, `falta la sección «${heading}»`);
+  const rest = text.slice(start + heading.length);
+  const next = rest.search(/^## /m);
+  return next === -1 ? rest : rest.slice(0, next);
+}
+
+test('la idea describe las vidas como tres corazones pixelados llenos o vacíos sin cambiar las reglas', () => {
+  const lives = markdownSection(idea(), '## 4. Qué comportamientos considera indispensables');
+
+  assert.match(lives, /coraz[oó]n/i, 'la presentación de vidas debe describirse con corazones');
+  assert.match(lives, /p[ií]xel/i, 'los corazones deben ser pixelados (dibujados), no emoji ni iconos externos');
+  assert.match(lives, /lleno|relleno/i, 'las vidas disponibles se representan con el corazón lleno');
+  assert.match(lives, /vac[ií]o|contorno/i, 'las vidas perdidas se representan con el corazón vacío o de contorno');
+  assert.match(lives, /(tres|3)\b/i, 'el indicador conserva tres posiciones fijas');
+
+  // Las reglas del juego no cambian: se conservan el arranque con tres vidas y la pérdida de vida.
+  assert.match(lives, /tres vidas/i);
+  assert.match(lives, /chocar/i);
+  assert.match(lives, /sumar[aá] puntos/i, 'la regla actual de puntos por comida sigue vigente');
+  assert.match(lives, /crecer la serpiente en un bloque/i, 'la regla actual de crecimiento sigue vigente');
+});
+
+test('la idea mantiene la regla actual de comida y registra la variedad como propuesta abierta de la sección 6', () => {
+  const text = idea();
+  const open = markdownSection(text, '## 6. Qué todavía no sabe decidir');
+
+  assert.match(open, /comida/i, 'la variedad de comida debe figurar entre las dudas abiertas');
+  assert.match(open, /forma/i);
+  assert.match(open, /color/i);
+  assert.match(open, /(no est[áa] aprobad|no aprobad|sin aprobar|no comprometid)/i, 'la variedad de comida debe quedar como no aprobada para el MVP');
+  assert.match(open, /versi[oó]n futura/i, 'la variedad de comida no debe presentarse como promesa de una versión futura');
+  assert.match(open, /posibilidades pendientes/i, 'el cierre debe listar la variedad de comida entre las posibilidades pendientes');
+
+  // La regla vigente del juego sigue redactada sin cambios.
+  assert.match(text, /cada bloque de comida consumido sumar[aá] puntos/i);
+  assert.match(text, /crecer la serpiente en un bloque/i);
+});
+
+test('la documentación pública describe las vidas como corazones pixelados y enlaza la idea', () => {
+  const docs = {
+    'README.md': fs.readFileSync(path.join(DESIGN_DIR, 'README.md'), 'utf8'),
+    'visual-style.md': fs.readFileSync(path.join(DESIGN_DIR, 'visual-style.md'), 'utf8'),
+    'DESIGN.md': fs.readFileSync(path.join(DESIGN_DIR, 'DESIGN.md'), 'utf8'),
+    'screens.md': fs.readFileSync(path.join(DESIGN_DIR, 'screens.md'), 'utf8'),
+    'index.html': fs.readFileSync(path.join(DESIGN_DIR, 'index.html'), 'utf8'),
+    'style-sheet.html': sheet(),
+  };
+  for (const [name, text] of Object.entries(docs)) {
+    assert.match(text, /coraz[oó]n/i, `${name} debe describir las vidas como corazones`);
+    assert.match(text, /p[ií]xel/i, `${name} debe indicar corazones pixelados (no emoji)`);
+    assert.match(text, /idea-proyecto-snake\.md/, `${name} debe enlazar la idea como fuente de la propuesta`);
+    assert.match(text, /aceptad/i, `${name} debe conservar las pantallas piloto como referencia visual aceptada`);
+    assert.doesNotMatch(text, /pendiente de revisi[oó]n humana/i, `${name} no debe mantener ninguna pantalla piloto como pendiente de revisión humana`);
+  }
+});
+
+test('las guías de diseño conservan la comida como un solo rombo ilustrativo con variantes sin definir', () => {
+  for (const name of ['visual-style.md', 'screens.md']) {
+    const text = fs.readFileSync(path.join(DESIGN_DIR, name), 'utf8');
+    assert.match(text, /comida/i, `${name} debe mencionar la comida`);
+    assert.match(text, /rombo|diamante/i, `${name} debe conservar la comida como un solo rombo ilustrativo`);
+    assert.match(text, /variante|formas|colores/i, `${name} debe señalar que las variantes de comida no están definidas`);
+    assert.match(text, /sin definir|no definid|no present|pendiente/i, `${name} debe marcar las variantes como no definidas`);
+  }
+});
+
+test('el README documenta la prueba opcional de navegador y sus requisitos sin dependencias nuevas', () => {
+  const readme = fs.readFileSync(path.join(DESIGN_DIR, 'README.md'), 'utf8');
+  assert.match(readme, /playing-pilot\.browser\.test\.cjs/, 'la tabla debe incluir la prueba de navegador');
+  assert.match(readme, /node --test[^\n]*playing-pilot\.browser\.test\.cjs/, 'el README debe indicar cómo ejecutar la prueba de navegador');
+  assert.match(readme, /CHROME_PATH/, 'debe documentar CHROME_PATH');
+  assert.match(readme, /fetch/i, 'debe indicar que usa fetch global de Node');
+  assert.match(readme, /WebSocket/, 'debe indicar que usa WebSocket global de Node');
+  assert.match(readme, /(se omite|omite la comprobaci[oó]n|skip|no se marca como|no cuenta como aprobad)/i, 'sin Chrome la comprobación se omite, no se marca como aprobada');
+  assert.match(readme, /(sin dependencias|no a[ñn]ade dependencias|sin paquetes|no requiere dependencias)/i, 'debe aclarar que no añade dependencias npm');
+  assert.match(
+    readme,
+    /node --test[^\n]*game-flow-snake\.test\.cjs[^\n]*style-sheet\.test\.cjs[^\n]*start-pilot\.test\.cjs[^\n]*playing-pilot\.test\.cjs[^\n]*playing-pilot\.browser\.test\.cjs/,
+    'debe incluir el comando de regresión de los cinco archivos',
+  );
+});
+
+test('la hoja aclara que su cifra de vidas es ilustrativa frente a los corazones de la pantalla piloto', () => {
+  const body = sectionBody(sheet(), 'V5');
+  assert.match(body, /coraz[oó]n/i, 'V5 debe aclarar que la pantalla piloto usa corazones para las vidas');
+  assert.match(body, /playing-pilot\.html/, 'V5 debe enlazar la pantalla piloto de Partida');
+  assert.match(body, /(ilustrativ|muestra num[eé]rica|cifra)/i, 'V5 debe aclarar que su cifra es una muestra ilustrativa');
+  assert.match(body, /hud-value type-pixel">3</, 'la muestra numérica genérica del HUD se conserva sin cambios');
+});
+
+// Punto actual: los valores visuales aplicados en las pantallas aceptadas quedan aceptados como referencia.
+test('los documentos públicos aceptan como referencia los valores visuales aplicados en Inicio y Partida', () => {
+  const docs = {
+    'README.md': fs.readFileSync(path.join(DESIGN_DIR, 'README.md'), 'utf8'),
+    'visual-style.md': fs.readFileSync(path.join(DESIGN_DIR, 'visual-style.md'), 'utf8'),
+    'DESIGN.md': fs.readFileSync(path.join(DESIGN_DIR, 'DESIGN.md'), 'utf8'),
+    'index.html': fs.readFileSync(path.join(DESIGN_DIR, 'index.html'), 'utf8'),
+    'screens.md': fs.readFileSync(path.join(DESIGN_DIR, 'screens.md'), 'utf8'),
+    'style-sheet.html': sheet(),
+  };
+  const stale = [
+    /sin que eso apruebe la paleta/i,
+    /sin aprobar la paleta ni los tama[ñn]os/i,
+    /no aprueba la paleta, los tama[ñn]os/i,
+    /no eleva el resto de mockups, la paleta ni los tama[ñn]os/i,
+  ];
+  for (const [name, text] of Object.entries(docs)) {
+    for (const pattern of stale) {
+      assert.doesNotMatch(text, pattern, `${name} no debe negar la aceptación de los valores aplicados en Inicio y Partida`);
+    }
+    assert.match(text, /valores visuales aplicados/i, `${name} debe describir los valores visuales aplicados en Inicio y Partida`);
+    assert.match(text, /valores visuales aplicados[\s\S]{0,200}?aceptad/i, `${name} debe indicar que los valores visuales aplicados quedan aceptados como referencia`);
+  }
+});
+
+// Punto actual: el encaje de la referencia ya está comprobado a 1024 × 768.
+test('el encaje del HUD y de las cifras a 1024 × 768 no queda como comprobación pendiente del piloto', () => {
+  const readme = fs.readFileSync(path.join(DESIGN_DIR, 'README.md'), 'utf8');
+  const visual = fs.readFileSync(path.join(DESIGN_DIR, 'visual-style.md'), 'utf8');
+  for (const [name, text] of [['README.md', readme], ['visual-style.md', visual]]) {
+    assert.doesNotMatch(text, /encaje del HUD[^.]*pendiente/i, `${name} no debe dejar el encaje de HUD y cifras como pendiente de este piloto`);
+    assert.match(text, /encaje del HUD[\s\S]{0,120}?(?:comprob|1024)/i, `${name} debe reconocer el encaje de HUD y cifras ya comprobado a 1024 × 768`);
+  }
+});
