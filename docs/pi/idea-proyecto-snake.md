@@ -6,7 +6,7 @@ El proyecto consiste en crear un juego de Snake para navegador web utilizando Ty
 
 El juego se desarrollará con TypeScript y se jugará únicamente desde un navegador web; no tendrá una versión para jugar en la terminal.
 
-Su modo historia consistirá en avanzar por cinco niveles con escenarios de bloques geométricos y dificultad creciente. Queda por decidir qué ocurrirá al completar el último nivel.
+Su modo historia consistirá en avanzar por cinco niveles con escenarios de bloques geométricos y dificultad creciente. Completar el quinto nivel terminará la partida con una animación de victoria; la condición concreta para completarlo sigue pendiente.
 
 ## 2. Para quién
 
@@ -27,7 +27,10 @@ Al terminar la partida, se mostrarán el nombre del jugador y los resultados alc
 - Durante la partida se mostrarán el puntaje, las vidas y la velocidad. Cada 15 puntos se subirá un nivel y aumentará la velocidad. La progresión prevista es de cinco niveles, con dificultad creciente y un cambio de escenario en cada nivel.
 - El jugador comenzará con tres vidas. Chocar contra un muro o contra la propia serpiente consumirá una vida. Si todavía quedan vidas, se reiniciará la partida y el movimiento se reanudará automáticamente, sin volver a pulsar «play» o espacio; al perder la última, el juego terminará.
 - Los escenarios tendrán muros y obstáculos representados con bloques de distintos colores y formas geométricas simples.
-- Se guardará un «highscore» por nivel alcanzado y se mostrarán hasta diez resultados, correspondientes a los mejores puntajes, nunca más de diez. Los puntajes se eliminarán a medida que sean superados; las reglas del registro por nivel y de los empates, así como la forma y el tiempo de almacenamiento, siguen pendientes.
+- Se guardará un «highscore» por nivel alcanzado y se mostrarán hasta diez resultados, correspondientes a los mejores puntajes, nunca más de diez. Las reglas del registro por nivel y del orden entre entradas admitidas con igual puntaje, así como la forma y el tiempo de almacenamiento, siguen pendientes.
+- Al perder todas las vidas se mostrará una animación de «game over»; al completar los cinco niveles, una animación de victoria. En ambos finales se mostrarán el nombre, el puntaje, el nivel y la velocidad alcanzados. Tras cinco segundos se redirigirá a la pantalla del top 10 si el resultado clasifica, o al menú de inicio si no clasifica.
+- Si hay menos de diez resultados registrados, el resultado ingresará al top 10, incluso con cero puntos. Si ya hay diez, solo ingresará si su puntaje es estrictamente mayor que el del último: desplazará ese resultado y la lista conservará un máximo de diez entradas. Un empate con el último no lo desplazará. No se registrará un resultado que no clasifique.
+- La pantalla del top 10 ofrecerá un botón con la etiqueta exacta «Nueva partida». Volverá al inicio, sin iniciar el movimiento ni exigir salir automáticamente del top 10. Tanto por este botón como al regresar por no clasificar, el nombre escrito por el jugador quedará precargado y editable: podrá conservarlo, cambiarlo o borrarlo. Se esperará nuevamente «play» o espacio. El nombre automático de la partida anterior no se reutilizará: si no hay un nombre escrito, el campo estará vacío y se generará otro al iniciar, con la regla ya definida. Una nueva partida no arrastrará el estado de juego anterior; esto no equivale al reinicio automático por perder una vida mientras quedan otras.
 - La interfaz se adaptará a distintos tamaños de ventana en computadora. El tamaño mínimo y los dispositivos compatibles siguen pendientes; no se confirma soporte para teléfonos, tabletas ni controles táctiles.
 - El juego incluirá un sonido de inicio y música suave en bucle durante la partida; al comer, sonará «coin»; al perder una vida, «explosion»; y al morir la serpiente, «game over». El audio se abordará al final del desarrollo, después de la jugabilidad y los escenarios.
 
@@ -52,8 +55,8 @@ Siguen pendientes decisiones necesarias para concretar las reglas y la presentac
 - Cuál será la velocidad inicial y cuánto aumentará al subir de nivel.
 - Qué se conserva o reinicia —incluidos puntaje, nivel y velocidad— tras perder una vida.
 - Cómo se definirán la dificultad y los escenarios de cada uno de los cinco niveles.
-- Qué ocurrirá al completar el quinto nivel; no se ha definido un sexto nivel ni un final específico.
-- Cómo se interpretará el «highscore» por nivel, cómo se resolverán los empates, dónde se conservarán los resultados y durante cuánto tiempo.
+- Qué condición permitirá completar el quinto nivel. El desenlace de victoria y la redirección posterior ya están definidos; no se añade un sexto nivel.
+- Cómo se interpretará el «highscore» por nivel, cómo se ordenarán las entradas admitidas con puntajes iguales, dónde se conservarán los resultados y durante cuánto tiempo. El empate con el último de una lista llena no permite ingresar.
 - Qué referencia horaria se usará para generar los nombres y cuáles serán las reglas detalladas de validación de los nombres escritos por el jugador.
 
 **Compatibilidad y presentación**

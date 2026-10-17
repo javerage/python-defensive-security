@@ -75,10 +75,10 @@
 
     <section class="card">
       <h2>Diagrama del recorrido</h2>
-      <p>Mapa completo de estados y eventos. Las flechas agrupan eventos; la tabla detalla cada transición. Las ramas en ámbar están pendientes y no definen un comportamiento.</p>
-      <svg viewBox="0 0 640 400" width="100%" role="img" aria-label="Diagrama de estados del flujo de Snake: espera de inicio, partida en curso, resultados y decisiones pendientes">
+      <p>Las flechas agrupan eventos; la tabla detalla cada transición. Ambos finales esperan cinco segundos antes de ir al top 10 o al inicio. Desde el top 10, «Nueva partida» vuelve al inicio sin comenzar a jugar. La condición para completar el quinto nivel sigue pendiente.</p>
+      <svg viewBox="0 0 640 480" width="100%" role="img" aria-label="Diagrama de estados del flujo de Snake: inicio, partida, Game Over, victoria y top 10">
         <title>Diagrama del flujo de Snake</title>
-        <desc>Desde la espera de inicio se puede indicar el nombre o comenzar la partida. Durante la partida, cinco eventos la conservan; la última colisión lleva a los resultados y el quinto nivel queda pendiente, igual que el registro del highscore.</desc>
+        <desc>La última colisión lleva a Game Over y completar el quinto nivel a victoria. Después de cinco segundos, ambos finales llevan al top 10 si el resultado clasifica o al inicio si no clasifica. Nueva partida vuelve del top 10 al inicio y espera play o espacio; conserva editable solo el nombre escrito. La condición para completar el quinto nivel sigue pendiente.</desc>
         <defs>
           <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
             <path d="M 0 1 L 9 5 L 0 9 z" fill="#2563eb"></path>
@@ -96,10 +96,13 @@
           <text x="320" y="101" font-size="11" font-weight="normal" fill="#cbd5e1">Partida en curso</text>
           <rect id="n-Results" x="475" y="60" width="150" height="56" rx="10" fill="#0f172a"></rect>
           <text x="550" y="84">Results</text>
-          <text x="550" y="101" font-size="11" font-weight="normal" fill="#cbd5e1">Fin de la partida</text>
-          <rect id="n-Pending" x="245" y="290" width="150" height="56" rx="10" fill="#fffbeb" stroke="#d97706" stroke-width="2" stroke-dasharray="7 4"></rect>
-          <text x="320" y="314" fill="#92400e">Pendiente</text>
-          <text x="320" y="331" font-size="11" font-weight="normal" fill="#92400e">Sin decidir</text>
+          <text x="550" y="101" font-size="11" font-weight="normal" fill="#cbd5e1">Game Over</text>
+          <rect id="n-Victory" x="245" y="220" width="150" height="56" rx="10" fill="#0f172a"></rect>
+          <text x="320" y="244">Victory</text>
+          <text x="320" y="261" font-size="11" font-weight="normal" fill="#cbd5e1">Cinco niveles completos</text>
+          <rect id="n-Highscores" x="475" y="360" width="150" height="56" rx="10" fill="#0f172a"></rect>
+          <text x="550" y="384">Highscores</text>
+          <text x="550" y="401" font-size="11" font-weight="normal" fill="#cbd5e1">Top 10</text>
         </g>
         <g font-size="11" text-anchor="middle" fill="#334155">
           <path id="e-loopA" d="M 55 60 C 55 30 125 30 125 60" fill="none" stroke="#2563eb" stroke-width="2" marker-end="url(#arrow)"></path>
@@ -110,13 +113,23 @@
           <text x="320" y="24">5 eventos conservan la partida</text>
           <path id="e-end" d="M 395 88 H 473" fill="none" stroke="#2563eb" stroke-width="2" marker-end="url(#arrow)"></path>
           <text x="435" y="78">Colisión (última vida)</text>
-          <path id="e-final" d="M 320 116 V 288" fill="none" stroke="#d97706" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arrow-pending)"></path>
-          <text x="414" y="200">Quinto nivel (pendiente)</text>
-          <path id="e-high" d="M 285 346 C 285 372 355 372 355 346" fill="none" stroke="#d97706" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arrow-pending)"></path>
-          <text x="320" y="388">Highscore (pendiente)</text>
+          <path id="e-final" d="M 320 116 V 218" fill="none" stroke="#2563eb" stroke-width="2" marker-end="url(#arrow)"></path>
+          <text x="405" y="174">Completar quinto nivel</text>
+          <path id="e-high" d="M 550 116 V 358" fill="none" stroke="#2563eb" stroke-width="2" marker-end="url(#arrow)"></path>
+          <text x="585" y="240">5 s; entra</text>
+          <path id="e-victory-high" d="M 395 248 H 440 V 388 H 473" fill="none" stroke="#2563eb" stroke-width="2" marker-end="url(#arrow)"></path>
+          <text x="475" y="322">5 s; entra</text>
+          <path id="e-return" d="M 625 88 H 635 V 450 H 30 V 118" fill="none" stroke="#2563eb" stroke-width="2" marker-end="url(#arrow)"></path>
+          <text x="320" y="467">Game Over: 5 s; no entra → inicio</text>
+          <path id="e-victory-return" d="M 245 248 H 90 V 118" fill="none" stroke="#2563eb" stroke-width="2" marker-end="url(#arrow)"></path>
+          <text x="164" y="235">5 s; no entra → inicio</text>
+          <path id="e-new-game" d="M 475 404 H 60 V 118" fill="none" stroke="#2563eb" stroke-width="2" marker-end="url(#arrow)"></path>
+          <text x="260" y="395">Nueva partida → inicio; esperar play</text>
         </g>
       </svg>
       <p>El recorrido interactivo de arriba permite seguir este mapa paso a paso; la tabla siguiente detalla cada transición con su fuente.</p>
+      <p>Este visor explica las transiciones: seleccionas manualmente el evento que representa el final de los cinco segundos. No ejecuta el juego, las animaciones, un temporizador de partida ni el almacenamiento de resultados. La precarga y edición del nombre se describen en las respuestas, no se implementan con un campo de entrada en este visor. El top 10 por nivel, el orden de empates admitidos y el almacenamiento siguen por definir.</p>
+      <p>Prueba de regresión del visor (requiere Node.js): <code>node --test docs/pi/tests/game-flow-snake.test.cjs</code>, desde la raíz del repositorio.</p>
     </section>
 
     <section class="card">
@@ -136,8 +149,9 @@
     var STATES = {
       AwaitingStart: "Se espera la acción de inicio. Indicar un nombre es opcional.",
       Playing: "La serpiente se mueve y el jugador puede dirigirla.",
-      Results: "La partida terminó porque se agotaron las vidas. Aquí termina el recorrido.",
-      Pending: "Información todavía no decidida. No es un estado del juego."
+      Results: "Se agotaron las vidas. Se muestran resultados y la animación de Game Over; tras cinco segundos se redirige según la clasificación.",
+      Victory: "Se completaron los cinco niveles. Se muestran resultados y la animación de victoria; tras cinco segundos se redirige según la clasificación. La condición para completar el quinto nivel sigue pendiente.",
+      Highscores: "Se registró el resultado que clasifica y se muestra el top 10 hasta que el jugador pulsa «Nueva partida». El registro por nivel, el orden de empates admitidos y el almacenamiento siguen pendientes."
     };
     var TRANSITIONS = [
       { from: "AwaitingStart", event: "NameProvided", edge: "e-loopA", label: "Indicar el nombre", condition: "Todavía no se ha solicitado el inicio", response: "Se conserva el nombre escrito y se sigue esperando «play» o espacio.", to: "AwaitingStart", source: "S4" },
@@ -148,9 +162,15 @@
       { from: "Playing", event: "FoodConsumed", edge: "e-loopP", label: "Comer un bloque de comida", condition: "La serpiente consume comida", response: "Suma puntos, crece un bloque y se comprueba si corresponde subir de nivel.", to: "Playing", source: "S4" },
       { from: "Playing", event: "LevelAdvance", edge: "e-loopP", label: "Alcanzar el umbral de nivel", condition: "Se cumplen 15 puntos y queda un nivel siguiente", response: "Sube de nivel, aumenta la velocidad y cambia el escenario.", to: "Playing", source: "S1; S4" },
       { from: "Playing", event: "Collision", edge: "e-loopP", label: "Chocar con muro o cuerpo (quedan vidas)", condition: "Tras descontar una vida todavía quedan otras", response: "Se actualizan las vidas, la partida se reinicia y el movimiento se reanuda automáticamente.", to: "Playing", source: "S4" },
-      { from: "Playing", event: "Collision", edge: "e-end", label: "Chocar con muro o cuerpo (última vida)", condition: "Se pierde la última vida", response: "La partida termina y se muestran nombre, puntaje, nivel y velocidad.", to: "Results", source: "S3; S4" },
-      { from: "Playing", event: "FinalLevelCompleted", edge: "e-final", label: "Completar el quinto nivel", condition: "Condición de finalización sin definir", response: "No hay continuación aprobada: ni victoria, ni sexto nivel, ni otro desenlace.", to: "Pending", source: "S1; S6", pending: true },
-      { from: "Pending", event: "HighscoreRecording", edge: "e-high", label: "Registrar o consultar el highscore", condition: "Momento y punto de acceso sin definir", response: "Requisito confirmado: top 10 por nivel. Su conexión con el recorrido sigue pendiente.", to: "Pending", source: "S4; S6", pending: true }
+      { from: "Playing", event: "Collision", edge: "e-end", label: "Chocar con muro o cuerpo (última vida)", condition: "Se pierde la última vida", response: "La partida termina, se muestran nombre, puntaje, nivel y velocidad, y comienza la animación de Game Over.", to: "Results", source: "S3; S4" },
+      { from: "Playing", event: "FinalLevelCompleted", edge: "e-final", label: "Completar el quinto nivel", condition: "Se completa el quinto nivel; condición concreta por definir", response: "La partida termina, se muestran nombre, puntaje, nivel y velocidad, y comienza la animación de victoria.", to: "Victory", source: "S1; S3; S4; condición pendiente en S6" },
+      { from: "Results", event: "AnimationFinished", edge: "e-high", label: "Finalizar animación: hay lugar en el top 10", condition: "Han transcurrido 5 segundos y hay menos de diez entradas", response: "Se registra el resultado, incluso con cero puntos, y se muestra el top 10.", to: "Highscores", source: "S4" },
+      { from: "Results", event: "AnimationFinished", edge: "e-high", label: "Finalizar animación: superar el último puntaje", condition: "Han transcurrido 5 segundos, hay diez entradas y el puntaje es estrictamente mayor al del último", response: "Se registra el resultado, se retira el desplazado y se muestran como máximo diez entradas.", to: "Highscores", source: "S4" },
+      { from: "Results", event: "AnimationFinished", edge: "e-return", label: "Finalizar animación: no clasificar", condition: "Han transcurrido 5 segundos, hay diez entradas y el puntaje es menor o igual al del último", response: "El resultado no se registra y se vuelve al menú de inicio. El nombre escrito queda precargado y editable; el automático no se reutiliza y, si no hay uno escrito, el campo queda vacío. Se espera «play» o espacio; no se arrastra el estado de juego anterior.", to: "AwaitingStart", source: "S4" },
+      { from: "Victory", event: "AnimationFinished", edge: "e-victory-high", label: "Finalizar animación: hay lugar en el top 10", condition: "Han transcurrido 5 segundos y hay menos de diez entradas", response: "Se registra el resultado, incluso con cero puntos, y se muestra el top 10.", to: "Highscores", source: "S4" },
+      { from: "Victory", event: "AnimationFinished", edge: "e-victory-high", label: "Finalizar animación: superar el último puntaje", condition: "Han transcurrido 5 segundos, hay diez entradas y el puntaje es estrictamente mayor al del último", response: "Se registra el resultado, se retira el desplazado y se muestran como máximo diez entradas.", to: "Highscores", source: "S4" },
+      { from: "Victory", event: "AnimationFinished", edge: "e-victory-return", label: "Finalizar animación: no clasificar", condition: "Han transcurrido 5 segundos, hay diez entradas y el puntaje es menor o igual al del último", response: "El resultado no se registra y se vuelve al menú de inicio. El nombre escrito queda precargado y editable; el automático no se reutiliza y, si no hay uno escrito, el campo queda vacío. Se espera «play» o espacio; no se arrastra el estado de juego anterior.", to: "AwaitingStart", source: "S4" },
+      { from: "Highscores", event: "NewGameRequested", edge: "e-new-game", label: "Nueva partida", condition: "El jugador solicita una nueva partida desde el top 10", response: "Se vuelve al inicio sin iniciar el movimiento. El nombre escrito queda precargado y editable: se puede conservar, cambiar o borrar. El automático no se reutiliza y, si no hay uno escrito, el campo queda vacío; se genera otro al iniciar. Se espera «play» o espacio; no se arrastra el estado de juego anterior.", to: "AwaitingStart", source: "S4" }
     ];
     var current = "AwaitingStart";
     var trail = [];
@@ -170,14 +190,12 @@
       });
     }
     function paintDiagram() {
-      var nodes = ["AwaitingStart", "Playing", "Results"];
+      var nodes = ["AwaitingStart", "Playing", "Results", "Victory", "Highscores"];
       nodes.forEach(function (n) {
         var rect = document.getElementById("n-" + n);
         if (rect) { rect.setAttribute("fill", n === current ? "#1d4ed8" : "#0f172a"); }
       });
-      var pendingRect = document.getElementById("n-Pending");
-      if (pendingRect) { pendingRect.setAttribute("stroke-width", current === "Pending" ? "4" : "2"); }
-      ["e-loopA", "e-start", "e-loopP", "e-end", "e-final", "e-high"].forEach(function (id) {
+      ["e-loopA", "e-start", "e-loopP", "e-end", "e-final", "e-high", "e-victory-high", "e-return", "e-victory-return", "e-new-game"].forEach(function (id) {
         var edge = document.getElementById(id);
         if (!edge) { return; }
         var used = edgeTrail.indexOf(id) >= 0;
