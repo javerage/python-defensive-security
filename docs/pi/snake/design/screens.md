@@ -1,8 +1,8 @@
 # Notas por pantalla — wireframes de Snake (propuesta)
 
-Propuesta de diseño **revisada y aprobada**. Cada boceto usa una referencia de ventana de computadora de **1024 × 768**. Los wireframes permanecen en escala de grises y aprobados; el [lenguaje visual](visual-style.md) se documenta aparte como borrador de fase 1 y no modifica estos bocetos. Existen además cuatro **pantallas piloto** separadas que aplican el borrador visual: la **[pantalla piloto de Inicio](start-pilot.html)**, la **[pantalla piloto de Partida](playing-pilot.html)**, la **[pantalla piloto de Game Over](game-over-pilot.html)** y la **[pantalla piloto de Victoria](victory-pilot.html)**, las cuatro **aceptadas como referencia visual** (los valores visuales aplicados en ellas quedan aceptados como referencia). Las notas de abajo describen los wireframes en escala de grises.
+Propuesta de diseño **revisada y aprobada**. Cada boceto usa una referencia de ventana de computadora de **1024 × 768**. Los wireframes permanecen en escala de grises y aprobados; el [lenguaje visual](visual-style.md) se documenta aparte como borrador de fase 1 y no modifica estos bocetos. Existen además cinco **pantallas piloto** separadas que aplican el borrador visual: la **[pantalla piloto de Inicio](start-pilot.html)**, la **[pantalla piloto de Partida](playing-pilot.html)**, la **[pantalla piloto de Game Over](game-over-pilot.html)**, la **[pantalla piloto de Victoria](victory-pilot.html)** y la **[pantalla piloto de Top 10](top10-pilot.html)**, las cinco **aceptadas como referencia visual** (los valores visuales aplicados en ellas quedan aceptados como referencia). Las notas de abajo describen los wireframes en escala de grises.
 
-La [pantalla piloto de Victoria](victory-pilot.html) quedó **aceptada como referencia visual** con sus valores visuales aplicados, que no se extienden a Top 10 ni a la implementación.
+La [pantalla piloto de Top 10](top10-pilot.html) quedó **aceptada como referencia visual** con sus valores visuales aplicados, que no se extienden a la implementación.
 
 > Los nombres de estado (`AwaitingStart`, `Playing`, `Results`, `Victory`, `Highscores`) provienen del [recorrido de una partida](../../game-flow-snake.md). Los bocetos proponen disposición, no reglas nuevas.
 
@@ -43,6 +43,7 @@ La [pantalla piloto de Victoria](victory-pilot.html) quedó **aceptada como refe
 - **Notas de reglas pendientes:** condición concreta para completar el quinto nivel.
 
 ## Top 10 — `Highscores`
+- **Artefacto:** [pantalla piloto de Top 10](top10-pilot.html), aceptada como referencia visual. Conserva las diez filas ilustrativas del wireframe y el botón «Nueva partida» como muestra de estados visuales; no navega, guarda resultados ni inicia partidas. La aceptación es de los valores visuales aplicados y no se extiende a la implementación.
 - **Propósito:** mostrar hasta diez resultados registrados y ofrecer una nueva partida.
 - **Elementos visibles:** tabla con hasta diez entradas (posición, nombre, puntaje, nivel) con datos ilustrativos; una única acción con la etiqueta exacta «Nueva partida».
 - **Acciones:** pulsar «Nueva partida».

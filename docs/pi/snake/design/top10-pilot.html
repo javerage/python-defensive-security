@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pantalla piloto de Top 10 — Snake (referencia visual aceptada)</title>
+  <!-- Temporary web font reference; local OFL integration belongs to construction. -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&amp;display=swap" referrerpolicy="no-referrer">
+  <style>
+    :root {
+      /* Existing visual tokens; accepted as a reference for this screen. */
+      --color-background: #0D1117;
+      --color-surface: #161B22;
+      --color-board: #0B1014;
+      --color-text: #F0F6FC;
+      --color-text-muted: #A9B4C0;
+      --color-border: #8B949E;
+      --color-grid: #22303A;
+      --color-snake: #7EE787;
+      --color-food: #FF7B72;
+      --color-accent: #79C0FF;
+      --color-focus: #F2CC60;
+      --font-pixel: "Silkscreen", ui-monospace, "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      --font-body: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      --border-w: 2px;
+    }
+    * { box-sizing: border-box; }
+    html { background: var(--color-background); }
+    body { margin: 0; color: var(--color-text); background: var(--color-background); font-family: var(--font-body); font-size: 16px; line-height: 1.5; }
+    /* Fixed approved wireframe composition, not a responsive implementation. */
+    .pilot-screen { position: relative; width: 1024px; height: 768px; margin: 0 auto; }
+    .game-panel {
+      position: absolute;
+      left: 112px; top: 80px; width: 800px; height: 600px;
+      background: var(--color-surface);
+      box-shadow: inset 0 0 0 var(--border-w) var(--color-border);
+    }
+    .game-panel-head { height: 46px; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; background: var(--color-background); border-bottom: 1px solid var(--color-border); }
+    .panel-title { font-family: var(--font-pixel); font-size: 16px; }
+    .panel-note { color: var(--color-text-muted); font-size: 12px; }
+    .game-title { position: absolute; top: 46px; left: 24px; right: 24px; margin: 0; text-align: center; font-family: var(--font-pixel); font-size: 28px; font-weight: 700; line-height: 34px; color: var(--color-accent); }
+    .game-subtitle { position: absolute; top: 80px; left: 24px; right: 24px; margin: 0; text-align: center; font-size: 12px; line-height: 18px; color: var(--color-text-muted); }
+    /* Global box (212,196,600,354). No cell grid or leaderboard behavior. */
+    .ranking { position: absolute; left: 100px; top: 116px; width: 600px; table-layout: fixed; border-collapse: collapse; background: var(--color-board); }
+    .ranking caption { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+    .ranking col:nth-child(1) { width: 80px; }
+    .ranking col:nth-child(2) { width: 240px; }
+    .ranking col:nth-child(3), .ranking col:nth-child(4) { width: 140px; }
+    th, td { border: 0; padding: 0 14px; text-align: left; vertical-align: middle; font-family: var(--font-pixel); font-size: 14px; font-weight: 400; line-height: 20px; }
+    thead tr { height: 34px; background: var(--color-background); }
+    thead th { font-family: var(--font-body); font-size: 12px; font-weight: 700; color: var(--color-text-muted); }
+    tbody tr { height: 32px; }
+    tbody tr:nth-child(even) { background: var(--color-surface); }
+    tbody th { color: var(--color-text-muted); }
+    td:nth-child(2) { font-family: var(--font-body); font-size: 12px; }
+    .btn {
+      position: absolute;
+      left: 300px; top: 500px; width: 200px; height: 52px;
+      padding: 0 12px; border: var(--border-w) solid var(--color-snake); border-radius: 8px;
+      background: var(--color-snake); color: var(--color-background);
+      font-family: var(--font-pixel); font-size: 16px; font-weight: 700; line-height: 24px; cursor: pointer;
+    }
+    .btn:hover { background: var(--color-background); color: var(--color-snake); border-color: var(--color-snake); }
+    .btn:active { background: var(--color-background); color: var(--color-snake); box-shadow: inset 0 0 0 2px var(--color-snake); }
+    .btn:focus-visible { outline: 2px solid var(--color-focus); outline-offset: 2px; box-shadow: 0 0 0 2px var(--color-background); }
+    .btn:active:focus-visible { box-shadow: inset 0 0 0 2px var(--color-snake), 0 0 0 2px var(--color-background); }
+    .return-note, .scope-note { position: absolute; left: 24px; right: 24px; margin: 0; text-align: center; color: var(--color-text-muted); }
+    .return-note { top: 560px; font-size: 12px; line-height: 18px; }
+    .scope-note { top: 580px; font-size: 11px; line-height: 16px; }
+    .page-note { max-width: 1024px; margin: 0 auto; padding: 0 24px; }
+    .static-note { margin: 0; font-size: 12px; text-align: center; color: var(--color-text-muted); }
+    .font-status { margin: 12px 0 24px; padding: 10px 12px; font-size: 13px; color: var(--color-text-muted); border: var(--border-w) solid var(--color-border); }
+    .font-status[data-font-state="failed"], .font-status[data-font-state="unavailable"] { border-color: var(--color-focus); color: var(--color-focus); }
+    .font-status[hidden] { display: none; }
+  </style>
+</head>
+<body>
+  <main class="pilot-screen" aria-label="Top 10 (Highscores) — referencia visual aceptada, referencia 1024 × 768">
+    <section class="game-panel" aria-labelledby="top10-title">
+      <div class="game-panel-head">
+        <span class="panel-title">TOP 10 · Highscores</span>
+        <span class="panel-note">referencia visual aceptada · sin jugabilidad</span>
+      </div>
+      <h1 class="game-title" id="top10-title">Top 10</h1>
+      <p class="game-subtitle" id="ranking-note">Máximo diez entradas · Datos ilustrativos — no son rankings reales.</p>
+      <table class="ranking" aria-describedby="ranking-note" aria-label="Diez resultados ilustrativos">
+        <caption>Top 10 — diez resultados ilustrativos, no registros reales</caption>
+        <colgroup><col><col><col><col></colgroup>
+        <thead><tr><th scope="col">#</th><th scope="col">Nombre</th><th scope="col">Puntaje</th><th scope="col">Nivel</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">1</th><td>Ada_88</td><td>120</td><td>5</td></tr>
+          <tr><th scope="row">2</th><td>player_20261016_101500_204</td><td>105</td><td>5</td></tr>
+          <tr><th scope="row">3</th><td>SnakeMaster</td><td>98</td><td>4</td></tr>
+          <tr><th scope="row">4</th><td>nori_7</td><td>87</td><td>4</td></tr>
+          <tr><th scope="row">5</th><td>byte_luna</td><td>76</td><td>3</td></tr>
+          <tr><th scope="row">6</th><td>player_20261016_093000_771</td><td>65</td><td>3</td></tr>
+          <tr><th scope="row">7</th><td>pixel_ana</td><td>54</td><td>2</td></tr>
+          <tr><th scope="row">8</th><td>jugador_44</td><td>43</td><td>2</td></tr>
+          <tr><th scope="row">9</th><td>zeta</td><td>32</td><td>1</td></tr>
+          <tr><th scope="row">10</th><td>kai_01</td><td>21</td><td>1</td></tr>
+        </tbody>
+      </table>
+      <button type="button" class="btn" aria-describedby="return-note">Nueva partida</button>
+      <p class="return-note" id="return-note">Vuelve al inicio: espera «play» o Enter desde el campo de nombre; no inicia movimiento.</p>
+      <p class="scope-note">El registro por nivel y el orden entre empates iguales siguen pendientes.</p>
+    </section>
+  </main>
+  <div class="page-note">
+    <p class="static-note">Referencia estática: el botón solo muestra estados visuales; no navega ni inicia partidas.</p>
+    <p class="font-status" data-font-status data-font-state="unchecked" role="status" aria-live="polite">
+      Este piloto carga Silkscreen (400 y 700) desde Google Fonts como referencia temporal: requiere conexión.
+      Si la carga no se confirma, se muestra un sustituto monoespaciado; no debe juzgarse como la fuente real. La integración local sigue pendiente.
+    </p>
+    <noscript><p class="font-status">JavaScript está desactivado: no se puede verificar Silkscreen. No juzgues el sustituto del sistema como la fuente real.</p></noscript>
+  </div>
+  <script id="top10-font-status">
+    (() => {
+      const family = 'Silkscreen';
+      const sampleText = 'TOP 10 Highscores Nueva partida 0123456789 á é í ó ú ñ ü ¿ ¡';
+      const specs = ['400 16px', '700 24px'];
+      const status = document.querySelector('[data-font-status]');
+      const show = (state, message) => {
+        if (!status) return;
+        status.hidden = state === 'loaded';
+        status.dataset.fontState = state;
+        status.textContent = message;
+      };
+      if (!document.fonts || typeof document.fonts.load !== 'function') {
+        show('unavailable', 'No se puede comprobar Silkscreen en este navegador. Podría mostrarse un sustituto; no lo juzgues como la fuente real. La integración local sigue pendiente.');
+        return;
+      }
+      show('loading', 'Comprobando la carga de Silkscreen…');
+      let timer;
+      const deadline = new Promise((_, reject) => {
+        timer = setTimeout(() => reject(new Error('Font loading timed out')), 10000);
+      });
+      Promise.race([
+        Promise.all(specs.map(spec => document.fonts.load(`${spec} "${family}"`, sampleText))),
+        deadline,
+      ])
+        .then(groups => {
+          if (groups.some(faces => !faces.length)) throw new Error('No matching web font');
+          show('loaded', 'Silkscreen cargada.');
+        })
+        .catch(() => show('failed', 'No se pudo confirmar Silkscreen: se muestra un sustituto monoespaciado. Comprueba la conexión y recarga; no lo juzgues como la fuente real.'))
+        .finally(() => clearTimeout(timer));
+    })();
+  </script>
+</body>
+</html>
