@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pantalla piloto de Game Over — Snake (referencia visual aceptada)</title>
+  <!-- Temporary web font reference; local OFL integration belongs to construction. -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&amp;display=swap" referrerpolicy="no-referrer">
+  <style>
+    :root {
+      /* Existing visual tokens; accepted as a reference for this screen. */
+      --color-background: #0D1117;
+      --color-surface: #161B22;
+      --color-board: #0B1014;
+      --color-text: #F0F6FC;
+      --color-text-muted: #A9B4C0;
+      --color-border: #8B949E;
+      --color-grid: #22303A;
+      --color-snake: #7EE787;
+      --color-food: #FF7B72;
+      --color-accent: #79C0FF;
+      --color-focus: #F2CC60;
+      --font-pixel: "Silkscreen", ui-monospace, "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      --font-body: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      --border-w: 2px;
+    }
+
+    * { box-sizing: border-box; }
+    html { background: var(--color-background); }
+    body {
+      margin: 0;
+      color: var(--color-text);
+      background: var(--color-background);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.5;
+    }
+    /* Fixed approved wireframe composition, not a responsive implementation. */
+    .pilot-screen {
+      position: relative;
+      width: 1024px;
+      height: 768px;
+      margin: 0 auto;
+    }
+    .game-panel {
+      position: absolute;
+      left: 112px;
+      top: 80px;
+      width: 800px;
+      height: 600px;
+      background: var(--color-surface);
+      box-shadow: inset 0 0 0 var(--border-w) var(--color-border);
+    }
+    .game-panel-head {
+      height: 46px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      background: var(--color-background);
+      border-bottom: 1px solid var(--color-border);
+    }
+    .panel-title {
+      font-family: var(--font-pixel);
+      font-size: 16px;
+    }
+    .panel-note {
+      font-size: 12px;
+      color: var(--color-text-muted);
+    }
+    .game-title {
+      position: absolute;
+      top: 132px;
+      left: 24px;
+      right: 24px;
+      margin: 0;
+      text-align: center;
+      font-family: var(--font-pixel);
+      font-size: 32px;
+      font-weight: 700;
+      line-height: 40px;
+      letter-spacing: 0.12em;
+      color: var(--color-food);
+    }
+    .game-subtitle {
+      position: absolute;
+      top: 193px;
+      left: 24px;
+      right: 24px;
+      margin: 0;
+      text-align: center;
+      font-size: 13px;
+      line-height: 20px;
+      color: var(--color-text-muted);
+    }
+    /* Global box (312,318,400,236), matching the approved results card. */
+    .results-card {
+      position: absolute;
+      left: 200px;
+      top: 238px;
+      width: 400px;
+      height: 236px;
+      border-radius: 6px;
+      background: var(--color-board);
+      box-shadow: inset 0 0 0 var(--border-w) var(--color-border);
+    }
+    .results-list { margin: 14px 24px 0; }
+    .result-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      height: 42px;
+      border-bottom: 1px solid var(--color-grid);
+    }
+    .result-row:last-child { border-bottom: 0; }
+    dt {
+      font-size: 13px;
+      color: var(--color-text-muted);
+    }
+    dd {
+      margin: 0;
+      text-align: right;
+      font-family: var(--font-pixel);
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 24px;
+    }
+    .result-name {
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 400;
+    }
+    .scene-note {
+      position: absolute;
+      left: 24px;
+      right: 24px;
+      top: 200px;
+      margin: 0;
+      text-align: center;
+      font-size: 11px;
+      line-height: 16px;
+      color: var(--color-text-muted);
+    }
+    .redirect-note, .scope-note {
+      position: absolute;
+      left: 24px;
+      right: 24px;
+      margin: 0;
+      text-align: center;
+    }
+    .redirect-note { top: 493px; font-size: 13px; line-height: 20px; }
+    .scope-note { top: 522px; font-size: 12px; line-height: 18px; color: var(--color-text-muted); }
+    .page-note { max-width: 1024px; margin: 0 auto; padding: 0 24px; }
+    .font-status {
+      margin: 12px 0 24px;
+      padding: 10px 12px;
+      font-size: 13px;
+      color: var(--color-text-muted);
+      border: var(--border-w) solid var(--color-border);
+    }
+    .font-status[data-font-state="failed"], .font-status[data-font-state="unavailable"] {
+      border-color: var(--color-focus);
+      color: var(--color-focus);
+    }
+    .font-status[hidden] { display: none; }
+  </style>
+</head>
+<body>
+  <main class="pilot-screen" aria-label="Game Over (Results) — referencia visual aceptada, referencia 1024 × 768">
+    <section class="game-panel" aria-labelledby="game-over-title">
+      <div class="game-panel-head">
+        <span class="panel-title">GAME OVER · Results</span>
+        <span class="panel-note">referencia visual aceptada · sin jugabilidad</span>
+      </div>
+      <h1 class="game-title" id="game-over-title">GAME OVER</h1>
+      <p class="game-subtitle">La partida terminó al agotarse las vidas.</p>
+      <div class="results-card" role="group" aria-label="Resumen de resultados ilustrativos">
+        <dl class="results-list">
+          <div class="result-row"><dt>Nombre</dt><dd class="result-name">player_20261016_120000_000</dd></div>
+          <div class="result-row"><dt>Puntaje</dt><dd>0</dd></div>
+          <div class="result-row"><dt>Nivel</dt><dd>1</dd></div>
+          <div class="result-row"><dt>Velocidad</dt><dd>1</dd></div>
+        </dl>
+        <p class="scene-note">Valores ilustrativos — no son resultados reales.</p>
+      </div>
+      <p class="redirect-note">Tras 5 segundos: Top 10 si el resultado clasifica; si no clasifica, vuelve al inicio.</p>
+      <p class="scope-note">Sin botones de continuar ni reintentar.<br>Referencia estática: sin animación ni redirección activa.</p>
+    </section>
+  </main>
+  <div class="page-note">
+    <p class="font-status" data-font-status data-font-state="unchecked" role="status" aria-live="polite">
+      Este piloto carga Silkscreen (400 y 700) desde Google Fonts como referencia temporal: requiere conexión.
+      Si la carga no se confirma, se muestra un sustituto monoespaciado; no debe juzgarse como la fuente real. La integración local sigue pendiente.
+    </p>
+    <noscript><p class="font-status">JavaScript está desactivado: no se puede verificar Silkscreen. No juzgues el sustituto del sistema como la fuente real.</p></noscript>
+  </div>
+  <script id="game-over-font-status">
+    (() => {
+      const family = 'Silkscreen';
+      const sampleText = 'GAME OVER Results 0123456789 á é í ó ú ñ ü ¿ ¡';
+      const specs = ['400 16px', '700 24px'];
+      const status = document.querySelector('[data-font-status]');
+      const show = (state, message) => {
+        if (!status) return;
+        status.hidden = state === 'loaded';
+        status.dataset.fontState = state;
+        status.textContent = message;
+      };
+      if (!document.fonts || typeof document.fonts.load !== 'function') {
+        show('unavailable', 'No se puede comprobar Silkscreen en este navegador. Podría mostrarse un sustituto; no lo juzgues como la fuente real. La integración local sigue pendiente.');
+        return;
+      }
+      show('loading', 'Comprobando la carga de Silkscreen…');
+      let timer;
+      const deadline = new Promise((_, reject) => {
+        timer = setTimeout(() => reject(new Error('Font loading timed out')), 10000);
+      });
+      Promise.race([
+        Promise.all(specs.map(spec => document.fonts.load(`${spec} "${family}"`, sampleText))),
+        deadline,
+      ])
+        .then(groups => {
+          if (groups.some(faces => !faces.length)) throw new Error('No matching web font');
+          show('loaded', 'Silkscreen cargada.');
+        })
+        .catch(() => show('failed', 'No se pudo confirmar Silkscreen: se muestra un sustituto monoespaciado. Comprueba la conexión y recarga; no lo juzgues como la fuente real.'))
+        .finally(() => clearTimeout(timer));
+    })();
+  </script>
+</body>
+</html>
