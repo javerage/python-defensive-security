@@ -11,13 +11,13 @@ const file = path.join(dir, 'victory-pilot.html');
 const html = fs.existsSync(file) ? fs.readFileSync(file, 'utf8') : '';
 const script = html.match(/<script id="victory-font-status">([\s\S]*?)<\/script>/)?.[1] || '';
 
-test('Victory is a standalone Spanish reference pending its own visual approval', () => {
+test('Victory is a standalone Spanish reference accepted as a visual reference', () => {
   assert.match(html, /<!DOCTYPE html>/i);
   assert.match(html, /<html lang="es">/);
   assert.match(html, /<h1[^>]*>VICTORIA<\/h1>/);
   assert.match(html, /VICTORIA · Victory/);
-  assert.match(html, /pendiente de revisión visual · sin jugabilidad/);
-  assert.doesNotMatch(html, /referencia visual aceptada/);
+  assert.match(html, /referencia visual aceptada · sin jugabilidad/);
+  assert.doesNotMatch(html, /pendiente de revisión visual/);
 });
 
 test('Victory reuses the eleven existing colors with the snake accent', () => {
@@ -115,13 +115,13 @@ for (const mode of ['rejected', 'empty', 'timeout', 'unavailable']) {
   });
 }
 
-test('all six public guides link Victory as pending and preserve the three accepted pilots', () => {
+test('all six public guides link Victory as accepted and preserve the three accepted pilots', () => {
   for (const name of ['README.md', 'index.html', 'DESIGN.md', 'visual-style.md', 'screens.md', 'style-sheet.html']) {
     const text = fs.readFileSync(path.join(dir, name), 'utf8');
     assert.match(text, /victory-pilot\.html/, name);
-    assert.match(text, /Victoria[^\n]{0,180}pendiente de revisión visual/i, name);
+    assert.match(text, /Victoria[^\n]{0,180}aceptad[ao] como referencia visual/i, name);
     for (const pilot of ['start', 'playing', 'game-over']) assert.ok(text.includes(`${pilot}-pilot.html`), name);
-    assert.doesNotMatch(text, /Victoria[^\n]{0,60}(?:todavía (?:sin|no) crea|aceptad[ao] como referencia visual)/i, name);
+    assert.doesNotMatch(text, /Victoria[^\n]{0,60}todavía (?:sin|no) crea/i, name);
   }
   const readme = fs.readFileSync(path.join(dir, 'README.md'), 'utf8');
   assert.match(readme, /node --test[^\n]*victory-pilot\.test\.cjs/);

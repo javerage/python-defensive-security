@@ -591,7 +591,7 @@ test('la hoja aclara que su cifra de vidas es ilustrativa frente a los corazones
 });
 
 // Punto actual: los valores visuales aplicados en las pantallas aceptadas quedan aceptados como referencia.
-test('los documentos públicos aceptan como referencia los valores visuales aplicados en Inicio, Partida y Game Over', () => {
+test('los documentos públicos aceptan como referencia los valores visuales aplicados en Inicio, Partida, Game Over y Victoria', () => {
   const docs = {
     'README.md': fs.readFileSync(path.join(DESIGN_DIR, 'README.md'), 'utf8'),
     'visual-style.md': fs.readFileSync(path.join(DESIGN_DIR, 'visual-style.md'), 'utf8'),
@@ -612,7 +612,7 @@ test('los documentos públicos aceptan como referencia los valores visuales apli
     }
     assert.match(text, /valores visuales aplicados/i, `${name} debe describir los valores visuales aplicados en las pantallas aceptadas`);
     assert.match(text, /valores visuales aplicados[\s\S]{0,200}?aceptad/i, `${name} debe indicar que los valores visuales aplicados quedan aceptados como referencia`);
-    for (const pilot of ['start-pilot.html', 'playing-pilot.html', 'game-over-pilot.html']) {
+    for (const pilot of ['start-pilot.html', 'playing-pilot.html', 'game-over-pilot.html', 'victory-pilot.html']) {
       assert.match(text, new RegExp(pilot.replace('.', '\\.')), `${name} debe enlazar las tres pantallas piloto aceptadas (falta ${pilot})`);
     }
   }

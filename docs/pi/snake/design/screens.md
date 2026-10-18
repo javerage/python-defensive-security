@@ -1,8 +1,8 @@
 # Notas por pantalla — wireframes de Snake (propuesta)
 
-Propuesta de diseño **revisada y aprobada**. Cada boceto usa una referencia de ventana de computadora de **1024 × 768**. Los wireframes permanecen en escala de grises y aprobados; el [lenguaje visual](visual-style.md) se documenta aparte como borrador de fase 1 y no modifica estos bocetos. Existen además tres **pantallas piloto** separadas que aplican el borrador visual: la **[pantalla piloto de Inicio](start-pilot.html)**, la **[pantalla piloto de Partida](playing-pilot.html)** y la **[pantalla piloto de Game Over](game-over-pilot.html)**, las tres **aceptadas como referencia visual** (los valores visuales aplicados en ellas quedan aceptados como referencia). Las notas de abajo describen los wireframes en escala de grises.
+Propuesta de diseño **revisada y aprobada**. Cada boceto usa una referencia de ventana de computadora de **1024 × 768**. Los wireframes permanecen en escala de grises y aprobados; el [lenguaje visual](visual-style.md) se documenta aparte como borrador de fase 1 y no modifica estos bocetos. Existen además cuatro **pantallas piloto** separadas que aplican el borrador visual: la **[pantalla piloto de Inicio](start-pilot.html)**, la **[pantalla piloto de Partida](playing-pilot.html)**, la **[pantalla piloto de Game Over](game-over-pilot.html)** y la **[pantalla piloto de Victoria](victory-pilot.html)**, las cuatro **aceptadas como referencia visual** (los valores visuales aplicados en ellas quedan aceptados como referencia). Las notas de abajo describen los wireframes en escala de grises.
 
-Una cuarta pantalla piloto, [Victoria](victory-pilot.html), está creada y pendiente de revisión visual. La aceptación de las otras tres no se extiende a ella.
+La [pantalla piloto de Victoria](victory-pilot.html) quedó **aceptada como referencia visual** con sus valores visuales aplicados, que no se extienden a Top 10 ni a la implementación.
 
 > Los nombres de estado (`AwaitingStart`, `Playing`, `Results`, `Victory`, `Highscores`) provienen del [recorrido de una partida](../../game-flow-snake.md). Los bocetos proponen disposición, no reglas nuevas.
 
@@ -34,7 +34,7 @@ Una cuarta pantalla piloto, [Victoria](victory-pilot.html), está creada y pendi
 - **Notas de reglas pendientes:** valores mostrados son ilustrativos. La admisión al top 10 ya está definida en el flujo; siguen pendientes la interpretación del registro por nivel, el orden de empates admitidos y el almacenamiento.
 
 ## Victoria — `Victory`
-- **Artefacto:** [pantalla piloto de Victoria](victory-pilot.html), pendiente de revisión visual. Es una referencia estática con acento verde `snake`, nivel y velocidad ilustrativos de 5; no ejecuta animación, registro, temporizador ni redirección. La condición para completar el quinto nivel sigue pendiente.
+- **Artefacto:** [pantalla piloto de Victoria](victory-pilot.html), aceptada como referencia visual. Es una referencia estática con acento verde `snake`, nivel y velocidad ilustrativos de 5; no ejecuta animación, registro, temporizador ni redirección. La condición para completar el quinto nivel sigue pendiente.
 - **Propósito:** mostrar los resultados tras completar los cinco niveles.
 - **Elementos visibles:** animación de victoria; nombre, puntaje, nivel y velocidad; nota de redirección a los 5 segundos; nota de que la condición de finalización sigue pendiente.
 - **Acciones:** ninguna acción del jugador; la redirección es automática. Sin botón de continuar ni de reintentar.
