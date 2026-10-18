@@ -116,7 +116,8 @@ test('public guides record accepted Game Over within a scoped approval', () => {
     const text = fs.readFileSync(path.join(dir, name), 'utf8');
     assert.match(text, /game-over-pilot\.html/, name);
     assert.match(text, /Game Over[^\n]{0,200}aceptad[ao] como referencia visual/i, name);
-    assert.doesNotMatch(text, /Game Over[^\n]{0,140}pendiente de revisi[oó]n visual/i, name);
+    // A later Victoria clause may legitimately be pending on the same line.
+    assert.doesNotMatch(text, /Game Over(?:(?!Victoria)[^\n]){0,140}pendiente de revisi[oó]n visual/i, name);
     assert.match(text, /start-pilot\.html/, name);
     assert.match(text, /playing-pilot\.html/, name);
     assert.doesNotMatch(text, /Game Over.{0,80}planificado y todavía no creado/, name);
@@ -125,5 +126,5 @@ test('public guides record accepted Game Over within a scoped approval', () => {
   const readme = fs.readFileSync(path.join(dir, 'README.md'), 'utf8');
   assert.match(readme, /node --test[^\n]*game-over-pilot\.test\.cjs/);
   assert.match(readme, /game-over-pilot\.browser\.test\.cjs/);
-  assert.match(readme, /siguiente[^\n]{0,80}Victoria/i, 'el README debe indicar Victoria como siguiente paso');
+  assert.match(readme, /Victoria[^\n]{0,180}pendiente de revisión visual/i, 'Victoria debe conservar su revisión independiente tras aceptar Game Over');
 });
