@@ -1,6 +1,6 @@
 # Misión del proyecto — Ejemplo de la Sesión 10
 
-Este es un ejemplo educativo de misión para el mismo ejercicio `matrix_review.py` descrito en la constitución de la Sesión 10. Aclara propósito y resultado esperado; no contiene la solución, no afirma que el programa se haya ejecutado y no reemplaza las instrucciones oficiales del cuaderno.
+Este es un ejemplo educativo de misión para el mismo ejercicio `matrix_review.py` descrito en la constitución de la Sesión 10. Aclara propósito y resultado esperado; no contiene la solución, no afirma que el programa se haya ejecutado y no reemplaza las instrucciones oficiales del cuaderno. La [constitución de la Sesión 10](constitucion-sesion-10.md) gobierna reglas, responsabilidades y autorizaciones; esta misión solo articula el propósito dentro de ese marco y no concede permisos.
 
 ## 1. Identidad y relación con la constitución
 

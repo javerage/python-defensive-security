@@ -1,15 +1,16 @@
 # Plantilla de misión del proyecto
 
-Usa esta estructura para preparar `MISSION.md` en la raíz del proyecto. Puedes trabajar manualmente o pedir a Pi que lea esta plantilla y te entreviste sección por sección antes de proponer un borrador. La misión explica por qué existe el proyecto, a quién sirve y qué resultado busca; no reemplaza la constitución ni prescribe una solución técnica.
+Usa esta estructura para preparar `MISSION.md` en la raíz del proyecto. Puedes trabajar manualmente o pedir a Pi que lea esta plantilla y te entreviste sección por sección antes de proponer un borrador. La misión explica por qué existe el proyecto, a quién sirve, qué alcance tiene y qué resultado busca; no reemplaza la constitución, que gobierna reglas y autorizaciones, ni prescribe una solución técnica.
 
-**Uso manual:** completa los campos con decisiones y hechos confirmados. **Uso asistido:** entrega a Pi esta plantilla desde su ubicación real y pídele que lea la constitución aplicable y los demás documentos que indiques, sin suponer que existe una misión previa. Pi debe hacer una pregunta por turno, explicar la sección y esperar tu respuesta antes de continuar; presenta el borrador y espera tu aprobación explícita antes de guardar. Puede usar un archivo temporal descargado o leer la plantilla en su ubicación original; no es obligatorio copiarla a la carpeta del proyecto. Si `MISSION.md` ya existe, muestra los cambios propuestos y espera autorización explícita para actualizarlo; sin autorización, conserva el original. No cambies reglas de la constitución. Deja lo desconocido como «Pendiente de decisión» e indica quién debe resolverlo. No incluyas secretos ni datos personales sensibles.
+**Uso manual:** completa los campos con decisiones y hechos confirmados. **Uso asistido:** entrega a Pi esta plantilla desde su ubicación real y pídele que lea la constitución aplicable ([constitucion-template.md](constitucion-template.md)) y los demás documentos que indiques, sin suponer que existe una misión previa. Pi debe hacer una entrevista con una pregunta por turno, explicar la sección y esperar tu respuesta antes de continuar; no vuelve a preguntar lo ya confirmado en los documentos que leyó y pregunta únicamente lo que falte o sea ambiguo. Presenta el borrador y espera tu aprobación explícita antes de guardar. Puede usar un archivo temporal descargado o leer la plantilla en su ubicación original; no es obligatorio copiarla a la carpeta del proyecto. Si `MISSION.md` ya existe, muestra los cambios propuestos y espera autorización explícita para actualizarlo; sin autorización, conserva el original. Tras el guardado aprobado, la comprobación final es una lectura de solo lectura que cita secciones reales del archivo. No cambies reglas de la constitución. Deja lo desconocido como «Pendiente de decisión» e indica quién debe resolverlo. No incluyas secretos ni datos personales sensibles.
 
 ## 1. Identidad y relación con la constitución
 
-**Qué escribir:** nombre breve del proyecto y ubicación del documento que define sus reglas. Conserva los acuerdos existentes; la misión no los modifica.
+**Qué escribir:** nombre breve del proyecto y ubicación del documento que define sus reglas. Conserva los acuerdos existentes; la misión no los modifica. La constitución gobierna reglas, responsabilidades y autorizaciones; esta misión solo articula el propósito y el alcance dentro de ese marco y no concede permisos.
 
 - Proyecto: [nombre]
 - Constitución aplicable: [ruta o «Pendiente de decisión»]
+- Plantilla base de la constitución: [constitucion-template.md](constitucion-template.md)
 - Responsable de confirmar esta misión: [persona o equipo]
 
 ## 2. Problema u oportunidad

@@ -1,8 +1,8 @@
 # Plantilla de constitución del proyecto
 
-Usa esta estructura para preparar `CONSTITUTION.md` en la raíz de tu proyecto. Puedes trabajar manualmente o pedir a Pi que lea esta plantilla y te entreviste sección por sección antes de proponer un borrador. Esta constitución registra propósito, límites y acuerdos de trabajo; no es un plan técnico ni un mecanismo de seguridad ejecutable.
+Usa esta estructura para preparar `CONSTITUTION.md` en la raíz de tu proyecto. Puedes trabajar manualmente o pedir a Pi que lea esta plantilla y te entreviste sección por sección antes de proponer un borrador. Esta constitución registra los principios, las responsabilidades humanas y del agente, las autorizaciones y la gobernanza de datos, evidencia y cambios de tu proyecto; el propósito, las personas destinatarias, el alcance y las señales de éxito se documentan por separado en la misión del proyecto. No es un plan técnico ni un mecanismo de seguridad ejecutable. La constitución es un documento real y adaptado del proyecto: se conserva como adaptación intencional del equipo, no como copia de un estándar ni como obligación heredada de otro material.
 
-**Uso manual:** sustituye cada texto entre corchetes. **Uso asistido:** entrega a Pi esta plantilla desde su ubicación real y pídele que lea también los documentos de contexto que tú indiques. Pi debe hacer una pregunta por turno, explicar la sección y esperar tu respuesta antes de continuar; después presenta el borrador completo y espera tu aprobación explícita antes de guardar. Puede trabajar con un archivo temporal descargado o con la plantilla abierta en su ubicación original: no es obligatorio copiarla a la carpeta del proyecto. Si `CONSTITUTION.md` ya existe, Pi debe mostrar los cambios propuestos y esperar autorización explícita para actualizarlo; sin autorización, conserva el original. Los ejemplos son ilustrativos. Lo desconocido queda como «Pendiente de decisión» e indica quién debe decidirlo; no inventes datos. No incluyas secretos ni datos personales sensibles.
+**Uso manual:** sustituye cada texto entre corchetes. **Uso asistido:** entrega a Pi esta plantilla desde su ubicación real y pídele que lea únicamente los documentos de contexto que tú indiques; incluye la misión aplicable solo si ya existe y autorizas su lectura. La misión no es un requisito previo para crear la constitución: su referencia puede quedar pendiente. Pi debe hacer una entrevista con una pregunta por turno, explicar la sección y esperar tu respuesta antes de continuar; no vuelve a preguntar lo ya confirmado en los documentos que leyó y pregunta únicamente lo que falte o sea ambiguo. Después presenta el borrador completo y espera tu aprobación explícita antes de guardar. Puede trabajar con un archivo temporal descargado o con la plantilla abierta en su ubicación original: no es obligatorio copiarla a la carpeta del proyecto. Si `CONSTITUTION.md` ya existe, Pi debe mostrar los cambios propuestos y esperar autorización explícita para actualizarlo; sin autorización, conserva el original. Tras el guardado aprobado, la comprobación final es una lectura de solo lectura que cita secciones reales del archivo. Los ejemplos son ilustrativos. Lo desconocido queda como «Pendiente de decisión» e indica quién debe decidirlo; no inventes datos. No incluyas secretos ni datos personales sensibles.
 
 ## 1. Identificación
 
@@ -14,15 +14,12 @@ Usa esta estructura para preparar `CONSTITUTION.md` en la raíz de tu proyecto. 
 - Responsable de las decisiones: [persona o equipo]
 - Última revisión: [AAAA-MM-DD]
 
-## 2. Propósito y resultado esperado
+## 2. Propósito y alcance de referencia
 
-**Qué escribir:** qué necesidad atiende, quién se beneficia y qué resultado observable tendrá. Mantén la misión en alto nivel; no dupliques aquí una futura especificación detallada.
+**Qué escribir:** identifica el proyecto en una línea y enlaza el documento donde se detallan el propósito, las personas destinatarias, el alcance, las exclusiones y las señales de éxito: la misión del proyecto. Esta constitución gobierna reglas, responsabilidades y autorizaciones; no repitas aquí el propósito ni el alcance detallados.
 
-**Ejemplos:** «Ayudar a practicar el registro de gastos personales con datos de demostración»; «Publicar información de un club para sus integrantes»; «Resumir mediciones ficticias para aprender a interpretar tendencias».
-
-- Necesidad: [qué necesidad concreta]
-- Personas destinatarias: [quiénes usarán o recibirán el resultado]
-- Resultado esperado: [qué podrán hacer o revisar]
+- Proyecto: [nombre y una línea de propósito]
+- Misión aplicable: [mision-template.md](mision-template.md) o la ruta real de `MISSION.md`; si aún no existe, «Pendiente de decisión: se prepara en la etapa de misión»
 
 ## 3. Principios de trabajo
 
@@ -45,14 +42,15 @@ Usa esta estructura para preparar `CONSTITUTION.md` en la raíz de tu proyecto. 
 - Acciones que requieren aprobación antes de ejecutarse: [enumerar]
 - Si la instrucción o autorización no está clara: [detenerse y preguntar a quién]
 
-## 5. Alcance y exclusiones
+## 5. Alcance autorizado y exclusiones de acción
 
-**Qué escribir:** qué incluye esta etapa y qué queda expresamente fuera. Evita prometer capacidades no comprobadas.
+**Qué escribir:** el alcance del producto y sus exclusiones se documentan en la misión; aquí registra solo qué acciones, usos y datos quedan autorizados en esta etapa y qué queda expresamente fuera. Evita prometer capacidades no comprobadas.
 
 **Ejemplos:** una herramienta local puede procesar un conjunto de demostración sin conectarse a servicios; un sitio puede mostrar páginas informativas sin recopilar cuentas; un informe puede resumir datos facilitados sin inferir identidades.
 
-- Incluye: [resultados y actividades incluidas]
-- No incluye: [funciones, públicos o usos excluidos]
+- Alcance del producto y exclusiones: documentados en la misión; no se repiten aquí
+- Acciones y usos autorizados en esta etapa: [resultados y actividades incluidas]
+- Acciones y usos excluidos: [funciones, públicos o usos excluidos]
 - Supuestos pendientes de confirmar: [supuesto y persona que lo confirmará]
 
 ## 6. Datos, privacidad y seguridad
@@ -67,14 +65,14 @@ Usa esta estructura para preparar `CONSTITUTION.md` en la raíz de tu proyecto. 
 - Límites de seguridad aplicables: [límites aprobados para este proyecto]
 - Si aparece un dato no previsto o sensible: [detener el uso y avisar a]
 
-## 7. Entorno, plataformas y herramientas
+## 7. Entorno y herramientas autorizadas
 
-**Qué escribir:** plataformas y herramientas necesarias, con versiones solo cuando estén comprobadas y sean relevantes. Define acciones permitidas a partir de la autorización real del proyecto; este texto no instala ni concede permisos.
+**Qué escribir:** las decisiones de plataformas, herramientas y versiones se documentan en el stack del proyecto; aquí registra solo el entorno ya confirmado que los límites de seguridad necesitan y las acciones permitidas al agente. Define acciones permitidas a partir de la autorización real del proyecto; este texto no instala ni concede permisos.
 
 **Ejemplos:** «editor de texto en Windows, macOS o Linux»; «navegador actual para revisar páginas»; «hoja de cálculo disponible en el equipo». No adoptes un ejemplo si no corresponde.
 
-- Plataformas objetivo: [sistemas/dispositivos y versiones comprobadas o “por decidir”]
-- Herramientas permitidas: [herramienta y uso autorizado]
+- Entorno y plataformas confirmadas para esta etapa: [sistemas/dispositivos y versiones comprobadas o “por decidir”]
+- Decisiones de stack y herramientas: documentadas en el stack del proyecto o «Pendiente de decisión»; no se repiten aquí
 - Acciones permitidas al agente: [solo lo autorizado; separar lectura, propuesta y escritura]
 - Acciones que no se autorizan: [por ejemplo, publicar o modificar datos originales]
 - Límites técnicos conocidos: [compatibilidad, acceso, almacenamiento u otros]
@@ -104,6 +102,7 @@ Usa esta estructura para preparar `CONSTITUTION.md` en la raíz de tu proyecto. 
 ## Revisión antes de adoptar
 
 - [ ] El propósito y los límites describen el proyecto real.
+- [ ] El propósito y el alcance detallados viven en la misión y aquí solo se referencian.
 - [ ] Las autorizaciones son específicas y fueron confirmadas por una persona.
 - [ ] Los datos y riesgos están descritos sin incluir información sensible.
 - [ ] Las verificaciones no afirman resultados que aún no se observaron.

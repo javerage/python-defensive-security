@@ -8,11 +8,11 @@ Este documento completo es un ejemplo educativo para el ejercicio `matrix_review
 - Responsable de las decisiones: estudiante que realiza el ejercicio; la persona docente orienta la práctica.
 - Última revisión: ejemplo preparado para acompañar la Sesión 10; no se registra una fecha de aprobación del estudiante.
 
-## 2. Propósito y resultado esperado
+## 2. Propósito y alcance de referencia
 
-- Necesidad: practicar ciclos anidados de dos niveles y comunicar un resumen por día de una matriz local de eventos sintéticos.
-- Personas destinatarias: estudiante y persona que revisa su explicación del ejercicio.
-- Resultado esperado: un resumen que separa los subtotales por día, declara las entradas `UNKNOWN` omitidas y presenta el total de errores contados, con las limitaciones del recorrido explicadas.
+- Proyecto: resumen didáctico de una matriz local por día (ejercicio `matrix_review.py`).
+- Misión aplicable: [mision-sesion-10.md](mision-sesion-10.md), ejemplo que detalla el propósito, las personas destinatarias, el resultado esperado y los límites de esta misma práctica.
+- Alcance y exclusiones del producto: descritos en la misión; esta constitución no los repite.
 
 ## 3. Principios de trabajo
 
@@ -28,10 +28,11 @@ Este documento completo es un ejemplo educativo para el ejercicio `matrix_review
 - Acciones que requieren aprobación antes de ejecutarse: cualquier cambio de alcance, uso de datos distintos de la matriz sintética o acción no indicada por el material autorizado.
 - Si la instrucción o autorización no está clara: detenerse y consultar a la persona docente. La declaración de esta constitución no reemplaza las reglas de la sesión sobre asistencia de IA.
 
-## 5. Alcance y exclusiones
+## 5. Alcance autorizado y exclusiones de acción
 
-- Incluye: ejercicio local `matrix_review.py`; tres listas de seis posiciones como entrada didáctica; ciclo exterior para día e interior para evento; `continue` en `UNKNOWN`; `break` en `STOP`, que termina solo el ciclo del día actual; subtotales por día y total de errores contados.
-- No incluye: lectura de archivos, acceso a red, apertura de puertos, conexión con sistemas, análisis de registros reales, confirmación de incidentes ni implementación automática de la solución.
+- Alcance del producto y exclusiones: descritos en [mision-sesion-10.md](mision-sesion-10.md); no se repiten aquí.
+- Acciones y usos autorizados en esta etapa: el estudiante escribe y ejecuta su propio archivo `matrix_review.py` en su equipo; tres listas de seis posiciones como entrada didáctica.
+- Acciones y usos excluidos: completar los TODO del ejercicio, inventar resultados, leer archivos de datos, acceder a red, abrir puertos, conectar sistemas, analizar registros reales, confirmar incidentes o implementar la solución automáticamente.
 - Supuestos: la matriz es sintética y está transcrita en el cuaderno de trabajo de la Sesión 10; las etiquetas son propias de la práctica, no estándares universales.
 
 ## 6. Datos, privacidad y seguridad
@@ -42,10 +43,10 @@ Este documento completo es un ejemplo educativo para el ejercicio `matrix_review
 - Límites de seguridad aplicables: el ejercicio descrito opera sobre datos sintéticos locales y no usa red, archivos de entrada ni puertos.
 - Si aparece un dato no previsto o sensible: no incorporarlo; detenerse y consultar a la persona docente.
 
-## 7. Entorno, plataformas y herramientas
+## 7. Entorno y herramientas autorizadas
 
-- Plataformas objetivo: el material de la Sesión 10 describe Windows, Linux y macOS; no fija aquí versiones instaladas distintas de las indicadas por el material oficial de esa sesión.
-- Herramientas permitidas: editor de texto y Python local según la ruta de plataforma del cuaderno; las acciones exactas se rigen por las instrucciones de la sesión.
+- Entorno y plataformas confirmadas para esta etapa: el material de la Sesión 10 describe Windows, Linux y macOS; no fija aquí versiones instaladas distintas de las indicadas por el material oficial de esa sesión.
+- Decisiones de stack y herramientas: esta práctica no adopta un stack propio; el editor de texto y Python local según la ruta de plataforma del cuaderno se rigen por las instrucciones de la sesión y no se repiten aquí.
 - Acciones permitidas al agente: esta constitución por sí sola no autoriza lectura, escritura, ejecución ni cambios; cualquier uso de Pi depende de las reglas vigentes del curso y de la instrucción explícita de la persona estudiante.
 - Acciones que no se autorizan: completar los TODO del ejercicio, inventar resultados de ejecución, acceder a sistemas externos o ampliar el conjunto de datos.
 - Límites técnicos conocidos: la sesión enseña anidación de dos niveles, `continue` y `break`; no introduce funciones, `else` en ciclos ni un tercer nivel.
@@ -66,4 +67,4 @@ Este documento completo es un ejemplo educativo para el ejercicio `matrix_review
 
 ## Referencia
 
-Consulta el [cuaderno de trabajo del estudiante de la Sesión 10](../modulo_01/sesion_10/material_estudiante_sesion_10.html) para la matriz, instrucciones y criterios oficiales del ejercicio. El código del estudiante y los TODO permanecen fuera de este documento.
+Consulta el [cuaderno de trabajo del estudiante de la Sesión 10](../modulo_01/sesion_10/material_estudiante_sesion_10.html) para la matriz, instrucciones y criterios oficiales del ejercicio. Para el propósito, las personas destinatarias, el alcance y las señales de éxito, consulta la [misión del proyecto — Ejemplo de la Sesión 10](mision-sesion-10.md); esta constitución gobierna reglas, responsabilidades y autorizaciones. El código del estudiante y los TODO permanecen fuera de este documento.
