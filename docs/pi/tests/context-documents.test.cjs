@@ -1,7 +1,7 @@
 // Static document contracts for the public constitution/mission teaching materials.
 //
 // Scope and limits: these checks pin wording invariants across the reusable templates,
-// the public HTML guides and the Session 10 examples. They are read-only string/links
+// the public HTML guides and the concrete Snake examples. They are read-only string/links
 // contracts; they cannot prove that a conversational agent behaves as described, that a
 // client loads a document, or that any permission is enforced at runtime. No runtime
 // game or agent RED can be derived from string matching, so the documents themselves
@@ -18,10 +18,11 @@ const read = name => fs.readFileSync(path.join(PI_DIR, name), 'utf8');
 const PUBLIC_DOCS = [
   'constitucion-template.md',
   'mision-template.md',
-  'constitucion-sesion-10.md',
-  'mision-sesion-10.md',
+  'snake/context/CONSTITUTION.md',
+  'snake/context/MISSION.md',
   'constitucion-proyecto.html',
   'mision-proyecto.html',
+  'index.html',
 ];
 
 const INTERVIEW_DOCS = [
@@ -85,9 +86,18 @@ test('public HTML guides link their counterpart', () => {
   assert.match(read('mision-proyecto.html'), /href="constitucion-proyecto\.html"/);
 });
 
-test('Session 10 examples link each other', () => {
-  assert.match(read('constitucion-sesion-10.md'), /mision-sesion-10\.md/);
-  assert.match(read('mision-sesion-10.md'), /constitucion-sesion-10\.md/);
+test('guides and portal use the concrete Snake documents as their examples', () => {
+  for (const [guide, example] of [
+    ['constitucion-proyecto.html', 'CONSTITUTION.md'],
+    ['mision-proyecto.html', 'MISSION.md'],
+  ]) {
+    const href = `href="snake/context/${example}"`;
+    assert.ok(read(guide).includes(href), `${guide}: must link its concrete Snake example`);
+    assert.ok(read('index.html').includes(href), `portal: must link ${example}`);
+    assert.match(read(guide), /ejemplo concreto.*Snake/i);
+  }
+  assert.match(read('snake/context/CONSTITUTION.md'), /MISSION\.md/);
+  assert.match(read('snake/context/MISSION.md'), /CONSTITUTION\.md/);
 });
 
 test('interview contracts never re-ask confirmed context', () => {
@@ -117,21 +127,17 @@ test('honesty safeguards are preserved: pending unknowns, explicit approval, no 
   }
 });
 
-test('Session 10 examples keep the synthetic matrix and student authorship unsolved', () => {
-  const constitution = read('constitucion-sesion-10.md');
-  const mission = read('mision-sesion-10.md');
-  for (const doc of [constitution, mission]) {
-    assert.match(doc, /matrix_review\.py/);
-    assert.match(doc, /tres (?:d[ií]as|listas)/i);
-    assert.match(doc, /UNKNOWN/);
-    assert.match(doc, /STOP/);
-    assert.match(doc, /continue/);
-    assert.match(doc, /break/);
-    assert.match(doc, /estudiante/i);
-    assert.match(doc, /material_estudiante_sesion_10\.html/);
+test('retired Session 10 examples are absent from disk and live public guidance', () => {
+  for (const retired of ['constitucion-sesion-10.md', 'mision-sesion-10.md']) {
+    assert.equal(fs.existsSync(path.join(PI_DIR, retired)), false, `${retired}: must be retired`);
+    for (const name of PUBLIC_DOCS) {
+      assert.equal(read(name).includes(retired), false, `${name}: must not reference ${retired}`);
+    }
   }
-  assert.match(constitution, /no contiene la soluci[oó]n|no sustituye el cuaderno/i);
-  assert.match(mission, /no contiene la soluci[oó]n|no reemplaza las instrucciones/i);
+  for (const name of ['constitucion-proyecto.html', 'mision-proyecto.html', 'index.html']) {
+    assert.doesNotMatch(read(name), /S10|Sesi[oó]n 10|matrix_review\.py/i,
+      `${name}: must not present the retired teaching example`);
+  }
 });
 
 test('local links in the public context documents resolve to real files', () => {
