@@ -1,4 +1,4 @@
-# Plataforma y lenguaje del proyecto Snake
+﻿# Plataforma y lenguaje del proyecto Snake
 
 Registra únicamente lo confirmado sobre la plataforma y el lenguaje. **No fija versiones, frameworks ni herramientas**, porque todavía no se han elegido: las versiones de lenguaje, tiempo de ejecución, navegador o herramientas **no están confirmadas** y no se inventan aquí.
 

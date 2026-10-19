@@ -1,4 +1,4 @@
-# Sesión 12: Funciones II y ámbitos del revisor local
+﻿# Sesión 12: Funciones II y ámbitos del revisor local
 
 Bienvenido a la **Sesión 12** del currículo *Python for Defensive Security: Fundamentals and Local Lab Tooling* (`PyDefSec`).
 

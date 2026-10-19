@@ -1,4 +1,4 @@
-# Especificación: Inicio (primera entrega funcional)
+﻿# Especificación: Inicio (primera entrega funcional)
 
 Define la **primera entrega funcional**: la pantalla de Inicio operativa. Está **definida, no implementada**. No se afirma que exista código, compilación ni arranque real de la aplicación.
 

@@ -1,4 +1,4 @@
-# Python for Defensive Security: Fundamentals and Local Lab Tooling
+﻿# Python for Defensive Security: Fundamentals and Local Lab Tooling
 
 [![Python 3.13](https://img.shields.io/badge/python-3.13-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)

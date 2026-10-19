@@ -1,4 +1,4 @@
-# Sesión 07: Diccionarios: leer y comunicar resúmenes por nivel y módulo
+﻿# Sesión 07: Diccionarios: leer y comunicar resúmenes por nivel y módulo
 
 Bienvenido a la **Sesión 07** del currículo *Python for Defensive Security: Fundamentals and Local Lab Tooling* (`PyDefSec`).
 

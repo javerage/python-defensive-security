@@ -1,4 +1,4 @@
-# Sesión 18: POO mínima y evolución a modelos Pydantic
+﻿# Sesión 18: POO mínima y evolución a modelos Pydantic
 
 Bienvenido a la **Sesión 18** del currículo *Python for Defensive Security: Fundamentals and Local Lab Tooling* (`PyDefSec`).
 

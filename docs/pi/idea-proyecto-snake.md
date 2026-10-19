@@ -1,4 +1,4 @@
-# Idea inicial: juego de Snake
+﻿# Idea inicial: juego de Snake
 
 El proyecto consiste en crear un juego de Snake para navegador web utilizando TypeScript. El jugador guiará a la serpiente para recoger comida, sumar puntos y hacerla crecer, evitando que choque con los muros o con su propio cuerpo. La partida recorrerá cinco niveles, cada uno con un escenario diferente y una dificultad mayor que el anterior.
 

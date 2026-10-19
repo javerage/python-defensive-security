@@ -1,4 +1,4 @@
-# Sesión 01: Entorno Reproducible y Telemetría Base
+﻿# Sesión 01: Entorno Reproducible y Telemetría Base
 
 Bienvenido a la **Sesión 01** del currículo *Python for Defensive Security: Fundamentals and Local Lab Tooling* (`PyDefSec`).
 

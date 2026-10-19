@@ -1,4 +1,4 @@
-# Plantilla de idea del proyecto
+﻿# Plantilla de idea del proyecto
 
 Completa cada apartado con lo que sabes hoy. Los ejemplos son ilustrativos: adáptalos o ignóralos si no corresponden a tu proyecto. Si aún no tienes una respuesta, escribe **Pendiente de decisión**; tú conservas la decisión y puedes retomarla más adelante.
 

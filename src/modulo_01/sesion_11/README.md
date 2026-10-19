@@ -1,4 +1,4 @@
-# Sesión 11: Funciones I para el verificador local
+﻿# Sesión 11: Funciones I para el verificador local
 
 Bienvenido a la **Sesión 11** del currículo *Python for Defensive Security: Fundamentals and Local Lab Tooling* (`PyDefSec`).
 

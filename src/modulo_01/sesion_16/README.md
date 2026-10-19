@@ -1,4 +1,4 @@
-# Sesión 16: JSON, CSV, registros y primer BaseModel
+﻿# Sesión 16: JSON, CSV, registros y primer BaseModel
 
 Bienvenido a la **Sesión 16** del currículo *Python for Defensive Security: Fundamentals and Local Lab Tooling* (`PyDefSec`).
 

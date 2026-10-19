@@ -1,4 +1,4 @@
-# Wireframes de Snake (propuesta de diseño)
+﻿# Wireframes de Snake (propuesta de diseño)
 
 Bocetos en escala de grises de las pantallas del juego Snake. Los cinco wireframes son una **propuesta de diseño revisada y aprobada**: su disposición está acordada, y esa aprobación es **independiente de los mockups en color**. El lenguaje visual cuenta con un [borrador de fase 1](visual-style.md). La **pantalla piloto de Inicio** (`start-pilot.html`) y la **pantalla piloto de Partida** (`playing-pilot.html`) fueron **aceptadas como referencia visual**: los valores visuales aplicados en ambas (color, tamaños y estilo) quedan aceptados como referencia, sin extender esa aceptación a los demás mockups ni a la implementación. Los refinamientos de componentes y la fuente pixelada **Silkscreen** están acordados; su integración local y el estilo final del conjunto siguen pendientes.
 

@@ -1,4 +1,4 @@
-# Sesión 14: Módulos, paquetes, pip, venv y Pydantic fijado
+﻿# Sesión 14: Módulos, paquetes, pip, venv y Pydantic fijado
 
 Bienvenido a la **Sesión 14** del currículo *Python for Defensive Security: Fundamentals and Local Lab Tooling* (`PyDefSec`).
 

@@ -1,4 +1,4 @@
-# Sesión 08: Tuplas y sets para agrupar direcciones locales
+﻿# Sesión 08: Tuplas y sets para agrupar direcciones locales
 
 Bienvenido a la **Sesión 08** del currículo *Python for Defensive Security: Fundamentals and Local Lab Tooling* (`PyDefSec`).
 

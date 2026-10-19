@@ -1,4 +1,4 @@
-# Contexto del proyecto Snake
+﻿# Contexto del proyecto Snake
 
 Documentación concreta del proyecto **Snake**: un juego de navegador en TypeScript que se documenta aquí como proyecto propio, separado de las plantillas de enseñanza reutilizables y de las referencias visuales aceptadas. Este conjunto describe acuerdos, propósito, plataforma, plan y memoria del proyecto; **no implementa el juego** y no sustituye a la [idea inicial](../../idea-proyecto-snake.md) ni al [recorrido de una partida](../../game-flow-snake.md), que siguen siendo la fuente funcional.
 

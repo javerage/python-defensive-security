@@ -1,4 +1,4 @@
-# Sesión 05: Lógica compuesta y validación local
+﻿# Sesión 05: Lógica compuesta y validación local
 
 Bienvenido a la **Sesión 05** del currículo *Python for Defensive Security: Fundamentals and Local Lab Tooling* (`PyDefSec`).
 

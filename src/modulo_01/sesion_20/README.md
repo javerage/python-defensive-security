@@ -1,4 +1,4 @@
-# Sesión 20: Checkpoint 1 y defensa breve (cierra Bloque A)
+﻿# Sesión 20: Checkpoint 1 y defensa breve (cierra Bloque A)
 ### Course: *Python for Defensive Security: Fundamentals and Local Lab Tooling* (`PyDefSec`)
 
 Este directorio contiene los archivos fuente base y la plantilla del reto práctico para la **Sesión 20** del currículo PyDefSec.

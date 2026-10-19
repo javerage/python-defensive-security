@@ -1,4 +1,4 @@
-# Sesión 19: Checkpoint de fundamentos (analizador local con Pi observador)
+﻿# Sesión 19: Checkpoint de fundamentos (analizador local con Pi observador)
 
 Bienvenido a la **Sesión 19** del currículo *Python for Defensive Security: Fundamentals and Local Lab Tooling* (`PyDefSec`).
 

@@ -1,4 +1,4 @@
-# Misión del proyecto Snake
+﻿# Misión del proyecto Snake
 
 Ofrecer **partidas de Snake accesibles y entretenidas** en el navegador, en las que el jugador pueda seguir su progreso mediante el puntaje, el nivel y la velocidad. La misión se centra en la **experiencia de quien juega**, no en formar desarrolladores ni en impartir un temario.
 

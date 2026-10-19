@@ -1,4 +1,4 @@
-# Sesión 03: Cadenas, índices y limpieza de texto
+﻿# Sesión 03: Cadenas, índices y limpieza de texto
 
 Bienvenido a la **Sesión 03** del currículo *Python for Defensive Security: Fundamentals and Local Lab Tooling* (`PyDefSec`).
 

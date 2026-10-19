@@ -1,4 +1,4 @@
-# Ejemplo ilustrativo de guía para agentes (no es configuración activa)
+﻿# Ejemplo ilustrativo de guía para agentes (no es configuración activa)
 
 Este archivo es un **ejemplo ilustrativo** de cómo un agente podría orientarse dentro de la **documentación** del proyecto Snake. **No es una instrucción activa de la raíz ni de un cliente**, y no debe renombrarse a `AGENTS.md` esperando que se cargue o se aplique automáticamente: ningún mecanismo lo hace y no se afirma lo contrario.
 

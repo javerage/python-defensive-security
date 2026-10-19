@@ -1,4 +1,4 @@
-# Sesión 04: Decisiones condicionales y clasificación local
+﻿# Sesión 04: Decisiones condicionales y clasificación local
 
 Bienvenido a la **Sesión 04** del currículo *Python for Defensive Security: Fundamentals and Local Lab Tooling* (`PyDefSec`).
 

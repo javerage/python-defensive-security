@@ -1,4 +1,4 @@
-# Sesión 17: Testing con unittest y pytest
+﻿# Sesión 17: Testing con unittest y pytest
 
 Bienvenido a la **Sesión 17** del currículo *Python for Defensive Security: Fundamentals and Local Lab Tooling* (`PyDefSec`).
 

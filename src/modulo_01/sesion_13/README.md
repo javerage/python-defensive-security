@@ -1,4 +1,4 @@
-# Sesión 13: Errores, excepciones y depuración del revisor local
+﻿# Sesión 13: Errores, excepciones y depuración del revisor local
 
 Bienvenido a la **Sesión 13** del currículo *Python for Defensive Security: Fundamentals and Local Lab Tooling* (`PyDefSec`).
 

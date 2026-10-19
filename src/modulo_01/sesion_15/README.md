@@ -1,4 +1,4 @@
-# Sesión 15: pathlib y archivos de texto
+﻿# Sesión 15: pathlib y archivos de texto
 
 Bienvenido a la **Sesión 15** del currículo *Python for Defensive Security: Fundamentals and Local Lab Tooling* (`PyDefSec`).
 

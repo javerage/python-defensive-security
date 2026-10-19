@@ -1,4 +1,4 @@
-# Sesión 10: Ciclos anidados y control de la matriz local
+﻿# Sesión 10: Ciclos anidados y control de la matriz local
 
 Bienvenido a la **Sesión 10** del currículo *Python for Defensive Security: Fundamentals and Local Lab Tooling* (`PyDefSec`).
 

@@ -1,4 +1,4 @@
-# Crea una skill local para generar logs sintéticos de auditoría informática
+﻿# Crea una skill local para generar logs sintéticos de auditoría informática
 
 Vas a crear una skill **local** de Pi que genera entradas sintéticas de un log de eventos de auditoría informática para practicar en clase. Al terminar, entenderás la diferencia entre una **skill** (un procedimiento reutilizable con perfil propio) y una **plantilla de prompt** (una instrucción repetitiva), y tendrás un generador que responde a una frase natural en español.
 

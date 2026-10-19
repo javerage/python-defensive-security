@@ -1,4 +1,4 @@
-# Game Flow Template
+﻿# Game Flow Template
 
 Descarga esta plantilla y copia su contenido **una sola vez** en el documento de trabajo de tu proyecto. La ruta sugerida es `specs/game-flow.md`, aunque puedes elegir otro nombre y ubicación. Completa ese archivo y consérvalo allí; esta plantilla es material de apoyo, no el documento final.
 

@@ -9,6 +9,10 @@
 // UTF-8 bytes as windows-1252 and mojibake every accent. A leading UTF-8 BOM makes the
 // client detect UTF-8 regardless of the transport default.
 //
+// The same condition applies to every Markdown file of this repository: any of them
+// can be opened directly in a browser. The repo-wide check therefore requires a BOM on
+// README.md and every .md under docs/ and src/.
+//
 // These checks are read-only: they read bytes, they never rewrite the templates. The
 // browser test reuses the dependency-free CDP pattern of docs/pi/snake/design/tests/*
 // .browser.test.cjs and is skipped when Chrome/Chromium is unavailable.
@@ -59,6 +63,60 @@ for (const name of TEMPLATES) {
     assert.ok(asLegacy.includes('secciÃ³n'), `${name}: legacy decode must reproduce the reported "secciÃ³n"`);
   });
 }
+
+// --- Repo-wide invariant -------------------------------------------------------
+
+const REPO_ROOT = path.join(PI_DIR, '..', '..');
+
+function collectMarkdown(dir) {
+  const found = [];
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    if (entry.name === 'node_modules' || entry.name.startsWith('.')) continue;
+    const absolute = path.join(dir, entry.name);
+    if (entry.isDirectory()) found.push(...collectMarkdown(absolute));
+    else if (entry.name.endsWith('.md')) found.push(absolute);
+  }
+  return found;
+}
+
+const REPO_MARKDOWN = [
+  path.join(REPO_ROOT, 'README.md'),
+  ...collectMarkdown(path.join(REPO_ROOT, 'docs')),
+  ...collectMarkdown(path.join(REPO_ROOT, 'src')),
+].sort();
+
+const KNOWN_AT_RISK = [
+  'docs/pi/snake/context/CONSTITUTION.md',
+  'docs/pi/snake/context/MISSION.md',
+  'docs/pi/snake/design/visual-style.md',
+  'docs/pi/game-flow-template.md',
+  'src/modulo_01/sesion_10/README.md',
+];
+
+test('every Markdown file in README.md, docs/ and src/ carries a BOM and valid UTF-8', () => {
+  assert.ok(REPO_MARKDOWN.length >= 42,
+    `expected at least 42 Markdown files, found ${REPO_MARKDOWN.length}`);
+
+  const relative = REPO_MARKDOWN.map(absolute => path.relative(REPO_ROOT, absolute));
+  for (const expected of KNOWN_AT_RISK) {
+    assert.ok(relative.includes(expected), `${expected} must be covered by the repo-wide check`);
+  }
+
+  const failures = [];
+  for (const absolute of REPO_MARKDOWN) {
+    const rel = path.relative(REPO_ROOT, absolute);
+    const raw = fs.readFileSync(absolute);
+    if (!raw.subarray(0, 3).equals(UTF8_BOM)) failures.push(`${rel}: missing UTF-8 BOM`);
+    if (raw.subarray(3, 6).equals(UTF8_BOM)) failures.push(`${rel}: duplicate UTF-8 BOM`);
+    const body = raw.subarray(3);
+    const text = body.toString('utf8');
+    if (text.includes(REPLACEMENT)) failures.push(`${rel}: contains a UTF-8 replacement character`);
+    if (MOJIBAKE.test(text)) failures.push(`${rel}: contains mojibake markers`);
+    if (!Buffer.from(text, 'utf8').equals(body)) failures.push(`${rel}: body is not valid UTF-8`);
+    if (text.trim() === '') failures.push(`${rel}: body is empty`);
+  }
+  assert.deepEqual(failures, []);
+});
 
 // --- Real-browser reproduction ------------------------------------------------
 // A legacy client is simulated with `Content-Type: text/markdown; charset=windows-1252`.

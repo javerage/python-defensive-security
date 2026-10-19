@@ -1,4 +1,4 @@
-# Sesión 02: Tipos de datos, entrada y conversiones
+﻿# Sesión 02: Tipos de datos, entrada y conversiones
 
 Bienvenido a la **Sesión 02** del currículo *Python for Defensive Security: Fundamentals and Local Lab Tooling* (`PyDefSec`).
 

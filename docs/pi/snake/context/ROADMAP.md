@@ -1,4 +1,4 @@
-# Plan de producto del proyecto Snake
+﻿# Plan de producto del proyecto Snake
 
 Plan de **producto** por fases previstas, honesto sobre qué está solo documentado y qué está aceptado únicamente como referencia visual. **No es un plan de clases ni un temario**: el seguimiento docente del ejercicio de aula se documenta aparte.
 

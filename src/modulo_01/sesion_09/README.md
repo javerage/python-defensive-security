@@ -1,4 +1,4 @@
-# Sesión 09: Ciclos for y while sobre el registro local
+﻿# Sesión 09: Ciclos for y while sobre el registro local
 
 Bienvenido a la **Sesión 09** del currículo *Python for Defensive Security: Fundamentals and Local Lab Tooling* (`PyDefSec`).
 

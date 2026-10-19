@@ -1,4 +1,4 @@
-# Sesión 06: Listas y pipeline de eventos locales
+﻿# Sesión 06: Listas y pipeline de eventos locales
 
 Bienvenido a la **Sesión 06** del currículo *Python for Defensive Security: Fundamentals and Local Lab Tooling* (`PyDefSec`).
 

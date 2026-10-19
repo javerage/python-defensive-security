@@ -1,4 +1,4 @@
-# Memoria del proyecto Snake
+﻿# Memoria del proyecto Snake
 
 Registro conciso de **hechos aprobados con su fuente** y de las **dudas abiertas**. No es una transcripción de conversaciones ni un historial de cambios.
 

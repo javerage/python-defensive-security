@@ -1,4 +1,4 @@
-# Constitución del proyecto Snake
+﻿# Constitución del proyecto Snake
 
 Acuerdos de trabajo estables de este proyecto. **No es un plan técnico ni un mecanismo de seguridad ejecutable** y no sustituye a la [misión](MISSION.md), a la [plataforma](TECH-STACK.md) ni a las fuentes funcionales ([idea](../../idea-proyecto-snake.md) y [flujo](../../game-flow-snake.md)). Este documento se limita a este proyecto; no amplía permisos generales de otros proyectos ni de ninguna herramienta.
 

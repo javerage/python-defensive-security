@@ -1,4 +1,4 @@
-# Notas por pantalla — wireframes de Snake (propuesta)
+﻿# Notas por pantalla — wireframes de Snake (propuesta)
 
 Propuesta de diseño **revisada y aprobada**. Cada boceto usa una referencia de ventana de computadora de **1024 × 768**. Los wireframes permanecen en escala de grises y aprobados; el [lenguaje visual](visual-style.md) se documenta aparte como borrador de fase 1 y no modifica estos bocetos. Existen además cinco **pantallas piloto** separadas que aplican el borrador visual: la **[pantalla piloto de Inicio](start-pilot.html)**, la **[pantalla piloto de Partida](playing-pilot.html)**, la **[pantalla piloto de Game Over](game-over-pilot.html)**, la **[pantalla piloto de Victoria](victory-pilot.html)** y la **[pantalla piloto de Top 10](top10-pilot.html)**, las cinco **aceptadas como referencia visual** (los valores visuales aplicados en ellas quedan aceptados como referencia). Las notas de abajo describen los wireframes en escala de grises.
 

@@ -1,4 +1,4 @@
-# Feature: doble conteo del registro local con for y while
+﻿# Feature: doble conteo del registro local con for y while
 
 ## Identificación
 - Feature: doble conteo del registro local con for y while.
