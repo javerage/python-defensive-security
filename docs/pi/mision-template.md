@@ -1,4 +1,4 @@
-# Plantilla de misión del proyecto
+﻿# Plantilla de misión del proyecto
 
 Usa esta estructura para preparar `MISSION.md` en la raíz del proyecto. Puedes trabajar manualmente o pedir a Pi que lea esta plantilla y te entreviste sección por sección antes de proponer un borrador. La misión explica por qué existe el proyecto, a quién sirve, qué alcance tiene y qué resultado busca; no reemplaza la constitución, que gobierna reglas y autorizaciones, ni prescribe una solución técnica.
 

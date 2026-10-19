@@ -1,4 +1,4 @@
-# Plantilla de constitución del proyecto
+﻿# Plantilla de constitución del proyecto
 
 Usa esta estructura para preparar `CONSTITUTION.md` en la raíz de tu proyecto. Puedes trabajar manualmente o pedir a Pi que lea esta plantilla y te entreviste sección por sección antes de proponer un borrador. Esta constitución registra los principios, las responsabilidades humanas y del agente, las autorizaciones y la gobernanza de datos, evidencia y cambios de tu proyecto; el propósito, las personas destinatarias, el alcance y las señales de éxito se documentan por separado en la misión del proyecto. No es un plan técnico ni un mecanismo de seguridad ejecutable. La constitución es un documento real y adaptado del proyecto: se conserva como adaptación intencional del equipo, no como copia de un estándar ni como obligación heredada de otro material.
 
