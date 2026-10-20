@@ -12,7 +12,7 @@ Tú confirmas la subcarpeta de contexto y el nombre del archivo una sola vez, co
 
 La plantilla puede permanecer fuera del proyecto, en una ubicación accesible que autorices; no es obligatorio copiarla ni conceder acceso externo general. La plantilla es la fuente estructural; la constitución es el documento real y adaptado de tu proyecto, que puede no existir todavía.
 
-Puedes autorizar fuentes existentes opcionales, como la idea del proyecto, requisitos del docente o decisiones confirmadas; «Ninguno» se refiere solo a esas fuentes opcionales, no a la plantilla que el asistente debe leer. La entrevista no exige una hoja de ruta, un stack ni especificaciones futuras.
+Puedes autorizar fuentes existentes opcionales, como la idea del proyecto, requisitos acordados o decisiones confirmadas; «Ninguno» se refiere solo a esas fuentes opcionales, no a la plantilla que el asistente debe leer. La entrevista no exige una hoja de ruta, un stack ni especificaciones futuras.
 
 Durante la entrevista no se crean ni modifican archivos ni carpetas y no se ejecuta código; si hace falta crear la carpeta, se confirma por separado como parte del guardado autorizado. Muestra la ruta prevista y confirma la ruta exacta (carpeta y nombre de archivo) antes de guardar.
 
@@ -20,7 +20,7 @@ Durante la entrevista no se crean ni modifican archivos ni carpetas y no se ejec
 
 **Qué escribir:** nombre corto, responsable y fecha de revisión. No incluyas datos personales innecesarios.
 
-**Ejemplo según el proyecto:** una herramienta local de aprendizaje, un sitio web informativo o un informe basado en datos sintéticos.
+**Ejemplo según el proyecto:** una herramienta local, un sitio web informativo o un informe basado en datos sintéticos.
 
 - Proyecto: [nombre]
 - Responsable de las decisiones: [persona o equipo]
@@ -45,12 +45,12 @@ Durante la entrevista no se crean ni modifican archivos ni carpetas y no se ejec
 
 ## 4. Personas, responsabilidades y autorización
 
-**Qué escribir:** quién decide el alcance, quién revisa resultados y qué puede proponer o hacer un agente de IA. Distingue sugerir de ejecutar y exige aprobación humana explícita para acciones no autorizadas.
+**Qué escribir:** quién decide el alcance, quién revisa resultados y qué puede proponer o hacer un asistente de IA. Distingue sugerir de ejecutar y exige aprobación humana explícita para acciones no autorizadas.
 
-**Ejemplos:** en un proyecto de aprendizaje, el estudiante conserva la autoría y puede pedir explicaciones; en un sitio, una persona responsable aprueba publicaciones; en un informe, la persona analista valida la interpretación antes de compartirla.
+**Ejemplos:** la persona responsable aprueba los cambios que afectan el alcance, los datos o la publicación; el equipo propone alternativas y pide explicaciones antes de decidir; las acciones no autorizadas esperan aprobación explícita.
 
 - Decisiones reservadas a una persona: [alcance, publicación, datos, cambios sensibles]
-- Ayuda permitida al agente: [por ejemplo, explicar archivos leídos o proponer opciones]
+- Ayuda permitida al asistente: [por ejemplo, explicar archivos leídos o proponer opciones]
 - Acciones que requieren aprobación antes de ejecutarse: [enumerar]
 - Si la instrucción o autorización no está clara: [detenerse y preguntar a quién]
 
@@ -67,7 +67,7 @@ Durante la entrevista no se crean ni modifican archivos ni carpetas y no se ejec
 
 ## 6. Datos, privacidad y seguridad
 
-**Qué escribir:** qué datos se usarán, de dónde proceden, si son sintéticos o autorizados, dónde se guardan y qué no debe incorporarse. No pegues secretos, contraseñas, tokens ni datos personales sensibles en este documento ni en solicitudes al agente.
+**Qué escribir:** qué datos se usarán, de dónde proceden, si son sintéticos o autorizados, dónde se guardan y qué no debe incorporarse. No pegues secretos, contraseñas, tokens ni datos personales sensibles en este documento ni en solicitudes al asistente.
 
 **Ejemplos:** «solo registros ficticios creados para la práctica»; «contenido público aprobado por el responsable»; «archivo agregado sin identificadores personales, entregado por el equipo».
 
@@ -79,13 +79,13 @@ Durante la entrevista no se crean ni modifican archivos ni carpetas y no se ejec
 
 ## 7. Entorno y herramientas autorizadas
 
-**Qué escribir:** las decisiones de plataformas, herramientas y versiones se documentan en el stack del proyecto; aquí registra solo el entorno ya confirmado que los límites de seguridad necesitan y las acciones permitidas al agente. Define acciones permitidas a partir de la autorización real del proyecto; este texto no instala ni concede permisos.
+**Qué escribir:** las decisiones de plataformas, herramientas y versiones se documentan en el stack del proyecto; aquí registra solo el entorno ya confirmado que los límites de seguridad necesitan y las acciones permitidas al asistente. Define acciones permitidas a partir de la autorización real del proyecto; este texto no instala ni concede permisos.
 
 **Ejemplos:** «editor de texto en Windows, macOS o Linux»; «navegador actual para revisar páginas»; «hoja de cálculo disponible en el equipo». No adoptes un ejemplo si no corresponde.
 
 - Entorno y plataformas confirmadas para esta etapa: [sistemas/dispositivos y versiones comprobadas o “por decidir”]
 - Decisiones de stack y herramientas: documentadas en el stack del proyecto o «Pendiente de decisión»; no se repiten aquí
-- Acciones permitidas al agente: [solo lo autorizado; separar lectura, propuesta y escritura]
+- Acciones permitidas al asistente: [solo lo autorizado; separar lectura, propuesta y escritura]
 - Acciones que no se autorizan: [por ejemplo, publicar o modificar datos originales]
 - Límites técnicos conocidos: [compatibilidad, acceso, almacenamiento u otros]
 

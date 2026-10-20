@@ -106,6 +106,16 @@ test('the interview does not require future SDD artifacts', () => {
   }
 });
 
+test('the reusable constitution template assumes no classroom-only context', () => {
+  const doc = read('constitucion-template.md');
+  assert.doesNotMatch(doc, /docente|estudiante|alumno/i,
+    'the reusable template must not assume teachers or students');
+  assert.match(doc, /requisitos acordados/i,
+    'external requirements must stay context-neutral');
+  assert.match(doc, /persona responsable/i,
+    'examples must use generic responsibility roles');
+});
+
 test('the template can stay outside the project at an authorized location without copying', () => {
   for (const name of INTERVIEW_DOCS) {
     const doc = read(name);
