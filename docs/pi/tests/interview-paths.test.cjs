@@ -46,12 +46,12 @@ test('every interview guide treats the open project folder as the working root f
   }
 });
 
-test('every interview guide proposes the context subfolder and reuses it once agreed', () => {
+test('the context subfolder is confirmed once as the destination, not negotiated repeatedly', () => {
   for (const name of INTERVIEW_DOCS) {
     const doc = read(name);
     assert.match(doc, /subcarpeta de contexto/i, `${name}: must name the context subfolder`);
-    assert.match(doc, /espera (?:tu|mi) confirmación/i, `${name}: must await confirmation`);
-    assert.match(doc, /reutiliza/i, `${name}: must reuse the agreed location`);
+    assert.match(doc, /una sola vez/i, `${name}: the destination is confirmed once`);
+    assert.match(doc, /antes de guardar/i, `${name}: confirmation happens before saving`);
     assert.match(doc, /ejemplo ilustrativo/i, `${name}: the example folder is illustrative`);
     assert.match(doc, /no una carpeta obligatoria/i, `${name}: the example folder is not mandatory`);
   }
@@ -82,6 +82,19 @@ test('optional existing sources stay optional and «ninguno» only covers them',
     assert.match(doc, /fuentes existentes opcionales/i, `${name}: existing sources are optional`);
     assert.match(doc, /«Ninguno» se refiere solo a esas fuentes opcionales/i,
       `${name}: «ninguno» must not cover the required template or constitution`);
+  }
+});
+
+test('optional sources are authorized by enumeration, never by a self-referential conditional', () => {
+  for (const name of INTERVIEW_DOCS) {
+    const doc = read(name);
+    assert.equal(/si\s+(?:los|las)\s+autoriz[oa]s?/i.test(doc), false,
+      `${name}: must not ask the agent to evaluate “si los autorizo/autorizas”`);
+  }
+  for (const name of HTML_DOCS) {
+    const prompts = preBlocks(name).join('\n');
+    assert.match(prompts, /fuentes existentes de esta lista/i,
+      `${name}: the enumerated list itself must express the authorization scope`);
   }
 });
 
@@ -116,22 +129,25 @@ test('operative prompts use the current open project as the relative base and as
   }
 });
 
-test('operative prompts reuse the agreed subfolder and never hardcode the illustrative example', () => {
+test('operative prompts read only explicit paths and never open a separate folder negotiation', () => {
   for (const name of HTML_DOCS) {
     const prompts = preBlocks(name).join('\n');
     assert.equal(prompts.includes('docs/contexto/'), false,
       `${name}: the operative prompt must not hardcode the example folder`);
-    assert.match(prompts, /subcarpeta de contexto/i, `${name}: must name the context subfolder`);
-    assert.match(prompts, /reutil[ií]zala|reutiliza/i, `${name}: must reuse the agreed location`);
-    assert.match(prompts, /confirm/i, `${name}: must rely on the confirmed destination`);
+    assert.equal(/prop[oó]n o pregunta la subcarpeta|reutil[ií]zala una vez acordada/i.test(prompts), false,
+      `${name}: the prompt must not negotiate a subfolder before the interview`);
+    assert.match(prompts, /no busques archivos por tu cuenta/i,
+      `${name}: must read only the paths the human provides`);
     assert.match(read(name), /docs\/contexto\//, `${name}: the illustrative example stays in prose`);
   }
 });
 
-test('constitution prompt reads CONSTITUTION.md from the confirmed destination, not a hardcoded folder', () => {
+test('constitution prompt reads an existing CONSTITUTION.md only from an explicit path', () => {
   const prompts = preBlocks('constitucion-proyecto.html').join('\n');
-  assert.match(prompts, /CONSTITUTION\.md en esa subcarpeta confirmada/i,
-    'constitution: must read CONSTITUTION.md from the confirmed subfolder');
+  assert.equal(prompts.includes('en esa subcarpeta confirmada'), false,
+    'constitution: must not check a negotiated subfolder for an existing file');
+  assert.match(prompts, /no busques archivos por tu cuenta/i,
+    'constitution: must read only the paths the human provides');
   assert.equal(prompts.includes('docs/contexto/'), false,
     'constitution: the operative prompt must not hardcode the example folder');
 });
@@ -141,7 +157,7 @@ test('mission interview prompt keeps distinct required-source placeholders', () 
   assert.match(prompts, /\[RUTA REAL DE LA PLANTILLA\]/, 'mission: template placeholder');
   assert.match(prompts, /\[RUTA REAL DE LA CONSTITUCIÓN\]/, 'mission: real constitution placeholder');
   assert.match(prompts, /\[RUTAS REALES O “NINGUNO”\]/, 'mission: optional-sources placeholder');
-  assert.match(prompts, /fuentes existentes opcionales/i, 'mission: optional sources meaning');
+  assert.match(prompts, /fuentes existentes de esta lista/i, 'mission: authorized sources are enumerated');
 });
 
 test('mission final-read prompt uses the real saved mission and the concrete constitution path', () => {
