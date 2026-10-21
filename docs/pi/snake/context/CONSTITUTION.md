@@ -10,8 +10,8 @@ El proyecto construye un juego de Snake para navegador. El propósito y el públ
 
 - **Honestidad sobre evidencia:** no se presenta como hecho lo que no se observó. Lo que no está implementado o verificado se declara como pendiente.
 - **Cambios pequeños y revisables:** cada cambio se limita a lo autorizado y se puede revisar.
-- **Aprobación humana explícita:** ninguna acción sensible se ejecuta sin autorización; ante ambigüedad, detenerse y preguntar.
-- **Referencias visuales, no resultados:** las referencias aceptadas no se presentan como capacidades del producto.
+- **Aprobación humana explícita:** actuar únicamente dentro de la autorización concedida. Las acciones que requieren aprobación, definidas en la sección de responsabilidades, deben esperar la aprobación explícita del equipo de desarrollo. Ante ambigüedad, detenerse y preguntar.
+- **Distinguir referencias de resultados:** una referencia visual aceptada orienta el diseño, pero no demuestra que lo representado esté implementado ni verificado.
 
 ## 3. Responsabilidades y autorización
 
