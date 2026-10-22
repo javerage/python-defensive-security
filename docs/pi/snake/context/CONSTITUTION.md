@@ -6,7 +6,8 @@ Acuerdos de trabajo de este proyecto. **No es un plan técnico ni un mecanismo d
 
 - **Proyecto:** Snake.
 - **Responsable de las decisiones:** equipo de desarrollo.
-- **Última revisión:** 2026-10-21.
+- **Estado:** en revisión; pendiente de adopción por el equipo de desarrollo.
+- **Última actualización:** 2026-10-22.
 
 ## 2. Propósito y alcance de referencia
 
@@ -15,8 +16,6 @@ Acuerdos de trabajo de este proyecto. **No es un plan técnico ni un mecanismo d
 - **Fuente funcional consultada:** [idea del proyecto](../../idea-proyecto-snake.md).
 
 El propósito, el público, el alcance del producto, sus exclusiones y las señales de éxito corresponden a la misión y a las especificaciones aplicables; no se reproducen aquí.
-
-La referencia a la misión procede de la constitución anterior. Su contenido y la resolución de ese enlace no se comprobaron durante la entrevista que produjo esta revisión.
 
 ## 3. Principios de trabajo
 
@@ -86,13 +85,13 @@ La referencia al stack no implica que su contenido ni sus enlaces se hayan compr
 - **Periodicidad:** no se fija una fecha periódica por ahora; la revisión se activa por los motivos anteriores.
 - **Flujo para adoptar una revisión:** entrevista → borrador completo y diferencias → aprobación explícita del contenido y la ruta → guardado limitado → verificación de solo lectura.
 - El cumplimiento de esta constitución depende de revisión humana; el documento no se carga ni se aplica automáticamente como mecanismo técnico.
-- **Historial:** 2026-10-21 — el equipo de desarrollo aprobó esta revisión tras la entrevista guiada.
+- **Historial:** 2026-10-21 — se guardó el borrador tras la entrevista guiada. 2026-10-22 — revisión en curso; el equipo de desarrollo aún no ha adoptado este documento.
 
-## Revisión de adopción
+## Revisión pendiente antes de adoptar
 
-- [x] El documento representa los acuerdos del equipo.
-- [x] El propósito y el alcance detallados se mantienen en sus documentos de referencia.
-- [x] Las autorizaciones distinguen instrucciones explícitas de propuestas del asistente.
-- [x] Los datos y sus reglas de conservación están descritos sin incluir información sensible.
-- [x] Los asuntos desconocidos identifican al equipo de desarrollo como responsable de decidir.
-- [x] El equipo aprobó el contenido completo y la ruta exacta de guardado.
+- [ ] El documento representa los acuerdos del equipo.
+- [ ] El propósito y el alcance detallados se mantienen en sus documentos de referencia.
+- [ ] Las autorizaciones distinguen instrucciones explícitas de propuestas del asistente.
+- [ ] Los datos y sus reglas de conservación están descritos sin incluir información sensible.
+- [ ] Los asuntos desconocidos identifican al equipo de desarrollo como responsable de decidir.
+- [ ] El equipo de desarrollo revisó y aprobó el documento completo.
